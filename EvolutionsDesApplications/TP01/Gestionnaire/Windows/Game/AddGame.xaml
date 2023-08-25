@@ -1,0 +1,153 @@
+﻿<!--
+Projet:   Gestionnaire
+Cours:    420-4C4-JR
+Fichier:  AddGame.xaml
+Auteur:   Olivier Bourgault
+Date:     2022-04-02
+-->
+    
+<Window x:Class="Gestionnaire.AddGame"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gestionnaire"
+        mc:Ignorable="d"
+        Title="Ajouter un nouveau jeu" Height="875" Width="500" WindowStartupLocation="CenterScreen"> <!--  Icon="Images/AppIcon.png" -->
+    <ScrollViewer>
+        <StackPanel>
+            <StackPanel.Resources>
+                <!-- STYLE -->
+                <Style x:Key="AjouterLabelStyle" TargetType="Label">
+                    <Setter Property="Background" Value="LightGreen"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
+
+                    <Style.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10,0,10,0"/>
+                        </Style>
+                    </Style.Resources>
+                </Style>
+
+                <!-- STYLE -->
+                <Style TargetType="Label">
+                    <Setter Property="Width" Value="200"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Setter Property="Margin" Value="10,0,25,0"/>
+                </Style>
+
+                <!-- STYLE -->
+                <Style TargetType="TextBox">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="Width" Value="200"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                </Style>
+
+                <!-- STYLE -->
+                <Style TargetType="WrapPanel">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="Margin" Value="0,20,20,0"/>
+                </Style>
+
+                <!-- STYLE -->
+                <Style TargetType="Button" BasedOn="{StaticResource AddButtonStyle}">
+                    <Setter Property="Margin" Value="40,20,40,20"/>
+                </Style>
+            </StackPanel.Resources>
+
+            <Label Content="Ajout" HorizontalAlignment="Center" Style="{StaticResource AjouterLabelStyle}"/>
+            <WrapPanel>
+                <Label Content="Nom: "/>
+                <TextBox x:Name="txbNom"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Année: "/>
+                <TextBox x:Name="txbAnnee"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Concepteur: "/>
+                <TextBox x:Name="txbConcepteur"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Nombre minimum de joueurs: "/>
+                <TextBox x:Name="txbMinJoueurs"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Nombre maximun de joueurs: "/>
+                <TextBox x:Name="txbMaxJoueurs"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Âge minimum pour jouer: "/>
+                <TextBox x:Name="txbMinAge"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Âge maximale pour jouer: "/>
+                <TextBox x:Name="txbMaxAge"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Durée minimale d'une partie: "/>
+                <TextBox x:Name="txbDureeMin"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Durée maximale d'une partie: "/>
+                <TextBox x:Name="txbDureeMax"/>
+            </WrapPanel>
+
+            <WrapPanel HorizontalAlignment="Center">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <!-- STYLE -->
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+
+                        <!-- STYLE -->
+                        <Style TargetType="ListBox">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="Width" Value="300"/>
+                            <Setter Property="Height" Value="200"/>
+                            <Setter Property="SelectionMode" Value="Multiple"/>
+                        </Style>
+
+                        <!-- STYLE -->
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="Black"/>
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <TextBlock Text="Liste des catégories: " FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Text="Catégories disponibles: " FontSize="15" Margin="5"/>
+                    <ListBox x:Name="ltbCategories">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Nom}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </WrapPanel>
+
+            <WrapPanel HorizontalAlignment="Center">
+                <Button x:Name="btnValider" Content="Valider l'ajout" Click="btnValider_Click"/>
+                <Button x:Name="btnAnnuler" Content="Annuler" Background="LightBlue" Click="btnAnnuler_Click"/>
+            </WrapPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

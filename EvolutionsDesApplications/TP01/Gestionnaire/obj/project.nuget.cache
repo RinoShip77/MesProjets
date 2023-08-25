@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "xyOwp/O4pSXQiiITmU6RBOZzli0kpnLn2V985wXQoKEzDO+CE5fVejwV+VV2ZtQlctj4NYSlOqgsU/OQSw7ADQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\olivi\\Documents\\GitHub\\4C4.H22.Evolution.des.applications\\TP01\\Remise\\TP01\\Gestionnaire\\Gestionnaire.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\olivi\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

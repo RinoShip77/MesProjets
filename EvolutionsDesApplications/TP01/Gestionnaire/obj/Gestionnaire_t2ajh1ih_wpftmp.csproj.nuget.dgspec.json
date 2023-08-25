@@ -1,0 +1,71 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\olivi\\Documents\\GitHub\\4C4.H22.Evolution.des.applications\\TP01\\Remise\\TP01\\Gestionnaire\\Gestionnaire.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\olivi\\Documents\\GitHub\\4C4.H22.Evolution.des.applications\\TP01\\Remise\\TP01\\Gestionnaire\\Gestionnaire.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\olivi\\Documents\\GitHub\\4C4.H22.Evolution.des.applications\\TP01\\Remise\\TP01\\Gestionnaire\\Gestionnaire.csproj",
+        "projectName": "Gestionnaire",
+        "projectPath": "C:\\Users\\olivi\\Documents\\GitHub\\4C4.H22.Evolution.des.applications\\TP01\\Remise\\TP01\\Gestionnaire\\Gestionnaire.csproj",
+        "packagesPath": "C:\\Users\\olivi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\olivi\\Documents\\GitHub\\4C4.H22.Evolution.des.applications\\TP01\\Remise\\TP01\\Gestionnaire\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\olivi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0-windows7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0-windows7.0": {
+            "targetAlias": "net6.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

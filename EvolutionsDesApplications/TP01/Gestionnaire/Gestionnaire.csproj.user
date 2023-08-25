@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Windows\Category\AddCategory.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Game\DeleteGame.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Category\ModifyCategory.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Tab3.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Game\ModifyGame.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Game\AddGame.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Windows\Category\AddCategory.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Game\DeleteGame.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Category\ModifyCategory.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PrincipalManager.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Tab3.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Game\ModifyGame.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Game\AddGame.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,133 @@
+﻿<!-- 
+ Projet:   Gestionnaire
+ Cours:    420-4C4-JR
+ Fichier:  MainWindow.xaml
+ Auteur:   Olivier Bourgault
+ Date:     2022-04-02
+-->
+
+<Window x:Class="Gestionnaire.PrincipalManager"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gestionnaire"
+        mc:Ignorable="d"
+        Title="Gestionnairenaire de jeux" Height="750" Width="1000" WindowStartupLocation="CenterScreen">
+    <!--  Icon="Images/AppIcon.png" -->
+    <Window.Resources>
+        <!-- STYLE -->
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="DarkSlateGray"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="25,15,0,15"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="Width" Value="550"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Window.Resources>
+    <ScrollViewer>
+        <TabControl>
+            <TabItem Header="Jeux">
+                <StackPanel>
+                    <StackPanel.Background>
+                        <ImageBrush x:Name="imgOngletJeu"/>
+                    </StackPanel.Background>
+
+                    <WrapPanel HorizontalAlignment="Center">
+                        <Button x:Name="btnMofifierJeu" Content="Modifier un jeu existant" Click="btnModifierJeu_Click" Style="{StaticResource ModifyButtonStyle}"/>
+                        <Button x:Name="btnAjouterJeu" Content="Ajouter un nouveau jeu" Click="btnAjouterJeu_Click" Style="{StaticResource AddButtonStyle}"/>
+                        <Button x:Name="btnSupprimerJeu" Content="Supprimer un jeu" Click="btnSupprimerJeu_Click" Style="{StaticResource DeleteButtonStyle}"/>
+                    </WrapPanel>
+                    <DataGrid x:Name="dgJeux" SelectedCellsChanged="ligneDgJeu_SelectedCellsChanged" AutoGenerateColumns="False" RowBackground="LightBlue" AlternatingRowBackground="LightGreen" IsReadOnly="True" Width="700" Height="350">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nom" Width="*" Binding="{Binding Nom}"/>
+                            <DataGridTextColumn Header="Annee" Width="*" Binding="{Binding Annee}"/>
+                            <DataGridTextColumn Header="Nombre minimum de joueurs" Width="2*" Binding="{Binding MinJoueurs}"/>
+                            <DataGridTextColumn Header="Nombre maximum de joueurs" Width="2*" Binding="{Binding MaxJoueurs}"/>
+                            <DataGridTextColumn Header="Âge minimum" Width="*" Binding="{Binding MinAge}"/>
+                            <DataGridTextColumn Header="Âge maximum" Width="*" Binding="{Binding MaxAge}"/>
+                        </DataGrid.Columns>
+
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <StackPanel.Resources>
+                                        <!-- STYLE -->
+                                        <Style TargetType="WrapPanel">
+                                            <Setter Property="Margin" Value="10"/>
+                                            <Setter Property="Background" Value="LightGreen"/>
+                                        </Style>
+                                        
+                                        <!-- STYLE -->
+                                        <Style TargetType="Label">
+                                            <Setter Property="Margin" Value="5,5,-4,5"/>
+                                        </Style>
+
+                                        <!-- STYLE -->
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Margin" Value="0,10,0,0"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <WrapPanel>
+                                        <Label Content="Le concepteur du jeu est "/>
+                                        <TextBlock Text="{Binding Concepteur}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Background="LightBlue">
+                                        <Label Content="La durée minimale de ce jeu est "/>
+                                        <TextBlock Text="{Binding DureeMin}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <Label Content="La durée maximale de ce jeu est "/>
+                                        <TextBlock Text="{Binding DureeMax}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Background="LightBlue">
+                                        <Label Content="Les catégories de ce jeu sont "/>
+                                        <TextBlock Loaded="txbLstCategories_Loaded"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Catégories">
+                <WrapPanel>
+                    <ListBox x:Name="ltbCategories" SelectionChanged="ltbCategories_SelectionChanged" SelectionMode="Multiple">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <Run Text="La catégorie «"/>
+                                    <Run Text="{Binding Nom}"/>
+                                    <Run Text="» est associée à "/>
+                                    <Run Text="{Binding NbrUtilisation}"/>
+                                    <Run Text=" jeu(x)."/>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel VerticalAlignment="Center" Margin="50,0,0,0">
+                        <Button x:Name="btnModifierCategorie" Content="Modifier la catégorie existante" Visibility="Collapsed" Click="btnModifierCategorie_Click" Style="{StaticResource ModifyButtonStyle}"/>
+                        <Button x:Name="btnAjouterCategoorie" Content="Ajouter une nouvelle catégorie" Click="btnAjouterCategorie_Click" Style="{StaticResource AddButtonStyle}"/>
+                        <Button x:Name="btnSupprimerCategorie" Content="Supprimer la catégorie" Visibility="Collapsed" Click="btnSupprimerCategorie_Click" Style="{StaticResource DeleteButtonStyle}"/>
+                    </StackPanel>
+                </WrapPanel>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <Button x:Name="btnOnglet3" Content="À propos" Click="btnOnglet3_Click" Background="Transparent" BorderThickness="0"/>
+                </TabItem.Header>
+            </TabItem>
+        </TabControl>
+    </ScrollViewer>
+</Window>

@@ -1,0 +1,15 @@
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\bin\Debug\VotreMatricule.exe.config
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\bin\Debug\VotreMatricule.exe
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\bin\Debug\VotreMatricule.pdb
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\VotreMatricule.csprojAssemblyReference.cache
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\MainWindow.g.cs
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\App.g.cs
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\VotreMatricule_MarkupCompile.cache
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\VotreMatricule_MarkupCompile.lref
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\MainWindow.baml
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\VotreMatricule.g.resources
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\VotreMatricule.Properties.Resources.resources
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\VotreMatricule.csproj.GenerateResource.cache
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\VotreMatricule.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\VotreMatricule.exe
+C:\Users\Lenovo\Desktop\TP2\ES_VA\VotreMatricule\obj\Debug\VotreMatricule.pdb

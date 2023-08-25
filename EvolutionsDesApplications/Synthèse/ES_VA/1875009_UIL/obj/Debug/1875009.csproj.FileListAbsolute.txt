@@ -1,0 +1,16 @@
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\bin\Debug\VotreMatricule.exe.config
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\bin\Debug\VotreMatricule.exe
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\bin\Debug\VotreMatricule.pdb
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\1875009.csproj.AssemblyReference.cache
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\1875009.csproj.SuggestedBindingRedirects.cache
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\MainWindow.g.cs
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\App.g.cs
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\VotreMatricule_MarkupCompile.cache
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\VotreMatricule_MarkupCompile.lref
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\MainWindow.baml
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\VotreMatricule.g.resources
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\VotreMatricule.Properties.Resources.resources
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\1875009.csproj.GenerateResource.cache
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\1875009.csproj.CoreCompileInputs.cache
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\VotreMatricule.exe
+C:\Users\olivi\Documents\GitHub\4C4.H22.Evolution.des.applications\ESynthese\ES_VA\Remise1\ES_VA\1875009\obj\Debug\VotreMatricule.pdb

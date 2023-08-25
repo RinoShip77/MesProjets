@@ -1,0 +1,189 @@
+﻿<!--
+Projet:   Gestionnaire
+Cours:    420-4C4-JR
+Fichier:  ModifyGame.xaml
+Auteur:   Olivier Bourgault
+Date:     2022-04-02
+-->
+
+<Window x:Class="Gestionnaire.ModifyGame"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gestionnaire"
+        mc:Ignorable="d"
+        Title="Modifier un jeu existant" Height="850" Width="700" WindowStartupLocation="CenterScreen">
+    <!--  Icon="Images/AppIcon.png" -->
+    <ScrollViewer>
+        <StackPanel>
+            <StackPanel.Resources>
+                <!-- STYLE -->
+                <Style x:Key="ModifierLabelStyle" TargetType="Label">
+                    <Setter Property="Background" Value="LightGoldenrodYellow"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
+
+                    <Style.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10,0,10,0"/>
+                        </Style>
+                    </Style.Resources>
+                </Style>
+
+                <!-- STYLE -->
+                <Style TargetType="Label">
+                    <Setter Property="Width" Value="200"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Setter Property="Margin" Value="0,0,100,0"/>
+                </Style>
+
+                <!-- STYLE -->
+                <Style TargetType="TextBox">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="Width" Value="250"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                </Style>
+
+                <!-- STYLE -->
+                <Style TargetType="WrapPanel">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="Margin" Value="20,20,0,0"/>
+                </Style>
+            </StackPanel.Resources>
+
+            <Label Content="Modification" HorizontalAlignment="Center" Style="{StaticResource ModifierLabelStyle}"/>
+            <WrapPanel>
+                <Label Content="Nom: "/>
+                <TextBox x:Name="txbNom" IsReadOnly="True"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Année: "/>
+                <TextBox x:Name="txbAnnee"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Concepteur: "/>
+                <TextBox x:Name="txbConcepteur"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Nombre minimum de joueurs: "/>
+                <TextBox x:Name="txbMinJoueurs"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Nombre maximun de joueurs: "/>
+                <TextBox x:Name="txbMaxJoueurs"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Âge minimum pour jouer: "/>
+                <TextBox x:Name="txbMinAge"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Âge maximale pour jouer: "/>
+                <TextBox x:Name="txbMaxAge"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Durée minimale d'une partie: "/>
+                <TextBox x:Name="txbDureeMin"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Label Content="Durée maximale d'une partie: "/>
+                <TextBox x:Name="txbDureeMax"/>
+            </WrapPanel>
+
+            <WrapPanel>
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <!-- STYLE -->
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+
+                        <!-- STYLE -->
+                        <Style TargetType="ListBox">
+                            <Setter Property="Width" Value="200"/>
+                            <Setter Property="Height" Value="200"/>
+                            <Setter Property="SelectionMode" Value="Multiple"/>
+                        </Style>
+
+                        <!-- STYLE -->
+                        <Style TargetType="Button">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="DarkSlateGray"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Height" Value="35"/>
+                            <Setter Property="Padding" Value="5"/>
+
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="WhiteSmoke"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="25"/>
+                                </Style>
+                            </Style.Resources>
+                        </Style>
+
+                        <!-- STYLE -->
+                        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource ModifyButtonStyle}">
+                            <Setter Property="Margin" Value="40,20,40,20"/>
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <TextBlock Text="Liste des catégories: " FontSize="15" FontWeight="Bold"/>
+                    <WrapPanel>
+                        <StackPanel>
+                            <TextBlock Text="Catégories initiales de ce jeu: "/>
+                            <ListBox x:Name="ltbCategoriesInit">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Nom}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+
+                        <StackPanel VerticalAlignment="Center">
+                        <Button x:Name="btnAjouterCategorie" Content="&lt;&lt; Ajouter la(les) catégorie(s)" Click="btnAjouterCategorie_Click"/>
+                            <Button x:Name="btnRetirerCategorie" Content="Retirer la(les) catégorie(s) >>" Click="btnRetirerCategorie_Click"/>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <TextBlock Text="Catégories disponibles: "/>
+                            <ListBox x:Name="ltbCategoriesChoix">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Nom}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </WrapPanel>
+
+                    <WrapPanel HorizontalAlignment="Center">
+                        <Button x:Name="btnValider" Content="Valider la modification" Click="btnValider_Click" Style="{StaticResource ButtonStyle}"/>
+                        <Button x:Name="btnAnnuler" Content="Annuler" Background="LightBlue" Click="btnAnnuler_Click" Style="{StaticResource ButtonStyle}"/>
+                    </WrapPanel>
+                </StackPanel>
+            </WrapPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

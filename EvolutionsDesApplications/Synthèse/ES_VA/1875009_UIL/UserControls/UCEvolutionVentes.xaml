@@ -1,0 +1,56 @@
+﻿<!-- Olivier Bourgault: 1875009 -->
+
+<UserControl x:Class="_1875009_UIL.UCEvolutionVentes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:_1875009_UIL"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="lvc:CartesianChart">
+            <Setter Property="LegendLocation" Value="Top"/>
+            <Setter Property="Width" Value="750"/>
+            <Setter Property="Height" Value="300"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <Label Content="Évolution des ventes" Style="{StaticResource UCTitle}"/>
+
+        <StackPanel>
+            <WrapPanel HorizontalAlignment="Center" Margin="10">
+                <ComboBox x:Name="cboProvince" SelectionChanged="cboProvince_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Province}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <ComboBox x:Name="cboTypeVeh" SelectionChanged="cboTypeVeh_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TypeVeh}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </WrapPanel>
+
+            <lvc:CartesianChart x:Name="lvcGraphique" Series="{Binding SC}">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="Années" Labels="{Binding Annees}"/>
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis Title="Prix moyens de vente"/>
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

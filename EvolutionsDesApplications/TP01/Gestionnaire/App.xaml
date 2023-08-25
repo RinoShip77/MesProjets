@@ -1,0 +1,52 @@
+﻿<Application x:Class="Gestionnaire.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Gestionnaire"
+             StartupUri="PrincipalManager.xaml">
+    <Application.Resources>
+        <!-- STYLE -->
+        <Style x:Key="ModifyButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="LightGoldenrodYellow"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10,0,10,0"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <!-- STYLE -->
+        <Style x:Key="AddButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="LightGreen"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <!-- STYLE -->
+        <Style x:Key="DeleteButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="IndianRed"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="0,10,0,10"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Application.Resources>
+</Application>
