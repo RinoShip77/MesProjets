@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="125dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="15dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txvNetworkName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/baloo"
+            android:text="@string/networkName"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/chpNetworkStatus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txvNetworkIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/networkIP"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/txvNetworkName"
+            app:layout_constraintStart_toStartOf="@+id/txvNetworkName"
+            app:layout_constraintTop_toBottomOf="@+id/txvNetworkName" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chpNetworkStatus"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/networkStatus"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/gateway_status_online"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imvNetworkPing"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_sync_alt_24" />
+
+        <TextView
+            android:id="@+id/txvNetworkPing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo"
+            android:text="@string/networkPing"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imvNetworkPing"
+            app:layout_constraintEnd_toStartOf="@+id/imvNetworkSignal"
+            app:layout_constraintStart_toEndOf="@+id/imvNetworkPing"
+            app:layout_constraintTop_toTopOf="@+id/imvNetworkPing" />
+
+        <ImageView
+            android:id="@+id/imvNetworkSignal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_baseline_signal_cellular_alt_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txvNetworkSignal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo"
+            android:text="@string/networkSignal"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imvNetworkSignal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imvNetworkSignal"
+            app:layout_constraintTop_toTopOf="@+id/imvNetworkSignal" />
+
+        <ImageView
+            android:id="@+id/imvNetworkDownload"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imvNetworkPing"
+            app:layout_constraintStart_toStartOf="@+id/imvNetworkPing"
+            app:layout_constraintTop_toBottomOf="@+id/imvNetworkPing"
+            app:srcCompat="@drawable/ic_outline_cloud_download_24" />
+
+        <TextView
+            android:id="@+id/txvNetworkDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo"
+            android:text="@string/networkDownload"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imvNetworkDownload"
+            app:layout_constraintEnd_toEndOf="@+id/txvNetworkPing"
+            app:layout_constraintStart_toStartOf="@+id/txvNetworkPing"
+            app:layout_constraintTop_toTopOf="@+id/imvNetworkDownload" />
+
+        <ImageView
+            android:id="@+id/imvNetworkUpload"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imvNetworkSignal"
+            app:layout_constraintStart_toStartOf="@+id/imvNetworkSignal"
+            app:layout_constraintTop_toBottomOf="@+id/imvNetworkSignal"
+            app:srcCompat="@drawable/ic_outline_cloud_upload_24" />
+
+        <TextView
+            android:id="@+id/txvNetworkUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo"
+            android:text="@string/networkUpload"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imvNetworkUpload"
+            app:layout_constraintEnd_toEndOf="@+id/txvNetworkSignal"
+            app:layout_constraintStart_toStartOf="@+id/txvNetworkSignal"
+            app:layout_constraintTop_toTopOf="@+id/imvNetworkUpload" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

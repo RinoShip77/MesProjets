@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name" translatable="false">Tenretni</string>
+    <string name="loading_text">Loading %s/10 …</string>
+    <string name="tenretni_trademark" translatable="false">Tenretni - 2022®</string>
+    <string name="devsName" translatable="false">Marc-Antoine Dompierre, Olivier Bourgault and Nazaqrit Makareean</string>
+    <string name="title_tickets">Tickets</string>
+    <string name="title_gateways">Gateways</string>
+    <string name="title_network">Network</string>
+    <string name="detail_ticket">Detail Ticket</string>
+    <string name="detail_gateway">Detail Gateway</string>
+    <string name="fragment_tickets">Fragment Tickets</string>
+    <string name="fragment_gateways">Fragment Gateways</string>
+    <string name="fragment_networks">Fragment Networks</string>
+    <string name="itemGateway">Item Gateway</string>
+    <string name="itemNetwork">Item Network</string>
+    <string name="titleTicket">Ticket</string>
+    <string name="titleGateway">Gateway</string>
+    <string name="ticketPurchaseDate">Purchase date</string>
+    <string name="ticketPriority">Priority</string>
+    <string name="ticketStatus">Status</string>
+    <string name="ticketClientName">Client name</string>
+    <string name="ticketClientCity">ClientCity</string>
+    <string name="ticketClientAddress">ClientAddress</string>
+    <string name="gatewayStatus">Status</string>
+    <string name="gatewaySignal">Signal</string>
+    <string name="gatewayUpload">Upload</string>
+    <string name="gatewayDownload">Dowload</string>
+    <string name="gatewaySerialNumber">Serial number</string>
+    <string name="statsNA" translatable="false">N/A</string>
+    <string name="detailGatewaySerialNumber">Gateway %s</string>
+    <string name="gatewayMAC">MAC address</string>
+    <string name="gatewaySSID" translatable="false">SSID: %s</string>
+    <string name="gatewayPIN" translatable="false">PIN: %s</string>
+    <string name="gatewayConnectionIP">Connection IP</string>
+    <string name="gatewayConnectionPing" translatable="false">%s ns</string>
+    <string name="gatewayConnectionDownload" translatable="false">%s Ebps</string>
+    <string name="gatewayConnectionUpload" translatable="false">%s Ebps</string>
+    <string name="gatewayConnectionSignal" translatable="false">%s dBm</string>
+    <string name="gatewayVersion" translatable="false">Version %s</string>
+    <string name="gatewayKernelRevision">Kernel revision %s</string>
+    <string name="gatewayUpdate">UPDATE</string>
+    <string name="gatewayReboot">REBOOT</string>
+    <string name="networkName">Name</string>
+    <string name="networkIP" translatable="false">%s</string>
+    <string name="networkStatus">Status</string>
+    <string name="networkPing" translatable="false">%s ns</string>
+    <string name="networkSignal" translatable="false">%s dBm</string>
+    <string name="networkDownload" translatable="false">%s Ebpd</string>
+    <string name="networkUpload" translatable="false">%s Ebps</string>
+    <string name="dateNextReboot">Next reboot at: %s</string>
+    <string name="dateLastUpdate">Last update: %s</string>
+    <string name="btnStartApp">Start app</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="ticketNumber">Ticket %s</string>
+    <string name="ticketInstall">INSTALL</string>
+    <string name="ticketSolve">SOLVE</string>
+    <string name="ticketOpen">OPEN</string>
+    <string name="gatewaySuccess">Gateway successfully added</string>
+    <string name="errorQR">Error reading QR code</string>
+    <string name="loadingLabel">Loading ...</string>
+    <string name="title_qr">Install a ticket</string>
+</resources>

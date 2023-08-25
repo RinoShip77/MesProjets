@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loading_text">Chargement %s/10 ...</string>
+    <string name="title_tickets">Billets</string>
+    <string name="title_gateways">Bornes</string>
+    <string name="title_network">Réseaux</string>
+    <string name="detail_ticket">Détail du billet</string>
+    <string name="detail_gateway">Détail de la borne</string>
+    <string name="fragment_tickets">Fragment des billets</string>
+    <string name="fragment_gateways">Fragment des bornes</string>
+    <string name="fragment_networks">Fragment des réseaux</string>
+    <string name="itemGateway">Objet borne</string>
+    <string name="itemNetwork">Objet réseau</string>
+    <string name="titleTicket">Billet</string>
+    <string name="titleGateway">Gateway</string>
+    <string name="ticketPurchaseDate">Date d\'achat</string>
+    <string name="ticketPriority">Priorité</string>
+    <string name="ticketStatus">Status</string>
+    <string name="ticketClientName">Nom du client</string>
+    <string name="ticketClientCity">Ville du client</string>
+    <string name="ticketClientAddress">Adresse du client</string>
+    <string name="gatewayStatus">Statut</string>
+    <string name="gatewaySignal">Signal</string>
+    <string name="gatewayUpload">Téléversement</string>
+    <string name="gatewayDownload">Téléchargement</string>
+    <string name="gatewaySerialNumber">Numéro de série</string>
+    <string name="detailGatewaySerialNumber">Borne %s</string>
+    <string name="gatewayMAC">Adresse MAC</string>
+    <string name="gatewayConnectionIP">IP de la connexion</string>
+    <string name="gatewayKernelRevision">Révision du noyau %s</string>
+    <string name="gatewayUpdate">METTRE À JOUR</string>
+    <string name="gatewayReboot">REDÉMARRER</string>
+    <string name="networkName">Nom</string>
+    <string name="networkStatus">Statut</string>
+    <string name="dateNextReboot">Prochain redémarrage à: %s</string>
+    <string name="dateLastUpdate">Dernière mise à jour: %s</string>
+    <string name="btnStartApp">Démarrer l\'application</string>
+    <string name="title_activity_maps">Carte</string>
+    <string name="ticketNumber">Billet %s</string>
+    <string name="ticketInstall">INSTALLER</string>
+    <string name="ticketSolve">RÉSOUDRE</string>
+    <string name="ticketOpen">OUVRIR</string>
+    <string name="gatewaySuccess">Borne ajouté avec succès</string>
+    <string name="errorQR">Erreur lors de la lecture du code QR</string>
+    <string name="loadingLabel">Chargement ...</string>
+    <string name="title_qr">Installer un billet</string>
+</resources>

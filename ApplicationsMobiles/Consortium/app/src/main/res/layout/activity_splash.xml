@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Interface graphique pour l'écran d'accueil-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ui.splash.SplashActivity">
+
+    <ImageView
+        android:id="@+id/imvConsortium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/consortium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/dcpConsortiumImage"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:boxCornerRadiusTopStart="5dp"
+        app:boxCornerRadiusTopEnd="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/imvConsortium"
+        app:layout_constraintStart_toStartOf="@+id/imvConsortium"
+        app:layout_constraintTop_toBottomOf="@+id/imvConsortium">
+
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/edtTraderHint"
+            android:inputType="text"
+            tools:ignore="Autofill" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Eléments de la livraison -->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cdvElements"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="25dp"
+        app:layout_constraintEnd_toEndOf="@+id/tilName"
+        app:layout_constraintStart_toStartOf="@+id/tilName"
+        app:layout_constraintTop_toBottomOf="@+id/tilName">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="50dp" />
+
+            <ImageView
+                android:id="@+id/imvVethyx"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ve"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                app:layout_constraintEnd_toStartOf="@+id/imvLukryx"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/dcpVethyxImage"/>
+
+            <TextView
+                android:id="@+id/txvValueVethyx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dftValueVethyx"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imvVethyx"
+                app:layout_constraintStart_toStartOf="@+id/imvVethyx"
+                app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+            <ImageView
+                android:id="@+id/imvLukryx"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/l"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                app:layout_constraintEnd_toStartOf="@+id/imvSmiathil"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imvVethyx"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/dcpLukryxImage"/>
+
+            <TextView
+                android:id="@+id/txvValueLukryx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dftValueLukryx"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imvLukryx"
+                app:layout_constraintStart_toStartOf="@+id/imvLukryx"
+                app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+            <ImageView
+                android:id="@+id/imvSmiathil"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/sm"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                app:layout_constraintEnd_toStartOf="@+id/imvBilerium"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imvLukryx"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/dcpSmiathilImage"/>
+
+            <TextView
+                android:id="@+id/txvValueSmiathil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dftValueSmiathil"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imvSmiathil"
+                app:layout_constraintStart_toStartOf="@+id/imvSmiathil"
+                app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+            <ImageView
+                android:id="@+id/imvBilerium"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/b"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                app:layout_constraintEnd_toStartOf="@+id/imvGloylium"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imvSmiathil"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/dcpBileriumImage"/>
+
+            <TextView
+                android:id="@+id/txvValueBilerium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dftValueBilerium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imvBilerium"
+                app:layout_constraintStart_toStartOf="@+id/imvBilerium"
+                app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+            <ImageView
+                android:id="@+id/imvGloylium"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/g"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imvBilerium"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/dcpGloyliumImage"/>
+
+            <TextView
+                android:id="@+id/txvValueGloylium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dftValueGloylium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imvGloylium"
+                app:layout_constraintStart_toStartOf="@+id/imvGloylium"
+                app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnOpen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:drawableLeft="@drawable/ic_baseline_door_sliding_24"
+        android:text="@string/btnOpen"
+        app:layout_constraintBottom_toTopOf="@+id/btnLoad"
+        app:layout_constraintEnd_toEndOf="@+id/btnLoad"
+        app:layout_constraintStart_toStartOf="@+id/btnLoad"
+        tools:ignore="RtlHardcoded" />
+
+    <Button
+        android:id="@+id/btnLoad"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:drawableLeft="@drawable/ic_baseline_sync_24"
+        android:text="@string/btnLoad"
+        app:layout_constraintBottom_toTopOf="@+id/btnUpload"
+        app:layout_constraintEnd_toEndOf="@+id/btnUpload"
+        app:layout_constraintStart_toStartOf="@+id/btnUpload"
+        tools:ignore="RtlHardcoded" />
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/btnUpload"
+        android:drawableLeft="@drawable/ic_baseline_cloud_upload_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="RtlHardcoded" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
