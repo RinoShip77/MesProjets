@@ -1,0 +1,78 @@
+/* Catalog style sheet */
+#viewProduct:hover {
+    animation-name: animationFadeOut;
+    animation-duration:  0.5s;
+    opacity: 50%;
+}
+
+#viewProduct:not(hover) {
+    animation-name: animationFadeIn;
+    animation-duration:  0.5s;
+    opacity: 100%;
+}
+
+@keyframes animationFadeOut {
+    from {
+        opacity: 100%;
+    }
+
+    to {
+        opacity: 50%;
+    }
+}
+
+@keyframes animationFadeIn {
+    from {
+        opacity: 50%;
+    }
+
+    to {
+        opacity: 100%;
+    }
+}
+
+#addToCartBtn {
+    font-weight: bold;
+    border: 0px;
+    border-radius: 10px;
+    opacity: 75%;
+}
+
+#addToCartBtn:hover {
+    animation-name: animationGrayYellow;
+    animation-duration: 1s;
+    background-color: yellow;
+    color: black;
+}
+
+#addToCartBtn:not(hover) {
+    animation-name: animationYellowGray;
+    animation-duration: 1s;
+    background-color: darkslategray;
+    color: white;
+}
+
+/* CSS animation for buttons */
+@keyframes animationGrayYellow {
+    from {
+        background-color: darkslategray;
+        color: white;
+    }
+
+    to {
+        background-color: yellow;
+        color: black;
+    }
+}
+
+@keyframes animationYellowGray {
+    from {
+        background-color: yellow;
+        color: black;
+    }
+
+    to {
+        background-color: darkslategray;
+        color: white;
+    }
+}

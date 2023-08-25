@@ -1,0 +1,43 @@
+{% extends 'core/base.html.twig' %}
+{% form_theme category_form 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+	{% for flash in app.flashes('categories_update') %}
+		<div class="fs-3 fw-bold fst-italic m-3 p-3 text-center bg-dark rounded {{ flash.color }}">{{ flash.content }}</div>
+	{% endfor %}
+	<section>
+		<p class="h1 text-center mt-3 mb-4 pb-3">
+			<i class="fas fa-list-check me-1"></i>
+			Toutes les catégories
+		</p>
+		<hr class="mt-4">
+		<div class="mx-auto py-5 w-75">
+			{% if categories|length > 0 %}
+				{{ form_start(category_form) }}
+				<div class="row">
+					<ul class="categories list-unstyled" data-index="{{ category_form.categories|length > 0 ? category_form.categories|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(category_form.categories.vars.prototype)|e('html_attr') }}">
+						{% for category in category_form.categories %}
+							<li>{{ form_row(category.categoryName) }}
+							{% endfor %}
+						</ul>
+					</div>
+
+					<div class="d-flex justify-content-around m-3">
+						<button type="button" class="add_category_link btn btn-warning my-2" data-collection-holder-class="categories">
+							<i class="fas fa-plus me-2"></i>Ajouter une catégorie</button>
+						{{ form_row(category_form.save) }}
+					</div>
+
+					{{ form_rest(category_form) }}
+					{{ form_end(category_form) }}
+				{% else %}
+					<p class="display-6 mt-4 text-center text-warning bg-dark rounded m-3 p-3" id="txtRaleway">L'application n'a aucune catégorie.</p>
+					<hr class="mb-4">
+				{% endif %}
+			</div>
+		</section>
+	{% endblock %}
+
+	{% block javascripts %}
+		<script defer src="{{ asset('scripts/admin.categories.js') }}"></script>
+	{% endblock %}

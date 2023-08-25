@@ -1,0 +1,447 @@
+# ---------------------------------------------------------------------------------------------------------------------------------
+# Projet:       Projet synthèse (TP03)
+# Cours:        420-4D4
+# Fichier:      1875009-tp03.yml
+# Auteur:       Olivier Bourgault
+# Date:         2023-05-17
+# Description:  Manifeste du projet qui va créer toute les ressources nécessaires (voir le fichier README.md).
+# ---------------------------------------------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------- LoadBalancer externe ---------------------------------------------------------
+# kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/cloud/deploy.yaml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: first-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  #Pour mon poste au cégep: 
+  #- 192.168.138.37-192.168.138.39
+  #Pour mon laptop (au cégep):
+  #- 10.1.208.255-10.1.208.255
+  #Pour mon laptop (à mon appartement):
+  - 192.168.2.238-192.168.2.239
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: example
+  namespace: metallb-system
+---
+
+# --------------------------------------------------------- Espace de nom ---------------------------------------------------------
+# L'espace de nom pour l'ensemble des ressources
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: 1875009-tp03
+  labels:
+    name: 1875009-tp03
+---
+
+# --------------------------------------------------------- Les volumes persistants ---------------------------------------------------------
+# Pour conserver les données de NextCloud:
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nextcloud-1875009-pv
+  namespace: 1875009-tp03
+spec:
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local
+  hostPath:
+    path: "/volumes/nextcloud-1875009"
+---
+# Pour "consommer" le volume persistant:
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-1875009-pvc
+  namespace: 1875009-tp03
+spec:
+  storageClassName: local
+  resources:
+    requests:
+      storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+---
+
+# --------------------------------------------------------- Le configMap de l'application ---------------------------------------------------------
+# Pour modifier la page d'accueil de l'appication:
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-1875009
+  namespace: 1875009-tp03
+data:
+  index.php: |
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"  "http://www.w3.org/TR/html4/strict.dtd">
+      <html lang="fr-CA">
+      <head profile="http://gmpg.org/xfn/11">
+          <meta http-equiv="content-type" content="text/html;chartset=UTF-8"/>
+          <meta charset="UTF-8">
+          <title>420-4D4 App de départ</title>
+          <script type="text/javascript">
+          </script>
+          <style type="text/css">
+          img.wp-smiley, img.emoji {
+              display: inline !important;
+              border: none !important;
+              box-shadow: none !important;
+              height: 1em !important;
+              width: 1em !important;
+              margin: 0 .07em !important;
+              vertical-align: -0.1em !important;
+              background: none !important;
+              padding: 0 !important;
+          }
+          </style>
+          <link rel='stylesheet' id='wp-block-library-css' href='css/style.min.css' type='text/css' media='all'/>
+          <link rel='stylesheet' id='simplestyle_style-css' href='css/style.css' type='text/css' media='all'/>
+      </head>
+      <body class="home page-template-default page page-id-5">
+          <div id="header">
+              <a class="title" href="http://ve2cuy.com">
+                  <div id="title">420-4D4 : Épreuve synthèse</div>
+              </a>
+          </div>
+          <div id="nav-container">
+              <div id="nav">
+                  <div class="menu">
+                      <div class="menu-menu-1-container">
+                          <ul id="menu-menu-1" class="nav">
+                              <li id="menu-item-26" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26">
+                                  <a href="http://nextcloud.tp03/">Nextcloud</a>
+                              </li>
+                              <li id="menu-item-27" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27">
+                                  <a href="http://mattermost.tp03/">Mattermost</a>
+                              </li>
+                              <li id="menu-item-28" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28">
+                                  <a href="http://ve2cuy.com/420-4d4b/index.php/planification-hebdomadaire/">420-4D4</a>
+                              </li>
+                              <li id="menu-item-56" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-56">
+                                  <a href="https://4204d4.ve2cuy.com/epreuve-synthese-2022/">Énoncé E.S.</a>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="clear"></div>
+          <div id="container">
+              <div class="article" class="post-5 page type-page status-publish hentry">
+                  <h1>
+                      <a href="http://ve2cuy.com/">Déploiement K8s</a>
+                  </h1>
+                  <div class="date"></div>
+                  <p class="has-text-align-center">
+                      <img loading="lazy" width="520" height="271" class="wp-image-58" src="tableau-k8s.png" alt="" style="width: 500px;" sizes="(max-width: 520px) 100vw, 520px"/>
+                  </p>
+                  <hr class="wp-block-separator"/>
+                  <p></p>
+                  <h2>
+                      <span class="has-inline-color has-pale-pink-color">Service par POD: </span><?php echo gethostname() ?>
+                      <br/><span class="has-inline-color has-luminous-vivid-amber-color">Version du serveur web : </span><?php echo apache_get_version() ?>
+                  </h2>
+                  <hr class="wp-block-separator"/>
+                  <h2>
+                      <span class="has-inline-color has-vivid-purple-color">Liste des applications en déploiement K8s</span>
+                  </h2>
+                  <p>
+                      <a href="http://accueil.tp03/">Ce site Web (10 duplicatas)</a>
+                      <br/>
+                      <a href="http://nextcloud.tp03/">Nextcloud</a>
+                      <br/>
+                      <a href="http://mattermost.tp03/">Mattermost</a>
+                  <hr class="wp-block-separator"/>
+                  <h2>
+                      <br>
+                      <span class="has-inline-color has-luminous-vivid-amber-color">
+                          À remettre avant le: &nbsp
+                          <a href="http://ve2cuy.com/420-4d4b/index.php/epreuve-synthese/">2023.05.19 minuit</a>
+                      </span>
+                  </h2>
+                  <p></p>
+                  <hr class="wp-block-separator"/>
+                  <h6 class="has-text-align-right">
+                      <span style="color:#0072a3" class="has-inline-color">App par Olivier Bourgault &#8211; version docker 1875009/1875009-tp03:latest</span>
+                  </h6>
+                  <div class="clear"></div>
+                  <div id="comments">
+                      <div class="show-comments">
+                          <div class="commentline"></div>
+                          <div class="countcomments"></div>
+                          <div class="commentform">
+                              <div style="clear:both;"></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div id="border-bottom"></div>
+      </body>
+      </html>
+---
+
+# --------------------------------------------------------- Les secrets de l'application ---------------------------------------------------------
+# Pour renseigner les varibles d'environnement de NextCloud:
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nextcloud-secrets-1875009
+  namespace: 1875009-tp03
+type: Opaque
+data:
+  NEXTCLOUD_ADMIN_USER: YWRtaW4=              # echo -n 'admin' | base64
+  NEXTCLOUD_ADMIN_PASSWORD: YWRtaW4=          # echo -n 'admin' | base64
+  NEXTCLOUD_TRUSTED_DOMAINS: bmV4dGNsb3VkLnRwMDM=   # echo -n 'nextcloud.tp03' | base64
+  MYSQL_HOST: bWFyaWFkYi1zZXJ2aWNlOjMzMDY=  # echo -n 'mariadb-service:3306' | base64
+  MYSQL_DATABASE: bmV4dGNsb3Vk              # echo -n 'nextcloud' | base64
+  MYSQL_PASSWORD: c2VjcmV0                  # echo -n 'secret' | base64
+  MYSQL_USER: bmV4dGNsb3Vk                  # echo -n 'nextcloud' | base64
+---
+# Pour renseigner les varibles d'environnement de MariaDB:
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mariadb-secrets-1875009
+  namespace: 1875009-tp03
+type: Opaque
+data:
+  MARIADB_DATABASE: bmV4dGNsb3Vk              # echo -n 'nextcloud' | base64
+  MARIADB_PASSWORD: c2VjcmV0                  # echo -n 'secret' | base64
+  MARIADB_USER: bmV4dGNsb3Vk                  # echo -n 'nextcloud' | base64
+  MARIADB_ROOT_PASSWORD: c2VjcmV0             # echo -n 'secret' | base64
+---
+
+# --------------------------------------------------------- Les déploiements ---------------------------------------------------------
+# Pour la (les) page d'accueil:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tp03-deployment
+  namespace: 1875009-tp03
+  labels:
+    app: tp03-deployment
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: tp03-deployment
+  template:
+    metadata:
+      labels:
+        app: tp03-deployment
+    spec:
+      containers:
+        - name: tp03-deployment
+          image: 1875009/1875009-tp03
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: tp03-volume
+              mountPath: /var/www/html/index.php
+              subPath: index.php
+      volumes:
+        - name: tp03-volume
+          configMap:
+            name: configmap-1875009
+---
+# Pour NextCloud:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-deployment
+  namespace: 1875009-tp03
+  labels:
+    app: nextcloud-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      nservice: nextcloud-service
+  template:
+    metadata:
+      labels:
+        nservice: nextcloud-service
+    spec:
+      containers:
+        - name: nextcloud
+          image: nextcloud
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          envFrom:
+            - secretRef:
+                name: nextcloud-secrets-1875009
+          # Définition des volumes
+          volumeMounts:
+            - name: nextcloud-1875009-pv
+              mountPath: /var/www
+      volumes:
+        - name: nextcloud-1875009-pv
+          persistentVolumeClaim:
+            claimName: nextcloud-1875009-pvc
+---
+# Pour la base de données MariaDB (de NextCloud):
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-deployment
+  namespace: 1875009-tp03
+  labels:
+    app: mariadb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      mservice: mariadb-service
+  template:
+    metadata:
+      labels:
+        mservice: mariadb-service
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - secretRef:
+                name: mariadb-secrets-1875009
+---
+# Pour Mattermost:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mattermost-deployment
+  namespace: 1875009-tp03
+  labels:
+    app: mattermost-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mattermost-deployment
+  template:
+    metadata:
+      labels:
+        app: mattermost-deployment
+    spec:
+      containers:
+        - name: mattermost
+          image: mattermost/mattermost-preview
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8065
+---
+
+# --------------------------------------------------------- Les services ---------------------------------------------------------
+# Pour la page d'accueil:
+apiVersion: v1
+kind: Service
+metadata:
+  name: tp03-service
+  namespace: 1875009-tp03
+spec:
+  selector:
+    app: tp03-deployment
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+# Pour NextCloud:
+apiVersion: v1
+kind: Service
+metadata:
+  name: nextcloud-service
+  namespace: 1875009-tp03
+spec:
+  selector:
+    nservice: nextcloud-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+# Pour MariaDB (de NextCloud):
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb-service
+  namespace: 1875009-tp03
+spec:
+  selector:
+    mservice: mariadb-service
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+---
+# Pour Mattermost:
+apiVersion: v1
+kind: Service
+metadata: 
+  name: mattermost-service
+  namespace: 1875009-tp03
+spec:
+  selector:
+    app: mattermost-deployment
+  ports:
+    - protocol: TCP
+      port: 8065
+      targetPort: 8065
+---
+
+# --------------------------------------------------------- Les contrôlleurs ingress ---------------------------------------------------------
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-tp03
+  namespace: 1875009-tp03
+spec:
+  ingressClassName: nginx
+  rules:
+    # Pour la page d'accueil:
+    - host: accueil.tp03
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tp03-service
+                port:
+                  number: 80
+    # Pour NextCloud:
+    - host: nextcloud.tp03
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextcloud-service
+                port:
+                  number: 80
+    # Pour Mattermost:
+    - host: mattermost.tp03
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mattermost-service
+                port:
+                  number: 8065

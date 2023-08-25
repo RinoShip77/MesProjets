@@ -1,0 +1,53 @@
+{% extends 'core/base.html.twig' %}
+
+{% block body %}
+	<section>
+		<p class="h1 text-center mt-3 mb-4 pb-3">
+			<i class="fas fa-list-check me-1"></i>
+			Toutes les commandes
+		</p>
+		<hr class="mt-4">
+		{% if orders|length > 0 %}
+			<div class="m-3 text-center">
+				<table class="table table-hover align-middle">
+					<thead class="bg-warning">
+						<tr>
+							<th scope="col">Numéro de la commande</th>
+							<th scope="col">Date</th>
+							<th scope="col">Total</th>
+							<th scope="col">Statut</th>
+							<th scope="col">Opération</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for order in orders|reverse %}
+							<tr>
+								<td>
+									<h5>{{ order.idOrder }}</h5>
+								</td>
+								<td>
+									<h5>{{ order.orderDate|date('Y-m-d H:i:s', 'America/Toronto') }}</h5>
+								</td>
+								<td>
+									<h5>{{ order.calculateTotal()|number_format(2,',','') }}
+										$</h5>
+								</td>
+								<td>
+									<h5>{{ order.statusInFrench(order.status()) }}</h5>
+								</td>
+								<td>
+									<a href="{{ path('order.confirmation', { idOrder: order.idOrder }) }}" class="text-decoration-none text-black" title="Modifier cette commande">
+										<i class="fas fa-pen-to-square"></i>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% else %}
+			<p class="display-6 mt-4 text-center text-warning bg-dark rounded m-3 p-3" id="txtRaleway">L'application n'a reçu aucune commande.</p>
+			<hr class="mb-4">
+		{% endif %}
+	</section>
+{% endblock %}

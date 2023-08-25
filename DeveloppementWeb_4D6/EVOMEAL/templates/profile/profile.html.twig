@@ -1,0 +1,80 @@
+{% extends 'core/base.html.twig' %}
+{% form_theme profile_form 'bootstrap_5_layout.html.twig' %}
+{% form_theme password_form 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+	<div class="row bg-warning pb-5">
+		<div class="col-lg-8 mx-auto">
+			<p class="h1 text-center mt-3 mb-4 pb-3">
+				<i class="fas fa-circle-user me-2"></i>
+				Votre compte
+			</p>
+			<hr class="mt-4">
+			{% for flash in app.flashes('payment_message') %}
+				<div class="fs-3 fw-bold fst-italic m-3 p-3 text-center text-dark rounded bg-{{ flash.color }}">{{ flash.content|raw }}</div>
+			{% endfor %}
+			{% for flash in app.flashes('profile_modification') %}
+				<div class="fs-3 fw-bold fst-italic m-3 p-3 text-center bg-dark rounded {{ flash.color }}">{{ flash.content }}</div>
+				<hr>
+			{% endfor %}
+			{{ form_start(profile_form, {'attr': {'class': 'needs-validation-register', 'novalidate': 'novalidate' }}) }}
+			<div class="form-outline mb-4">
+				<label class="form-label" for="activeEmail">Adresse courriel</label>
+				<input type="email" class="form-control" id="activeEmail" value="{{ app.user.email }}" disabled readonly>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					{{ form_row(profile_form.firstName) }}
+				</div>
+				<div class="col-6">
+					{{ form_row(profile_form.lastName) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-8">
+					{{ form_row(profile_form.address) }}
+				</div>
+				<div class="col-4">
+					{{ form_row(profile_form.city) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-5">
+					{{ form_row(profile_form.postalCode) }}
+				</div>
+				<div class="col-2">
+					{{ form_row(profile_form.province) }}
+				</div>
+				<div class="col-5">
+					{{ form_row(profile_form.phoneNumber) }}
+				</div>
+			</div>
+			<div class="d-flex justify-content-center m-3">
+				{{ form_row(profile_form.save) }}
+			</div>
+			{{ form_end(profile_form) }}
+		</div>
+		<div class="col-lg-8 mx-auto">
+			<p class="h1 text-center mt-5 mb-4 pb-3">
+				<i class="fas fa-key me-2"></i>
+				Votre mot de passe
+			</p>
+			<hr class="mt-4">
+			{{ form_start(password_form, {'attr': {'class': 'needs-validation-register', 'novalidate': 'novalidate' }}) }}
+			{{ form_row(password_form.activePassword) }}
+			{{ form_row(password_form.newPassword.first) }}
+			{{ form_row(password_form.newPassword.second) }}
+			<div class="d-flex justify-content-center m-3">
+				{{ form_row(password_form.save) }}
+			</div>
+			{{ form_end(password_form) }}
+		</div>
+	</div>
+{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block javascripts %}
+	<script defer src="https://cdn.jsdelivr.net/npm/jquery-mask-plugin@1.14.16/dist/jquery.mask.min.js"></script>
+	<script defer src="{{ asset('scripts/registerValidation.js')}}"></script>
+{% endblock %}

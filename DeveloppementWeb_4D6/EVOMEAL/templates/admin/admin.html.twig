@@ -1,0 +1,31 @@
+{% extends 'core/base.html.twig' %}
+
+{% block body %}
+	{% if is_granted("ROLE_ADMIN") %}
+		<div class="row text-center mt-4">
+			<h1 class="w-100">
+				<i class="fas fa-user-gear me-2"></i>Compte administrateur
+			</h1>
+			<div class="row mb-2 mt-5">
+				<div class="col-4">
+					<h2 class="text-muted">Catégories</h2>
+					<a href="{{ path('admin.categories') }}" class="btn btn-outline-warning border-0 text-decoration-none m-3">
+						<i class="display-1 fas fa-sitemap me-2"></i>
+					</a>
+				</div>
+				<div class="col-4">
+					<h2 class="text-muted">Produits</h2>
+					<a href="{{ path('admin.products') }}" class="btn btn-outline-warning border-0 text-decoration-none m-3">
+						<i class="display-1 fas fa-boxes-packing me-2"></i>
+					</a>
+				</div>
+				<div class="col-4">
+					<h2 class="text-muted">Commandes</h2>
+					<a href="{{ path('admin.orders') }}" class="btn btn-outline-warning border-0 text-decoration-none m-3">
+						<i class="display-1 fas fa-truck-ramp-box me-2"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

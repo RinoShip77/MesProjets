@@ -1,0 +1,28 @@
+/* Stylesheet for the full application */
+/* Changing the scroll bar */
+::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: yellow;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(black, darkslategray 50%, black);
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(darkslategray, black 50%, darkslategray);
+}
+
+#logoIcon {
+  width: 500px
+}
+
+#txtRaleway {
+  font-family: 'Raleway', sans-serif
+}

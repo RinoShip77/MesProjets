@@ -1,0 +1,220 @@
+{% extends 'core/base.html.twig' %}
+
+{% block body %}
+	{# Top section #}
+	<div
+		class="row bg-dark">
+		{# Text #}
+		<div class="col-7 text-white my-1">
+			<h1 class="display-5 text-warning" style="letter-spacing: 1rem; margin-top: -2px; margin-bottom: -2px; margin-left: 4.5em; font-family: 'Raleway', sans-serif">
+				IN</h1>
+			<h1 class="display-5 text-warning" style="letter-spacing: 1rem; margin-top: -2px; margin-bottom: -2px; margin-left: 5em; font-family: 'Raleway', sans-serif">
+				CORPORE</h1>
+			<h1 class="display-5 text-warning" style="letter-spacing: 1rem; margin-top: -2px; margin-bottom: -2px; margin-left: 5.5em; font-family: 'Raleway', sans-serif">
+				SANO</h1>
+			<h1 class="display-5 text-warning" style="letter-spacing: 1rem; margin-top: -2px; margin-bottom: -2px; margin-left: 6em; font-family: 'Raleway', sans-serif;">
+				IN</h1>
+			<h1 class="display-5 text-warning" style="letter-spacing: 1rem; margin-top: -2px; margin-bottom: -2px; margin-left: 6.5em; font-family: 'Raleway', sans-serif">
+				MENTE</h1>
+			<h1 class="display-5 text-warning" style="letter-spacing: 1rem; margin-top: -2px; margin-bottom: -2px; margin-left: 7em; font-family: 'Raleway', sans-serif">
+				SANA</h1>
+		</div>
+		{# Text #}
+		{# Carousel #}
+		<div class="col-5" id="divCarousel">
+			<div id="carousel" class="carousel slide w-50" data-bs-ride="true">
+				<div class="carousel-indicators">
+					<button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+					<button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+					<button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+					<button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+					<button type="button" data-bs-target="#carousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+				</div>
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img src="{{ asset('images/products/proteinPowderRevolutionNutritionHighWhey.png') }}" class="w-100">
+					</div>
+					<div class="carousel-item">
+						<img src="{{ asset('images/products/preWorkoutRevolutionNutritionPlayer.png') }}" class="w-100">
+					</div>
+					<div class="carousel-item">
+						<img src="{{ asset('images/products/hydratationMixRevolutionNutritionBCAASplash.png') }}" class="w-100">
+					</div>
+					<div class="carousel-item">
+						<img src="{{ asset('images/products/healthAndWellbeingRevolutionNutritionIsolateSplash.png') }}" class="w-100">
+					</div>
+					<div class="carousel-item">
+						<img src="{{ asset('images/products/weightControlRevolutionNutritionAminoBurn.png') }}" class="w-100">
+					</div>
+				</div>
+			</div>
+		</div>
+		{# Carousel #}
+	</div>
+	{# Top section #}
+
+	{# Middle section #}
+	<section
+		class="row">
+		{# Left section #}
+		<div class="col-4 bg-warning pt-3">
+			<div class="text-dark fw-bold fs-1">
+				Magasinez
+			</div>
+			<span class="fs-2 mt-1 ms-4">Catégories</span>
+			<hr>
+			<a href="{{ path('catalog.route') }}" class="btn btn-outline-dark border-0 text-decoration-none fs-4 ms-5">
+				<i class="fas fa-filter-circle-xmark me-1"></i>Toutes les catégories</a>
+			<hr>
+			<div class="ms-5">
+				<ul class="list-unstyled ms-5">
+					{% for category in categories %}
+						<a href="{{ path('catalog.route', { categories: category.idCategory }) }}" class="text-decoration-none text-black fs-5">
+							<li class="my-4">
+								<input class="form-check-input" type="checkbox" {% if app.request.query.get('categories') == category.idCategory %} checked {% endif %}>
+								<span class="ms-3">
+									{{ category.categoryName }}
+									[{{ category.products|length }}]
+								</span>
+							</li>
+						</a>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+		{# Left section #}
+		{# Right section (catalog) #}
+		<div class="col-8 overflow-auto bg-white mx-auto" style="height: 1000px">
+			{% if products|length > 0 %}
+				<div class="row row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-1 row-cols-sm-1 g-2 my-3">
+					{% for key, product in products %}
+						{# Product card #}
+						<div class="col">
+							<div class="card text-center border border-3 border-secondary w-100">
+								<form action="{{ path('cart.add', { idProduct: product.idProduct }) }}" method="POST">
+									<div id="viewProduct">
+										<a class="product-modal text-decoration-none" href="{{ path('product_modal', { idProduct: product.idProduct }) }}">
+											<img name="imgProductImage" src="{{ asset_if(product.imagePath, 'images/products/imageNotAvailable.png') }}" style="width: 175px; height: 150px" alt="Produit">
+											<div class="card-body text-black">
+												<span name="txtPoductName" class="card-title fw-bold text-nowrap">{{ product.name }}</span>
+												<br>
+												<span name="txtProductPrice" class="card-text">{{ product.price|number_format(2,',','') }}
+													$</span>
+												<br>
+												{% if product.rating == 0 %}
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+												{% endif %}
+												{% if product.rating == 0.5 %}
+													<i class="far fa-star-half-stroke text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+												{% endif %}
+												{% if product.rating == 1 %}
+													<i class="fas fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+												{% endif %}
+												{% if product.rating == 1.5 %}
+													<i class="fas fa-star text-warning"></i>
+													<i class="far fa-star-half-stroke text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+												{% endif %}
+												{% if product.rating == 2 %}
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+												{% endif %}
+												{% if product.rating == 2.5 %}
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="far fa-star-half-stroke text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+												{% endif %}
+												{% if product.rating == 3 %}
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+												{% endif %}
+												{% if product.rating == 3.5 %}
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="far fa-star-half-stroke text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+												{% endif %}
+												{% if product.rating == 4 %}
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="far fa-star text-warning"></i>
+												{% endif %}
+												{% if product.rating == 4.5 %}
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="far fa-star-half-stroke text-warning"></i>
+												{% endif %}
+												{% if product.rating == 5 %}
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+													<i class="fas fa-star text-warning"></i>
+												{% endif %}
+											</div>
+										</a>
+									</div>
+									<div class="card-footer border-0 bg-transparent">
+										<button type="submit" id="addToCartBtn" class="m-2 p-2">Ajouter au panier</button>
+									</div>
+								</form>
+							</div>
+						</div>
+						{# Product card #}
+					{% endfor %}
+				</div>
+			{% else %}
+				<p class="display-6 mt-4" id="txtRaleway">Aucun produit dans cette catégorie.</p>
+			{% endif %}
+		</div>
+		{# Right section (catalog) #}
+	</section>
+	{# Middle section #}
+
+	{# Product modal #}
+	<div class="modal fade" id="product-modal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div
+				id="product-modal-content" class="modal-content">{# Product content  #}
+			</div>
+		</div>
+	</div>
+	{# Product modal #}
+{% endblock %}
+
+{# Includes a style sheet #}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('styles/catalog.css') }}">
+{% endblock %}
+{# Includes a style sheet #}
+
+{% block javascripts %}
+	<script defer src="{{ asset('scripts/modal.product.js') }}"></script>
+{% endblock %}

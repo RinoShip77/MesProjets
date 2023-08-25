@@ -1,0 +1,137 @@
+{% extends 'core/base.html.twig' %}
+
+{% block body %}
+	<section class="row bg-warning">
+		<p class="h1 text-center mt-4 mb-4">
+			<i class="fas fa-cart-flatbed-suitcase me-1"></i>
+			Réviser votre commande
+		</p>
+		<hr class="mb-4">
+		<div class="col-8 bg-warning mb-5">
+			<div>
+				<p class="h3 text-center mt-3">
+					<i class="fas fa-address-book me-1"></i>
+					Votre adresse de livraison
+				</p>
+				<div class="col-8 fs-5 text-center bg-dark text-white rounded mx-auto py-3">
+					<span class="fs-2 fw-bold">
+						{{ app.user.firstName }}
+						{{ app.user.lastName }}
+					</span>
+					<br>
+					<span>
+						{{ app.user.address }}
+					</span>
+					<br>
+					<span>
+						{{ app.user.city }},
+						{{ app.user.province }}
+						<br>
+						{{ app.user.postalCode[:3] }}
+						{{ app.user.postalCode[3:] }}
+					</span>
+				</div>
+			</div>
+			<div class="mt-5">
+				<p class="h3 text-center">
+					<i class="fas fa-basket-shopping me-1"></i>
+					Votre commande
+				</p>
+				<div class="row m-3">
+					<div class="card text-center">
+						<table class="table table-hover align-middle">
+							<thead>
+								<tr>
+									<th class="h5" scope="col">Visuel</th>
+									<th class="h5" scope="col">Nom</th>
+									<th class="h5" scope="col">Quantité</th>
+									<th class="h5" scope="col">Prix unitaire</th>
+									<th class="h5" scope="col">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for purchase in orderlist.purchases %}
+									<tr>
+										<td>
+											<img src="{{ asset_if(purchase.product.imagePath, 'images/products/imageNotAvailable.png') }}" class="card-img-top" style="width: 100px; height: 100px" alt="Produit">
+										</td>
+										<td>
+											<h5>{{ purchase.product.name }}</h5>
+										</td>
+										<td>
+											<h5>{{ purchase.quantity }}</h5>
+										</td>
+										<td>
+											<h5>{{ purchase.product.price|number_format(2,',','') }}
+												$</h5>
+										</td>
+										<td>
+											<h5>{{ purchase.price|number_format(2,',','') }}
+												$</h5>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-4 bg-light rounded-top">
+			<p class="h3 text-center mt-3 mb-4 pb-3">
+				<i class="fas fa-file-invoice me-1"></i>
+				Sommaire
+				<div class="row fs-5 mx-2">
+					<div class="my-1">
+						<div class="d-flex justify-content-between">
+							<p>Sous-Total</p>
+							<p class="fw-bolder fs-4">{{ orderlist.getSubtotal()|number_format(2,',','') }}
+								$</p>
+						</div>
+						<hr>
+					</div>
+					<div class="my-1">
+						<div class="d-flex justify-content-between">
+							<p>TPS</p>
+							<p class="fw-bolder fs-4">{{ orderlist.getGST()|number_format(2,',','') }}
+								$</p>
+						</div>
+						<hr>
+					</div>
+					<div class="my-1">
+						<div class="d-flex justify-content-between">
+							<p>TVQ</p>
+							<p class="fw-bolder fs-4">{{ orderlist.getQST()|number_format(2,',','') }}
+								$</p>
+						</div>
+						<hr>
+					</div>
+					<div class="my-1">
+						<div class="d-flex justify-content-between">
+							<p>Frais de Livraison</p>
+							<p class="fw-bolder fs-4">{{ orderlist.getShippingCost()|number_format(2,',','') }}
+								$</p>
+						</div>
+						<hr>
+					</div>
+					<div class="my-1">
+						<div class="d-flex justify-content-between">
+							<p>Côut total</p>
+							<p class="fw-bolder fs-4">{{ orderlist.getTotal()|number_format(2,',','') }}
+								$</p>
+						</div>
+						<hr>
+					</div>
+					<div class="text-center my-5">
+						<a href="{{ path('checkout') }}" class="btn btn-warning fs-5">
+							<i class="fa-brands fa-cc-stripe me-2"></i>
+							<span class="mx-3">Payer</span>
+							<span class="mx-3">|</span>
+							<span class="mx-3 fw-bold">{{ orderlist.getTotal()|number_format(2,',','') }}</span>
+						</a>
+					</div>
+				</div>
+			</p>
+		</div>
+	</section>
+{% endblock %}

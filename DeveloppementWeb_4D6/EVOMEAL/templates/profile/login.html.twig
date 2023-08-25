@@ -1,0 +1,44 @@
+{% extends 'core/base.html.twig' %}
+
+{% block body %}
+	<div class="row bg-warning pb-5">
+		<div class="col-8 mx-auto">
+			<p class="h1 text-center mt-3 mb-4 pb-3">
+				<i class="fas fa-right-to-bracket me-2"></i>
+				Connexion
+			</p>
+			<hr class="mt-4">
+			{% for flash in app.flashes('login_message') %}
+				<div class="fs-3 fw-bold fst-italic m-3 p-3 text-center bg-dark rounded {{ flash.color }}">{{ flash.content }}</div>
+				<hr>
+			{% endfor %}
+			<div class="row">
+				<div class="col-5 me-5">
+					<img src="{{ asset('images/companiesLogos/myLogo.png') }}" id="logoIcon" title="Logo d'EVOMEAL" alt="EVOMEAL">
+				</div>
+				<div class="col-5 text-center my-auto ms-5">
+					<form action="{{ path('login') }}" method="post">
+						<div class="input-group mb-3">
+							<span class="input-group-text">
+								<i class="fas fa-at"></i>
+							</span>
+							<input name="_username" id="username" class="form-control" type="email" value="{{ last_email }}" placeholder="Veuillez insérer votre adresse courriel." required>
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text">
+								<i class="fas fa-lock"></i>
+							</span>
+							<input name="_password" id="password" class="form-control" type="password" placeholder="Veuillez insérer votre mot de passe." required>
+						</div>
+						<input type="hidden" name="_target_path" value="{{ path('catalog.route') }}">
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+						<button type="submit" class="btn btn-dark fs-4 mt-3 ps-3 pe-3">Se connecter<i class="fas fa-lock-open ms-3"></i>
+						</button>
+					</form>
+					<p>Pas encore de compte?<a href="{{ path('register') }}" class="text-decoration-none text-dark fw-bold fs-5 ms-2">S'inscrire</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

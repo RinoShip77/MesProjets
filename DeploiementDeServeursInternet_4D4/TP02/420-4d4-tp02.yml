@@ -1,0 +1,139 @@
+
+# ------------------------------------------------
+# Projet:       TP02
+# Cours:        420-4D4
+# Fichier:      420-4d4-tp02.yml
+# Auteur:       Olivier Bourgault
+# Date:         2023-04-15
+# Description:  Manifeste qui permet la mise en place d'un 'pod' 'Mosquitto'
+#               ainsi qu'une instance de l'application 'Node-RED' avec un schéma par défaut
+# ------------------------------------------------
+#MQTT
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mosquitto
+  labels:
+    app: mosquitto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mosquitto
+  template:
+    metadata:
+      labels:
+        app: mosquitto
+    spec:
+      containers:
+        - name: mosquitto
+          image: eclipse-mosquitto:1.6.2
+          ports:
+          # Le port a été modifié par le fichier de configuration 
+            - containerPort: 8080
+          # Montage, au besoin, de volumes au niveau du conteneur.
+          volumeMounts:
+            - name: mosquitto-conf
+              mountPath: /mosquitto/config
+            - name: mosquitto-secret
+              mountPath: /mosquitto/secret
+              readOnly: true
+      # Rappel: les volumes sont créés au niveau des Pods.
+      volumes:
+        - name: mosquitto-conf
+          configMap:
+            name: mosquitto-config
+        - name: mosquitto-secret
+          secret:
+            secretName: mosquitto-secrets
+--- #Création des 'ConfigMap' et des 'Secret' pour le 'pod' 'Mosquitto'
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mosquitto-config
+data:
+  mosquitto.conf: |
+    log_dest stdout
+    log_type all
+    log_timestamp true
+    listener 8080  
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mosquitto-secrets
+type: Opaque
+data:
+  fichier.secret: |
+    U2kgamUgdGUgbGUgZGlzLCBqZSB2YWlzIGRldm9pciB0ZSBzdXBwcmltZXIgLi4uCg==
+--- #Création du service pour le 'pod' 'Mosquitto'
+apiVersion: v1 #Version du service
+kind: Service
+metadata:
+  name: service-mqtt
+spec:
+  selector:
+    app: mosquitto
+  ports:
+    - protocol: TCP
+      # Port à exposer au reseau local K8s
+      port: 8080
+      # Port du conteneur - containerPort
+      targetPort: 8080
+
+---
+#Node-RED
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-red
+  labels:
+    app: node-red
+spec:
+  selector:
+    matchLabels:
+      app: node-red
+  template:
+    metadata:
+      labels:
+        app: node-red
+    spec:
+      containers:
+      - name: node-red
+        image: nodered/node-red:latest
+        ports:
+        - containerPort: 1880
+          name: port-node-red
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: node-red-schema
+          mountPath: /data/flows.json
+          # subPath est requis sinon un dossier flows.json sera créé.
+          subPath: flows.json
+      volumes:
+      - name: node-red-schema
+        configMap:
+          name: node-red-schema-de-depart
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-red-schema-de-depart
+data:
+  flows.json: | 
+    [{"id":"f6f2187d.f17ca8","type":"tab","label":"Flow 1","disabled":false,"info":""},{"id":"f5391731.35522","type":"mqtt-broker","name":"serveur-mqtt","broker":"service-mqtt","port":"8080","clientid":"","usetls":false,"compatmode":false,"keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthRetain":"false","birthPayload":"","closeTopic":"","closeQos":"0","closeRetain":"false","closePayload":"","willTopic":"","willQos":"0","willRetain":"false","willPayload":""},{"id":"3cc11d24.ff01a2","type":"comment","z":"f6f2187d.f17ca8","name":"WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work","info":"\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.","x":350,"y":80,"wires":[]},{"id":"ac89eb38.34256","type":"mqtt out","z":"f6f2187d.f17ca8","name":"","topic":"420","qos":"","retain":"","broker":"f5391731.35522","x":910,"y":300,"wires":[]},{"id":"97f4028e.8044f","type":"inject","z":"f6f2187d.f17ca8","name":"Un message pour la personne que je suis","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"420","payload":"Promeneuse qui avez un chien ...","payloadType":"str","x":220,"y":300,"wires":[["f805ddfc.dba94"]]},{"id":"1479fb4.ba42505","type":"mqtt in","z":"f6f2187d.f17ca8","name":"","topic":"420","qos":"2","datatype":"auto","broker":"f5391731.35522","x":110,"y":404,"wires":[["2e45579.9dfaba8"]]},{"id":"2e45579.9dfaba8","type":"debug","z":"f6f2187d.f17ca8","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","statusVal":"","statusType":"auto","x":890,"y":404,"wires":[]},{"id":"33225ffe.22472","type":"comment","z":"f6f2187d.f17ca8","name":"En cliquant ci-dessous, vous allez envoyer un message sur le serveur MQTT en utilisant le service K8s 'service-mqtt', sur le 'topic' 420 ","info":"","x":510,"y":244,"wires":[]},{"id":"3da3ee5f.e3488a","type":"comment","z":"f6f2187d.f17ca8","name":"Si le serveur MQTT recoit un message sur le 'topic' 420, il sera alors affiché dans le panneau 'debug'","info":"","x":400,"y":364,"wires":[]},{"id":"f805ddfc.dba94","type":"function","z":"f6f2187d.f17ca8","name":"Ajouter le dateStamp au message","func":"msg.payload = msg.payload + \" à \" + new Date().toISOString();\nreturn msg;\n","outputs":1,"noerr":0,"initialize":"","finalize":"","x":560,"y":300,"wires":[["ac89eb38.34256"]]},{"id":"bae13422.cd36b8","type":"comment","z":"f6f2187d.f17ca8","name":"Voici le schéma Node-RED du laboratoire: http://ve2cuy.com/420-4d4b/index.php/kubernetes-node-red-mosquitto-configmap-secret/","info":"Voici le schéma Node-RED du laboratoire: http://ve2cuy.com/420-4d4b/index.php/kubernetes-node-red-mosquitto-configmap-secret/","x":510,"y":184,"wires":[]},{"id":"f00dc3d5.9f90a8","type":"comment","z":"f6f2187d.f17ca8","name":"Schéma par Alain Boudreault - version 2021.04.05.01","info":"","x":760,"y":484,"wires":[]}]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-red
+spec:
+  selector:
+    app: node-red
+  type: LoadBalancer
+  ports:
+    - name: node-red-ui
+      port: 1880
+      protocol: TCP
+      targetPort: port-node-red  # Fait référence à la valeur de la propriété de la ligne 23

@@ -1,0 +1,40 @@
+/* Style sheet for the contact page */
+.contactInfo {
+    background-color: whitesmoke;
+    padding: 3em;
+    color: black;
+    border-radius: 10px
+}
+
+.contactInfo:hover {
+    animation-name: animationWhiteYellow;
+    animation-duration: 0.5s;
+    background-color: yellow;
+}
+
+.contactInfo:not(hover) {
+    animation-name: animationYellowWhite;
+    animation-duration: 0.5s;
+    background-color: whitesmoke;
+}
+
+/* CSS animation for groups of information */
+@keyframes animationWhiteYellow {
+    from {
+        background-color: whitesmoke
+    }
+
+    to {
+        background-color: yellow
+    }
+}
+
+@keyframes animationYellowWhite {
+    from {
+        background-color: yellow
+    }
+
+    to {
+        background-color: whitesmoke
+    }
+}
