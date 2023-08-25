@@ -1,0 +1,13 @@
+﻿<Window x:Class="Classes01_Corrige.FacebookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Classes01_Corrige"
+        mc:Ignorable="d"
+        Title="Facebook" Height="135" Width="155" Background="DarkSlateGray">
+    <StackPanel>
+        <Button x:Name="WallButton" Content="Wall" Click="WallButton_Click" Style="{StaticResource FacebookButtonStyle}"/>
+        <Button x:Name="MarketplaceButton" Content="Marketplace" Click="MarketplaceButton_Click" Style="{StaticResource FacebookButtonStyle}"/>
+    </StackPanel>
+</Window>

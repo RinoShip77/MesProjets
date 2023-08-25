@@ -1,0 +1,67 @@
+﻿<Window x:Class="Classes01_Corrige.MarketplaceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Classes01_Corrige"
+        mc:Ignorable="d"
+        Title="Marketplace" Height="800" Width="1025">
+    <StackPanel>
+        <Label Content="MARKETPLACE" Style="{StaticResource TitleLabelStyle}"/>
+        <ScrollViewer>
+            <WrapPanel>
+                <StackPanel Style="{StaticResource SideRequestStackpanelStyle}">
+                    <Label Content="Category" Style="{StaticResource SideRequestLabelStyle}"/>
+                    <ComboBox x:Name="CategoryComboBox" SelectedIndex="1" Style="{StaticResource ComboBoxStyle}">
+                        <ComboBoxItem Content="Appliances"/>
+                        <ComboBoxItem Content="Cars"/>
+                        <ComboBoxItem Content="Property Rentals"/>
+                    </ComboBox>
+                    <Label Content="Sort by" Style="{StaticResource SideRequestLabelStyle}"/>
+                    <StackPanel>
+                        <RadioButton x:Name="DateRadioButton" Content="Date (newest first)" IsChecked="True" Style="{StaticResource RadioButtonStyle}"/>
+                        <RadioButton x:Name="PriceRadioButton" Content="Price (lowest first)" Style="{StaticResource RadioButtonStyle}"/>
+                    </StackPanel>
+                    <Label Content="Price" Style="{StaticResource SideRequestLabelStyle}"/>
+                    <WrapPanel Style="{StaticResource SideWrapPanelStyle}">
+                        <TextBlock x:Name="PriceMinTextBlock" Style="{StaticResource TextBlockStyle}"/>
+                        <Label Content="to" Style="{StaticResource SideRequestLabelStyle}"/>
+                        <TextBlock x:Name="PriceMaxTextBlock" Style="{StaticResource TextBlockStyle}"/>
+                    </WrapPanel>
+                    <Label Content="Maker" Style="{StaticResource SideRequestLabelStyle}"/>
+                    <ComboBox x:Name="MakerComboBox" SelectedIndex="0" Style="{StaticResource ComboBoxStyle}">
+                        <ComboBoxItem Content="All"/>
+                        <ComboBoxItem Content="Honda"/>
+                        <ComboBoxItem Content="Nissan"/>
+                        <ComboBoxItem Content="Toyota"/>
+                    </ComboBox>
+                    <Label Content="Brand" Style="{StaticResource SideRequestLabelStyle}"/>
+                    <ComboBox x:Name="BrandComboBox" SelectedIndex="0" Style="{StaticResource ComboBoxStyle}">
+                        <ComboBoxItem Content="All"/>
+                        <ComboBoxItem Content="Accord"/>
+                        <ComboBoxItem Content="Camry"/>
+                        <ComboBoxItem Content="Leaf"/>
+                        <ComboBoxItem Content="Yaris"/>
+                        <ComboBoxItem Content="Civic"/>
+                        <ComboBoxItem Content="Infinity"/>
+                        <ComboBoxItem Content="Altima"/>
+                    </ComboBox>
+                    <Label Content="Year" Style="{StaticResource SideRequestLabelStyle}"/>
+                    <WrapPanel Style="{StaticResource SideWrapPanelStyle}">
+                        <TextBlock x:Name="YearMinTextBlock" Style="{StaticResource TextBlockStyle}"/>
+                        <Label Content="to" Style="{StaticResource SideRequestLabelStyle}"/>
+                        <TextBlock x:Name="YearMaxTextBlock" Style="{StaticResource TextBlockStyle}"/>
+                    </WrapPanel>
+                    <Label Content="Mileage" Style="{StaticResource SideRequestLabelStyle}"/>
+                    <WrapPanel Style="{StaticResource SideWrapPanelStyle}">
+                        <TextBlock x:Name="MileageMinTextBlock" Style="{StaticResource TextBlockStyle}"/>
+                        <Label Content="to" Style="{StaticResource SideRequestLabelStyle}"/>
+                        <TextBlock x:Name="MileageMaxTextBlock" Style="{StaticResource TextBlockStyle}"/>
+                    </WrapPanel>
+                    <Button x:Name="SearchButton" Content="Search" Click="SearchButton_Click" Style="{StaticResource SearchButtonStyle}"/>
+                </StackPanel>
+                <WrapPanel x:Name="OfferPanel" Margin="50 10 0 0" Width="640"/>
+            </WrapPanel>
+        </ScrollViewer>
+    </StackPanel>
+</Window>

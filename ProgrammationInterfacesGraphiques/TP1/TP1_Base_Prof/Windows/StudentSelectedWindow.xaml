@@ -1,0 +1,16 @@
+﻿<Window x:Class="TP1_Base_Prof.StudentSelectedWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TP1_Base_Prof"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="125" Width="150">
+    <StackPanel>
+        <TextBlock>Student id :</TextBlock>
+        <TextBlock x:Name="StudentIdTextBlock">9999999</TextBlock>
+        <TextBlock>Student first name :</TextBlock>
+        <TextBlock x:Name="StudentFirstNameTextBlock">First Name</TextBlock>
+        <Button x:Name="OkButton" Content="Ok" />
+    </StackPanel>
+</Window>

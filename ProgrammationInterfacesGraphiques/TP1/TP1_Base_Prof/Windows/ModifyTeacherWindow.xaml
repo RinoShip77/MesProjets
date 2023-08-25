@@ -1,0 +1,24 @@
+﻿<Window x:Class="TP1_Base_Prof.ModifyTeacherWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TP1_Base_Prof"
+        mc:Ignorable="d"
+        Title="Modifier les enseignants" Height="500" Width="600" Background="DarkSlateGray">
+    <StackPanel>
+        <WrapPanel>
+            <Label Style="{StaticResource LabelStyle}" Content="Rechercher :"/>
+            <TextBox x:Name="UserTextBox" Style="{StaticResource TextBoxStyle}" TextChanged="UserTextBox_TextChanged" Template="{DynamicResource TextBoxBaseControlTemplate1}"/>
+        </WrapPanel>
+        <StackPanel>
+            <ListView x:Name="TeacherListView" Style="{StaticResource ListViewStyle}" Height="300">
+
+            </ListView>
+        </StackPanel>
+        <WrapPanel HorizontalAlignment="Center" Margin="5">
+            <Button Content="Ajouter" Style="{StaticResource ButtonStyle}" Click="AddButton_Click" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+            <Button Content="Supprimer" Style="{StaticResource ClearButtonStyle}" Click="DeleteButton_Click" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+        </WrapPanel>
+    </StackPanel>
+</Window>

@@ -1,0 +1,31 @@
+﻿<Window x:Class="TP1_Base_Prof.LogonWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TP1_Base_Prof"
+        mc:Ignorable="d"
+        Title="Connexion au Cégep de St-Jérôme" Height="300" Width="450" Background="DarkSlateGray">
+    <StackPanel VerticalAlignment="Center">
+        <WrapPanel HorizontalAlignment="Center">
+            <WrapPanel>
+                <RadioButton x:Name="LeftToggleButton" Content="Étudiant" IsChecked="True" Click="LeftToggleButton_Click" Style="{StaticResource LeftRadioButtonStyle}" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+                <RadioButton x:Name="RightToggleButton" Content="Enseignant" Click="RightToggleButton_Click"  Style="{StaticResource RightRadioButtonStyle}" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+            </WrapPanel>
+        </WrapPanel>
+        <WrapPanel HorizontalAlignment="Center" Margin="5">
+            <StackPanel>
+                <Label Style="{StaticResource LabelStyle}" Content="Utilisateur : "/>
+                <Label Style="{StaticResource LabelStyle}" Content="Mot de passe : "/>
+            </StackPanel>
+            <StackPanel>
+                <TextBox x:Name="UserTextBox" Style="{StaticResource TextBoxStyle}" Template="{DynamicResource TextBoxBaseControlTemplate1}"/>
+                <PasswordBox x:Name="PasswordPasswordBox" Style="{StaticResource PasswordBoxStyle}" Template="{DynamicResource PasswordBoxBaseControlTemplate1}"/>
+            </StackPanel>
+        </WrapPanel>
+        <WrapPanel HorizontalAlignment="Center" Margin="5">
+            <Button Content="Se connecter" Style="{StaticResource ButtonStyle}" Click="LoginButton_Click" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+            <Button Content="Mot de passe oublié" Style="{StaticResource ClearButtonStyle}" Click="ForgotButton_Click" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+        </WrapPanel>
+    </StackPanel>
+</Window>

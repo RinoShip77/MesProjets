@@ -1,0 +1,45 @@
+﻿<Window x:Class="TP1_Base_Prof.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TP1_Base_Prof"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <TextBlock>Available products :</TextBlock>
+            <ListView x:Name="ProductListView">
+
+            </ListView>
+            <TextBlock>
+                To know more about our products, visit our website at : 
+                <Hyperlink 
+                    NavigateUri="https://www.corsair.com/ca/en/"
+                    RequestNavigate="Hyperlink_RequestNavigate">
+                    https://www.corsair.com/ca/en/
+                </Hyperlink> 
+                !
+            </TextBlock>
+            <TextBlock>
+                To know more about our products, visit our
+                <Hyperlink 
+                    NavigateUri="https://www.corsair.com/ca/en/" 
+                    RequestNavigate="Hyperlink_RequestNavigate"
+                    TextDecorations="None">
+                    website
+                </Hyperlink> 
+                !
+            </TextBlock>
+            <Button>
+                <TextBlock>
+                    <Hyperlink NavigateUri="https://www.corsair.com/ca/en/" 
+                               RequestNavigate="Hyperlink_RequestNavigate"
+                               TextDecorations="None">
+                        Our website
+                    </Hyperlink>
+                </TextBlock>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

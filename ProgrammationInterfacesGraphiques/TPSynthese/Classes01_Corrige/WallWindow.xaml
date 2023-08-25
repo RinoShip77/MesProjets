@@ -1,0 +1,71 @@
+﻿<Window x:Class="Classes01_Corrige.WallWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Classes01_Corrige"
+        mc:Ignorable="d"
+        Title="WallWindow" Height="800" Width="1025">
+    <Grid>
+        <StackPanel>
+            <Label Content="WALL" Style="{StaticResource TitleLabelStyle}"/>
+            <StackPanel>
+                <WrapPanel>
+                    <StackPanel Margin="0 0 0 0" Style="{StaticResource SideRequestStackpanelStyle}">
+                        <Label Content="Logged in as" Foreground="White"/>
+                        <ComboBox x:Name="UserComboBox" SelectedIndex="1" Margin="5">
+                            <ComboBoxItem Content="Tom Richards"/>
+                            <ComboBoxItem Content="Elliot Hart"/>
+                            <ComboBoxItem Content="Rachel Chapman"/>
+                            <ComboBoxItem Content="Myriam Leblanc"/>
+                            <ComboBoxItem Content="Paul Burnham"/>
+                        </ComboBox>
+                        <StackPanel>
+                            <WrapPanel Background="Black">
+                                <Image x:Name="UserImage"/>
+                                <Label x:Name="FirstNameLabel" Foreground="White"/>
+                                <Label x:Name="LastNameLabel" Foreground="White"/>
+                            </WrapPanel>
+                            <Label Content="Friends" Foreground="White"/>
+                            <ListView x:Name="FriendsTextBlock" Foreground="White" Margin="10">
+                                <ListViewItem Content="Elliot Hart"/>
+                                <ListViewItem Content="Rachel Chapman"/>
+                                <ListViewItem Content="Myriam Leblanc"/>
+                            </ListView>
+                        </StackPanel>
+                        <StackPanel>
+                            <Label Content="View posts of" Foreground="White"/>
+                            <ComboBox x:Name="PostUserComboBox" SelectedIndex="0" Margin="5">
+                                <ComboBoxItem Content="All users"/>
+                                <ComboBoxItem Content="Friends"/>
+                                <ComboBoxItem Content="Tom Richards"/>
+                                <ComboBoxItem Content="Elliot Hart"/>
+                                <ComboBoxItem Content="Rachel Chapman"/>
+                                <ComboBoxItem Content="Myriam Leblanc"/>
+                                <ComboBoxItem Content="Paul Burnham"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <Label Content="Sort by" Foreground="White"/>
+                            <RadioButton x:Name="DateRadioButton" Content="Date (newest first)" IsChecked="True" Style="{StaticResource RadioButtonStyle}" Click="DateRadioButton_Click"/>
+                            <RadioButton x:Name="PopularityRadioButton" Content="Price (hightest first)" Style="{StaticResource RadioButtonStyle}" Click="PopularityRadioButton_Click"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel Width="750">
+                        <ScrollViewer Height="680">
+
+
+                        </ScrollViewer>
+                    </StackPanel>
+                    
+                </WrapPanel> 
+                
+                
+            </StackPanel>
+            
+            
+            
+        </StackPanel>
+    </Grid>
+</Window>

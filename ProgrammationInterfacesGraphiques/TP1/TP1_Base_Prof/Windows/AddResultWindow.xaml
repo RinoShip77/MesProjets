@@ -1,0 +1,30 @@
+﻿<Window x:Class="TP1_Base_Prof.AddResultWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TP1_Base_Prof"
+        mc:Ignorable="d"
+        Title="Nouveau résultat" Height="315" Width="400" Background="DarkSlateGray">
+    <StackPanel>
+        <StackPanel Style="{StaticResource StackPanelStyle}">
+            <Border BorderThickness="0 2 0 2">
+                <Label Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" FontSize="20">Ajouter un nouveau résultat</Label>
+            </Border>
+        </StackPanel>
+        <WrapPanel HorizontalAlignment="Center" Margin="5">
+            <StackPanel>
+                <Label Style="{StaticResource LabelStyle}" Content="Identifiant : "/>
+                <Label Style="{StaticResource LabelStyle}" Content="Résultat : "/>
+            </StackPanel>
+            <StackPanel>
+                <TextBox x:Name="IdTextBox" Style="{StaticResource TextBoxStyle}" Template="{DynamicResource TextBoxBaseControlTemplate1}"/>
+                <TextBox x:Name="ResultTextBox" Style="{StaticResource TextBoxStyle}" Template="{DynamicResource TextBoxBaseControlTemplate1}"/>
+            </StackPanel>
+        </WrapPanel>
+        <WrapPanel HorizontalAlignment="Center" Margin="5">
+            <Button Content="Ajouter" Style="{StaticResource ButtonStyle}" Click="AddButton_Click" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+            <Button Content="Annuler" Style="{StaticResource ClearButtonStyle}" Click="CancelButton_Click" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+        </WrapPanel>
+    </StackPanel>
+</Window>

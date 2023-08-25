@@ -1,0 +1,133 @@
+﻿<Window x:Class="TP1_Base_Prof.ModifyScheduleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TP1_Base_Prof"
+        mc:Ignorable="d" FontSize="15"
+        Title="Planificateur d'horaires" Height="800" Width="1025">
+    <StackPanel Background="DarkSlateGray">
+        <WrapPanel>
+            <WrapPanel Margin="0 0 20 0">
+                <WrapPanel Margin="15 10 0 0">
+                    <Label Content="Session : " Style="{StaticResource SheduleLabelStyle}"/>
+                    <ComboBox x:Name="SessionComboBox" Style="{StaticResource ScheduleComboBoxStyle}">
+
+                    </ComboBox>
+                </WrapPanel>
+                <WrapPanel Margin="15 10 0 0">
+                    <Label Content="Local : " Style="{StaticResource SheduleLabelStyle}"/>
+                    <ComboBox x:Name="LocalComboBox" Style="{StaticResource ScheduleComboBoxStyle}">
+
+                    </ComboBox>
+                </WrapPanel>
+                <WrapPanel Margin="15 10 0 0">
+                    <Label Content="Cours : " Style="{StaticResource SheduleLabelStyle}"/>
+                    <ComboBox x:Name="CoursComboBox" Style="{StaticResource ScheduleComboBoxStyle}" Width="175">
+
+                    </ComboBox>
+                </WrapPanel>
+            </WrapPanel>
+            <WrapPanel Margin="15">
+                <Button x:Name="AddButton" Content="Ajouter leçon" Click="AddButton_Click" Style="{StaticResource ScheduleButtonStyle}" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+                <Button x:Name="DeleteButton" Content="Supprimer leçon" Click="DeleteButton_Click" Style="{StaticResource ScheduleButtonStyle}" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+            </WrapPanel>
+        </WrapPanel>
+        <Grid Margin="10" Height="650">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Style="{StaticResource GridLabelAxeStyle}"/>
+            <Label Content="Lundi" Grid.Column="1" Grid.Row="0" Style="{StaticResource GridLabelDaysStyle}"/>
+            <Label Content="Mardi" Grid.Column="2" Grid.Row="0" Style="{StaticResource GridLabelDaysStyle}"/>
+            <Label Content="Mercredi" Grid.Column="3" Grid.Row="0" Style="{StaticResource GridLabelDaysStyle}"/>
+            <Label Content="Jeudi" Grid.Column="4" Grid.Row="0" Style="{StaticResource GridLabelDaysStyle}"/>
+            <Label Content="Vendredi" Grid.Column="5" Grid.Row="0" Style="{StaticResource GridLabelDaysStyle}"/>
+            <Label Content="08:00" Grid.Column="0" Grid.Row="1" Style="{StaticResource GridLabelHoursStyle}"/>
+            <Label Content="08:55" Grid.Column="0" Grid.Row="2" Style="{StaticResource GridLabelHoursStyle}"/>
+            <Label Content="09:50" Grid.Column="0" Grid.Row="3" Style="{StaticResource GridLabelHoursStyle}"/>
+            <Label Content="10:45" Grid.Column="0" Grid.Row="4" Style="{StaticResource GridLabelHoursStyle}"/>
+            <Label Content="11:40" Grid.Column="0" Grid.Row="5" Style="{StaticResource GridLabelHoursStyle}"/>
+            <Label Content="12:35" Grid.Column="0" Grid.Row="6" Style="{StaticResource GridLabelHoursStyle}"/>
+            <Label Content="13:30" Grid.Column="0" Grid.Row="7" Style="{StaticResource GridLabelHoursStyle}"/>
+            <Label Content="14:25" Grid.Column="0" Grid.Row="8" Style="{StaticResource GridLabelHoursStyle}"/>
+            <Label Content="15:20" Grid.Column="0" Grid.Row="9" Style="{StaticResource GridLabelHoursStyle}"/>
+            <Label Content="16:15" Grid.Column="0" Grid.Row="10" Style="{StaticResource GridLabelHoursStyle}"/>
+            <Label Content="17:10" Grid.Column="0" Grid.Row="11" Style="{StaticResource GridLabelHoursStyle}"/>
+            <ToggleButton x:Name="Monday1" Grid.Column="1" Grid.Row="1" Background="LightGray"/>
+            <ToggleButton x:Name="Monday2" Grid.Column="1" Grid.Row="2" Background="LightGray"/>
+            <ToggleButton x:Name="Monday3" Grid.Column="1" Grid.Row="3" Background="LightGray"/>
+            <ToggleButton x:Name="Monday4" Grid.Column="1" Grid.Row="4" Background="LightGray"/>
+            <ToggleButton x:Name="Monday5" Grid.Column="1" Grid.Row="5" Background="LightGray"/>
+            <ToggleButton x:Name="Monday6" Grid.Column="1" Grid.Row="6" Background="LightGray"/>
+            <ToggleButton x:Name="Monday7" Grid.Column="1" Grid.Row="7" Background="LightGray"/>
+            <ToggleButton x:Name="Monday8" Grid.Column="1" Grid.Row="8" Background="LightGray"/>
+            <ToggleButton x:Name="Monday9" Grid.Column="1" Grid.Row="9" Background="LightGray"/>
+            <ToggleButton x:Name="Monday10" Grid.Column="1" Grid.Row="10" Background="LightGray"/>
+            <ToggleButton x:Name="Monday11" Grid.Column="1" Grid.Row="11" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday1" Grid.Column="2" Grid.Row="1" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday2" Grid.Column="2" Grid.Row="2" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday3" Grid.Column="2" Grid.Row="3" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday4" Grid.Column="2" Grid.Row="4" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday5" Grid.Column="2" Grid.Row="5" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday6" Grid.Column="2" Grid.Row="6" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday7" Grid.Column="2" Grid.Row="7" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday8" Grid.Column="2" Grid.Row="8" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday9" Grid.Column="2" Grid.Row="9" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday10" Grid.Column="2" Grid.Row="10" Background="LightGray"/>
+            <ToggleButton x:Name="Tuesday11" Grid.Column="2" Grid.Row="11" Background="LightGray"/>
+            <ToggleButton x:Name="Wednesday1" Grid.Column="3" Grid.Row="1" Background="LightGray"/>
+            <ToggleButton x:Name="Wednesday2" Grid.Column="3" Grid.Row="2" Background="LightGray"/>
+            <ToggleButton x:Name="Wednesday3" Grid.Column="3" Grid.Row="3" Background="LightGray"/>
+            <ToggleButton x:Name="Wednesday4" Grid.Column="3" Grid.Row="4" Background="LightGray"/>
+            <!--Emplacement indisponible pour Column 3 Row 5 6 et 7-->
+            <ToggleButton x:Name="Wednesday8" Grid.Column="3" Grid.Row="8" Background="LightGray"/>
+            <ToggleButton x:Name="Wednesday9" Grid.Column="3" Grid.Row="9" Background="LightGray"/>
+            <ToggleButton x:Name="Wednesday10" Grid.Column="3" Grid.Row="10" Background="LightGray"/>
+            <ToggleButton x:Name="Wednesday11" Grid.Column="3" Grid.Row="11" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday1" Grid.Column="4" Grid.Row="1" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday2" Grid.Column="4" Grid.Row="2" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday3" Grid.Column="4" Grid.Row="3" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday4" Grid.Column="4" Grid.Row="4" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday5" Grid.Column="4" Grid.Row="5" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday6" Grid.Column="4" Grid.Row="6" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday7" Grid.Column="4" Grid.Row="7" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday8" Grid.Column="4" Grid.Row="8" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday9" Grid.Column="4" Grid.Row="9" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday10" Grid.Column="4" Grid.Row="10" Background="LightGray"/>
+            <ToggleButton x:Name="Thursday11" Grid.Column="4" Grid.Row="11" Background="LightGray"/>
+            <ToggleButton x:Name="Friday1" Grid.Column="5" Grid.Row="1" Background="LightGray"/>
+            <ToggleButton x:Name="Friday2" Grid.Column="5" Grid.Row="2" Background="LightGray"/>
+            <ToggleButton x:Name="Friday3" Grid.Column="5" Grid.Row="3" Background="LightGray"/>
+            <ToggleButton x:Name="Friday4" Grid.Column="5" Grid.Row="4" Background="LightGray"/>
+            <ToggleButton x:Name="Friday5" Grid.Column="5" Grid.Row="5" Background="LightGray"/>
+            <ToggleButton x:Name="Friday6" Grid.Column="5" Grid.Row="6" Background="LightGray"/>
+            <ToggleButton x:Name="Friday7" Grid.Column="5" Grid.Row="7" Background="LightGray"/>
+            <ToggleButton x:Name="Friday8" Grid.Column="5" Grid.Row="8" Background="LightGray"/>
+            <ToggleButton x:Name="Friday9" Grid.Column="5" Grid.Row="9" Background="LightGray"/>
+            <ToggleButton x:Name="Friday10" Grid.Column="5" Grid.Row="10" Background="LightGray"/>
+            <ToggleButton x:Name="Friday11" Grid.Column="5" Grid.Row="11" Background="LightGray"/>
+        </Grid>
+    </StackPanel>
+</Window>

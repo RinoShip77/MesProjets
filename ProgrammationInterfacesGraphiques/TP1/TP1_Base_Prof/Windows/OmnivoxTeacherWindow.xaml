@@ -1,0 +1,335 @@
+﻿<Window x:Class="TP1_Base_Prof.OmnivoxTeacherWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TP1_Base_Prof"
+        mc:Ignorable="d" FontSize="12"
+        Title="Accueil Omnivox" Height="500" Width="850">
+    <ScrollViewer>
+        <StackPanel>
+            <WrapPanel Background="CornflowerBlue">
+                <StackPanel>
+                    <WrapPanel>
+                        <Label Content="Bienvenue," Foreground="White" Margin="5"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <Label x:Name="FirstNameLabel" Content="FirstName" Style="{StaticResource OmnivoxNameLabel}"/>
+                        <Label x:Name="LastNameLabel" Content="LastName" Style="{StaticResource OmnivoxNameLabel}"/>
+                        <!--Utiliser un label invisible pour déplacer les boutons Acount et Quit à droite-->
+                        <Label Content="                                        " Visibility="Hidden" Style="{StaticResource OmnivoxNameLabel}"/>
+                    </WrapPanel>
+                </StackPanel>
+                <WrapPanel VerticalAlignment="Center">
+                    <Button x:Name="AccountButton" Style="{StaticResource OmnivoxButton}" Template="{DynamicResource ButtonBaseControlTemplate1}" Click="AcountButton_Click">
+                        <WrapPanel>
+                            <Rectangle Margin="-5 0 10 0" Width="20" Height="20">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="SlateBlue"/>
+                                </Rectangle.Fill>
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="../Assets/Icons/icon_group.png"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock>Mon compte</TextBlock>
+                        </WrapPanel>
+                    </Button>
+                    <Button x:Name="QuitButton" Style="{StaticResource OmnivoxClearButton}" Template="{DynamicResource ButtonBaseControlTemplate1}" Click="QuitButton_Click">
+                        <WrapPanel>
+                            <Rectangle Margin="-5 0 10 0" Width="20" Height="20">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="White"/>
+                                </Rectangle.Fill>
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="../Assets/Icons/icon_home.png"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock>Quitter</TextBlock>
+                        </WrapPanel>
+                    </Button>
+                </WrapPanel>
+            </WrapPanel>
+            <WrapPanel>
+                <StackPanel Width="250">
+                    <StackPanel>
+                        <Label Content="Mes Cours" Style="{StaticResource OmnivoxLabel}"/>
+                        <ComboBox x:Name="SessionsComboBox" Style="{StaticResource OmnivoxComboBox}">
+                            
+                        </ComboBox>
+                        <ListView x:Name="CourseListView" FontSize="15" Margin="5">
+                            
+                        </ListView>
+                    </StackPanel>
+                    <StackPanel>
+                        <Label Content="Services Omnivox" Style="{StaticResource OmnivoxLabel}"/>
+                        <Button x:Name="ScheduleButton" Click="ScheduleToggleButton_Click" Style="{StaticResource OmnivoxSideButton}">
+                            <WrapPanel>
+                                <Rectangle Margin="5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_schedule.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label>Horaire</Label>
+                            </WrapPanel>
+                        </Button>
+                        <Button x:Name="ChangePasswordButton" Click="ChangeToggleButton_Click" Style="{StaticResource OmnivoxSideButton}">
+                            <WrapPanel>
+                                <Rectangle Margin="5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_password_change.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label>Changer le mot de passe</Label>
+                            </WrapPanel>
+                        </Button>
+                        <Button x:Name="ResetPasswordButton" Click="ResetToggleButton_Click" Style="{StaticResource OmnivoxSideButton}">
+                            <WrapPanel>
+                                <Rectangle Margin="5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_password_lost.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label>Réinitialiser le mot de passe</Label>
+                            </WrapPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel>
+                        <Label Content="Autres services" Style="{StaticResource OmnivoxLabel}"/>
+                        <StackPanel>
+                            <WrapPanel>
+                                <Rectangle Margin="10 0 10 5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_link.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock>
+                                    <Hyperlink
+                                        NavigateUri="https://vega.collecto.ca/en/"
+                                        RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                                        Banque de fiches signalétiques
+                                    </Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Rectangle Margin="10 0 10 5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_link.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock>
+                                    <Hyperlink
+                                        NavigateUri="https://login.microsoftonline.com/"
+                                        RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                                        Connexion portail Office 365
+                                    </Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Rectangle Margin="10 0 10 5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_link.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock>
+                                    <Hyperlink
+                                        NavigateUri="https://cstj.moodle.decclic.qc.ca/"
+                                        RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                                        Moodle
+                                    </Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Rectangle Margin="10 0 10 5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_link.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock>
+                                    <Hyperlink
+                                        NavigateUri="https://cegepdesaintjerome.octopus-itsm.com/Web/RequestList.aspx"
+                                        RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                                        Octopus - Demande de service
+                                    </Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Rectangle Margin="10 0 10 5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_link.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock>
+                                    <Hyperlink
+                                        NavigateUri="https://remise.cstj.qc.ca/"
+                                        RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                                        Remise de travaux
+                                    </Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Rectangle Margin="10 0 10 5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_link.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock>
+                                    <Hyperlink
+                                        NavigateUri="https://repro.cstj.qc.ca/sysrepro/login/login.asp?ReqListe="
+                                        RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                                        Repro +
+                                    </Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Rectangle Margin="10 0 10 5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_link.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock>
+                                    <Hyperlink
+                                        NavigateUri="https://sdp.cstj.qc.ca/"
+                                        RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                                        Service de développement pédagogique
+                                    </Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Rectangle Margin="10 0 10 5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_link.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock>
+                                    <Hyperlink
+                                        NavigateUri="https://atlas-sip.cstj.qc.ca/wp-login.php?redirect_to=%2F"
+                                        RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                                        SIP
+                                    </Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Rectangle Margin="10 0 10 5" Width="15" Height="15">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="SlateBlue"/>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="../Assets/Icons/icon_link.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock>
+                                    <Hyperlink
+                                        NavigateUri="https://www.travailsantevie.com/"
+                                        RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                                        Travail - Santé - Vie
+                                    </Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Width="565" Background="WhiteSmoke">
+                    <Label Content="Actualités" Style="{StaticResource OmnivoxLabel}"/>
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="News01Button" Style="{StaticResource NouvelleButton}">
+                            <StackPanel>
+                                <Image Source="../Assets/Images/news01.jpg"/>
+                                <Label>
+                                    <TextBlock>Formulaire - Changement de programme - Tour 1</TextBlock>
+                                </Label>
+                                <TextBlock>29 septembre 2021</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="News02Button" Style="{StaticResource NouvelleButton}">
+                            <StackPanel>
+                                <Image Source="../Assets/Images/news02.jpg"/>
+                                <Label>
+                                    <TextBlock>RAPPEL - Montant forfaitaire de 100$ pour les étudiants</TextBlock>
+                                </Label>
+                                <TextBlock>21 septembre 2021</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="News03Button" Style="{StaticResource NouvelleButton}">
+                            <StackPanel>
+                                <Image Source="../Assets/Images/news03.jpg"/>
+                                <Label>
+                                    <TextBlock>Formulaire - Changement de programme - Tour 1</TextBlock>
+                                </Label>
+                                <TextBlock>29 septembre 2021</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="News04Button" Style="{StaticResource NouvelleButton}">
+                            <StackPanel>
+                                <Image Source="../Assets/Images/news04.jpg"/>
+                                <Label>
+                                    <TextBlock>Formulaire - Changement de programme - Tour 1</TextBlock>
+                                </Label>
+                                <TextBlock>29 septembre 2021</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="News05Button" Style="{StaticResource NouvelleButton}">
+                            <StackPanel>
+                                <Image Source="../Assets/Images/news05.jpg"/>
+                                <Label>
+                                    <TextBlock>Formulaire - Changement de programme - Tour 1</TextBlock>
+                                </Label>
+                                <TextBlock>29 septembre 2021</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="News06Button" Style="{StaticResource NouvelleButton}">
+                            <StackPanel>
+                                <Image Source="../Assets/Images/news06.jpg"/>
+                                <Label>
+                                    <TextBlock>Formulaire - Changement de programme - Tour 1</TextBlock>
+                                </Label>
+                                <TextBlock>29 septembre 2021</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="News07Button" Style="{StaticResource NouvelleButton}">
+                            <StackPanel>
+                                <Image Source="../Assets/Images/news07.jpg"/>
+                                <Label>
+                                    <TextBlock>Formulaire - Changement de programme - Tour 1</TextBlock>
+                                </Label>
+                                <TextBlock>29 septembre 2021</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </WrapPanel>
+                </StackPanel>
+            </WrapPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
