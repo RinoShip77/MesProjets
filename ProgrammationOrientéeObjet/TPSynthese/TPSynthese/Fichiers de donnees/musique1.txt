@@ -1,0 +1,86 @@
+#==================================================
+ A ; Gordon ; 1992 ; Rock/Pop ; Barenaked Ladies
+    I ; Hello City ; 202
+    I ; Brian Wilson ; 289
+    I ; Wrap Your Arms Around Me ; 274
+    I ; What A Good Boy ; 234
+    I ; The King Of Bedside Manor ; 146
+    I ; I Love You ; 248
+    I ; New Kid On The Block ; 252
+    I ; Blame It On Me ; 234
+    I ; If I Had A $1,000,000 ; 265
+
+#==================================================
+ A ; Friday Night In San Francisco ; 1980 ; Jazz ; John Mclaughlin ; Al Di Meloa ; Paco De Lucia
+    I ; Medirerranean Sundance - Rio Ancho ; 694
+    I ; Short Tales Of The Black Forest ; 525
+    I ; Frevo Rasgado ; 476
+    I ; Fantasia Suite ; 533
+    I ; Guardian Angel ; 238
+
+#==================================================
+ A ; Bandits - Bande originale du film ; 2001 ; Rock/Pop
+    I ; Gallows Pole ; 251 ; Jimmy Page ; Robert Plant
+    I ; Tweedle Dee & Tweedle Dum ; 286 ; Bob Dylan
+    I ; Holding Out For A Hero ; 280 ; Bonnie Tyler
+    I ; Rudiger ; 358 ; Mark Knopfler
+    I ; Just Another ; 192 ; Peter Yorn
+    I ; Walk On By ; 167 ; Aretha Franklin
+    I ; Superman (It's Nor Easy) ; 220 ; Five For Fighting
+    I ; Crasy 'lil Mouse ; 212 ; In Bloom
+    I ; Just The Two Of Us ; 237 ; Grover Washington Jr ; Bill Withers
+    I ; Total Eclipse Of The Heart ; 416 ; Bonnie Tyler
+
+#==================================================
+ A ; Rock Spectacle ; 1996 ; Rock/Pop ; Barenaked Ladies
+    I ; Brian Wilson ; 286
+    I ; Straw Hat And Old Dirty Hank ; 213
+    I ; Break Your Heart ; 307
+    I ; Jane ; 238
+    I ; When I Fall ; 263
+    I ; Hello City ; 193
+    I ; What A Good Boy ; 288
+    I ; The Old Apartment ; 202
+    I ; Life, In A Nutshell ; 160
+    I ; These Apples ; 240
+    I ; If I Had A $1,000,000 ; 557
+
+#==================================================
+ A ; Jagged Little Pill ; 1995 ; Rock/Pop ; Alanis Morissette
+    I ; All I Really Want ; 284
+    I ; You Oughta Know ; 249
+    I ; Perfect ; 188
+    I ; Right Through You ; 175
+    I ; Forgiven ; 300
+    I ; Head Over Feet ; 267
+    I ; Mary Jane ; 280
+    I ; Ironic ; 229
+    I ; You Oughta Know ; 492
+
+#==================================================
+ A ; Hysteria ; 1987 ; Rock/Pop ; Def Leppard
+    I ; Women ; 342
+    I ; Rocket ; 395
+    I ; Animal ; 244
+    I ; Love Bites ; 347
+    I ; Pour Some Sugar on Me ; 267
+    I ; Armageddon It ; 322
+    I ; Gods of War ; 397
+    I ; Don't Shoot Shotgun ; 267
+    I ; Run Riot ; 279
+    I ; Hysteria ; 355
+    I ; Excitable ; 259
+    I ; Love and Affection ; 275
+
+#==================================================
+ A ; Hysteria ; 1984 ; World/NewAge ; The Human League
+    I ; I'm Coming Back ; 247
+    I ; I Love You Too Much ; 206
+    I ; Rock Me Again and Again and Again and Again and Again and Again (Six Times) ; 212
+    I ; Louise ; 295
+    I ; The Lebanon ; 303
+    I ; Betrayed ; 242
+    I ; The Sign ; 226
+    I ; So Hurt ; 233
+    I ; Life on Your Own ; 246
+    I ; Don't You Know I Want You ; 189

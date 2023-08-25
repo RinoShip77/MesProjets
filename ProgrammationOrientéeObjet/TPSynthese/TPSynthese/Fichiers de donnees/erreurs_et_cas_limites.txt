@@ -1,0 +1,66 @@
+# Une interprétaton ne peut pas être ajoutée si un album n'a pas été ajoutée préalablement dans le fichier
+# La ligne suivante est une erreur, il n'y a pas d'album de défini
+# Une interprétation ne peut pas être contenue dans un album défini dans un autre fichier
+I;Chanson sans album;511
+
+# Les espaces au début et à la fin des noms (albums, artistes, interprétatons, genres) doivent être supprimées
+                              
+# La ligne suivante est valide
+  A  ;  Le titre de l'album  ;  1999  ;  Blues  ;  Le nom de l'artiste   
+# Elle est équivalente à:
+A;Le titre de l'album;1999;Blues;Le nom de l'artiste
+			
+# La ligne suivante est valide
+    I ;  Le nom de la chanson  ;  428   
+# Elle est équivalente à:
+I;Le nom de la chanson;428
+
+
+# Il est possible d'avoir plusieurs albums avec le même titre
+ A ;  Album avec meme titre ; 2020 ; Rock/Pop ;  Artiste 1
+ A ;  Album avec meme titre ; 1984 ; Rock/Pop ;  Artiste 2
+
+
+# Il est possible d'avoir plusieurs interprétatons portant le même nom, sur le même album ou des albums différents
+# Les interprétations suivantes sont 3 interprétations de la même chanson
+ A ;  Album 1 ; 2020 ; Rock/Pop ;  Artiste 1
+    I ;  Chanson 1 ;  202
+    I ;  Chanson 1 ;  193
+ A ;  Album 2 ; 1984 ; Rock/Pop 
+    I ;  Chanson 1 ;  202 ;  Artiste 2
+
+
+#
+# Les 2 prochaines lignes sont corrompue et doivent être ignorées car le premier champ est invalide
+#
+  X; Premier champ invalide
+  AX; Premier champ invalide
+
+#
+# Les lignes suivantes sont corrompues et doivent être ignorées car il manque des champs
+#
+ # Album sans nom
+    A; ; 2015 ; Classique
+ # Album sans année
+    A; Nom album ; Jazz
+ # Album sans genre
+    A; Nom album ; 2000
+ # Artiste vide
+    A ; Nom album ; 2000 ; Rock/Pop ; Artiste 1 ; ; Arstiste 3
+ # Interprétaton sans nom
+    I; ; 245
+ # Interprétaton sans durée
+    I; Nom de la chanson
+ # Artiste vide
+    I; Nom de la chanson ; 232 ; Artiste 1 ; ; Arstiste 3
+
+#
+# Les lignes suivantes sont corrompues et doivent être ignorées car les champs n'ont pas le bon format
+#
+ # Mauvais format de l'année
+    A; Nom album ; x ; Jazz
+ # Mauvais format de la durée
+    I; Nom de la chanson ; x
+ # Mauvais séparateur
+    A:Nom album;2000;Jazz
+    A;Nom album;2000,Jazz

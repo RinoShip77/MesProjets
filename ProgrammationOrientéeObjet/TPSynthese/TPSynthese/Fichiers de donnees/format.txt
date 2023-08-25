@@ -1,0 +1,47 @@
+# Les lignes débutant par # sont des commentaires
+# Il peut y avoir des lignes vides ou ne contenant que des espaces
+     #  Il peut y avoir des espaces en début de ligne
+
+#
+# Format
+#
+# Album:           A;Nom;Année;Genre[;Artiste1[;Artiste2[;...]]]
+# Interprétation:  I;Nom;Durée (secondes)[;Artiste1[;Artiste2[;...]]]
+#
+
+# Les interprétations sont contenues dans le dernier album défini
+
+# Album avec un artiste
+A;Gordon;1992;Rock/Pop;Barenaked Ladies
+
+# Interprétations sans artistes, contenues dans l'album 'Gordon'
+I;Hello City;202
+I;Brian Wilson;289
+I;If I Had A $1,000,000;265
+
+
+# Album avec plusieurs artistes
+A;Friday Night In San Francisco;1980;Jazz;John Mclaughlin;Al Di Meloa;Paco De Lucia
+
+# Interprétations sans artistes, contenues dans l'album 'Friday Night In San Francisco'
+I;Medirerranean Sundance - Rio Ancho;694
+I;Short Tales Of The Black Forest;525
+I;Frevo Rasgado;476
+
+
+# Album sans artiste, artistes variés pour chaque interprétation
+A;Bandits - Bande originale du film;2001;Rock/Pop
+
+# Interprétations avec artistes, contenues dans l'album 'Bandits - Bande originale du film'
+I;Gallows Pole;251;Jimmy Page;Robert Plant
+I;Tweedle Dee & Tweedle Dum ;286;Bob Dylan
+I;Just The Two Of Us;237;Grover Washington Jr;Bill Withers
+
+
+# Album avec un artiste dont les interprétations ont aussi un artiste invité
+A;Deuces Wild;1997;Blues;B.B. King
+
+# Interprétations avec artistes, contenues dans l'album 'Deuces Wild'
+I;If You Love Me;350; Van Morrison
+I;The Thrill Is Gone;300;Tracy Chapman
+I;Rock Me Baby;398;Eric Clapton

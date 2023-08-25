@@ -1,0 +1,1706 @@
+#==================================================
+ A ; A Canadian Blues Rendez-Vous ; 2004 ; Blues ; Bob Walsh
+    I ; Jump Right To It ; 240
+    I ; Stand By Me ; 257
+    I ; Loan Me A Dime ; 538
+    I ; Purple Haze ; 305
+    I ; Will It Go Round In Circles ; 232
+    I ; Boom Boom ; 200
+    I ; Spinning Wheel ; 230
+    I ; Signed, Sealed, Delivered I'm Yours ; 173
+    I ; How Sweet It Is (To Be Loved By You) ; 240
+    I ; Summertime ; 504
+
+#==================================================
+ A ; Never Mind The Bollocks ; 1977 ; Alternatif ; Sex Pistols
+    I ; Holidays In The Sun ; 200
+    I ; Bodies ; 182
+    I ; No Feelings ; 169
+    I ; Liar ; 160
+    I ; Problems ; 250
+    I ; God Save The Queen ; 198
+    I ; Seventeen ; 122
+    I ; Anarchy In The U.K. ; 211
+    I ; Sub-Mission ; 252
+    I ; Pretty Vacant ; 196
+    I ; New York ; 185
+    I ; Emi ; 190
+
+#==================================================
+ A ; The Art Of Glenn Gould ; 1992 ; Classique ; Glenn Gould
+    I ; Symphonie No.5 In C Minor, Op.67, I. Allegro Con Brio ; 364 ; Beethoven
+    I ; Concerto For Piano And Orchestra No.1 In C Major, Ii. Largo ; 737 ; Beethoven
+    I ; Goldberg Variations, Aria ; 112 ; Bach
+    I ; Goldberg Variations, Variation 1 ; 44 ; Bach
+    I ; Goldberg Variations, Variation 4 ; 29 ; Bach
+    I ; Goldberg Variations, Variation 5 ; 45 ; Bach
+    I ; Concerto For Piano And Orchestra No.5 In F Minor, Allegro ; 217 ; Bach
+    I ; Concerto For Piano And Orchestra No.5 In F Minor, Largo ; 175 ; Bach
+    I ; Concerto For Piano And Orchestra No.5 In F Minor, Presto ; 233 ; Bach
+    I ; Sonata For Piano In E-Flat Major, Allegro ; 265 ; Haydn
+    I ; Sonata For Piano In E-Flat Major, Adagio ; 524 ; Haydn
+    I ; Sonata For Piano In E-Flat Major, Finale ; 281 ; Haydn
+
+#==================================================
+ A ; Carmina Burana ; 1960 ; Classique ; Carl Orff ; The Philadelphia Orchestra (Eugene Ormandy) ; The Rutgers University Choir
+    I ; Fortuna Imperatrix Mundi, O Fortuna ; 164
+    I ; Primo Vere, Veris Leta Facies ; 206
+    I ; Primo Vere, Omnia Sol Temperat ; 107
+    I ; Uf Dem Anger, Tanz ; 96
+    I ; Uf Dem Anger, Reie ; 109
+    I ; Uf Dem Anger, Swaz Hie Gat Umbe ; 151
+    I ; In Taberna, Estuans Interius ; 132
+    I ; In Tarbena, Quando Sumus ; 191
+    I ; Cours D'Amours, Amor Volat Undique ; 181
+    I ; Cours D'Amours, Veni, Veni, Venias ; 62
+    I ; Blanziflor Et Helena, Ave Formosissima ; 108
+
+#==================================================
+ A ; Brand New Day ; 1999 ; Rock/Pop ; Sting
+    I ; A Thousand Years ; 358
+    I ; Desert Rose ; 285
+    I ; Big Lie Small World ; 305
+    I ; After The Rain Has Fallen ; 303
+    I ; Tomorrow We'll See ; 289
+    I ; Prelude To The End Of The Game ; 20
+    I ; Fill Her Up ; 338
+    I ; Ghost Story ; 329
+    I ; Brand New Day ; 380
+
+#==================================================
+ A ; Roses From The South ; 1999 ; Classique ; André Rieu ; The Johann Strauss Orchestra
+    I ; Voices Of Spring, Waltz Op. 410 ; 341
+    I ; Tritsch-Tratsch Polka, Op. 214 ; 163
+    I ; Roses From The South, Waltz Op. 388 ; 558
+    I ; From The Hunt, Polka, Op. 373 ; 131
+    I ; Die Fledermaus, Waltz Op. 367 ; 415
+    I ; Annen Polka, Op. 117 ; 189
+    I ; Viennese Bonbons, Waltz Op. 307 ; 532
+    I ; Bandit's Gallop, Fast Polka Op. 276 ; 166
+    I ; Lagoon Waltz (From A Night In Venice), Op. 411 ; 465
+    I ; Thunder And Lightning, Fast Polka Op. 324 ; 200
+    I ; On The Beautiful Blue Danube, Waltz Op. 314 ; 462
+    I ; Radetzky March, Op. 228 ; 174
+
+#==================================================
+ A ; Chansons Nouvelles ; 1994 ; Francophone ; Plume Latraverse
+    I ; Intro Hit ; 35
+    I ; Six Moineaux ; 155
+    I ; Cahin-Caha ; 242
+    I ; Les Patineuses ; 215
+    I ; Revirement Majeure ; 240
+    I ; Quelle Histoire! ; 145
+    I ; L'ange Exterminateur ; 277
+    I ; Le Lac Multicolore ; 116
+    I ; Les Quatre Vérités ; 70
+    I ; Quand Rousseau... ; 80
+    I ; Le Tapis Volant ; 160
+    I ; Les Grands Moyens ; 315
+
+#==================================================
+ A ; Alone And Acoustic ; 1991 ; Blues ; Buddy Guy ; Junior Wells
+    I ; Give Me My Coat And Shoes ; 231
+    I ; Big Boat ; 313
+    I ; Diggin' My Potatoes ; 268
+    I ; Don't Leave Me ; 222
+    I ; Rollin' And Tumblin' ; 273
+    I ; I'm In The Mood ; 202
+    I ; High Heel Sneakers ; 178
+    I ; Wrong Doing Woman ; 178
+    I ; Cut You Loose ; 279
+    I ; Sally Mae ; 150
+    I ; Boogie Chillen ; 239
+
+#==================================================
+ A ; Vitali / Bach ; 1998 ; Classique ; Les Archets De Paris
+    I ; Chaconne ; 549 ; Vitali
+    I ; Concerto Pour hautbois D'Amour, I. Allegro ; 262 ; Bach
+    I ; Concerto Pour hautbois D'Amour, II. Larghetto ; 333 ; Bach
+    I ; Concerto Pour hautbois D'Amour, III. Allegro Ma Non Tanto ; 254 ; Bach
+    I ; Concerto Pour Hautbois Et Violon, I. Allegro ; 297 ; Bach
+    I ; Concerto Pour Hautbois Et Violon, II. Adagio ; 302 ; Bach
+    I ; Concerto Pour Hautbois Et Violon, III. Allegro ; 258 ; Bach
+
+#==================================================
+ A ; The Best Of John Lee Hooker ; 1992 ; Blues ; John Lee Hooker
+    I ; One Bourbon, One Scotch, One Beer ; 178
+    I ; Decoration Day ; 306
+    I ; Back Biters And Syndicators ; 168
+    I ; Doin' The Shout ; 210
+    I ; Never Get Out Of These Blues Alive ; 611
+    I ; I'm In The Mood ; 161
+    I ; Mr. Lucky ; 170
+    I ; I'm Bad Like Jesse James ; 331
+    I ; Shake It Baby ; 258
+    I ; Bluebird ; 323
+    I ; The Motor City Is Burning ; 168
+
+#==================================================
+ A ; The Book Of Secrets ; 1997 ; World/NewAge ; Loreena McKennitt
+    I ; Prologue ; 262
+    I ; The Mummers' Dance ; 367
+    I ; Skellig ; 367
+    I ; Marco Polo ; 315
+    I ; The Highwayman ; 619
+    I ; La Serenissima ; 309
+    I ; Night Ride Across The Caucasus ; 510
+    I ; Dante's Prayer ; 431
+
+#==================================================
+ A ; Let's dance ; 1999 ; Classique ; Angèle Dubeau ; La Pietà
+    I ; Jig ; 199 ; Holst
+    I ; Ostinato ; 110 ; Holst
+    I ; Intermezzo ; 233 ; Holst
+    I ; Finale (The Dargason) ; 200 ; Holst
+    I ; Jocul Cu Bata ; 89 ; Bartok
+    I ; Braul ; 34 ; Bartok
+    I ; Pe Loc ; 74 ; Bartok
+    I ; Buciumeana ; 108 ; Bartok
+    I ; Poarga Romaneasca ; 33 ; Bartok
+    I ; Czardas ; 329 ; Monti
+    I ; Let's Dance ; 142 ; David Bowie
+
+#==================================================
+ A ; The Visit ; 1991 ; World/NewAge ; Loreena McKennitt
+    I ; All Souls Night ; 308
+    I ; Bonny Portmore ; 261
+    I ; Between The Shadows ; 221
+    I ; The Lady Of Shalott ; 694
+    I ; Greensleeves ; 266
+    I ; Tango To Evora ; 250
+    I ; Courtyard Lullaby ; 296
+    I ; The Old Ways ; 345
+    I ; Cymbeline ; 303
+
+#==================================================
+ A ; Oriental Bass ; 1997 ; World/NewAge ; Renaud Garcia-Fons
+    I ; Oriental Bass ; 394
+    I ; San Juan ; 534
+    I ; Goodjinns ; 319
+    I ; Oryssa ; 434
+    I ; Ghazali ; 178
+    I ; Jullundur ; 232
+    I ; Hommage À Ostad ; 353
+    I ; Bajo Andaluz ; 221
+    I ; Jam Buleria ; 182
+    I ; Djani ; 463
+
+#==================================================
+ A ; Violin Concertos ; 1996 ; Classique ; Tchaikovsky ; Sibelius ; Vadim Repin ; The London Symphony Orchestra (Emmanuel Krivine)
+    I ; Violin Concerto Op.35, I. Allegro moderato ; 1093 ; Tchaikovsky
+    I ; Violin Concerto Op.35, II. Andante, Canzonetta ; 396 ; Tchaikovsky
+    I ; Violin Concerto Op.35, III. Finale, Allegro vivacissimo ; 597 ; Tchaikovsky
+    I ; Violin Concerto op.47, I. Allegro moderato ; 935 ; Sibelius
+    I ; Violin Concerto op.47, II. Adagio di molto ; 516 ; Sibelius
+    I ; Violin Concerto op.47, III. Allegro ; 429 ; Sibelius
+
+#==================================================
+ A ; The Best Of B.B. King ; 1987 ; Blues ; B.B. King
+    I ; Hummingbird ; 273
+    I ; Cook County Jail Introduction ; 37
+    I ; How Blue Can You Get ; 308
+    I ; Caldonia ; 198
+    I ; Sweet Sixteen ; 421
+    I ; Ain't Nobody Home ; 217
+    I ; Why I Sing The Blues ; 517
+    I ; The Thrill Is Gone ; 325
+    I ; Nobody Loves Me But My Mother ; 121
+
+#==================================================
+ A ; Passion, Grace And Fire ; 1982 ; Jazz ; John Mclaughlin ; Al Di Meloa ; Paco De Lucia
+    I ; Orient Blue ; 428
+    I ; Chiquito ; 286
+    I ; Sichia ; 230
+    I ; David ; 390
+    I ; Passion, Grace And Fire ; 326
+
+#==================================================
+ A ; Le Meilleur De Stéphane Grappelli ; 2001 ; Jazz ; Stéphane Grappelli
+    I ; Blue Moon ; 170
+    I ; Swing Guitars ; 129
+    I ; You Took Advantage Of Me ; 172
+    I ; I've Found A New Baby ; 153
+    I ; Oui, Pour Vous Revoir ; 150
+    I ; Tea For Two ; 180
+    I ; Night And Day ; 182
+    I ; Help Lovin' That Man ; 228
+    I ; Pennies From Heaven ; 125
+    I ; Have You Met Miss Jones ; 248
+    I ; How High The Moon ; 222
+    I ; Just One Of Those Things ; 150
+
+#==================================================
+ A ; Chants D'Épuration ; 2003 ; Francophone ; Plume Latraverse
+    I ; Le Lapin Reproducteur ; 277
+    I ; Angélatine ; 137
+    I ; Érosion Éolienne ; 111
+    I ; Le Kayak Rouge ; 209
+    I ; Écholalie ; 258
+    I ; Blouse D'Automne ; 173
+    I ; Le Vaste Monde ; 253
+    I ; Beau Filon! ; 174
+    I ; Turlupinades ; 178
+    I ; L'Intolérable Intolérant ; 180
+    I ; La Traversée Du Dessert ; 190
+    I ; Sans Nommer De Nom ; 360
+
+#==================================================
+ A ; Mi Media Naranja ; 1997 ; World/NewAge ; Labradford
+    I ; S ; 379
+    I ; G ; 240
+    I ; Wr ; 350
+    I ; C ; 385
+    I ; I ; 299
+    I ; V ; 385
+    I ; P ; 557
+
+#==================================================
+ A ; France, I Wish You Love ; 2001 ; Jazz ; Harry Connick Jr.
+    I ; Forever For Now ; 260
+    I ; I Wish You Love ; 274
+    I ; It Had To Be You ; 159
+    I ; Don't Get Around Much Anymore ; 261
+    I ; One Last Pitch ; 385
+    I ; Recipe For Love ; 154
+    I ; You Didn't Know Me When ; 190
+    I ; But Not For Me ; 271
+    I ; A Blessing And A Curse ; 183
+    I ; Heavenly ; 121
+
+#==================================================
+ A ; Lord Of The Dance ; 1996 ; World/NewAge ; Michael Flatley
+    I ; Cry Of The Celts ; 267
+    I ; Suila Ruin ; 198
+    I ; Celtic Dream ; 339
+    I ; Warriors ; 189
+    I ; Gypsy ; 131
+    I ; Breakout ; 228
+    I ; The Lord Of The Dance ; 286
+    I ; Spirit In The New World ; 91
+    I ; Fiery ; 190
+    I ; Lament ; 203
+    I ; Siamsa ; 269
+    I ; Our Wedding Day ; 205
+
+#==================================================
+ A ; Idjagiedas ; 2006 ; World/NewAge ; Mari Boine
+    I ; Vuoi Vuoi Mu ; 289
+    I ; Idjagiedas ; 342
+    I ; Suoivva ; 363
+    I ; Gos Bat Munno Cinat Leat? ; 379
+    I ; Mu Ustit Engeliid Sogalas ; 210
+    I ; Davvi Bavttiin ; 405
+    I ; Lottas ; 44
+    I ; Diamantta Spaillit ; 330
+    I ; Geasuha ; 261
+    I ; Afruvva ; 258
+    I ; Uldda Nieida ; 328
+    I ; Fapmodalkkas ; 279
+
+#==================================================
+ A ; Siroco ; 1987 ; Jazz ; Paco De Lucia
+    I ; La Canada ; 319
+    I ; Mi Nino Curro ; 213
+    I ; La Barrosa ; 279
+    I ; Cana De Azucar ; 261
+    I ; El Panuelo ; 330
+    I ; Callejon Del Muro ; 239
+    I ; Casilda ; 229
+    I ; Gloria Al Nino Ricardo ; 307
+
+#==================================================
+ A ; Parallel Dreams ; 1989 ; World/NewAge ; Loreena McKennitt
+    I ; Samain Night ; 267
+    I ; Moon Craddle ; 269
+    I ; Huron 'beltane' Fire Dance ; 260
+    I ; Annachie Gordon ; 502
+    I ; Standing Sones ; 416
+    I ; Dickens' Dublin (The Palace) ; 280
+    I ; Breaking The Silence ; 383
+    I ; Ancient Pines ; 215
+
+#==================================================
+ A ; Compilation Jazz ; 2007 ; Jazz
+    I ; Harlem Nocture ; 181 ; Sam Taylor
+    I ; Linus And Lucy ; 188 ; David Benoit
+    I ; Stormy Weather ; 142 ; George Benson
+    I ; Ain't No Sunshine ; 306 ; Sting
+    I ; Sinnerman ; 619 ; Nina Simone
+
+#==================================================
+ A ; Lie To Me ; 1996 ; Blues ; Jonny Lang
+    I ; Lie To Me ; 254
+    I ; Darker Side ; 310
+    I ; Good Morning Little School Girl ; 255
+    I ; Still Wonder ; 225
+    I ; Matchbox ; 210
+    I ; Back For A Taste Of Your Love ; 212
+    I ; A Quitter Never Wins ; 357
+    I ; Hit The Ground Running ; 211
+    I ; Rack' Em Up ; 248
+    I ; When I Come To You ; 299
+    I ; There's Gotta Be A Change ; 251
+    I ; Missing Your Love ; 234
+
+#==================================================
+ A ; Eurythmics Greatest Hits ; 1991 ; Rock/Pop ; Eurythmics
+    I ; Sweet Dreams ; 294
+    I ; Who's That Girl ; 227
+    I ; Right By Your Side ; 233
+    I ; Here Comes The Rain Again ; 301
+    I ; There Must Be An Angel ; 283
+    I ; Sisters Are Doin' It For Themselves ; 293
+    I ; Sex Crime ; 235
+    I ; Thorn In My Side ; 253
+    I ; Don't Ask Me Why ; 254
+    I ; Angel ; 289
+    I ; Would I Lie To You? ; 265
+    I ; Missionary Man ; 227
+
+#==================================================
+ A ; Les Fourmis ; 1998 ; Francophone ; Jean Leloup
+    I ; Les Fille À Canon ; 350
+    I ; Fourmis ; 381
+    I ; La Vie Est Laide ; 317
+    I ; Cookie ; 128
+    I ; Bertha ; 192
+    I ; Satyre ; 46
+    I ; Faire Des Enfants ; 491
+    I ; La Chambre ; 254
+    I ; Voyager ; 313
+    I ; Je Joue De La Guitare ; 452
+    I ; La Pluie ; 189
+
+#==================================================
+ A ; Time Capsule, Songs For A Future Generation ; 1998 ; Rock/Pop ; B-52
+    I ; Planet Claire ; 277
+    I ; Rock Lobster ; 294
+    I ; Party Out Of Bounds ; 202
+    I ; Strobelight ; 240
+    I ; Private Idaho ; 215
+    I ; Quiche Lorraine ; 238
+    I ; Mesopotamia ; 230
+    I ; Song For A Future Generation ; 239
+    I ; Summer Of Love ; 275
+    I ; Channel Z ; 291
+    I ; Deadbeat Club ; 294
+    I ; Love Shack ; 322
+
+#==================================================
+ A ; Elegance ; 2000 ; Jazz ; Romane ; Stochelo Rosenberg
+    I ; Opus De Clignancourt ; 257
+    I ; Just Enough For Jazz ; 306
+    I ; Soir De Troittoir ; 197
+    I ; After You've Gone ; 279
+    I ; La Promenade ; 252
+    I ; Dreams ; 197
+    I ; Pour Parler ; 276
+    I ; The Break Thru ; 251
+    I ; For Jim ; 285
+    I ; How High The Moon ; 258
+    I ; Pierre ; 299
+
+#==================================================
+ A ; Bernstein Century, Symphonies No.4 & No.5 ; 1997 ; Classique ; Beethoven ; The New York Philharmonic (Leonard Bernstein)
+    I ; Symphony No.4, I. Adagio, Allegro Vivace ; 638
+    I ; Symphony No.4, II. Adagio ; 595
+    I ; Symphony No.4, III. Menuetto, Allegro Vivace ; 335
+    I ; Symphony No.4, IV. Allegro, Ma Non Troppo ; 390
+    I ; Symphony No.5, I. Allegro Con Brio ; 515
+    I ; Symphony No.5, II. Andante Con Moto ; 606
+    I ; Symphony No.5, III. Allegro ; 298
+    I ; Symphony No.5, IV. Allegro ; 683
+    I ; Egmont Overture ; 535
+
+#==================================================
+ A ; Symphonies 8 & 9 ; 1992 ; Classique ; Schubert ; Leipzig Radio Symphony Orchestra
+    I ; Symphonie 8 (Inachevée), I. Allegro Moderato ; 673
+    I ; Symphonie 8 (Inachevée), II. Andante Con Moto ; 716
+    I ; Symphonie 9 (La Grande), I. Andante, Allegro Ma Non Troppo ; 787
+    I ; Symphonie 9 (La Grande), II. Andante Con Moto ; 875
+    I ; Symphonie 9 (La Grande), III. Scherzo, Allegro Vivace, Trio ; 594
+    I ; Symphonie 9 (La Grande), IV. Finale, Allegro Vivace ; 654
+
+#==================================================
+ A ; Violin Concertos ; 1995 ; Classique ; Bach ; Jeanne Lamon ; Tafelmusik
+    I ; Concerto for violin in A minor, I. Allegro ; 226
+    I ; Concerto for violin in A minor, II. Andante ; 370
+    I ; Concerto for violin in A minor, III. Allegro assai ; 224
+    I ; Concerto for two violins in D minor, I. Vivace ; 215
+    I ; Concerto for two violins in D minor, II. Largo ma non tanto ; 371
+    I ; Concerto for two violins in D minor, III. Allegro ; 257
+    I ; Concerto for violin in E major, I. Allegro ; 462
+    I ; Concerto for violin in E major, II. Adagio ; 396
+    I ; Concerto for violin in E major, III. Allegro assai ; 166
+    I ; Concerto for three violins in D major, I. Allegro ; 376
+    I ; Concerto for three violins in D major, II. Adagio ; 351
+    I ; Concerto for three violins in D major, III. Allegro ; 284
+
+#==================================================
+ A ; Conte De L'Incroyable Amour ; 1992 ; World/NewAge ; Anouar Brahem
+    I ; Étincelles ; 198
+    I ; Le Chien Sur Les Genoux De La Devineresse ; 222
+    I ; L'Oiseau De Bois ; 285
+    I ; Lumière Du Silence ; 310
+    I ; Conte De L'Incroyable Amour ; 648
+    I ; Peshrev Hidjaz Homayoun ; 300
+    I ; Diversion ; 333
+    I ; Nayzak ; 328
+    I ; Battements ; 112
+    I ; En Souvenir D'Iram ; 179
+    I ; Iram Retrouvée ; 224
+    I ; Épilogue ; 381
+
+#==================================================
+ A ; The Water Is Wide ; 2000 ; Jazz ; Charles Lloyd
+    I ; Georgia On My Mind ; 396
+    I ; The Water Is Wide ; 301
+    I ; Black Butterfly ; 275
+    I ; Ballad And Allegro ; 225
+    I ; Figure In Blue ; 312
+    I ; Lotus Blossom ; 337
+    I ; The Monk And The Mermaid ; 514
+    I ; Song Of Her ; 456
+    I ; Lady Day ; 448
+    I ; Heaven ; 254
+    I ; There Is A Balm In Gilead ; 312
+    I ; Prayer ; 260
+
+#==================================================
+ A ; Sings Salvadore Poe ; 2000 ; Jazz ; Lisa Ekdahl
+    I ; Daybreak ; 196
+    I ; Rivers Of Love ; 255
+    I ; Sunny Weather ; 213
+    I ; Only You ; 271
+    I ; Color Of You ; 221
+    I ; How Many More Times ; 211
+    I ; I Will Be Blessed ; 166
+    I ; Since You've Been Gone ; 212
+    I ; I've Never Seen Anything Like You ; 296
+    I ; I Don't Miss You Anymore ; 235
+    I ; Nightingale ; 132
+    I ; Rhythm Of Our Hearts ; 248
+
+#==================================================
+ A ; Elemental ; 1985 ; World/NewAge ; Loreena McKennitt
+    I ; Blacksmith ; 200
+    I ; She Moved Through The Fair ; 245
+    I ; Stolen Child ; 305
+    I ; The Lark In The Clear Air ; 126
+    I ; Carrighfergus ; 204
+    I ; Kellswater ; 319
+    I ; Banks Of Claudy ; 337
+    I ; Come By The Hills ; 185
+    I ; Lullaby ; 266
+
+#==================================================
+ A ; Tu M'Aimes-Tu ; 1990 ; Francophone ; Richard Desjardins
+    I ; Tu M'Aimes-Tu ; 275
+    I ; Le Bon Gars ; 166
+    I ; L'Homme-Canon ; 200
+    I ; Signe Distinctif ; 207
+    I ; Et J'Ai Couché Dans Mon Char ; 341
+    I ; Nataq ; 407
+    I ; Quand Ton Corps Touche ; 108
+    I ; Lucky Lucky ; 191
+    I ; Va-T'En Pas ; 241
+    I ; Quand J'Aime Une Fois J'Aime Pour Toujours ; 195
+
+#==================================================
+ A ; Ouvertures ; 1991 ; Classique ; Rossini ; The Chamber Orchestra Of Europe
+    I ; Il Barbiere Di Siviglia ; 433
+    I ; Semiramide ; 713
+    I ; L'Italiana In Algeri ; 465
+    I ; Guillaume Tell ; 657
+    I ; La Cenerentola ; 486
+    I ; La Scala Di Seta ; 353
+    I ; La Gazza Ladra ; 535
+
+#==================================================
+ A ; Piano Concertos 1 And 2 ; 1979 ; Classique ; Chopin ; Krystian Zimerman ; The Los Angeles Philharmonic Orchestra (Carlo Maria Giulini)
+    I ; Piano concerto no 1, I. Allegro maestoso ; 1195
+    I ; Piano concerto no 1, II. Romance, Larghetto ; 639
+    I ; Piano concerto no 1, III. Rondo, Vivace ; 580
+    I ; Piano concerto no 2, I. Maestoso ; 845
+    I ; Piano concerto no 2, II. Larghetto ; 547
+    I ; Piano concerto no 2, III. Allegro vivace ; 505
+
+#==================================================
+ A ; The Best Of David Bowie ; 1997 ; Rock/Pop ; David Bowie
+    I ; Space Oddity ; 315
+    I ; Starman ; 258
+    I ; Ziggy Stardust ; 196
+    I ; Rebel Rebel ; 270
+    I ; Suffragette City ; 207
+    I ; Changes ; 214
+    I ; All The Young Dudes ; 251
+    I ; Golden Years ; 209
+    I ; Fame ; 254
+    I ; Young Americans ; 195
+    I ; Let's Dance ; 420
+    I ; Heroes ; 213
+
+#==================================================
+ A ; Mixed Grill ; 1998 ; Francophone ; Plume Latraverse
+    I ; La Journée Du Chèque ; 195
+    I ; Le Corrido Du Non-Fumeur ; 267
+    I ; El Niño ; 234
+    I ; Mixed Grill ; 564
+    I ; Kankon ; 490
+    I ; Coeur En Grève ; 213
+    I ; Le Spring De Pepére Perron ; 98
+    I ; Dibidi ; 110
+    I ; La Femme De Mon Épicier ; 50
+    I ; Radio-Cristal ; 186
+    I ; Agression Culturelle ; 200
+    I ; La Chaise Berçante ; 141
+
+#==================================================
+ A ; Piano Concerto No.1 ; 1989 ; Classique ; Tchaikovsky ; Yevgeny Kissin ; The Berlin Philharmonic Orchestra (Herbert Von Karajan)
+    I ; Piano Concerto No.1, I. Allegro non troppo ; 1421 ; Tchaikovsky
+    I ; Piano Concerto No.1, II. Andantino semplice ; 513 ; Tchaikovsky
+    I ; Piano Concerto No.1, III. Allegro con fuoco ; 455 ; Tchaikovsky
+    I ; Four pieces, Fragilité ; 152 ; Scriabin
+    I ; Four pieces, Prélude ; 132 ; Scriabin
+    I ; Four pieces, Poème ailé ; 67 ; Scriabin
+    I ; Four pieces, Danse languide ; 84 ; Scriabin
+    I ; Etude Cis-moll Op.42 Nr.5, Affanato ; 214
+
+#==================================================
+ A ; Watermark ; 1989 ; World/NewAge ; Enya
+    I ; Watermark ; 144
+    I ; Cursum Perficio ; 246
+    I ; On Your Shore ; 239
+    I ; Storms In Africa, Part 1 ; 243
+    I ; Exile ; 260
+    I ; Miss Clare Remembers ; 119
+    I ; Orinoco Flow ; 265
+    I ; Evening Falls ; 226
+    I ; River ; 190
+    I ; Longships ; 216
+    I ; Na Laetha Gael M'oige ; 234
+    I ; Storms In Africa, Part 2 ; 184
+
+#==================================================
+ A ; Kanasuta ; 2002 ; Francophone ; Richard Desjardins
+    I ; Notre-Dame Des Scories ; 254
+    I ; Kanasuta ; 186
+    I ; Le Saumon ; 167
+    I ; Jenny ; 217
+    I ; Eh Oui, C'est La Vie ; 210
+    I ; Le Gala ; 121
+    I ; Fossumbrone ; 177
+    I ; Buck ; 180
+    I ; Un Trou Perdu ; 259
+    I ; Que Sont Devenu Mes Amis? ; 235
+    I ; Desaparecido ; 64
+    I ; Nous Aurons ; 164
+
+#==================================================
+ A ; The Goldberg Variations ; 1982 ; Classique ; Bach ; Glenn Gould
+    I ; Aria ; 185
+    I ; Variation 1 ; 70
+    I ; Variation 2 ; 49
+    I ; Variation 3 ; 91
+    I ; Variation 4 ; 50
+    I ; Variation 5 ; 37
+    I ; Variation 6 ; 40
+    I ; Variation 7 ; 76
+    I ; Variation 8 ; 54
+    I ; Variation 9 ; 59
+    I ; Variation 10 ; 64
+
+#==================================================
+ A ; Selenography ; 1999 ; World/NewAge ; Rachel's
+    I ; French Galleasse ; 373
+    I ; On Demeter ; 425
+    I ; The Last Light ; 206
+    I ; Kentucky Nocturne ; 347
+    I ; Honeysuckle Suite: Sugar Maple/Elm/Sweetgum ; 342
+    I ; Artemisia ; 193
+    I ; Old Road 60 ; 309
+    I ; An Evening Of Long Goodbyes ; 332
+    I ; Cuts The Metal Cold ; 149
+    I ; The Mysterious Desappearance Of Louis Leprince ; 266
+    I ; Forgiveness ; 399
+    I ; Hearts And Drums ; 240
+
+#==================================================
+ A ; Harmonium ; 1974 ; Francophone ; Harmonium
+    I ; Harmonium ; 397
+    I ; Si Doucement ; 266
+    I ; Aujourd'hui, Je Dis Bonjour À La Vie ; 345
+    I ; Vieilles Courroies ; 348
+    I ; Cent mille Raisons ; 223
+    I ; Attends-Moi ; 280
+    I ; Pour Un Instant ; 201
+    I ; De La Chambre Au Salon ; 343
+    I ; Un Musicien Parmi Tant D'Autres ; 426
+
+#==================================================
+ A ; Music For Egon Schiele ; 1996 ; World/NewAge ; Rachel's
+    I ; Family Portrait ; 342
+    I ; Egon & Gertie ; 182
+    I ; First Self-Portrait Series ; 228
+    I ; Mime Van Osen ; 185
+    I ; Second Self-Portrait Series ; 150
+    I ; Wally, Egon, & Models In The Studio ; 282
+    I ; Promenade ; 505
+    I ; Third Self-Portrait Series ; 144
+    I ; Trio Goes To A Movie ; 161
+    I ; Egon & Wally Embrace And Say Farewell ; 190
+    I ; Egon & Edith ; 175
+    I ; Second Family Portrait ; 286
+
+#==================================================
+ A ; Puccini Arias ; 1997 ; Classique ; Maria Callas
+    I ; Manon Lescaut - In Quelle Trine Morbide ; 176
+    I ; Manon Lescaut - Sola, Perduta, Abbandonata ; 353
+    I ; Madame Butterfly - Un Bel Di Vedremo ; 274
+    I ; Madame Butterfly - Con Onor Muore ; 224
+    I ; La Bohème - Si. Mi Chiamano Mimi ; 288
+    I ; La Bohème - Donde Lieta Usci ; 212
+    I ; Suor Angelica - Senza Mamma ; 335
+    I ; Gianni Schicchi - O Mio Babbino Caro ; 154
+    I ; Turandot - Signore, Ascolta ; 150
+    I ; Turandot - In Questa Reggia ; 384
+    I ; Turandot - Tu Che Di Gel Sei Ceinta ; 170
+
+#==================================================
+ A ; Zébulon ; 1994 ; Francophone ; Zébulon
+    I ; Adam Et Elle ; 185
+    I ; Vénézuéla ; 221
+    I ; Y'A Du Monde Qui S'Aime ; 198
+    I ; Le Gardien Du Secret ; 201
+    I ; Le Cocu ; 206
+    I ; Héléna ; 154
+    I ; Job Steady ; 249
+    I ; Merry Christmas ; 55
+    I ; Libido ; 205
+    I ; Les Veuves De Chasse ; 234
+    I ; Les Femmes Préfèrent Les Ginos ; 230
+    I ; Marie-Louise ; 240
+
+#==================================================
+ A ; Escapology ; 2002 ; Rock/Pop ; Robbie Williams
+    I ; How Peculiar ; 193
+    I ; Feel ; 262
+    I ; Something Beautiful ; 288
+    I ; Monsoon ; 226
+    I ; Sexed Up ; 259
+    I ; Love Somebody ; 250
+    I ; Revolution ; 344
+    I ; Handsome Man ; 234
+    I ; Come Undone ; 278
+    I ; Me And My Monkey ; 432
+    I ; Song 3 ; 228
+    I ; Hot Fudge ; 245
+
+#==================================================
+ A ; Nothing Like The Sun ; 1987 ; Rock/Pop ; Sting
+    I ; Lazarus Heart ; 274
+    I ; Be Still My Beating Heart ; 331
+    I ; Englishman In New York ; 265
+    I ; History Will Teach Us Nothing ; 297
+    I ; They Dance Alone ; 435
+    I ; Fragile ; 233
+    I ; We'll Be Together ; 291
+    I ; Straight To My Heart ; 233
+    I ; Rock Steady ; 265
+    I ; Sister Moon ; 225
+    I ; Little Wing ; 301
+    I ; The Secret Marriage ; 124
+
+#==================================================
+ A ; For The Masses, Tribute To Depeche Mode ; 1998 ; Rock/Pop ; Depeche Mode
+    I ; Never Let Me Down Again ; 241 ; The Smashing Pumpkins
+    I ; Enjoy The Silence ; 260 ; Failure
+    I ; World In My Eyes ; 292 ; The Cure
+    I ; Policy Of Truth ; 226 ; Dishwalla
+    I ; Shake The Disease ; 239 ; Hooverphonic
+    I ; Master And Servant ; 221 ; Locust
+    I ; Black Celebration ; 257 ; Monster Magnet
+    I ; Waiting For The Night ; 454 ; Rabbit In The Moon
+    I ; I Feel You ; 322 ; Apollo Four Forty
+    I ; Stripped ; 284 ; Rammstein
+
+#==================================================
+ A ; Si On Avait Besoin D'Une Cinquième Saison ; 1975 ; Francophone ; Harmonium
+    I ; Vert ; 335
+    I ; Dixie ; 207
+    I ; Depuis L'Automne ; 628
+    I ; En Pleine Face ; 291
+    I ; Histoires Sans Paroles ; 1033
+
+#==================================================
+ A ; When Harry Met Sally - Bande originale du film ; 1989 ; Jazz ; Harry Connick Jr.
+    I ; It Had To Be You (Big Band And Vocals) ; 161
+    I ; Love Is Here To Stay ; 253
+    I ; Stompin' At The Savoy ; 257
+    I ; But Not For Me ; 274
+    I ; Winter Wonderland ; 184
+    I ; Don't Get Around Much Anymore ; 264
+    I ; Autumn In New York ; 170
+    I ; I Could Write A Book ; 150
+    I ; Let's Call The Whole Thing Off ; 254
+    I ; It Had To Be You (Instrumental Trio) ; 104
+    I ; Where Or When ; 231
+
+#==================================================
+ A ; The Guitar Trio ; 1996 ; Jazz ; Paco De Lucia ; Al Di Meloa ; John Mclaughlin
+    I ; La Estiba ; 350
+    I ; Beyond The Mirage ; 370
+    I ; Midsummer Night ; 275
+    I ; Manha De Carnaval ; 371
+    I ; Letter From India ; 232
+    I ; Espiritu ; 330
+    I ; Le Monastre Dans Les Montagnes ; 373
+    I ; Azzura ; 476
+    I ; Cardeosa ; 396
+
+#==================================================
+ A ; Joe Cool's Blues ; 1995 ; Jazz ; Wynton Marsalis ; Ellis Marsalis
+    I ; Linus And Lucy ; 279
+    I ; Peppermint Patty ; 197
+    I ; On Peanuts Playground ; 291
+    I ; Oh, Good Grief! ; 298
+    I ; Wright Brothers Rag ; 283
+    I ; Charlie Brown ; 264
+    I ; Little Red-Haired Girl ; 284
+    I ; Snoopy & Woodstock ; 394
+    I ; Little Birdie ; 262
+    I ; Joe Cool's Blues ; 569
+
+#==================================================
+ A ; Man With A Movie Camera ; 2003 ; World/NewAge ; Cinematic Orchestra
+    I ; The Projectionist ; 7
+    I ; Melody ; 20
+    I ; Dawn ; 241
+    I ; The Awakening Of A Woman ; 620
+    I ; Real Life ; 418
+    I ; Postlude ; 106
+    I ; Evolution ; 348
+    I ; Work It! ; 486
+    I ; Voyage ; 23
+    I ; Odessa ; 126
+    I ; Theme De Yoyo ; 140
+    I ; The Magician ; 147
+
+#==================================================
+ A ; Emperor Waltz ; 1999 ; Classique ; André Rieu ; The Johann Strauss Orchestra
+    I ; Enjoy Your Life, Waltz Op. 340 ; 503
+    I ; Pleasure Train, Polka Op. 281 ; 177
+    I ; Emperor Waltz, Op. 437 ; 531
+    I ; Eljen A Magyar, Polka Op. 332 ; 170
+    I ; Wine, Women And Song, Waltz Op 333 ; 377
+    I ; Egyptian March, Op. 335 ; 248
+    I ; Tales From The Vienna Woods, Waltz Op. 325 ; 508
+    I ; Bitte Schön, French Polka Op. 372 ; 187
+    I ; Morning Papers, Waltz Op. 271 ; 621
+    I ; Carefree, Polka Op. 114 ; 116
+    I ; Love Songs, Waltz Op. 114 ; 535
+    I ; Light Hearted, Polka Op. 319 ; 164
+
+#==================================================
+ A ; The Police Greatest Hits ; 1992 ; Rock/Pop ; The Police
+    I ; Roxanne ; 192
+    I ; Message In A Bottle ; 290
+    I ; Walking On The Moon ; 302
+    I ; Don't Stand So Close To Me ; 242
+    I ; De Do Do Do, De Da Da Da ; 248
+    I ; Every Little Thing She Does Is Magic ; 260
+    I ; Invisible Sun ; 224
+    I ; Spirits In The Material World ; 179
+    I ; Synchronicity Ii ; 301
+    I ; Every Breath You Take ; 253
+
+#==================================================
+ A ; Les Musiques Du Monde ; 1994 ; World/NewAge ; Peter Gabriel
+    I ; Theme Geo ; 244
+    I ; Escale ; 18
+    I ; Ye Ye Ye ; 271 ; Geoffrey Oryema
+    I ; It Sat Duolmma Mu ; 238 ; Mari Boine
+    I ; Escale ; 19
+    I ; Nibiro Ghono Andare ; 250 ; The Mahabharata
+    I ; Beezhinden ; 163 ; Shu-De
+    I ; Soudan Minitara ; 252 ; Hassan Hakmoun ; Zahar
+    I ; Escale ; 30
+    I ; Bayati ; 264 ; Ashkhabad
+    I ; A Different Dream ; 282
+    I ; Theme Geo ; 163
+
+#==================================================
+ A ; The Intercontinentals ; 2003 ; World/NewAge ; Bill Frisell
+    I ; Boubacar ; 374
+    I ; Good Old People ; 326
+    I ; For Christos ; 377
+    I ; Baba Drame ; 321
+    I ; Listen ; 408
+    I ; Anywhere Road ; 112
+    I ; Procissao ; 410
+    I ; The Young Monk ; 144
+    I ; We Are Everywhere ; 429
+    I ; Yala ; 349
+    I ; Perritos ; 274
+    I ; Magic ; 355
+
+#==================================================
+ A ; Requiem ; 1962 ; Classique ; Mozart ; The Berlin Philharmonic Orchestra (Herbert Von Karajan)
+    I ; Requiem For Soloists, I. Introitus: Requiem aeternam ; 360
+    I ; Requiem For Soloists, II. Kyrie ; 171
+    I ; Requiem For Soloists, III. Sequenz, Dies irae ; 119
+    I ; Vesperae Solennes De Confessore, K339, Laude Dominum ; 317
+    I ; Exsultate, Jubilate, Allegro: Exsultate, jubilate ; 309
+    I ; Exsultate, Jubilate, Recitativo: Tandem advenit hora ; 57
+    I ; Exsultate, Jubilate, Tu Virginum Corona ; 377
+    I ; Exsultate, Jubilate, Allegro: Alleluja ; 157
+
+#==================================================
+ A ; The Best Of Frank Sinatra ; 1997 ; Jazz ; Frank Sinatra
+    I ; New York, New York ; 206
+    I ; I Get A Kick Out Of You ; 195
+    I ; Somethin' Stupid ; 159
+    I ; Moon River ; 200
+    I ; Love And Mariage ; 89
+    I ; They Can't Take That Away From Me ; 162
+    I ; My Kind Of Town ; 189
+    I ; Fly Me To The Moon ; 150
+    I ; It Was A Very Good Year ; 267
+    I ; The Girl From Ipanema ; 194
+    I ; Bad, Bad Leroy Brown ; 171
+    I ; Mack The Knife ; 293
+
+#==================================================
+ A ; Deux Cents Nuits À L'Heure ; 1978 ; Francophone ; Serge Fiori ; Richard Séguin
+    I ; Deux Cents Nuits À L'Heure ; 502
+    I ; Ça Fait Du Bien ; 511
+    I ; Illusion ; 450
+    I ; Viens Danser ; 364
+    I ; Chanson Pour Marthe ; 266
+    I ; La Moitié Du Monde ; 394
+    I ; La Guitare Des Pays D'En Haut ; 374
+
+#==================================================
+ A ; The Koln Concert ; 1975 ; Jazz ; Keith Jarrett
+    I ; Part I ; 1562
+    I ; Part II A ; 894
+    I ; Part II B ; 1094
+    I ; Part II C ; 417
+
+#==================================================
+ A ; Le Dôme ; 1996 ; Francophone ; Jean Leloup
+    I ; Faire Des Enfants ; 412
+    I ; Edgar ; 240
+    I ; Sara ; 226
+    I ; La Chambre ; 225
+    I ; Johnny Go ; 247
+    I ; I Lost My Baby ; 175
+    I ; Sang D'Encre ; 165
+    I ; Le Castel Impossible ; 337
+    I ; Le Monde Est À Pleurer ; 289
+    I ; Le Dôme ; 275
+
+#==================================================
+ A ; Celtic Tiger ; 2005 ; World/NewAge ; Michael Flatley
+    I ; St. Patrick (Angelus) ; 188
+    I ; The Vikings ; 271
+    I ; The Garden Of Eden ; 373
+    I ; The Redcoats ; 230
+    I ; The Famine ; 171
+    I ; The Banshee / A Nation Once Again ; 253
+    I ; Freedom ; 393
+    I ; A New World ; 402
+    I ; The Last Rose ; 229
+    I ; Celtic Kittens ; 241
+    I ; Capone ; 236
+    I ; The Celtic Tiger ; 223
+
+#==================================================
+ A ; Riverdance, Music From The Show ; 1995 ; World/NewAge ; Bill Whelan
+    I ; Reel Around The Sun ; 520
+    I ; The Heart's Cry ; 146
+    I ; The Countess Cathleen/Women Of The Sidhe ; 342
+    I ; Caoineadh Cu Chulainn (Lament) ; 249
+    I ; Shivna ; 218
+    I ; Firedance ; 362
+    I ; Slip Into Spring ; 224
+    I ; Riverdance ; 342
+    I ; American Wake (The Nova Scotia Set) ; 187
+    I ; Lift The Wings ; 298
+    I ; Macedonian Morning ; 176
+    I ; Marta's Dance/The Russian Dervish ; 363
+
+#==================================================
+ A ; Whisper Not ; 1999 ; Jazz ; Keith Jarrett ; Gary Peacock ; Jack Dejohnette
+    I ; Bouncing With Bud ; 453
+    I ; Whisper Not ; 486
+    I ; Groovin'high ; 511
+    I ; Chelsea Bridge ; 587
+    I ; Wrap Your Troubles In Dreams ; 348
+    I ; Round Midnight ; 405
+    I ; Sandu ; 446
+
+#==================================================
+ A ; Swing When You're Winning ; 2001 ; Jazz ; Robbie Williams
+    I ; I Will Talk And Hollywood Will Listen ; 197
+    I ; Mack The Knife ; 198
+    I ; Somethin' Stupid ; 170 ; Nicole Kidman
+    I ; Do Nothin' Till You Hear From Me ; 178
+    I ; It Was A Very Good Year ; 268 ; Frank Sinatra
+    I ; Straighten Up And Fly Right ; 156
+    I ; Well, Did You Evah ; 230 ; Jon Lovitz
+    I ; One For My Baby ; 257
+    I ; Ain't That A Kick In The Head ; 147
+    I ; They Can't Take That Away From Me ; 187 ; Rupert Everett
+    I ; Have You Met Miss Jones ? ; 154
+    I ; Beyond The Sea ; 264
+
+#==================================================
+ A ; Rain Dogs ; 1985 ; Rock/Pop ; Tom Waits
+    I ; Singapore ; 165
+    I ; Clap Hands ; 228
+    I ; Cemetery Polka ; 106
+    I ; Jockey Full Of Bourbon ; 167
+    I ; Tango Till They're Sore ; 171
+    I ; Big Black Mariah ; 163
+    I ; Diamonds And Gold ; 153
+    I ; Hang Down Your Head ; 154
+    I ; Time ; 236
+    I ; Rain Dogs ; 177
+    I ; Midtown ; 64
+    I ; Gun Street Girl ; 278
+
+#==================================================
+ A ; Second Life Syndrome ; 2005 ; Rock/Pop ; Riverside
+    I ; After ; 212
+    I ; Volte-Face ; 521
+    I ; Conceiving You ; 221
+    I ; Second Life Syndrome ; 940
+    I ; Artificial Smile ; 327
+    I ; I Turned You Down ; 275
+    I ; Reality Dream Iii ; 301
+    I ; Dance With The Shadow ; 699
+    I ; Before ; 324
+
+#==================================================
+ A ; Compilation 70-80 ; 2007 ; Rock/Pop
+    I ; Funkytown ; 239 ; Lipss Inc
+    I ; Ymca ; 286 ; Village People
+    I ; In The Navy ; 223 ; Village People
+    I ; Born To Be Alive ; 183 ; Patrick Hernandez
+    I ; Tainted Love ; 162 ; Soft Cell
+    I ; Purple Rain ; 520 ; Prince
+    I ; Let's Go Crazy ; 279 ; Prince
+    I ; Call Me ; 210 ; Blondie
+    I ; Our House ; 201 ; Madness
+    I ; Relax ; 236 ; Frankie Goes To Hollywood
+
+#==================================================
+ A ; The Friends Of Mr Cairo ; 1981 ; Rock/Pop ; Jon Anderson ; Vangelis
+    I ; I'll Find My Way Home ; 271
+    I ; State Of Independance ; 476
+    I ; Beside ; 252
+    I ; The Mayflower ; 398
+    I ; The Friends Of Mr Cairo ; 729
+    I ; Back To School ; 309
+    I ; Outside Of This (Inside Of That) ; 303
+
+#==================================================
+ A ; Leahy ; 1996 ; World/NewAge ; Leahy
+    I ; B Minor ; 235
+    I ; Cape Breton Medley ; 311
+    I ; Mcbrides ; 255
+    I ; The French ; 279
+    I ; The Call To Dance ; 244
+    I ; Alabama ; 220
+    I ; Don Messer Medly ; 185
+    I ; Czardas ; 244
+    I ; Colm Quigley ; 362
+    I ; The Coulin ; 284
+
+#==================================================
+ A ; Experience Hendrix ; 1997 ; Rock/Pop ; Jimi Hendrix
+    I ; Purple Haze ; 171
+    I ; Fire ; 163
+    I ; The Wind Cries Mary ; 200
+    I ; Hey Joe ; 209
+    I ; All Along The Watchtower ; 238
+    I ; Little Wing ; 145
+    I ; Foxey Lady ; 198
+    I ; Castles Made Of Sand ; 167
+    I ; Red House ; 230
+    I ; Voodoo Child (Slight Return) ; 312
+    I ; Freedom ; 205
+    I ; Angel ; 262
+
+#==================================================
+ A ; Meddle ; 1971 ; Rock/Pop ; Pink Floyd
+    I ; One Of These Days ; 357
+    I ; A Pillow Of Winds ; 307
+    I ; Fearless ; 365
+    I ; San Tropez ; 220
+    I ; Seamus ; 133
+    I ; Echoes ; 1411
+
+#==================================================
+ A ; Quatre Saisons Dans Le Désordre ; 1996 ; Francophone ; Daniel Bélanger
+    I ; Quatre Saisons Dans Le Désordre ; 282
+    I ; Sortez-Moi De Moi ; 322
+    I ; Les Deux Printemps ; 188
+    I ; Monsieur Verbêtre ; 223
+    I ; Respirer Dans L'Eau ; 254
+    I ; Cruel ; 225
+    I ; La Voie Lactée ; 163
+    I ; Les Temps Fous ; 268
+    I ; Imparfait ; 231
+    I ; Le Parapluie ; 334
+    I ; Je Fais De Moi Un Homme ; 260
+    I ; Projection Dans Le Bleu ; 223
+
+#==================================================
+ A ; Feast Of Wire ; 2003 ; Rock/Pop ; Calexico
+    I ; Sunken Waltz ; 148
+    I ; Quattro ; 278
+    I ; Stucco ; 20
+    I ; Black Heart ; 289
+    I ; Pepita ; 157
+    I ; Not Even Stevie Nicks ... ; 164
+    I ; Close Behind ; 172
+    I ; Woven Birds ; 227
+    I ; The Book And The Canal ; 105
+    I ; Attack El Robot! Attack! ; 197
+    I ; Across The Wire ; 206
+    I ; Dub Latina ; 139
+
+#==================================================
+ A ; The Pachelbel Canon, Great Baroque Music ; 1980 ; Classique ; The Canadian Brass
+    I ; Toccata and fugue in D minor ; 497 ; Bach
+    I ; Canon ; 273 ; Pachelbel
+    I ; Toccata ; 264 ; Frescobaldi
+    I ; Sheep may safely graze ; 342 ; Bach
+    I ; Gigue fugue in G minor ; 191 ; Bach
+    I ; Suite from "Water music", Minuet ; 89 ; Handel
+    I ; Suite from "Water music", Air ; 153 ; Handel
+    I ; Suite from "Water music", Hornpipe ; 56 ; Handel
+    I ; Suite from "Water music", Allegro maestoso ; 204 ; Handel
+    I ; Little fugue in G ; 200 ; Bach
+    I ; Wachet auf ; 244 ; Bach
+    I ; Passacaglia and fugue in C minor ; 679 ; Bach
+
+#==================================================
+ A ; Explorations ; 1961 ; Jazz ; Bill Evans Trio
+    I ; Isreal ; 372
+    I ; Haunted Heart ; 207
+    I ; Beautiful Love (Take 2) ; 306
+    I ; Beautiful Love (Take 1) ; 368
+    I ; Elsa ; 310
+    I ; Nardis ; 352
+    I ; How Deep Is The Ocean? ; 213
+    I ; I Whish I Knew ; 281
+    I ; Sweet And Lovely ; 355
+    I ; The Boy Next Door ; 306
+
+#==================================================
+ A ; Sinti ; 1996 ; Jazz ; Sinti
+    I ; Going To The Usa ; 116
+    I ; Que Pasa ? ; 211
+    I ; Dark Eyes ; 152
+    I ; The Flintstones ; 148
+    I ; Hi, Pat ; 123
+    I ; Isn't She Lovely ; 160
+    I ; For Wesley ; 147
+    I ; Blues For Ike ; 212
+    I ; Patchiena ; 155
+    I ; My Emotion ; 152
+    I ; Chez Moi ; 110
+    I ; On My Mind ; 202
+
+#==================================================
+ A ; Chansons Pour Toute Sortes De Monde ; 1989 ; Francophone ; Plume Latraverse
+    I ; In Vitro ; 124
+    I ; Le Retour D'Hector ; 208
+    I ; Divinette ; 140
+    I ; Jardin Du Rêve ; 171
+    I ; Le Ramoneur ; 130
+    I ; Chatte De Daure ; 123
+    I ; La Tarentelle Della Tarentule ; 108
+    I ; Dans La Piaule De Louis ; 246
+    I ; Pollusonge ; 138
+    I ; La Chute Du Prince ; 226
+    I ; J'ai Vendu Ma Chèvre ; 191
+    I ; Tant Qu'On Pourra... ; 209
+
+#==================================================
+ A ; Wilderness ; 2009 ; World/NewAge ; L'Attirail
+    I ; Long Rider Way ; 240
+    I ; Split Downtown ; 182
+    I ; Vaquero Wage ; 247
+    I ; Longhorn Palace ; 258
+    I ; Ripampanos ; 205
+    I ; Walden Pand ; 208
+    I ; Stubborn Snake ; 211
+    I ; Boot Hill Bones ; 258
+    I ; Mangus Colorado ; 220
+    I ; Tarentula On the Big Toe ; 239
+    I ; L'élixir du Dr Dry ; 137
+    I ; Tubacity ; 179
+
+#==================================================
+ A ; Blue Valentine ; 1978 ; Rock/Pop ; Tom Waits
+    I ; Somewhere (From West Side Story) ; 232
+    I ; Red Shoes By The Drugstore ; 194
+    I ; Christmas Card From A Hooker In Minneapolis ; 273
+    I ; Romeo Is Bleeding ; 292
+    I ; Wrong Side Of The Road ; 314
+    I ; Whistlin' Past The Graveyard ; 197
+    I ; Kentucky Avenue ; 289
+    I ; A Sweet Little Bullet From A Pretty Blue Gun ; 336
+    I ; Blue Valentines ; 350
+
+#==================================================
+ A ; Jazz At The Philharmonic Concert ; 1946 ; Jazz ; Charlie Parker
+    I ; Sweet Georgia Brown ; 572
+    I ; Blues For Norman ; 517
+    I ; I Can't Get Started ; 555
+    I ; Oh, Lady Be Good ; 665
+    I ; After You've Gone ; 453
+    I ; I Got Rhythm ; 774
+    I ; Introduction By Norman Granz ; 136
+    I ; Jatp Blues ; 656
+
+#==================================================
+ A ; Passion - Music For The Last Temptation Of Christ ; 1989 ; World/NewAge ; Peter Gabriel
+    I ; The Feeling Begins ; 240
+    I ; Gethsemane ; 83
+    I ; Of These, Hope ; 245
+    I ; Of These, Hope - Reprise ; 66
+    I ; In Doubt ; 127
+    I ; A Different Drum ; 365
+    I ; Zaar ; 284
+    I ; Troubled ; 166
+    I ; Open ; 198
+    I ; Before Night Falls ; 136
+    I ; With This Love ; 216
+    I ; Sandstorm ; 175
+
+#==================================================
+ A ; Shepherd Moons ; 1991 ; World/NewAge ; Enya
+    I ; Shepherd Moons ; 225
+    I ; Caribbean Blue ; 239
+    I ; How Can I Keep From Singing? ; 266
+    I ; Ebudoe ; 116
+    I ; Angeles ; 241
+    I ; No Holly For Miss Quinn ; 164
+    I ; Book Of Days ; 176
+    I ; Evacuee ; 231
+    I ; Lothlorien ; 128
+    I ; Marble Halls ; 235
+    I ; Afer Ventus ; 247
+    I ; Smaointe ; 368
+
+#==================================================
+ A ; Wish You Were Here ; 1975 ; Rock/Pop ; Pink Floyd
+    I ; Shine On You Crazy Diamond (Parts I, II, III, IV, V) ; 820
+    I ; Welcome To The Machine ; 451
+    I ; Have A Cigar ; 308
+    I ; Wish You Were Here ; 334
+    I ; Shine On You Crazy Diamond (Parts VI, VII, VIII, IX) ; 751
+
+#==================================================
+ A ; Looks At The Bird ; 2002 ; World/NewAge ; Brokeback
+    I ; From The Black Current ; 224
+    I ; Lupe ; 301
+    I ; Name's Winston, Friends Call Me James ; 290
+    I ; Everywhere Down Here ; 269
+    I ; In The Reeds ; 323
+    I ; The Suspension Bridge At Iguazu Falls ; 194
+    I ; The Wind-Up Bird ; 287
+    I ; Pearl's Dream ; 208
+
+#==================================================
+ A ; The Black Rider ; 1993 ; Rock/Pop ; Tom Waits
+    I ; Lucky Day Overture ; 147
+    I ; The Black Rider ; 201
+    I ; November ; 173
+    I ; Just The Right Bullets ; 215
+    I ; Black Box Theme ; 162
+    I ; T'ain't No Sin ; 145
+    I ; Flash Pan Hunter - Intro ; 70
+    I ; That's The Way ; 67
+    I ; The Briar And The Rose ; 230
+    I ; Russian Dance ; 192
+    I ; Gospel Train - Orchestra ; 153
+    I ; I'll Shoot The Moon ; 230
+
+#==================================================
+ A ; Ragtime Boogie-Woogie Jazz Classics ; 1993 ; Jazz ; Claude Bolling
+    I ; Mississippi Rag ; 165
+    I ; Death Ray Boogie ; 167
+    I ; On The Mississippi ; 139
+    I ; Louisiana Glide ; 156
+    I ; Maple Leaf Rag ; 177
+    I ; Tiger Rag ; 140
+    I ; Man That Got Away ; 267
+    I ; Yesterdays ; 228
+    I ; Begin The Beguine ; 243
+    I ; Tea For Two ; 390
+    I ; Dardanella ; 211
+    I ; Perfect Rag ; 171
+
+#==================================================
+ A ; Awesome Mix, Volume 2 ; 2011 ; Rock/Pop
+    I ; Nine hundred Miles ; 278 ; Gemma Ray
+    I ; Mushaboom ; 225 ; Feist
+    I ; Us ; 292 ; Regina Spektor
+    I ; She's Got You High ; 205 ; Mumm-Ra
+    I ; Vagabond ; 230 ; Wolfmother
+    I ; Bring Me To Life ; 240 ; Evanescence
+    I ; My Immortal ; 266 ; Evanescence
+    I ; Uprising ; 305 ; Muse
+    I ; How Soon Is Now? ; 407 ; The Smiths
+    I ; Blister In the Sun ; 145 ; Violent Femmes
+    I ; You Make My Dreams ; 191 ; Hall & Oates
+    I ; I Can See Clearly Now ; 162 ; Johnny Nash
+
+#==================================================
+ A ; Bernstein Century, Symphonies No.6 Pastorale & No.8 ; 1998 ; Classique ; Beethoven ; The New York Philharmonic (Leonard Bernstein)
+    I ; Symphony No. 6, I. Awakening Of Cheerful Feelings Upon Arrival In The Country ; 665
+    I ; Symphony No. 6, II. Scene By The Brook ; 822
+    I ; Symphony No. 6, III. Merry Gathering Of Country Folk ; 327
+    I ; Symphony No. 6, IV. Thunderstorm ; 223
+    I ; Symphony No. 6, V. Shepherd's Song ; 613
+    I ; Symphony No. 8, I. Allegro Vivace E Con Brio ; 574
+    I ; Symphony No. 8, II. Allegretto Scherzando ; 227
+    I ; Symphony No. 8, III. Tempo Di Menuetto ; 279
+    I ; Symphony No. 8, IV. Allegro Vivace ; 459
+    I ; King Stephen Overture, Op. 117 ; 387
+
+#==================================================
+ A ; Beyond The Missouri Sky ; 1997 ; Jazz ; Charlie Haden ; Pat Metheny
+    I ; Waltz For Ruth ; 267
+    I ; Our Spanish Love Song ; 340
+    I ; Message To A Friend ; 371
+    I ; Two For The Road ; 315
+    I ; First Song ; 398
+    I ; Moon Is A Harsh Mistress ; 243
+    I ; Precious Jewel ; 225
+    I ; He's Gone Away ; 258
+    I ; Moon Song ; 416
+    I ; Tears Of Rain ; 330
+    I ; Spiritual ; 498
+
+#==================================================
+ A ; Ocean Songs ; 1998 ; World/NewAge ; Dirty Three
+    I ; Sirena ; 246
+    I ; The Restless Waves ; 309
+    I ; Distant Shore ; 350
+    I ; Authentic Celestial Music ; 604
+    I ; Backwards Voyager ; 274
+    I ; Last Horse On The Sand ; 292
+    I ; Sea Above, Sky Below ; 364
+    I ; Black Tide ; 275
+    I ; Deep Waters ; 987
+    I ; Ends Of The Earth ; 311
+
+#==================================================
+ A ; The Glory Of Gershwin ; 1994 ; Jazz ; Gershwin
+    I ; Summertime ; 229 ; Peter Gabriel
+    I ; Nice Work If You Can Get It ; 182 ; Sting
+    I ; They Can't Take That Away From Me ; 196 ; Lisa Stansfield
+    I ; But Not For Me ; 300 ; Elvis Costello
+    I ; It Ain't Necessarily So ; 242 ; Cher
+    I ; The Man I Love ; 207 ; Kate Bush
+    I ; How Long Has This Been Going On ; 300 ; Jon Bon Jovi
+    I ; I Got Rhythm ; 233 ; Robert Palmer
+    I ; Somebody Loves Me ; 252 ; Meat Loaf
+    I ; Summertime ; 269 ; Courtney Pine
+    I ; Rhapsody In Blue ; 508 ; Larry Adler ; George Martin
+
+#==================================================
+ A ; Abitibi - Live ; 1995 ; Francophone ; Richard Desjardins
+    I ; Kooloo Kooloo ; 204
+    I ; Déboutonne Ton Blues ; 321
+    I ; La Réalité Virtuelle ; 161
+    I ; Miami ; 355
+    I ; L'Embaumeur Forestier ; 408
+    I ; Présentation Des Bonriens ; 65
+    I ; Les Bonriens ; 252
+    I ; Au Pays Des Calottes ; 329
+    I ; T'Attends ; 226
+    I ; M'As Mettre Un Homme Là-D'ssus ; 226
+    I ; Présentation Des Yankees ; 43
+    I ; Les Yankees ; 490
+
+#==================================================
+ A ; Awesome Mix, Volume 1 ; 2007 ; Rock/Pop
+    I ; Chaiyya Chaiyya ; 414 ; Sukhwinder Singh ; Sapana Awasthi
+    I ; Butterflies And Hurricanes ; 303 ; Muse
+    I ; Best Of You ; 275 ; Foo Fighters
+    I ; Send Your Love ; 280 ; Sting
+    I ; All Around The World ; 275 ; Barry White ; Lisa Stansfield
+    I ; Here With Me ; 257 ; Dido
+    I ; Closer To Fine ; 244 ; Indigo Girls
+    I ; Hallelujah ; 415 ; Jeff Buckley
+    I ; Always Look On The Bright Side Of Life ; 215 ; Monty Python
+
+#==================================================
+ A ; Jazz Samba ; 1994 ; Jazz ; Stan Getz
+    I ; Desafinado Instrumental ; 352
+    I ; Samba De Uma Nota So ; 371
+    I ; Manha De Carnaval ; 348
+    I ; The Girl From Ipanema ; 323
+    I ; Corcovado ; 258
+    I ; O Grande Amor ; 327
+    I ; Desafinado ; 253
+    I ; Chega De Saudade ; 256
+    I ; Insensatez ; 202
+    I ; Outra Vez ; 402
+    I ; Bim Bom ; 272
+    I ; Sambalero ; 130
+
+#==================================================
+ A ; Animals ; 1977 ; Rock/Pop ; Pink Floyd
+    I ; Pigs On The Wing, Part One ; 85
+    I ; Dogs ; 1024
+    I ; Pigs ; 690
+    I ; Sheep ; 618
+    I ; Pigs On The Wing, Part Two ; 88
+
+#==================================================
+ A ; The Four Seasons ; 1997 ; Classique ; Vivaldi ; Freiburger Barock Orchester ; The Harp Consort
+    I ; Spring, I. Allegro ; 206
+    I ; Spring, II. Largo ; 133
+    I ; Spring, III. Allegro ; 222
+    I ; Summer, I. Allegro non molto, Allegro ; 382
+    I ; Summer, II. Adagio, Presto, Adagio ; 178
+    I ; Summer, III. Presto ; 166
+    I ; Autumn, I. Allegro ; 318
+    I ; Autumn, II. Adagio molto ; 257
+    I ; Autumn, III. Allegro ; 201
+    I ; Winter, I. Allegro non molto ; 206
+    I ; Winter, II. Largo ; 112
+    I ; Winter, III. Allegro ; 183
+
+#==================================================
+ A ; Out Of Myself ; 2003 ; Rock/Pop ; Riverside
+    I ; The Same River ; 722
+    I ; Out Of Myself ; 224
+    I ; I Believe ; 255
+    I ; Reality Dream ; 375
+    I ; Loose Heart ; 291
+    I ; Reality Dream Ii ; 286
+    I ; In Two Minds ; 278
+    I ; The Curtain Falls ; 480
+    I ; Ok ; 286
+
+#==================================================
+ A ; An Evening Of Acoustic Music ; 1993 ; Blues ; Taj Mahal
+    I ; Stagger Lee ; 230
+    I ; Dust My Broom ; 308
+    I ; Take This Hammer ; 238
+    I ; Blues With A Feeling ; 305
+    I ; Crossing ; 299
+    I ; Come On In My Kitchen ; 384
+    I ; Candy Man ; 259
+    I ; Satisfied 'n' Tickled Too ; 418
+    I ; Sittin' On Top Of The World ; 262
+    I ; Cake Walk Into Town ; 153
+    I ; Big Kneed Gal ; 347
+
+#==================================================
+ A ; Dark Side Of The Moon ; 1973 ; Rock/Pop ; Pink Floyd
+    I ; Speak To Me / Breathe In The Air ; 237
+    I ; On The Run ; 211
+    I ; Time ; 425
+    I ; The Great Gig In The Sky ; 287
+    I ; Money ; 383
+    I ; Us And Them ; 468
+    I ; Any Color You Like ; 205
+    I ; Brain Damage ; 230
+    I ; Eclipse ; 126
+
+#==================================================
+ A ; L'Oeil Du Zig ; 1996 ; Francophone ; Zébulon
+    I ; Sofa ; 201
+    I ; Y'A Pas D'Mérite ; 217
+    I ; R'viens Pas Trop Tard ; 209
+    I ; J'T'Aime Encore ; 226
+    I ; Le Pédophile Cybernétique ; 230
+    I ; Apocalypse ; 188
+    I ; Y Fait Chaud ; 269
+    I ; L'Oeil Du Zig ; 166
+    I ; Pas Capable ; 122
+    I ; Casino ; 233
+    I ; Adrénaline ; 198
+    I ; Banque ; 202
+
+#==================================================
+ A ; The Bells Of 1 2 ; 2006 ; Alternatif ; Sol Seppy
+    I ; The Bells Of 1 2 ; 238
+    I ; Human ; 268
+    I ; Come Running ; 207
+    I ; Move ; 205
+    I ; Gold ; 142
+    I ; Injoy ; 270
+    I ; Slo Fuzz ; 385
+    I ; Loves Boy ; 226
+    I ; Farewell Your Heart ; 171
+    I ; Answer To The Name Of ; 234
+    I ; Wonderland ; 213
+    I ; Enter One ; 375
+
+#==================================================
+ A ; King Of The Delta Blues ; 1997 ; Blues ; Robert Johnson
+    I ; Cross Road Blues ; 147
+    I ; Travelling Riverside Blues ; 164
+    I ; Walkin' Blues ; 148
+    I ; I Believe I'll Dust My Broom ; 177
+    I ; Hell Hound On My Trail ; 155
+    I ; Kind Hearted Woman Blues ; 169
+    I ; Ramblin' On My Mind ; 170
+    I ; Stop Breakin' Down Blues ; 136
+    I ; Come On In My Kitchen ; 169
+    I ; From Four Until Late ; 143
+    I ; Sweet Home Chicago ; 177
+
+#==================================================
+ A ; Wish You Were Here ; 1974 ; Rock/Pop ; Badfinger
+    I ; Just a Chance ; 178
+    I ; You're So Fine ; 183
+    I ; Got to Get Out of Here ; 211
+    I ; Know One Knows ; 197
+    I ; Dennis ; 315
+    I ; In the Meantime/Some Other Time ; 406
+    I ; Love Time ; 140
+    I ; King of the Load (T) ; 212
+    I ; Meanwhile Back at the Ranch/Should I Smoke ; 318
+
+#==================================================
+ A ; The Best Of Depeche Mode ; 1998 ; Rock/Pop ; Depeche Mode
+    I ; Stripped ; 231
+    I ; A Question Of Time ; 240
+    I ; Strangelove ; 227
+    I ; Never Let Me Down Again ; 262
+    I ; Personal Jesus ; 226
+    I ; Enjoy The Silence ; 256
+    I ; Policy Of Truth ; 314
+    I ; World In My Eyes ; 237
+    I ; I Feel You ; 275
+    I ; Walking In My Shoes ; 302
+    I ; Everything Counts Live ; 398
+
+#==================================================
+ A ; All This Time ; 2001 ; Rock/Pop ; Sting
+    I ; Fragile ; 275
+    I ; A Thousand Years ; 181
+    I ; All This Time ; 319
+    I ; Don't Stand So Close To Me ; 137
+    I ; When We Dance ; 291
+    I ; Dienda ; 201
+    I ; Roxanne ; 217
+    I ; If You Love Somebody Set Them Free ; 295
+    I ; Brand New Day ; 286
+    I ; Fields Of Gold ; 230
+    I ; Every Breath You Take ; 304
+
+#==================================================
+ A ; Back To Earth ; 1999 ; Jazz ; Lisa Ekdahl
+    I ; Stranger On Earth ; 221
+    I ; It Had To Be You ; 189
+    I ; Down With Love ; 97
+    I ; What Is This Thing Called Love? ; 304
+    I ; Tea For Two ; 329
+    I ; Lonely One ; 200
+    I ; I Get A Kick Out Of You ; 200
+    I ; Just For A Thrill ; 205
+    I ; Night And Day ; 272
+    I ; Plaintive Rumba ; 382
+    I ; If I Were A Bell ; 188
+    I ; Vem Vet ; 185
+
+#==================================================
+ A ; Tal Consort Live ; 2003 ; Classique ; Tal Consort
+    I ; Le Nozze Di Figaro (Ouverture) ; 251 ; Mozart
+    I ; Canon ; 278 ; Pachelbel
+    I ; La Cenerentola (Ouverture) ; 380 ; Rossini
+    I ; Ave Maria ; 254 ; Schubert
+    I ; Die Fledermaus ; 428 ; Strauss
+    I ; Largo ; 154 ; Bach
+    I ; La Gazza Larda (Ouverture) ; 417 ; Rossini
+    I ; Xerse - Ombra Mai Fu ; 287 ; Handel
+    I ; Il Barbiere Di Siviglia - Cavatina ; 285 ; Rossini
+    I ; Nabucco (Ouverture) ; 272 ; Verdi
+    I ; Wilhelm Tell (Ouverture) ; 355 ; Rossini
+    I ; Czardas ; 311 ; Monti
+
+#==================================================
+ A ; Piano Concertos 3, 5, 6 & 7 ; 2001 ; Classique ; Bach ; Murray Perahia ; The Academy Of St-Martin In The Fields
+    I ; Concerto no 3 en Re Majeur, I. Allegro ; 435
+    I ; Concerto no 3 en Re Majeur, II. Adagio e piano sempre ; 348
+    I ; Concerto no 3 en Re Majeur, III. Allegro ; 159
+    I ; Concerto no 5 en Fa Mineur, I. Allegro ; 204
+    I ; Concerto no 5 en Fa Mineur, II. Largo ; 175
+    I ; Concerto no 5 en Fa Mineur, III. Presto ; 178
+    I ; Concerto no 6 en Fa Majeur, I. Allegro ; 428
+    I ; Concerto no 6 en Fa Majeur, II. Andante ; 236
+    I ; Concerto no 6 en Fa Majeur, III. Allegro assai ; 275
+    I ; Concerto no 7 en Sol Mineur, I. Allegro ; 222
+    I ; Concerto no 7 en Sol Mineur, II. Andante ; 359
+    I ; Concerto no 7 en Sol Mineur, III. Allegro assai ; 218
+
+#==================================================
+ A ; Wander This World ; 1998 ; Blues ; Jonny Lang
+    I ; Still Raining ; 289
+    I ; Second Guessing ; 310
+    I ; I Am ; 304
+    I ; Breakin' Me ; 272
+    I ; Wander This World ; 289
+    I ; Walking Away ; 254
+    I ; The Levee ; 221
+    I ; Angel Of Mercy ; 270
+    I ; Right Back ; 239
+    I ; Leaving To Stay ; 275
+    I ; Before You Hit The Ground ; 235
+    I ; Cherry Red Wine ; 211
+
+#==================================================
+ A ; When Did You Leave Heaven ; 1997 ; Jazz ; Lisa Ekdahl
+    I ; When Did You Leave Heaven ; 362
+    I ; But Not For Me ; 204
+    I ; Cry Me A River ; 306
+    I ; Love For Sale ; 259
+    I ; Lush Life ; 198
+    I ; You're Gonna See A Lot Of Me ; 149
+    I ; Just One Of Those Things ; 170
+    I ; The Boy Next Door ; 235
+    I ; I'm A Fool To Want You ; 180
+    I ; My Heart Belongs To Daddy ; 175
+    I ; Blame It On My Mouth ; 317
+
+#==================================================
+ A ; Day By Day ; 2002 ; Jazz ; Bet.e & Stef
+    I ; All Is Well ; 190
+    I ; Day By Day ; 239
+    I ; Regra Tres ; 266
+    I ; Vagabond ; 211
+    I ; I'm There ; 273
+    I ; Eu Vim Da Bahia ; 238
+    I ; Il N'aurait Fallu ; 201
+    I ; Zana ; 237
+    I ; So Tinha De Ser Com Voce ; 183
+    I ; It's Over ; 248
+    I ; Listen To The Night ; 226
+    I ; Wish You Well ; 298
+
+#==================================================
+ A ; Heaven ; 1997 ; Jazz ; Jai
+    I ; I Believe ; 291
+    I ; I Need Love ; 248
+    I ; Let Me In ; 224
+    I ; Cry Me A River ; 223
+    I ; Wishing The Rain Away ; 288
+    I ; Don't Give Me Away ; 280
+    I ; Heaven ; 239
+    I ; You Split Me ; 175
+    I ; Magnolia ; 227
+    I ; Something On Your Mind ; 217
+    I ; Open ; 279
+    I ; I Believe ; 231
+
+#==================================================
+ A ; Deuces Wild ; 1997 ; Blues ; B.B. King
+    I ; The Thrill Is Gone ; 300 ; Tracy Chapman
+    I ; Rock Me Baby ; 398 ; Eric Clapton
+    I ; Ain't Nobody Home ; 318 ; D'angelo
+    I ; There Must Be A Better World Somewhere ; 291 ; Dr. John
+    I ; Paying The Cost To Be The Boss ; 215 ; The Rolling Stones
+    I ; Dangerous Mood ; 296 ; Joe Cocker
+    I ; Keep It Coming ; 237 ; Heavy D
+    I ; Cryin' Won't Help You Babe ; 252 ; David Gilmour ; Paul Carrack
+    I ; Night Life ; 270 ; Willie Nelson
+
+#==================================================
+ A ; More Best Of Leonard Cohen ; 1997 ; Rock/Pop ; Leonard Cohen
+    I ; Everybody Knows ; 332
+    I ; I'm Your Man ; 264
+    I ; Take This Waltz ; 358
+    I ; Tower Of Song ; 337
+    I ; Anthem ; 366
+    I ; Democracy ; 432
+    I ; The Future ; 400
+    I ; Closing Time ; 358
+    I ; Dance Me To The End Of Love ; 372
+    I ; Suzanne ; 259
+    I ; Hallelujah ; 415
+    I ; Never Any Good ; 304
+
+#==================================================
+ A ; Songs From The Last Century ; 1999 ; Jazz ; George Michael
+    I ; Brother, Can You Spare A Dime ; 262
+    I ; Roxanne ; 251
+    I ; You've Changed ; 265
+    I ; My Baby Just Cares For Me ; 105
+    I ; The First Time I Ever Saw Your Face ; 319
+    I ; Miss Sarajevo ; 311
+    I ; I Remember You ; 252
+    I ; Secret Love ; 159
+    I ; Wild Is The Wind ; 242
+    I ; Where Or When / It's Alright With Me Instrumental ; 370
+
+#==================================================
+ A ; The Trials Of Van Occupanther ; 2006 ; Rock/Pop ; Midlake
+    I ; Roscoe ; 289
+    I ; Bandits ; 244
+    I ; Head Home ; 346
+    I ; Van Occupanther ; 196
+    I ; Young Bride ; 297
+    I ; Branches ; 303
+    I ; In This Camp ; 344
+    I ; We Gathered In Spring ; 213
+    I ; It Covers The Hillside ; 194
+    I ; Chasing After Deer ; 162
+    I ; You Never Arrived ; 100
+
+#==================================================
+ A ; My Funny Valentine ; 1994 ; Jazz ; Chet Baker
+    I ; My Funny Valentine ; 135
+    I ; Someone To Watch Over Me ; 180
+    I ; Moonlight Becomes You ; 204
+    I ; This Is Always ; 186
+    I ; I'm Glad There Is You ; 190
+    I ; Time After Time ; 164
+    I ; Sweet Lorraine ; 188
+    I ; It's Always You ; 211
+    I ; Moon Love ; 195
+    I ; Like Someone In Love ; 143
+    I ; I've Never Been In Love Before ; 263
+    I ; Isn't It Romantic? ; 204
+
+#==================================================
+ A ; Les Insomniaques S'Amusent ; 1992 ; Francophone ; Daniel Bélanger
+    I ; La Folie En Quatre ; 235
+    I ; Ensorcelée ; 251
+    I ; Sèche Tes Pleurs ; 158
+    I ; Désespéré ; 277
+    I ; Ma Dépendance ; 207
+    I ; Opium ; 279
+    I ; Quand Le Jour Se Lève ; 256
+    I ; Le bonheur ; 279
+    I ; Jamais Les Heures ; 253
+    I ; Mon Retour ; 238
+    I ; L'Autruche ; 142
+
+#==================================================
+ A ; Hors-Saisons ; 2007 ; Francophone ; Plume Latraverse
+    I ; Lisa Belle ; 183
+    I ; Niaiseries ; 212
+    I ; À Tire-Larigot ; 217
+    I ; L'Âge Où L'On... ; 240
+    I ; Le Migratoire ; 218
+    I ; Bâton De Vieillesse ; 128
+    I ; Trop ; 151
+    I ; Pas De Quartier! ; 117
+    I ; La M'lasse ; 152
+    I ; Les Bleus D'La Plinthe ; 184
+    I ; La Pompe À Stime ; 199
+    I ; Les Patineuses ; 245

@@ -1,0 +1,7 @@
+C:\Users\olivi\Documents\VS-Projet\ProgrammationOO-H21\Evaluations\TPSynthese\TPSynthese\bin\Debug\TPSynthese.exe.config
+C:\Users\olivi\Documents\VS-Projet\ProgrammationOO-H21\Evaluations\TPSynthese\TPSynthese\bin\Debug\TPSynthese.exe
+C:\Users\olivi\Documents\VS-Projet\ProgrammationOO-H21\Evaluations\TPSynthese\TPSynthese\bin\Debug\TPSynthese.pdb
+C:\Users\olivi\Documents\VS-Projet\ProgrammationOO-H21\Evaluations\TPSynthese\TPSynthese\obj\Debug\TPSynthese.csprojAssemblyReference.cache
+C:\Users\olivi\Documents\VS-Projet\ProgrammationOO-H21\Evaluations\TPSynthese\TPSynthese\obj\Debug\TPSynthese.csproj.CoreCompileInputs.cache
+C:\Users\olivi\Documents\VS-Projet\ProgrammationOO-H21\Evaluations\TPSynthese\TPSynthese\obj\Debug\TPSynthese.exe
+C:\Users\olivi\Documents\VS-Projet\ProgrammationOO-H21\Evaluations\TPSynthese\TPSynthese\obj\Debug\TPSynthese.pdb
