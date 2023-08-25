@@ -1,0 +1,61 @@
+<!--
+//----------------------------------------
+//  Fichier : grille.component.html
+//  Développeur: Olivier Bourgault
+//  Date: 2022-10-06
+//-----------------------------------------
+-->
+
+<div *ngIf='visible'> <!-- Si la variable est vraie, on affiche le contenu -->
+    <div class="container"> <!-- Division qui va contenir les éléments du module -->
+        <section class="row d-flex justify-content-center"> <!-- Section pour la première grille -->
+            <h6>Grille 1:</h6>
+            <div class="row col-10"> <!-- Divion pour la grille -->
+                <div *ngFor='let caractere of grille1LignesFin[0]' class="grille {{caractere.Etat}}"> <!-- Va itérer sur chacun des éléments du tableau -->
+                    <span>{{caractere.Valeur}}</span> <!-- Affiche le texte associé au caractère courant -->
+                </div>
+                <section></section> <!-- Ajout d'une section pour séparer les lignes -->
+                <div *ngFor='let caractere of grille1LignesFin[1]' class="grille {{caractere.Etat}}"> <!-- Va itérer sur chacun des éléments du tableau -->
+                    <span>{{caractere.Valeur}}</span> <!-- Affiche le texte associé au caractère courant -->
+                </div>
+                <section></section> <!-- Ajout d'une section pour séparer les lignes -->
+                <div *ngFor='let caractere of grille1LignesFin[2]' class="grille {{caractere.Etat}}"> <!-- Va itérer sur chacun des éléments du tableau -->
+                    <span>{{caractere.Valeur}}</span> <!-- Affiche le texte associé au caractère courant -->
+                </div>
+                <section></section> <!-- Ajout d'une section pour séparer les lignes -->
+                <div *ngFor='let caractere of grille1LignesFin[3]' class="grille {{caractere.Etat}}"> <!-- Va itérer sur chacun des éléments du tableau -->
+                    <span>{{caractere.Valeur}}</span> <!-- Affiche le texte associé au caractère courant -->
+                </div>
+                <section></section> <!-- Ajout d'une section pour séparer les lignes -->
+                <div *ngFor='let caractere of grille1LignesFin[4]' class="grille {{caractere.Etat}}"> <!-- Va itérer sur chacun des éléments du tableau -->
+                    <span>{{caractere.Valeur}}</span> <!-- Affiche le texte associé au caractère courant -->
+                </div>
+                <section></section> <!-- Ajout d'une section pour séparer les lignes -->
+                <div *ngFor='let caractere of grille1LignesFin[5]' class="grille {{caractere.Etat}}"> <!-- Va itérer sur chacun des éléments du tableau -->
+                    <span>{{caractere.Valeur}}</span> <!-- Affiche le texte associé au caractère courant -->
+                </div>
+            </div>
+        </section>
+        <hr>
+        <section class="row d-flex justify-content-center"> <!-- Section pour la première grille -->
+            <h6>Grille 2:</h6>
+            <div class="row col-10"> <!-- Divion pour la grille -->
+                <div *ngFor='let caractere of grille2LignesDebut[0]' class="grille {{caractere.Etat}}"></div> <!-- Va itérer sur chacun des éléments du tableau -->
+                <section></section> <!-- Ajout d'une section pour séparer les lignes -->
+                <div *ngFor='let caractere of grille2LignesDebut[1]' class="grille {{caractere.Etat}}"></div> <!-- Va itérer sur chacun des éléments du tableau -->
+                <section></section> <!-- Ajout d'une section pour séparer les lignes -->
+                <div *ngFor='let caractere of grille2LignesDebut[2]' class="grille {{caractere.Etat}}"></div> <!-- Va itérer sur chacun des éléments du tableau -->
+                <section></section> <!-- Ajout d'une section pour séparer les lignes -->
+                <div *ngFor='let caractere of grille2LignesDebut[3]' class="grille {{caractere.Etat}}"></div> <!-- Va itérer sur chacun des éléments du tableau -->
+                <section></section> <!-- Ajout d'une section pour séparer les lignes -->
+                <div *ngFor='let caractere of grille2LignesDebut[4]' class="grille {{caractere.Etat}}"></div> <!-- Va itérer sur chacun des éléments du tableau -->
+                <section></section> <!-- Ajout d'une section pour séparer les lignes -->
+                <div *ngFor='let caractere of grille2LignesDebut[5]' class="grille {{caractere.Etat}}"></div> <!-- Va itérer sur chacun des éléments du tableau -->
+            </div>
+        </section>
+        <section class="sctBouton"> <!-- Section pour les deux boutons -->
+            <button class="btn" id="btnValider" (click)='afficherCitation()'>Voir la citation</button> <!-- Bouton pour saisir une nouvelle citation -->
+            <button class="btn" id="btnValider" (click)='rejouer()'>Recommencer</button> <!-- Bouton pour saisir une nouvelle citation -->
+        </section>
+    </div>
+</div>

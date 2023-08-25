@@ -1,0 +1,27 @@
+<!--
+//----------------------------------------
+//  Fichier : app.component.html
+//  Développeur: Olivier Bourgault
+//  Date: 2022-10-06
+//-----------------------------------------
+-->
+
+<div class="container mt-5">
+  <!-- Va contenir les différentes parties de l'application -->
+  <section id="entete">
+    <!-- Entête du projet avec ses informations -->
+    <span class="h1">Travail Pratique 1</span><br>
+    <span class="h3">Citation mystère</span><br>
+    <span class="h5">par Olivier Bourgault</span><br>
+    <span class="h6">Matricule: 1875009</span><br><br><br>
+
+    <!-- Section où l'on va pouvoir interagir et voir les deux modules de l'application -->
+    <!-- On récupère l'événement qui a été lancé et on l'envoi dans la fonction du composant grille -->
+    <app-saisie (citationValide)="grille.onCitationValide($event)">
+    </app-saisie>
+
+    <!-- On définit un alias pour accéder au module à l'extérieur de la balise -->
+    <app-grille #grille>
+    </app-grille>
+  </section>
+</div>

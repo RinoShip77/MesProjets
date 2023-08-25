@@ -1,0 +1,32 @@
+/*
+------------------------------------------
+   Fichier : styles.css
+   Développeur : Olivier Bourgault
+   Date: 2022-12-14
+   Projet: Jourvie
+------------------------------------------
+*/
+
+#entete {
+    background-color: gray;
+    color: greenyellow
+}
+
+.btnMenu {
+    width: 40px;
+    height: 40px;
+}
+
+.actif {
+    background-color: green;
+    color: white;
+}
+
+.inactif {
+    background-color: yellow;
+    color: red;
+}
+
+.beige {
+    background-color: beige;
+}

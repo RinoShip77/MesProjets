@@ -1,0 +1,101 @@
+<!--
+//----------------------------------------
+//  Fichier: connexion.component.html
+//  Développeur: Olivier Bourgault
+//  Date: 2022-12-14
+//  Projet: Jourvie
+//-----------------------------------------
+-->
+
+<div *ngIf='visible'>
+    <section>
+        <form>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <button *ngIf='boutonSessions' class="btn btn-info m-2" (click)='sessionsEnCours()'>Sessions en
+                        cours</button>
+                    <button *ngIf='boutonSommaire' class="btn btn-info m-2" (click)='sommaireDeveloppeurs()'>Sommaire
+                        développeurs</button>
+                </div>
+                <button class="btn btn-secondary m-2" (click)="retourConnexion()">Retour à la connexion</button>
+            </div>
+            <h1>{{titre}}</h1>
+            <section *ngIf='afficherSommaire'>
+                <table>
+                    <tr>
+                        <th class="col-1" title="L'identifiant du développeur">Développeur</th>
+                        <th class="col-1" title="L'identifiant de la session de travail">Session</th>
+                        <th class="col-2" title="La date de début de la session de travail">Début</th>
+                        <th class="col-1"
+                            title="Le temps écoulé dans cette session de travail en minutes (précision jusqu'au dixiéme près)">
+                            Minutes</th>
+                        <th class="col-1"
+                            title="Le temps écoulé dans cette session de travail en heures (précision jusqu'au dixiéme près)">
+                            Heures</th>
+                        <th class="col-1" title="Identifiant de la tâche visée par la session de travail">Tâche</th>
+                        <th class="col-1" title="Le nombre de commentaires dans cette session de travail">Commentaires
+                        </th>
+                    </tr>
+                    <tr *ngFor='let sess of tabSessions; let numSess=index'>
+                        <td>{{sess.IdDev}}</td>
+                        <td>{{sess.Id}}</td>
+                        <td>{{sess.Debut}}</td>
+                        <td>{{tabMinutesSession[numSess]}}</td>
+                        <td>{{tabHeuresSession[numSess]}}</td>
+                        <td>{{sess.IdTache}}</td>
+                        <td>{{sess.NbCommentaires}}</td>
+                    </tr>
+                </table>
+            </section>
+            <section *ngIf='afficherSessions'>
+                <table>
+                    <tr>
+                        <th class="col-4" title="Le matricule, le prénom et le nom du développeur">Matricule et nom</th>
+                        <th class="col-2" title="Le nom du projet assigné et l'identifiant de ce projet">Projet</th>
+                        <th class="col-2" title="Le nombre de sessions de travail commencées par le développeur">
+                            Sessions</th>
+                        <th class="col-1"
+                            title="Le nombre total des heures réalisées dans ses sessions de travail (précision au dixième près)">
+                            Heures</th>
+                        <th class="col-1" title=" Le nombre de commentaires rédigés par le développeur">Commentaires
+                        </th>
+                    </tr>
+                    <tr *ngFor='let dev of tabDeveloppeurs; let numDev=index'>
+                        <td (click)='ouvrirDetails(numDev)'>{{dev.Matricule + ', ' + dev.Nom + ' ' + dev.Prenom}}</td>
+                        <td>{{dev.NomProjet + ' (' + dev.IdProjet + ')'}}</td>
+                        <td>{{dev.NbSessions}}</td>
+                        <td>{{dev.Duree}}</td>
+                        <td>{{dev.NbCommentaires}}</td>
+                    </tr>
+                </table>
+            </section>
+            <section *ngIf='afficherDetail'>
+                <table>
+                    <tr>
+                        <th class="col-1" title="L'identifiant de la session de travail">Session</th>
+                        <th class="col-3" title="La date de début de la session de travail">Debut</th>
+                        <th class="col-3" title="La date de fin de la session de travail">Fin</th>
+                        <th class="col-1"
+                            title="Le nombres de minutes réalisées dans cette session de travail (précision au dixième près)">
+                            Minutes</th>
+                        <th class="col-1"
+                            title="Le nombres d'heures réalisées dans cette session de travail (précision au dixième près)">
+                            Heures</th>
+                        <th class="col-1" title="L'identifiant de la tâche visée par la session de treavail">Tâche</th>
+                        <th class="col-1" title="Le nombre de commentaires rédigés pendant cette session de travail">
+                            Commentaires</th>
+                    </tr>
+                    <tr *ngFor='let det of tabDetails; let numSess=index'>
+                        <td>{{det.Id}}</td>
+                        <td>{{det.Debut}}</td>
+                        <td>{{det.Fin}}</td>
+                        <td>{{tabMinutesDetails[numSess]}}</td>
+                        <td>{{tabHeuresDetails[numSess]}}</td>
+                        <td>{{det.IdTache}}</td>
+                        <td>{{det.NbCommentaires}}</td>
+                    </tr>
+                </table>
+            </section>
+        </form>
+    </section>
+</div>

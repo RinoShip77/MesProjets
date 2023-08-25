@@ -1,0 +1,65 @@
+<!--
+//----------------------------------------
+//  Fichier : monnaie.component.html
+//  Développeur: Olivier Bourgault
+//  Date: 2022-11-07
+//-----------------------------------------
+-->
+
+<section>
+    <!-- En-tête du domaine -->
+    <div class="row align-items-center">
+        <img class="col-1 m-3" src="assets/images/monnaie.png" title="Dimensions">
+        <h1 class="col-4">Conversions de {{titre}}</h1>
+    </div>
+    <hr>
+    <section>
+        <!-- Segment pour les différents champs de sélection -->
+        <div class="row justify-content-center">
+            <!-- Champ pour la saisie de l'année d'entrée -->
+            <div class="col-3 row align-items-center">
+                <p class="col-3 mt-3">Entrée: </p>
+                <select class="col-4" title="Indiquez l'unité de mesure pour la valeur à convertir"
+                    [(ngModel)]="anneeEntree" (change)="majResultat()">
+                    <option *ngFor="let ipc of IPCAnnuels" [selected]="ipc.an === 1971">{{ipc.an}}</option>
+                </select>
+            </div>
+
+            <!-- Champ pour la saisie de l'année de sortie -->
+            <div class="col-3 row align-items-center">
+                <p class="col-3 mt-3">Sortie: </p>
+                <select class="col-4" title="Indiquez l'unité de mesure pour la valeur convertie"
+                    [(ngModel)]="anneeSortie" (change)="majResultat()">
+                    <option *ngFor="let ipc of IPCAnnuels.reverse()" [selected]="ipc.an === 2021">{{ipc.an}}</option>
+                </select>
+            </div>
+
+            <!-- Champ pour la saisie de la précision souhaitée -->
+            <div class="col-3 row align-items-center">
+                <p class="col-4 mt-3">Précision: </p>
+                <select class="col-3"
+                    title="Indiquez le nombre de chiffres après la virgule pour les valeurs converties"
+                    [(ngModel)]="nbPrecisions" (change)="majResultat()">
+                    <option title="arrondir à l'entier suprieur">0</option>
+                    <option title="un chiffre">1</option>
+                    <option title="deux chiffres">2</option>
+                    <option title="troi chiffres">3</option>
+                    <option title="quatre chiffres">4</option>
+                    <option title="cinq chiffres">5</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Champ pour la saisie et l'affichage de la conversion -->
+        <div class="mt-2 d-flex justify-content-center">
+            <img src="assets/images/flecheGauche.png" title="Résultat">
+            <div class="m-1 text-center row align-items-end">
+                <p>Longueur:
+                    <input type="number" [(ngModel)]="valeurEntree" (change)="majResultat()">
+                    $ en {{anneeEntree}} = <b>{{valeurSortie}} $</b> en {{anneeSortie}}
+                </p>
+            </div>
+            <img src="assets/images/flecheDroite.png" title="Résultat">
+        </div>
+    </section>
+</section>

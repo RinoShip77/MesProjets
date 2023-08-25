@@ -1,0 +1,87 @@
+/* 
+//----------------------------------------
+//  Fichier : styles.css
+//  Développeur: Olivier Bourgault
+//  Date: 2022-10-06
+//-----------------------------------------
+*/
+
+/* Identifiant visuel pour l'en-tête du premier visuel de l'utilisateur */
+#entete {
+    background-image: linear-gradient(chocolate, darkOrange);
+    color: antiquewhite;
+    text-align: center;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px 5px grey;
+}
+
+/* Identifiant visuel pour changer la police de la classe */
+.h1 {
+    font-family: Verdana;
+}
+
+/* Identifiant visuel pour changer la police de la classe */
+.h3 {
+    font-family: Georgia;
+}
+
+/* Identifiant visuel pour changer la police de la classe */
+.h5 {
+    font-family: Courier;
+}
+
+/* Identifiant visuel pour changer l'aperçu de l'utilisateur de la balise */
+label {
+    font-size: 1.5em;
+}
+
+/* Identifiant visuel pour changer l'aperçu de l'utilisateur de la balise */
+input {
+    padding-left: 15px;
+    border: 0;
+    border-radius: 5px;
+    border-left: 10px solid gray;
+    background-color: whitesmoke;
+    width: 500px;
+}
+
+/* Identifiant visuel pour modifier l'aperçu du bouton */
+#btnValider {
+    font-size: 1.25em;
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: darkslategray;
+}
+
+/* Identifiant visuel pour déclancher une animation lors du survol de la souris au-dessuus du bouton */
+#btnValider:hover {
+    background-color: darkgray;
+    color: black;
+}
+
+/* Identifiant visuel pour déclancher une animation lorsque la souris n'est pas au-dessuus du bouton */
+#btnValider:not(:hover) {
+    background-color: darkslategray;
+    color: white;
+}
+
+/* Identifiant visuel pour la classe des blocs de lettres */
+.nonSeparateur {
+    background-color: lightgray;
+    color: black;
+    border: 1px solid black;
+}
+
+/* Identifiant visuel pour la classe des séparateurs de mots */
+.separateur {
+    background-color: black;
+    color: black;
+}
+
+/* Définit des propriétées pour la section du bouton */
+.sctBouton {
+    margin: 20px;
+}

@@ -1,0 +1,25 @@
+<!--
+//----------------------------------------
+//  Fichier: connexion.component.html
+//  Développeur: Olivier Bourgault
+//  Date: 2022-12-14
+//  Projet: Jourvie
+//-----------------------------------------
+-->
+
+<div *ngIf="visible" class="container text-center">
+    <h3 class="pt-2 pb-4">Connectez-vous</h3>
+    <hr>
+    <!-- Formulaire de connexion -->
+    <form>
+        <label class="col-1 m-1 pb-1">Matricule:</label>
+        <input [(ngModel)]="Matricule" name="mat"><br>
+        <label class="col-1 m-1 pt-1">Mot de passe:</label>
+        <input [(ngModel)]="MotDePasse" name="mdp"><br>
+    </form>
+    <hr>
+    <!-- Bouton de connexion -->
+    <button class="mt-3 btn btn-primary w-25 p-1" style="font-size: 2em" (click)="verifierConnexion()">Vérifier</button>
+    <!-- Texte pour ajouter de l'information sur la connexion -->
+    <p class="mt-4 {{classe}}" id="avertissement">{{message}}</p>
+</div>

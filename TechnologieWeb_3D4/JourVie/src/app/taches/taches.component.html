@@ -1,0 +1,44 @@
+<!--
+//----------------------------------------
+//  Fichier: taches.component.html
+//  Développeur: Olivier Bourgault
+//  Date: 2022-12-14
+//  Projet: Jourvie
+//-----------------------------------------
+-->
+
+<div *ngIf="visible">
+  <section class="row {{dev.Etat}}">
+    <article class="col-5">
+      <h2>Choisissez votre prochaine tâche:</h2>
+    </article>
+    <article class="col-7">
+      <button (click)="ouvrirStatistiques()" data-toggle="tooltip" title="Consulter les statistiques">
+        <img class='btnMenu' src="assets/images/stats.png">
+      </button>
+      <button (click)="ouvrirJournal()" data-toggle="tooltip" title="Ouvrir le journal du développeur">
+        <img class='btnMenu' src="assets/images/journal.png">
+      </button>
+      <button (click)="retourConnexion()" data-toggle="tooltip" title="Retour à la connexion">
+        <img src="assets/images/deconnexion.png" width="40" height="40">
+      </button>
+    </article>
+  </section>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Numéro</th>
+        <th>Titre</th>
+        <th>Descr</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tac of ListeTaches">
+        <td class="badge rounded-pill bg-info" data-toggle="tooltip"
+          title="Démarrer une session de travail sur cette tâche" (click)="demarrerSessTrav(tac)">{{tac.Numero}}</td>
+        <td>{{tac.Titre}}</td>
+        <td>{{tac.Description}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

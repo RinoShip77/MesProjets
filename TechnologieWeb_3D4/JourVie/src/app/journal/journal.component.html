@@ -1,0 +1,81 @@
+<!--
+//----------------------------------------
+//  Fichier: journal.component.html
+//  Développeur: Olivier Bourgault
+//  Date: 2022-12-14
+//  Projet: Jourvie
+//-----------------------------------------
+-->
+
+<div *ngIf="visible">
+  <section class="row {{dev.Etat}} rounded-top">
+    <article class="row col-7">
+      <h2 class="col-2">Journal</h2>
+      <div class="col-5">
+        <button *ngIf="btnCommentaireVisible" (click)="commenter()" data-toggle="tooltip"
+          title="Écrire un commentaire dans votre journal">
+          <img class='btnMenu' src="assets/images/commentaire.png">
+        </button>
+        <button *ngIf="btnChangerTacheVisible" (click)="changerTache()" data-toggle="tooltip"
+          title="Arreter la sess de trav actuelle et choisir une autre tâche">
+          <img class='btnMenu' src="assets/images/changerTache.png">
+        </button>
+        <button *ngIf="btnArreterSessionVisible" (click)="arreterSessTrav()" data-toggle="tooltip"
+          title="Arrêter votre session de travail">
+          <img class='btnMenu' src="assets/images/pause.png">
+        </button>
+        <button *ngIf="btnStatsVisible" (click)="statistiques()" data-toggle="tooltip"
+          title="Consulter les statistiques">
+          <img class='btnMenu' src="assets/images/stats.png">
+        </button>
+        <button (click)="retourConnexion()" data-toggle="tooltip" title="Retour à la connexion">
+          <img src="assets/images/deconnexion.png" width="40" height="40">
+        </button>
+      </div>
+    </article>
+    <div class="col-4">
+      <article *ngIf="dev.Etat=='actif'; then thenBlock else elseBlock"></article>
+      <ng-template #thenBlock>
+        <div>
+          <h2>actif sur {{tacheCourante.Numero}} depuis<br>{{accumulateurTempsActif.toFixed(1)}}
+            {{accumulateurUniteActif}}</h2>
+        </div>
+      </ng-template>
+      <ng-template #elseBlock>
+        <div class="col-5 text-nowrap">
+          <h2>Journal, inactif depuis {{accumulateurTempsInactif.toFixed(1)}} {{accumulateurUniteInactif}}</h2>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+  <section *ngIf="commentaireVisible" class="row beige">
+    <h3>Rédigez votre commentaire</h3>
+    <form class="pb-2 d-flex align-items-center" (ngSubmit)="enregistrerCommentaire()">
+      <label class="p-3">Commentaire: </label>
+      <textarea name="txtarea" [(ngModel)]="commentaireCourant.Contenu"></textarea>
+      <div class="m-3">
+        <button class="m-3 btn btn-success" type="submit">Enregistrer</button>
+        <button class="btn btn-danger" (click)="annulerCommentaire()">Annuler</button>
+      </div>
+    </form>
+  </section>
+  <section class="row border border-dark border-5 rounded-bottom">
+    <table class="table">
+      <tr>
+        <th>Date</th>
+        <th>Heure</th>
+        <th>Tache</th>
+        <th>Type</th>
+        <th>Contenu</th>
+      </tr>
+      <tr *ngFor="let fait of tabFaits">
+        <td>{{fait.Date}}</td>
+        <td>{{fait.Heure}}</td>
+        <td *ngIf="fait.Contenu.length == 0">{{fait.TacheNumero}}</td>
+        <td *ngIf="fait.Contenu.length != 0"></td>
+        <td><img src='assets/images/{{fait.Type}}.png' height="30"></td>
+        <td style="width: 250px">{{fait.Contenu}}</td>
+      </tr>
+    </table>
+  </section>
+</div>

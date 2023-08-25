@@ -1,0 +1,41 @@
+<!--
+//----------------------------------------
+//  Fichier: app.component.html
+//  Développeur: Olivier Bourgault
+//  Date: 2022-12-14
+//  Projet: Jourvie
+//-----------------------------------------
+-->
+
+<div class="container {{bgColor}} rounded-bottom pb-3">
+   <!-- Section pour la bannière de l'application -->
+   <section id="entete" class="row border border-dark border-5 rounded-bottom p-1">
+      <article *ngIf="devConnecte.Id==0" class="col-6">
+         <h1>
+            <img width=50 heigth=50 src='assets/images/jourvie.png'> Jourvie
+         </h1>
+         <h5>Par Olivier Bourgault</h5>
+      </article>
+      <article *ngIf="devConnecte.Id>0" class="col-6">
+         <h1>
+            <img width=50 heigth=50 src='assets/images/jourvie.png'> Jourvie, {{devConnecte.Nom}}
+            {{devConnecte.Prenom}}
+         </h1>
+      </article>
+      <article *ngIf="devConnecte.Id>0" class="col-6">
+         <h1>Projet: {{devConnecte.NomProjet}}</h1>
+      </article>
+   </section>
+   
+   <!-- Section pour les différents modules de l'application -->
+   <app-admin #admin></app-admin>
+   <app-connexion *ngIf="!logonOK" (connexionReussie)="onConnexionReussie($event)"
+      (connexionReussie)="tac.onConnexionReussie($event)" (connexionAdmin)=onConnexionAdmin()
+      (connexionAdmin)=admin.onConnexionAdmin()>
+   </app-connexion>
+   <app-taches #tac (demarrerSessionTravail)="jour.onDemarrerSessTrav($event)"
+      (connexionDevActif)="jour.onConnexionDevActif($event)" (ouvrirJournalDeveloppeur)=jour.onLectureJournal($event)>
+   </app-taches>
+   <app-journal #jour [dev]="devConnecte" (changementTache)="tac.onChangementTache($event)">
+   </app-journal>
+</div>

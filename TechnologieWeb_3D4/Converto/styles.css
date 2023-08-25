@@ -1,0 +1,13 @@
+/*
+----------------------------------------
+  Fichier : styles.css
+  Développeur: Olivier Bourgault
+  Date: 2022-11-07
+-----------------------------------------
+*/
+
+/* Identifiant visuel pour l'en-tête */
+#entete {
+    background-color: darkslategrey;
+    color: whitesmoke;
+}

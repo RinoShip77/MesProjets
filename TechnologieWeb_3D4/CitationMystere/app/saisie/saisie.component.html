@@ -1,0 +1,18 @@
+<!--
+//----------------------------------------
+//  Fichier : saisie.component.html
+//  Développeur: Olivier Bourgault
+//  Date: 2022-10-06
+//-----------------------------------------
+-->
+
+<div *ngIf="visible"> <!-- Si la variable est vraie, on affiche le contenu -->
+    <!-- Contrôles liés à la rédaction de la citation -->
+    <form>
+        <label><i>Veuillez entrer votre citation : </i></label>
+        <div class="d-flex justify-content-center">
+            <input name="champ_citation" type="text" [(ngModel)]="this.citation"> <!-- Escpace pour saisir la citation -->
+            <button class="btn" id="btnValider" (click)="validerCitation()">Soumettre</button> <!-- Bouton pour vérifier si la citation est conforme -->
+        </div>
+    </form>
+</div>

@@ -1,0 +1,123 @@
+<!--
+//----------------------------------------
+//  Fichier : dimensions.component.html
+//  Développeur: Olivier Bourgault
+//  Date: 2022-11-07
+//-----------------------------------------
+-->
+
+<section>
+    <!-- En-tête du domaine -->
+    <div class="row align-items-center">
+        <img class="col-1 m-3" src="assets/images/dimensions.png" title="Dimensions">
+        <h1 class="col-4">Conversions de {{titre}}</h1>
+    </div>
+    <hr>
+    <section>
+        <!-- Segment pour les différents champs de sélection -->
+        <div class="row justify-content-center">
+            <!-- Champ pour la saisie de l'unité d'entrée -->
+            <div class="col-3 row align-items-center">
+                <p class="col-3 mt-3">Entrée: </p>
+                <select class="col-5" title="Indiquez l'unité de mesure pour la valeur à convertir"
+                    [(ngModel)]="uniteEntree" (change)="majResultat()">
+                    <option title="millimètre">mm</option>
+                    <option title="centimètre">cm</option>
+                    <option title="mètre">m</option>
+                    <option title="kilomètre">km</option>
+                    <option title="pouce">pouce</option>
+                    <option title="pied">pied</option>
+                    <option title="verge">verge</option>
+                    <option title="mile">mile</option>
+                </select>
+            </div>
+
+            <!-- Champ pour la saisie de l'unité de sortie -->
+            <div class="col-3 row align-items-center">
+                <p class="col-3 mt-3">Sortie: </p>
+                <select class="col-5" title="Indiquez l'unité de mesure pour la valeur convertie"
+                    [(ngModel)]="uniteSortie" (change)="majResultat()">
+                    <option title="millimètre">mm</option>
+                    <option title="centimètre">cm</option>
+                    <option title="mètre">m</option>
+                    <option title="kilomètre">km</option>
+                    <option title="pouce">pouce</option>
+                    <option title="pied">pied</option>
+                    <option title="verge">verge</option>
+                    <option title="mile">mile</option>
+                </select>
+            </div>
+
+            <!-- Champ pour la saisie de la dimension dans laquelle on se trouve -->
+            <div class="col-3 row align-items-center">
+                <p class="col-5 mt-3">Dimension: </p>
+                <select class="col-3" title="indiquez si nous sommes en 1D, 2D ou 3D" [(ngModel)]="nbDimensions"
+                    (change)="majResultat()">
+                    <option title="une dimension">1</option>
+                    <option title="deux dimensions">2</option>
+                    <option title="trois dimesions">3</option>
+                </select>
+            </div>
+
+            <!-- Champ pour la saisie de la précision souhaitée -->
+            <div class="col-3 row align-items-center">
+                <p class="col-4 mt-3">Précision: </p>
+                <select class="col-3"
+                    title="Indiquez le nombre de chiffres après la virgule pour les valeurs converties"
+                    [(ngModel)]="nbPrecisions" (change)="majResultat()">
+                    <option title="arrondir à l'entier suprieur">0</option>
+                    <option title="un chiffre">1</option>
+                    <option title="deux chiffres">2</option>
+                    <option title="troi chiffres">3</option>
+                    <option title="quatre chiffres">4</option>
+                    <option title="cinq chiffres">5</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Champ pour la saisie et l'affichage de la conversion -->
+        <div class="mt-2 d-flex justify-content-center">
+            <img src="assets/images/flecheGauche.png" title="Résultat">
+            <div class="m-1 text-center row align-items-end">
+                <!-- Lorsqu'on est en une dimension -->
+                <div *ngIf="nbDimensions == 1">
+                    <p>Longueur:
+                        <input type="number" [(ngModel)]="valeurEntree1" (change)="majResultat()">
+                        {{uniteEntree}} = <b>{{valeurSortie1}} {{uniteSortie}}</b>
+                    </p>
+                </div>
+
+                <!-- Lorsqu'on est en deux dimensions -->
+                <div *ngIf="nbDimensions == 2">
+                    <p>Longueur:
+                        <input type="number" [(ngModel)]="valeurEntree1" (change)="majResultat()">
+                        {{uniteEntree}} = <b>{{valeurSortie1}} {{uniteSortie}}</b>
+                    </p>
+                    <p>Largeur:
+                        <input type="number" [(ngModel)]="valeurEntree2" (change)="majResultat()">
+                        {{uniteEntree}} = <b>{{valeurSortie2}} {{uniteSortie}}</b>
+                    </p>
+                    <h3>Surface: {{valeurEntree_2}} {{uniteEntree}} carré = {{valeurSortie_2}} {{uniteSortie}} carré</h3>
+                </div>
+
+                <!-- Lorsqu'on est en trois dimensions -->
+                <div *ngIf="nbDimensions == 3">
+                    <p>Longueur:
+                        <input type="number" [(ngModel)]="valeurEntree1" (change)="majResultat()">
+                        {{uniteEntree}} = <b>{{valeurSortie1}} {{uniteSortie}}</b>
+                    </p>
+                    <p>Largeur:
+                        <input type="number" [(ngModel)]="valeurEntree2" (change)="majResultat()">
+                        {{uniteEntree}} = <b>{{valeurSortie2}} {{uniteSortie}}</b>
+                    </p>
+                    <p>Profondeur:
+                        <input type="number" [(ngModel)]="valeurEntree3" (change)="majResultat()">
+                        {{uniteEntree}} = <b>{{valeurSortie3}} {{uniteSortie}}</b>
+                    </p>
+                    <h3>Volume: {{valeurEntree_3}} {{uniteEntree}} cube = {{valeurSortie_3}} {{uniteSortie}} cube</h3>
+                </div>
+            </div>
+            <img src="assets/images/flecheDroite.png" title="Résultat">
+        </div>
+    </section>
+</section>
