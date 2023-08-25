@@ -1,0 +1,174 @@
+<!DOCTYPE html> <!-- Définition du type de document -->
+<html lang="fr"> <!-- Ouverture du bloc de ma page HTML -->
+    <head> <!-- Ouverture du bloc "head" -->
+        <meta charset="utf-8"> <!-- Permet l'accès aux caractéres accentués -->
+        <title>Power Fitness</title> <!-- Le titre de la page -->
+			<link rel="stylesheet" type="text/css" href="../CSS/index.css"> <!-- Indique le chemin à suivre pour utiliser le ficher "index.css" -->
+				<script src="../FichiersJs/jquery-3.5.1.js"></script> <!-- Indique le chemin à suivre pour utiliser le ficher "jquery-3.5.1.js" -->
+				<script src="../FichiersJs/bootstrap.js"></script> <!-- Indique le chemin à suivre pour utiliser le ficher "bootstrap.js" -->
+				<script src="../FichiersJs/index.js"></script> <!-- Indique le chemin à suivre pour utiliser le ficher "index.js" -->
+			<link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css"> <!-- Indique le chemin à suivre pour utiliser le ficher "bootstrap.css" -->
+    </head> <!-- Fin du bloc "head" -->
+	
+	<body> <!-- Ouverture bu bloc pour le corps de la page -->
+		<main class="container"> <!-- Ouverture du bloc principal -->
+			<header class="row navbar navbar-expand-lg navbar-dark bg-info my-2 rounded"> <!-- Ouverture du bloc d'entête -->
+				<div class="row"> <!-- Ouverture d'une division qui sera séparé en 12 -->
+					<div> <!-- Ouverture d'une division -->
+						<img src="../images/logo.png" height=150 width=150 class="img-fluid pl-2" title="Power Fitness"> <!-- Insertion d'un image -->
+					</div> <!-- Fin de la division -->
+					
+					<div class="mx-2 rounded"> <!-- Ouverture d'une division -->
+						<img src="../images/cell.png" height=40 width=40 class="img-fluid" style="padding-top:100%; border-radius:5px" title="Téléphone"> <!-- Insertion d'un image -->
+					</div> <!-- Fin de la division -->
+					
+					<div style="padding-top:10%"> <!-- Ouverture d'une division -->
+						<a href="#info" style="text-decoration:none; color:darkOrange"><h3>Coordonnées</h3></a> <!-- Définition d'un lien à l'intérieur de la page -->
+						<p class="text-white">354-3512-3213</p> <!-- Insertion d'un paragraphe -->
+					</div> <!-- Fin de la division -->
+				</div> <!-- Fin de la division -->
+				
+				<button class="navbar-toggler" data-toggle="collapse" data-target="#menu"> <!-- Ouverture du bouton de navigation -->
+					<span class="navbar-toggler-icon"></span> <!-- Insertion de l'icône du bouton de navigation -->
+				</button> <!-- Fermeture du boutou -->
+
+				<div class="collapse navbar-collapse justify-content-end" id="menu"> <!-- Ouverture d'une division pour le menu de navigation -->
+					<nav class="nav nav-pills flex-column flex-lg-row"> <!-- Ouverture d'un bloc pour le menu de navigation -->
+						<a class="nav-item nav-link active" href="index.html">Accueil</a> <!-- Définition d'un lien vers une autre page du site -->
+						<a class="nav-item nav-link text-white" href="page2(options).html">Les options</a> <!-- Définition d'un lien vers une autre page du site -->
+						<a class="nav-item nav-link text-white" href="page3(moyens).html">Les façons de faire</a> <!-- Définition d'un lien vers une autre page du site -->
+						<a class="nav-item nav-link text-white" href="votreOpinion.html">Votre opinion</a> <!-- Définition d'un lien vers une autre page du site -->
+					</nav> <!-- Fin du bloc pour la navigation -->
+				</div> <!-- Fin de la division -->
+			</header> <!-- Fermeture du bloc d'entête -->
+			
+			<div class="row pl-5"> <!-- Ouverture d'une division qui sera séparé en 12 -->
+				<div  class="col-lg-8 col-md-12 row bg-dark rounded"> <!-- Ouverture d'une division qui sera séparé en 12 -->
+					<div class="col-md-12 d-block d-lg-none mx-auto py-2"> <!-- Ouverture d'une division -->
+						<img src="../images/multiSport_3.jpg" class="img-fluid w-100" title="Diversité"> <!-- Insertion d'un image -->
+					</div> <!-- Fin de la division -->
+					
+					<div class="col-lg-8 d-lg-block d-none mx-auto py-2 carousel slide" data-ride="carousel" data-interval="2000" id="monCarousel"> <!-- Ouverture d'une division -->
+						<div class="carousel-inner" style="height:10em"> <!-- Ouverture d'une division -->
+							<div class="carousel-item active text-center"> <!-- Ouverture d'une division -->
+								<img src="../images/multiSport_1.jpg" class="img-fluid w-95" title="Nutrition"> <!-- Insertion d'un image -->
+							</div> <!-- Fin de la division -->
+
+							<div class="carousel-item text-center"> <!-- Ouverture d'une division -->
+								<img src="../images/multiSport_2.jpg" class="img-fluid w-95" title="Atlhètes"> <!-- Insertion d'un image -->
+							</div> <!-- Fin de la division -->
+
+							<div class="carousel-item"> <!-- Ouverture d'une division -->
+								<img src="../images/multiSport_3.jpg" class="img-fluid w-100" title="Diversité"> <!-- Insertion d'un image -->
+							</div> <!-- Fin de la division -->
+
+							<div class="carousel-item"> <!-- Ouverture d'une division -->
+								<img src="../images/multiSport_4.jpg" class="img-fluid w-100" title="Plusieurs choix"> <!-- Insertion d'un image -->
+							</div> <!-- Fin de la division -->
+							
+							<div class="carousel-item"> <!-- Ouverture d'une division -->
+								<img src="../images/multiSport_5.jpg" class="img-fluid w-100" title="Les sports"> <!-- Insertion d'un image -->
+							</div> <!-- Fin de la division -->
+						</div> <!-- Fin de la division -->
+
+						<a href="#monCarousel" class="carousel-control-prev" data-slide="prev"> <!-- Définition d'un lien pour le carrousel -->
+							<span class="carousel-control-prev-icon" style="margin-right:60px"></span> <!-- Insertion de la flêche précédente pour les images du carrousel -->
+						</a>
+
+						<a href="#monCarousel" class="carousel-control-next" data-slide="next"> <!-- Définition d'un lien pour le carrousel -->
+							<span class="carousel-control-next-icon" style="margin-left:60px"></span> <!-- Insertion de la flêche pour avancer dans les images du carrousel -->
+						</a>						
+					</div> <!-- Fin de la division -->
+				</div> <!-- Fin de la division -->
+				
+				<div class="col-lg-4 bg-secondary d-lg-block d-none mr-1 rounded"> <!-- Ouverture d'une division -->
+					<button class="btn btn-info my-2 bout" type="button">C'est quoi <i>Power Fitness</i>?</button> <!-- Déclaration d'un bouton -->
+					
+					<div id="description"> <!-- Ouverture d'une division -->
+						<p class="text-white text-justify">Avec l'augmentation du désir de la malbouffe, la procrastination infinie et le manque de motivation pour bouger, <!-- Insertion d'un paragraphe -->
+						il est fort possible que quelques livres se soient ajoutées sur votre balance. C'est ici que <b>POWER FITNESS</b> entre en jeu. Notre entreprise 
+						vient donner un second souffle à cette passion de faire du sport en fournissant un support supplémentaire.</p>
+					</div> <!-- Fin de la division -->
+				</div> <!-- Fin de la division -->
+			</div> <!-- Fin de la division -->
+			
+			<section class="row bg-light my-2"> <!-- Ouverture du bloc "section" qui sera séparé en 12 -->
+				<div class="col-lg-3 rounded d-lg-block d-none" style="border:3px solid black"> <!-- Ouverture d'une division -->
+					<h2 class="bg-info rounded my-2"><b>Le sport, c'est quoi?</b></h2> <!-- Déclaration d'un titre -->
+					
+					<div> <!-- Ouverture d'une division -->
+						<img src="../images/imagesDef.jpg" class="img-fluid" title="Le sport"> <!-- Insertion d'un image -->
+						
+						<p style="padding-top:10%">Selon le dictionnaire, il s'agit d'un ensemble des exercices physiques pratiqués individuellement ou collectivement et ayant <!-- Insertion d'un paragraphe -->
+						pour but le développement du corps et de la saine compétitivité.</p>
+					</div> <!-- Fin de la division -->
+				</div> <!-- Fin de la division -->
+				
+				<div class="col-lg-8 offset-lg-1 col-md-12 row bg-white mt-2 rounded"> <!-- Ouverture d'une division qui sera séparé en 12 -->
+					<div class="col-lg-5 col-md-6 px-2 rounded"> <!-- Ouverture d'une division -->
+						<h2 class="bg-warning rounded"><b>Une grande ouverture d'esprit</b></h2> <!-- Déclaration d'un titre -->
+						
+						<p style="padding-top:15%; text-align:justify">La pratique d'un sport d'équipe ou individuel est accessible à tous les âges et surtout à tous les budgets. <!-- Insertion d'un paragraphe -->
+						Si l'on prend en compte tous les sports, chaque personne peut trouver son bonheur. C'est simplement tous les exercices physiques qui comportent des règles et
+						qui sont souvent pratiqués sous forme de jeux.</p>
+					</div> <!-- Fin de la division -->
+				
+					<div class="col-lg-7 col-md-6 px-2 text-justify rounded"> <!-- Ouverture d'une division -->
+						<h2 class="bg-warning rounded"><b>Une grande famille</b></h2> <!-- Déclaration d'un titre -->
+						
+						<p style="padding-top:15%; text-align:justify">Une grande majorité pense que la pratique d'un sport implique seulement de l'activité physique. Il s'agit d'un <!-- Insertion d'un paragraphe -->
+						monde beaucoup plus vaste. Le sport est surtout un moyen pour se libérer l'esprit et évacuer son stress. Voilà pourquoi nous avons ouvert près de <b style="font-size:1.5em">40</b>
+						succursales au pays. Parmi ceux-ci, une dizaine sont consacrées exclusivement à la musculation ou au conditionnement physique d'athlètes professionnels
+						et à la nutrition sportive alors que <a id="gym">les autres</a> sont des gymnases qui peuvent être loués à volonté par un particulier pour toutes les
+						raisons possibles.</p>
+						
+						<img src="../images/imagesLogo.png" class="pl-5" title="Sport"> <!-- Insertion d'un image -->
+					</div> <!-- Fin de la division -->
+				</div> <!-- Fin de la division -->
+				
+				<div class="col-md-12 rounded d-block d-lg-none" style="border:3px solid black"> <!-- Ouverture d'une division -->
+					<h2 class="bg-info rounded my-2"><b>Le sport, c'est quoi?</b></h2> <!-- Déclaration d'un titre -->
+					
+					<div> <!-- Ouverture d'une division -->
+						<img src="../images/imagesDef.jpg" class="img-fluid d-lg-block d-none" title="Le sport"> <!-- Insertion d'un image -->
+						
+						<p style="padding-top:10%">Selon le dictionnaire, il s'agit d'un ensemble des exercices physiques pratiqués individuellement ou collectivement et ayant <!-- Insertion d'un paragraphe -->
+						pour but le développement du corps et de la saine compétitivité.</p>
+					</div> <!-- Fin de la division -->
+				</div> <!-- Fin de la division -->
+			</section> <!-- Fin du bloc pour le contenu de la page -->
+			
+			<footer class="row my-2 text-white rounded" style="background-color:darkGreen"> <!-- Ouverture du bloc pour le pied de page qui sera séparé en 12 -->
+				<div class="col-lg-8 row pt-2"> <!-- Ouverture d'une division qui sera séparé en 12 -->
+					<div class="col-lg-6 col-md-6"> <!-- Ouverture d'une division -->
+						<a id="info"><h1 class="pt-1"><b>Comment joindre nos bureaux:</b></h1></a> <!-- Déclaration d'un titre -->
+						
+						<div class="pl-3"> <!-- Ouverture d'une division -->
+							<b>Adresse:</b> 643 avenue Kaloua<br> <!-- Déclaration de quelque mots en gras -->
+							<b>Ville:</b> Gataouca, LA<br>
+							<b>Code postal:</b> X4A 3L2<br>
+							<b>Courriel:</b> power.fitness@hotmail.com<br>
+							<b>Média sociaux:</b>
+								<ul> <!-- Déclaration d'une liste non ordonnée -->
+									<li><a href="#" class="text-white" style="text-decoration:none">Facebook(Power Fitness inc.) <img src="../images/facebook.png" height=25 width=25 class="img-fluid py-1 rounded" title="Facebook"></a></li> <!-- Insertion d'un image qui agit comme un lien à l'intérieur de la page -->
+									<li><a href="#" class="text-white" style="text-decoration:none">Twitter(@Powerfitness) <img src="../images/twitter.png" height=25 width=25 class="img-fluid pb-1 rounded" title="Twitter"></a></li> <!-- Insertion d'un image qui agit comme un lien à l'intérieur de la page -->
+									<li><a href="#" class="text-white" style="text-decoration:none">Instagram(Power_Fitness) <img src="../images/instagram.png" height=25 width=25 class="img-fluid pb-1 rounded" title="Instagram"></a></li> <!-- Insertion d'un image qui agit comme un lien à l'intérieur de la page -->
+								</ul> <!-- Fin de la liste non ordonnée -->
+						</div> <!-- Fin de la division -->
+					</div> <!-- Fin de la division -->
+					
+					<div class="col-lg-4 col-md-4"> <!-- Ouverture d'une division -->
+						<a href="#top"><img src="../images/logo.png" height=150 width=150 class="img-fluid" style="padding-top:20%" title="Power Fitness"></a> <!-- Insertion d'un image qui agit comme un lien à l'intérieur de la page -->
+						<h4><b>Power Fitness inc.</b></h4> <!-- Déclaration d'un titre -->
+					</div> <!-- Fin de la division -->
+				</div> <!-- Fin de la division -->
+				
+				<div class="col-lg-4 offset-lg-1 mx-auto d-lg-block d-none" style="padding-top:5%"> <!-- Ouverture d'une division -->
+					<button style="background:none; border:none; font-size:1.5em; color:white" id="texte">Voir une représentation cartographique:</button> <!-- Déclaration d'un bouton -->
+				
+					<img src="../images/location.jpg" height=100 width=100 class="img-fluid w-100 rounded" title="Emplacement" style="border:2px solid black" id="carte"> <!-- Insertion d'un image -->
+				</div> <!-- Fin de la division -->
+			</footer> <!-- Fin du bloc pour le pied de page -->
+		</main> <!-- Fin du bloc principal -->
+	</body> <!-- Fermeture du bloc pour le corps de la page -->
+</html> <!-- Fermeture du bloc pour mon code HTML -->

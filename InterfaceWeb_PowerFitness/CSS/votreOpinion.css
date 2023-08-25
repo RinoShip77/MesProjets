@@ -1,0 +1,10 @@
+body{ /* Propriétés CSS à attribuer au corps de la page */
+	font-family:arial,verdana; /* Les polices à utiliser sont "arial" ou "verdana" */
+	font-size:1.5em; /* La taille de la police est fixée à "1.5em" */
+	width:100%; /* La largeur du corps prendra "100%" de la place disponoible */
+	margin:0 auto; /* Les marges de la page seront de "0" verticalement et placé "auto" horizontalement */
+} /* Fin des propriétés pour le corps de la page */
+
+.container{ /* Propriétés CSS modifié à la classe container */
+	width:85%; /* La largeur sera de 85% maintenant */
+} /* Fin des modifications pour la class="container" */
