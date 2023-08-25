@@ -1,0 +1,13 @@
+<!--
+//------------------------------------------
+//   fichier : retroaction.component.html
+//   Dev : Olivier Bourgault
+//   Date: 2021-11-21
+//   Projet: JourVie
+//------------------------------------------
+-->
+<div *ngIf='infoSrv.messages.length>0' class="text-center">
+   <br><hr><br><h4>Rétroaction:</h4>
+   <button class="btn btn-warning m-3" (click)='infoSrv.vider()'>Vider</button>
+   <p *ngFor='let msg of infoSrv.messages'>{{msg}}</p>
+</div>

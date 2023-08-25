@@ -1,0 +1,82 @@
+<!--
+//------------------------------------------
+//   fichier : admin.component.html
+//   Dsess : Olivier Bourgault
+//   Date: 2021-11-21
+//   Projet: JourVie
+//------------------------------------------
+-->
+
+<div *ngIf='visible'>
+    <section>
+        <form>
+            <button *ngIf='boutonSommaire' class="btn btn-info m-2" (click)='sommaireDeveloppeur()'>Sommaire développeurs</button>
+            <button *ngIf='boutonSessions' class="btn btn-info m-2" (click)='sessionsEnCours()'>Sessions en cours</button>
+            <h1>{{titre}}</h1>
+            <section *ngIf='afficherSommaire' class='row'>
+                <table>
+                    <tr>
+                        <th>Dev</th>
+                        <th>SessId</th>
+                        <th>Debut</th>
+                        <th>Minutes</th>
+                        <th>Heures</th>
+                        <th>Tache</th>
+                        <th>Nb Com</th>
+                    </tr>
+                    <tr *ngFor='let sess of tabSessions; let numSess=index'>
+                        <td>{{sess.DevId}}</td>
+                        <td>{{sess.Id}}</td>
+                        <td>{{sess.Debut}}</td>
+                        <td>{{tabMinutesSession[numSess]}}</td>
+                        <td>{{tabHeuresSession[numSess]}}</td>
+                        <td>{{sess.TacheId}}</td>
+                        <td>{{tabNbCommentairesSession[numSess]}}</td>
+                    </tr>
+                </table>
+            </section>
+
+            <section *ngIf='afficherSessions' class='row'>
+                <table>
+                    <tr>
+                        <th>Mat et Nom</th>
+                        <th>Projet (id)</th>
+                        <th>Nb Sessions</th>
+                        <th>Heures</th>
+                        <th>Nb Comment</th>
+                    </tr>
+                    <tr *ngFor='let dev of tabDeveloppeurs; let numDev=index'>
+                        <td (click)='ouvrirDetails(numDev)'>{{tabNom[numDev]}}</td>
+                        <td>{{tabIdsProjets[numDev]}}</td>
+                        <td>{{tabNbSessionsDev[numDev]}}</td>
+                        <td>{{tabHeuresDev[numDev]}}</td>
+                        <td>{{tabNbCommentairesDev[numDev]}}</td>
+                    </tr>
+                </table>
+            </section>
+
+            <section *ngIf='afficherDetail' class='row'>
+                <table>
+                    <tr>
+                        <th>Id</th>
+                        <th>Debut</th>
+                        <th>Fin</th>
+                        <th>Minutes</th>
+                        <th>Heures</th>
+                        <th>Tache</th>
+                        <th>Nb Com</th>
+                    </tr>
+                    <tr *ngFor='let det of tabDetails; let numSess=index'>
+                        <td>{{det.Id}}</td>
+                        <td>{{det.Debut}}</td>
+                        <td>{{det.Fin}}</td>
+                        <td>{{tabMinutesDetails[numSess]}}</td>
+                        <td>{{tabHeuresDetails[numSess]}}</td>
+                        <td>{{det.TacheId}}</td>
+                        <td>{{tabCommentairesDetails[numSess]}}</td>
+                    </tr>
+                </table>
+            </section>
+        </form>
+    </section>
+</div>

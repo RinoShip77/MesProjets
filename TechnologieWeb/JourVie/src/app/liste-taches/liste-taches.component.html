@@ -1,0 +1,45 @@
+<!--
+//------------------------------------------
+//   fichier : liste-taches.component.html
+//   Dev : Olivier Bourgault
+//   Date: 2021-11-21
+//   Projet: JourVie
+//------------------------------------------
+-->
+
+<div *ngIf='visible'>
+
+  <section class='row'>
+    <article *ngIf='btnLireJournalVisible' class='col-1'>
+      <button (click)='lireJournal()'>
+        <img width='40' src='assets/images/journal.png'>
+      </button>
+    </article>
+    <article *ngIf='btnStatsVisible' class='col-1'>
+      <button (click)='ouvrirStatistiques()'>
+        <img width='40' src='assets/images/stats.png'>
+      </button>
+    </article>
+  </section>
+
+
+  <section *ngIf="taches.length>0 ; else elseBlock1">
+    <h2>Liste des tâches</h2>
+    <table>
+      <tr>
+        <th>Num</th>
+        <th>Titre</th>
+      </tr>
+      <tr *ngFor="let tac of taches">
+        <td><span class='badge rounded-pill bg-primary' (click)='demarrerSessionTravail(tac)'>{{ tac.Numero }}</span>
+        </td>
+        <td (click)='demarrerSessionTravail(tac)'>{{ tac.Titre }}</td>
+      </tr>
+
+    </table>
+  </section>
+
+  <ng-template #elseBlock1>
+    <h2>Aucune tâches active n'existe pour ce projet</h2>
+  </ng-template>
+</div>

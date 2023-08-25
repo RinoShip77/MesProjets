@@ -1,0 +1,20 @@
+<!--
+//------------------------------------------
+//   fichier : connexion.component.html
+//   Dev : Olivier Bourgault
+//   Date: 2021-11-21
+//   Projet: JourVie
+//------------------------------------------
+-->
+
+<div *ngIf='visible'>
+  <h3>Connectez-vous:</h3>
+  <form>
+    <label class="m-1">Matricule:</label>
+    <input name='champ_mat' [(ngModel)]="devForm.Matricule"><br>
+    <label class="m-1">Mot de Passe</label>
+    <input name='champ_mdp' type="password" [(ngModel)]="devForm.MotDePasse"><br>
+    <button class="m-1 mt-4 btn btn-success" (click)='validerLogon()'>Connexion</button>
+    <button class="m-1 mt-4 btn btn-danger" (click)='tricher()'>Tricher</button>
+  </form>
+</div>

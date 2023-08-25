@@ -1,0 +1,79 @@
+<!--
+//----------------------------------------------
+// fichier: paquet.ts
+// Dev: Olivier Bourgault
+// Date: 2021-11-08
+// Projet: Poker
+//----------------------------------------------
+-->
+
+<div class='container'>
+  <section *ngIf='enteteVisible' class="bg-danger text-center rounded m-3 p-3">
+    <h4 class="mt-3">Valeur des Mains au</h4>
+    <h1><b>Poker Texas Hold'hem</b></h1>
+    <button class='m-5 p-4 btn btn-secondary' (click)='demarrer()'><h2>Passer les cartes</h2></button>
+  </section>
+
+  <!--
+  //----------------------------------------------
+  // Séparation entre l'entête
+  // ET
+  // La partie de poker
+  //----------------------------------------------
+  -->
+
+  <section *ngIf='tableVisible' class="row bg-success rounded text-center p-3">
+    <div class="row justify-content-center">
+    <div class="row col-6">
+      <div id='divJoueur1' class="row p-3 border border-2">
+        <h5 class="col-2">Joueur <br><b>1</b>:</h5>
+        <p style="font-size: 2em; font-weight: 300; font-style: italic; text-transform: capitalize">{{ronde.joueurs[0].valeurEnFrancais()}}</p>
+        <div>
+          <img *ngFor='let carte of ronde.joueurs[0].cartes' src="assets/TP2-Cartes/{{carte.versNomImage()}}" class="m-2">
+        </div>  
+      </div>
+      <div id='divJoueur2' class="row p-3 border border-2">
+        <h5 class="col-2">Joueur <br><b>2</b>:</h5>
+        <p style="font-size: 2em; font-weight: 300; font-style: italic; text-transform: capitalize">{{ronde.joueurs[1].valeurEnFrancais()}}</p>
+        <div>
+          <img *ngFor='let carte of ronde.joueurs[1].cartes' src="assets/TP2-Cartes/{{carte.versNomImage()}}" class="m-2">
+        </div>
+      </div>
+      <div id='divJoueur3' class="row p-3 border border-2">
+        <h5 class="col-2">Joueur <br><b>3</b>:</h5>
+        <p style="font-size: 2em; font-weight: 300; font-style: italic; text-transform: capitalize">{{ronde.joueurs[2].valeurEnFrancais()}}</p>
+        <div>
+          <img *ngFor='let carte of ronde.joueurs[2].cartes' src="assets/TP2-Cartes/{{carte.versNomImage()}}" class="m-2">
+        </div>  
+      </div>
+      <div id='divJoueur4' class="row p-3 border border-2">
+        <h5 class="col-2">Joueur <br><b>4</b>:</h5>
+        <p style="font-size: 2em; font-weight: 300; font-style: italic; text-transform: capitalize">{{ronde.joueurs[3].valeurEnFrancais()}}</p>
+        <div>
+          <img *ngFor='let carte of ronde.joueurs[3].cartes' src="assets/TP2-Cartes/{{carte.versNomImage()}}" class="m-2">
+        </div>  
+      </div>
+    </div>
+    <div class="row col-6">
+      <div id='divCartesPubliques' class="row border border-2">
+        <div class="p-5">
+          <hr class="bg-light" size="5">
+          <img *ngFor='let carte of ronde.flop' src="assets/TP2-Cartes/{{carte.versNomImage()}}" class="m-2">
+          <hr class="bg-light" size="5">
+        </div>
+        <h4>Cartes <br><b>Publiques</b>:</h4>
+        <div class="p-5">
+          <hr class="bg-light" size="5">
+          <img src="assets/TP2-Cartes/{{ronde.turn.versNomImage()}}" class="m-2">
+          <img src="assets/TP2-Cartes/{{ronde.river.versNomImage()}}" class="m-2">
+          <hr class="bg-light" size="5">
+        </div>
+      </div>
+    </div>
+    <div class="bg-primary text-center text-white rounded mt-5 p-3">
+      <h1>Le <span class="text-black">joueur {{ronde.joueurGagnant.numero}}</span> est le gagnant.</h1>
+      <button class=' mt-4 p-3 btn btn-info' (click)='recommencer()'><h4>Commencer une autre partie</h4></button>
+    </div>
+  </div>
+  </section>
+</div>

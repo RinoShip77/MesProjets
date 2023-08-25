@@ -1,0 +1,77 @@
+<!--
+//------------------------------------------
+//   fichier : journal.component.html
+//   Dev : Olivier Bourgault
+//   Date: 2021-11-21
+//   Projet: JourVie
+//------------------------------------------
+-->
+
+<div *ngIf='visible' >
+   <h2 class='{{couleurStatut}}'> {{statutJournal}} depuis {{accumulateurTemps.toFixed(1)}} {{accumulateurUnite}}</h2>
+
+   <section class='row'>
+        <article *ngIf='btnCommentaireVisible' class='col-1'>
+            <button  (click)='ouvrirDialogCommentaire()'>
+                <img width='40' src='assets/images/commentaire.png'>
+            </button>
+        </article>
+        <article *ngIf='changerTacheVisible' class='col-1'>
+            <button   (click)='changerDeTache()'>
+                <img width='40' src='assets/images/changerTache.png'>
+            </button>
+        </article>
+        <article *ngIf='arreterSessionVisible' class='col-1'>
+            <button (click)='arreterSession()'>
+                <img width='40'src='assets/images/pause.png'>
+            </button>
+        </article>
+        <article *ngIf='statsVisible' class='col-1'>
+            <button   (click)='ouvrirStatistiques()'>
+                <img width='40'src='assets/images/stats.png'>
+            </button>
+        </article>
+   </section>
+
+   <section *ngIf='formComVisible' class='row beige'>
+      <h3>Rédigez votre commentaire:</h3>
+      <form>
+          <label>Commentaire:</label>
+          <textarea (input)='saisirCommentaire($event)'>
+
+          </textarea>
+      </form>
+    <article class='col-1'>
+        <button (click)='enregistrerCommentaire()'>
+            <img width='40' src='assets/images/sauver.png'>
+        </button> 
+    </article>
+    <article class='col-1'>
+        <button (click)='annulerCommentaire()'>
+            <img width='40' src='assets/images/annuler.png'>
+        </button> 
+    </article>
+   </section>
+
+   <section class='row'>
+      <table class='table'>
+         <tr>
+            <th>Date</th>
+            <th>Heure</th>
+            <th>Tache</th>
+            <th>Statut</th>
+            <th>Commentaires</th>
+        </tr>
+
+        <tr *ngFor="let ev of evenements; let id=index">
+            <td>{{ev.Date}}</td>
+            <td>{{ev.Heure}}</td>
+            <td>{{ev.TacheNumero}}</td>
+            <td><img width=30 src='assets/images/{{ev.Type}}.png' alt='{{ev.Type}}.png'></td>
+            <td>{{ev.Contenu}}</td>
+            <!-- <td>{{commentaires[id].Contenu}}</td> -->
+         </tr>
+      </table>
+   </section>
+
+</div>

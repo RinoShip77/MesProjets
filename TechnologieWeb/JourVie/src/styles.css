@@ -1,0 +1,32 @@
+/* ------------------------------------------
+   fichier : styles.css
+   Dev : Olivier Bourgault
+   Date: 2021-11-21
+   Projet: JourVie
+------------------------------------------ */
+
+#fond{
+   background-color:blue;
+   color:gold;
+}
+
+#entete{
+   background-color:gray;
+   color:greenyellow;
+   padding-left:2%;
+   margin-bottom:3%;
+}
+
+.vert{
+   background-color:green;
+   color:gold;
+}
+
+.jaune{
+   background-color:yellow;
+   color:red;
+}
+
+.beige{
+   background-color:beige;
+}
