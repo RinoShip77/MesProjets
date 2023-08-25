@@ -1,0 +1,733 @@
+{
+	"info": {
+		"_postman_id": "00a4de81-6ced-47d6-bfa6-c3382243b150",
+		"name": "TP1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8501/observations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8501",
+					"path": [
+						"observations"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": {\r\n        \"station\": \"XL908\",\r\n        \"coord\": {\r\n            \"lon\": -122.82,\r\n            \"lat\": 38.39\r\n        }\r\n    },\r\n    \"temperature\": 15,\r\n    \"pressure\": 1011,\r\n    \"humidity\": 0.55,\r\n    \"feelslike\": 15,\r\n    \"uvIndex\": 5,\r\n    \"wind\": {\r\n        \"speed\": 12,\r\n        \"degree\": 165\r\n    },\r\n    \"clouds\": {\r\n        \"cloudscover\": 0.72\r\n    },\r\n    \"observationDate\": \"2020-06-28T11:39:13.93400Z\",\r\n    \"hexMatrix\": [ \"0xA2\", \"0xC4\", \"0xE2\", \"0x12\", \"0xB6\" ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8501/observations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8501",
+							"path": [
+								"observations"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "357"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"165-QBj1P2qPVdCicS2vVls+rBXCXdU\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Oct 2021 00:21:40 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"location\": {\n        \"coord\": {\n            \"lon\": -122.82,\n            \"lat\": 38.39\n        },\n        \"stationName\": \"XL908\"\n    },\n    \"temperature\": 15,\n    \"pressure\": 1011,\n    \"humidity\": 0.55,\n    \"feelslike\": 15,\n    \"uvIndex\": 5,\n    \"wind\": {\n        \"speed\": 12,\n        \"degree\": 165,\n        \"direction\": \"S\"\n    },\n    \"clouds\": {\n        \"cloudscover\": 0.72\n    },\n    \"observationDate\": \"2020-06-28\",\n    \"_id\": \"615f8f14d998f6f803441f7b\",\n    \"hex\": {\n        \"alpha\": 784,\n        \"beta\": 23508418752,\n        \"gamma\": 29985228,\n        \"delta\": 0\n    }\n}"
+				},
+				{
+					"name": "Create",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": {\r\n        \"station\": \"XL908\",\r\n        \"coord\": {\r\n            \"lon\": -122.82,\r\n            \"lat\": 38.39\r\n        }\r\n    },\r\n    \"temperature\": 15,\r\n    \"pressure\": 1011,\r\n    \"humidity\": 0.55,\r\n    \"feelslike\": 15,\r\n    \"uvIndex\": 5,\r\n    \"wind\": {\r\n        \"speed\": 12,\r\n        \"degree\": 165\r\n    },\r\n    \"clouds\": {\r\n        \"cloudscover\": 0.72\r\n    },\r\n    \"observationDate\": \"2020-06-28T11:39:13.93400Z\",\r\n    \"hexMatrix\": [ \"0xA2\", \"0xC4\", \"0xE2\", \"0x12\", \"0xB6\" ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8501/observations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8501",
+							"path": [
+								"observations"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'none'"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1526"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Oct 2021 00:23:09 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Error</title>\n    </head>\n    <body>\n        <pre>MongoServerError: E11000 duplicate key error collection: test.observations index: location.coord.lon_1 dup key: { location.coord.lon: -122.82 }\n            <br> &nbsp; &nbsp;at C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\mongodb\\lib\\operations\\insert.js:51:33\n            <br> &nbsp; &nbsp;at C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\mongodb\\lib\\cmap\\connection_pool.js:272:25\n            <br> &nbsp; &nbsp;at handleOperationResult (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\mongodb\\lib\\sdam\\server.js:363:9)\n            <br> &nbsp; &nbsp;at MessageStream.messageHandler (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\mongodb\\lib\\cmap\\connection.js:479:9)\n            <br> &nbsp; &nbsp;at MessageStream.emit (events.js:400:28)\n            <br> &nbsp; &nbsp;at processIncomingData (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\mongodb\\lib\\cmap\\message_stream.js:108:16)\n            <br> &nbsp; &nbsp;at MessageStream._write (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\mongodb\\lib\\cmap\\message_stream.js:28:9)\n            <br> &nbsp; &nbsp;at writeOrBuffer (internal/streams/writable.js:358:12)\n            <br> &nbsp; &nbsp;at MessageStream.Writable.write (internal/streams/writable.js:303:10)\n            <br> &nbsp; &nbsp;at TLSSocket.ondata (internal/streams/readable.js:726:22)\n        </pre>\n    </body>\n</html>"
+				},
+				{
+					"name": "Create",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8501/observations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8501",
+							"path": [
+								"observations"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'none'"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1751"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Oct 2021 00:24:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Error</title>\n    </head>\n    <body>\n        <pre>BadRequestError: L&#39;observation ne peut pas contenir aucune donnée\n            <br> &nbsp; &nbsp;at post (file:///C:/Users/olivi/Documents/GitHub/3E4.A21.102.Service.Echange.Donnees/TP1/src/routes/observations.routes.js:22:35)\n            <br> &nbsp; &nbsp;at Layer.handle [as handle_request] (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\express\\lib\\router\\layer.js:95:5)\n            <br> &nbsp; &nbsp;at next (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\express\\lib\\router\\route.js:137:13)\n            <br> &nbsp; &nbsp;at Route.dispatch (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\express\\lib\\router\\route.js:112:3)\n            <br> &nbsp; &nbsp;at Layer.handle [as handle_request] (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\express\\lib\\router\\layer.js:95:5)\n            <br> &nbsp; &nbsp;at C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\express\\lib\\router\\index.js:281:22\n            <br> &nbsp; &nbsp;at Function.process_params (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\express\\lib\\router\\index.js:335:12)\n            <br> &nbsp; &nbsp;at next (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\express\\lib\\router\\index.js:275:10)\n            <br> &nbsp; &nbsp;at Function.handle (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\express\\lib\\router\\index.js:174:3)\n            <br> &nbsp; &nbsp;at router (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\express\\lib\\router\\index.js:47:12)\n        </pre>\n    </body>\n</html>"
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8501/observations/615cffe431855b8a1c3076a7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8501",
+					"path": [
+						"observations",
+						"615cffe431855b8a1c3076a7"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8501/observations/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8501",
+							"path": [
+								"observations",
+								"4"
+							]
+						}
+					},
+					"status": "Method Not Allowed",
+					"code": 405,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Oct 2021 01:18:37 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Retrieve All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8501/observations/Tatooie?unit=f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8501",
+					"path": [
+						"observations",
+						"Tatooie"
+					],
+					"query": [
+						{
+							"key": "unit",
+							"value": "f"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Retrieve All",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8501/observations/Tatooine?unit=f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8501",
+							"path": [
+								"observations",
+								"Tatooine"
+							],
+							"query": [
+								{
+									"key": "unit",
+									"value": "f"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1803"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"70b-mS8bMZswmKc9fVOAhzOMWVlAmJQ\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Oct 2021 00:35:37 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"location\": {\n            \"coord\": {\n                \"lon\": -100.66,\n                \"lat\": 20.45\n            },\n            \"stationName\": \"Tatooine\"\n        },\n        \"wind\": {\n            \"speed\": 12,\n            \"degree\": 23,\n            \"direction\": \"NE\"\n        },\n        \"clouds\": {\n            \"cloudcover\": 0.72\n        },\n        \"_id\": \"615372b67e7d9893a7ddb48b\",\n        \"temperature\": 59,\n        \"pressure\": 1011,\n        \"humidity\": 0.55,\n        \"feelslike\": 15,\n        \"uvIndex\": 5,\n        \"observationDate\": \"2020-06-28\",\n        \"hex\": {\n            \"alpha\": 800,\n            \"beta\": 25830237888,\n            \"gamma\": 32287797.36,\n            \"delta\": 288\n        }\n    },\n    {\n        \"location\": {\n            \"coord\": {\n                \"lon\": 80.82,\n                \"lat\": -108.75\n            },\n            \"stationName\": \"Tatooine\"\n        },\n        \"wind\": {\n            \"speed\": 12,\n            \"degree\": 68,\n            \"direction\": \"E\"\n        },\n        \"clouds\": {\n            \"cloudcover\": 0.72\n        },\n        \"_id\": \"615372ed7e7d9893a7ddb48c\",\n        \"temperature\": 59,\n        \"pressure\": 1011,\n        \"humidity\": 0.55,\n        \"feelslike\": 15,\n        \"uvIndex\": 5,\n        \"observationDate\": \"2020-06-28\",\n        \"hex\": {\n            \"alpha\": 784,\n            \"beta\": 23508418752,\n            \"gamma\": 29985228,\n            \"delta\": 0\n        }\n    },\n    {\n        \"location\": {\n            \"coord\": {\n                \"lon\": -172.27,\n                \"lat\": 50.25\n            },\n            \"stationName\": \"Tatooine\"\n        },\n        \"wind\": {\n            \"speed\": 12,\n            \"degree\": 113,\n            \"direction\": \"SE\"\n        },\n        \"clouds\": {\n            \"cloudcover\": 0.72\n        },\n        \"_id\": \"6157626cece783393cebec1d\",\n        \"temperature\": 59,\n        \"pressure\": 1011,\n        \"humidity\": 0.55,\n        \"feelslike\": 15,\n        \"uvIndex\": 5,\n        \"observationDate\": \"2020-06-28\",\n        \"hex\": {\n            \"alpha\": 784,\n            \"beta\": 23508418752,\n            \"gamma\": 29985228,\n            \"delta\": 0\n        }\n    },\n    {\n        \"location\": {\n            \"coord\": {\n                \"lon\": -61.82,\n                \"lat\": -9.97\n            },\n            \"stationName\": \"Tatooine\"\n        },\n        \"wind\": {\n            \"speed\": 12,\n            \"degree\": 248,\n            \"direction\": \"W\"\n        },\n        \"clouds\": {\n            \"cloudcover\": 0.72\n        },\n        \"_id\": \"615762c0ece783393cebec20\",\n        \"temperature\": 59,\n        \"pressure\": 1011,\n        \"humidity\": 0.55,\n        \"feelslike\": 15,\n        \"uvIndex\": 5,\n        \"observationDate\": \"2020-06-28\",\n        \"hex\": {\n            \"alpha\": 784,\n            \"beta\": 23508418752,\n            \"gamma\": 29985228,\n            \"delta\": 0\n        }\n    },\n    {\n        \"location\": {\n            \"coord\": {\n                \"lon\": 149.62,\n                \"lat\": 101\n            },\n            \"stationName\": \"Tatooine\"\n        },\n        \"wind\": {\n            \"speed\": 12,\n            \"degree\": 337,\n            \"direction\": \"NW\"\n        },\n        \"clouds\": {\n            \"cloudcover\": 0.72\n        },\n        \"_id\": \"615a3a7c556d3e3e5497a074\",\n        \"temperature\": 59,\n        \"pressure\": 1011,\n        \"humidity\": 0.55,\n        \"feelslike\": 15,\n        \"uvIndex\": 5,\n        \"observationDate\": \"2020-06-28\",\n        \"hex\": {\n            \"alpha\": 784,\n            \"beta\": 23508418752,\n            \"gamma\": 29985228,\n            \"delta\": 0\n        }\n    }\n]"
+				},
+				{
+					"name": "Retrieve All",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8501/observations/Tatooin?unit=f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8501",
+							"path": [
+								"observations",
+								"Tatooin"
+							],
+							"query": [
+								{
+									"key": "unit",
+									"value": "f"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'none'"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "403"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Oct 2021 00:48:48 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Error</title>\n    </head>\n    <body>\n        <pre>ReferenceError: observation is not defined\n            <br> &nbsp; &nbsp;at getAll (file:///C:/Users/olivi/Documents/GitHub/3E4.A21.102.Service.Echange.Donnees/TP1/src/routes/observations.routes.js:57:13)\n            <br> &nbsp; &nbsp;at processTicksAndRejections (internal/process/task_queues.js:95:5)\n        </pre>\n    </body>\n</html>"
+				},
+				{
+					"name": "Retrieve All",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8501/observations/Tatooie?unit=f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8501",
+							"path": [
+								"observations",
+								"Tatooie"
+							],
+							"query": [
+								{
+									"key": "unit",
+									"value": "f"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'none'"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "404"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Oct 2021 00:59:14 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Error</title>\n    </head>\n    <body>\n        <pre>BadRequestError: La requête est incorrecte\n            <br> &nbsp; &nbsp;at getAll (file:///C:/Users/olivi/Documents/GitHub/3E4.A21.102.Service.Echange.Donnees/TP1/src/routes/observations.routes.js:68:39)\n            <br> &nbsp; &nbsp;at processTicksAndRejections (internal/process/task_queues.js:95:5)\n        </pre>\n    </body>\n</html>"
+				}
+			]
+		},
+		{
+			"name": "Retreive One",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8501/observations/Naboo/615371d87e7d9893a7ddb487?unit=s",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8501",
+					"path": [
+						"observations",
+						"Naboo",
+						"615371d87e7d9893a7ddb487"
+					],
+					"query": [
+						{
+							"key": "unit",
+							"value": "s"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Retreive One",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8501/observations/Naboo/615371d87e7d9893a7ddb488?unit=s",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8501",
+							"path": [
+								"observations",
+								"Naboo",
+								"615371d87e7d9893a7ddb488"
+							],
+							"query": [
+								{
+									"key": "unit",
+									"value": "s"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "360"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"168-9n15gPQH111BccgnDsjtNWs3q7I\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Oct 2021 00:36:46 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"location\": {\n        \"coord\": {\n            \"lon\": -122.08,\n            \"lat\": 37.39\n        },\n        \"stationName\": \"Naboo\"\n    },\n    \"wind\": {\n        \"speed\": 12,\n        \"degree\": 165,\n        \"direction\": \"S\"\n    },\n    \"clouds\": {\n        \"cloudcover\": 0.72\n    },\n    \"_id\": \"615371d87e7d9893a7ddb488\",\n    \"temperature\": 288.15,\n    \"pressure\": 1011,\n    \"humidity\": 0.55,\n    \"feelslike\": 15,\n    \"uvIndex\": 5,\n    \"observationDate\": \"2020-06-28\",\n    \"hex\": {\n        \"alpha\": 784,\n        \"beta\": 23508418752,\n        \"gamma\": 29985228,\n        \"delta\": 0\n    }\n}"
+				},
+				{
+					"name": "Retreive One",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8501/observations/Naboo/615371d87e7d9893a7ddb48?unit=s",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8501",
+							"path": [
+								"observations",
+								"Naboo",
+								"615371d87e7d9893a7ddb48"
+							],
+							"query": [
+								{
+									"key": "unit",
+									"value": "s"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'none'"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "678"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Oct 2021 00:38:35 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Error</title>\n    </head>\n    <body>\n        <pre>CastError: Cast to ObjectId failed for value &quot;615371d87e7d9893a7ddb48&quot; (type string) at path &quot;_id&quot; for model &quot;Observation&quot;\n            <br> &nbsp; &nbsp;at model.Query.exec (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\mongoose\\lib\\query.js:4540:21)\n            <br> &nbsp; &nbsp;at model.Query.Query.then (C:\\Users\\olivi\\Documents\\GitHub\\3E4.A21.102.Service.Echange.Donnees\\TP1\\node_modules\\mongoose\\lib\\query.js:4639:15)\n            <br> &nbsp; &nbsp;at processTicksAndRejections (internal/process/task_queues.js:95:5)\n        </pre>\n    </body>\n</html>"
+				},
+				{
+					"name": "Retreive One",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8501/observations/Naboo/615371d87e7d9893a7ddb487?unit=s",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8501",
+							"path": [
+								"observations",
+								"Naboo",
+								"615371d87e7d9893a7ddb487"
+							],
+							"query": [
+								{
+									"key": "unit",
+									"value": "s"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'none'"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "443"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Oct 2021 00:40:18 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Error</title>\n    </head>\n    <body>\n        <pre>NotFoundError: L&#39;observation avec l&#39;identifiant undefined n&#39;existe pas\n            <br> &nbsp; &nbsp;at getOne (file:///C:/Users/olivi/Documents/GitHub/3E4.A21.102.Service.Echange.Donnees/TP1/src/routes/observations.routes.js:88:43)\n            <br> &nbsp; &nbsp;at processTicksAndRejections (internal/process/task_queues.js:95:5)\n        </pre>\n    </body>\n</html>"
+				}
+			]
+		}
+	]
+}

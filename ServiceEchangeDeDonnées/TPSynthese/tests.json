@@ -1,0 +1,358 @@
+{
+	"info": {
+		"_postman_id": "e3e23b78-677a-4403-be36-09626ffb6177",
+		"name": "ESA - Sommatif",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "A",
+			"item": [
+				{
+					"name": "P2",
+					"item": [
+						{
+							"name": "Retrieve One (pizzerias)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7187/pizzerias/5fc125a21633312494c41b2c?embed=orders",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7187",
+									"path": [
+										"pizzerias",
+										"5fc125a21633312494c41b2c"
+									],
+									"query": [
+										{
+											"key": "embed",
+											"value": "orders"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "C2",
+					"item": [
+						{
+							"name": "Retrieve All (customers)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7187/customers?page=3&limit=10&planet=Pualia",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7187",
+									"path": [
+										"customers"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "3"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "planet",
+											"value": "Pualia"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "C3",
+					"item": [
+						{
+							"name": "Update complete (customer)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Merle Giguère\",\r\n    \"email\": \"MerleGiguere@einrot.com\",\r\n    \"planet\": \"Pualia\",\r\n    \"coord\": {\r\n    \t\"lat\": \"-196.978\",\r\n    \t\"lon\": \"688.980\" \r\n    },\r\n    \"phone\": \"BD99BB4936C658FA\",\r\n    \"birthday\": \"1967-01-18\",\r\n    \"referalCode\": \"dieFie5aoze\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7187/customers/5fc125a21633312494c41ffd?_body=false",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7187",
+									"path": [
+										"customers",
+										"5fc125a21633312494c41ffd"
+									],
+									"query": [
+										{
+											"key": "_body",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "B",
+			"item": [
+				{
+					"name": "P1",
+					"item": [
+						{
+							"name": "Retrieve All (pizzerias)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7187/pizzerias?page=3&limit=10&speciality=Kiwi",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7187",
+									"path": [
+										"pizzerias"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "3"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "speciality",
+											"value": "Kiwi"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "C1",
+					"item": [
+						{
+							"name": "Create (customers)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Oli\",\r\n    \"email\": \"Bour@gmail.com\",\r\n    \"planet\": \"Pualia\",\r\n    \"coord\": {\r\n    \t\"lat\": \"-196.978\",\r\n    \t\"lon\": \"688.980\" \r\n    },\r\n    \"phone\": \"BD99BB4936C658FA\",\r\n    \"birthday\": \"1967-01-18\",\r\n    \"referalCode\": \"dieFie5aoze\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7187/customers?_body=false",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7187",
+									"path": [
+										"customers"
+									],
+									"query": [
+										{
+											"key": "_body",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "O2",
+					"item": [
+						{
+							"name": "Retrieve One (orders)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7187/orders/61b0ccf1c12a9f1d44a4609d",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7187",
+									"path": [
+										"orders",
+										"61b0ccf1c12a9f1d44a4609d"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "C",
+			"item": [
+				{
+					"name": "P3",
+					"item": [
+						{
+							"name": "Create (pizzerias)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"planet\": \"Pualia\",\r\n    \"coord\": {\r\n    \t\"lat\": \"-196.978\",\r\n    \t\"lon\": \"688.980\" \r\n    },\r\n    \"chef\": {\r\n        \"name\": \"Krop\",\r\n        \"ancestor\": \"Thumera\",\r\n        \"speciality\": \"Hot Banana Pepper\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7187/pizzerias",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7187",
+									"path": [
+										"pizzerias"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "C4",
+					"item": [
+						{
+							"name": "Retrieve One (customers)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7187/customers/5fc125a21633312494c41fee?embed=orders",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7187",
+									"path": [
+										"customers",
+										"5fc125a21633312494c41fee"
+									],
+									"query": [
+										{
+											"key": "embed",
+											"value": "orders"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "O1",
+					"item": [
+						{
+							"name": "Retrieve All (orders)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7187/orders?page=12&limit=20&topping=Egg",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7187",
+									"path": [
+										"orders"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "12"
+										},
+										{
+											"key": "limit",
+											"value": "20"
+										},
+										{
+											"key": "topping",
+											"value": "Egg"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

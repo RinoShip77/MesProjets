@@ -1,0 +1,26 @@
+table, th, td { /* Modifie chaque balise de tableau, d'en-tête de tableau ainsi que les données d'un tableau */
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid lightgray
+}
+
+a:link, a:visited { /* Fait en sorte que les balises pour les liens ne soit pas soulignés */
+    text-decoration: none;
+}
+
+#location { /* Change les propriétés de l'élément où l'identifiant est appelé */
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    text-align: left
+}
+
+.colored-hash .block { /* Modifie l'élément où la classe est implémentée */
+    letter-spacing: -8px;
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    overflow: hidden;
+    padding: 0;
+    line-height: 1
+}
