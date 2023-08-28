@@ -1,0 +1,62 @@
+[
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\activity_maps.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\activity_maps.xml"
+    },
+    {
+        "merged": "ca.qc.cstj.tenretni.app-mergeDebugResources-52:/layout/item_gateway.xml",
+        "source": "ca.qc.cstj.tenretni.app-main-55:/layout/item_gateway.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\fragment_detail_gateway.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_detail_gateway.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\activity_loading.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\activity_loading.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\item_gateway.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\item_gateway.xml"
+    },
+    {
+        "merged": "ca.qc.cstj.tenretni.app-mergeDebugResources-52:/layout/fragment_detail_gateway.xml",
+        "source": "ca.qc.cstj.tenretni.app-main-55:/layout/fragment_detail_gateway.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\fragment_tickets.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_tickets.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\fragment_gateways.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_gateways.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\item_network.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\item_network.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\fragment_detail_ticket.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_detail_ticket.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\fragment_q_r.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_q_r.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\fragment_networks.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_networks.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-mergeDebugResources-52:\\layout\\item_ticket.xml",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\item_ticket.xml"
+    },
+    {
+        "merged": "ca.qc.cstj.tenretni.app-mergeDebugResources-52:/layout/fragment_detail_ticket.xml",
+        "source": "ca.qc.cstj.tenretni.app-main-55:/layout/fragment_detail_ticket.xml"
+    }
+]

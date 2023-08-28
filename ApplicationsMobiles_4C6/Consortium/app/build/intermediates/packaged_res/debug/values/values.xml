@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <color name="black">#FF000000</color>
+    <color name="gray">#576574</color>
+    <color name="green">#006400</color>
+    <color name="orange">#FF5722</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">Consortium</string>
+    <string name="btnLoad">LOAD</string>
+    <string name="btnOpen">OPEN</string>
+    <string name="btnUpload">UPLOAD</string>
+    <string name="dcpBileriumImage">Bilerium image</string>
+    <string name="dcpBtnAddDelivery">Add a delivery</string>
+    <string name="dcpConsortiumImage">Consortium image</string>
+    <string name="dcpGloyliumImage">Gloylium image</string>
+    <string name="dcpLukryxImage">Lukryx image</string>
+    <string name="dcpSaveDelivery">Save delivery</string>
+    <string name="dcpSmiathilImage">Smiathil image</string>
+    <string name="dcpVethyxImage">Vethyx image</string>
+    <string name="dftSliderValueBilerium">49.34</string>
+    <string name="dftSliderValueGloylium">11.92</string>
+    <string name="dftSliderValueLukryx">18.48</string>
+    <string name="dftSliderValueSmiathil">6.50</string>
+    <string name="dftSliderValueVethyx">17.38</string>
+    <string name="dftValueBilerium">386.00</string>
+    <string name="dftValueGloylium">357.00</string>
+    <string name="dftValueLukryx">353.00</string>
+    <string name="dftValueSmiathil">379.00</string>
+    <string name="dftValueVethyx">323.00</string>
+    <string name="edtTraderHint">Trader name</string>
+    <string name="msgSplashToastBtnOpen">The username must be fill</string>
+    <string name="msgSplashToastBtnUpload">The upload is done</string>
+    <string name="msgToastNewDeliveryError">The delivery must have minimum one item</string>
+    <string name="msgToastNewDeliverySave">The delivery has been saved</string>
+    <string name="msgWelcome">Welcome back </string>
+    <string name="txtBilerium">Bilerium</string>
+    <string name="txtGloylium">Gloylium</string>
+    <string name="txtLukryx">Lukryx</string>
+    <string name="txtSmiathil">Smiathil</string>
+    <string name="txtVethyx">Vethyx</string>
+    <string name="txvLivraison">Delivery</string>
+    <style name="Theme.Consortium" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/gray</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/orange</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" ns1:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:textColor">@color/purple_500</item>
+    </style>
+</resources>

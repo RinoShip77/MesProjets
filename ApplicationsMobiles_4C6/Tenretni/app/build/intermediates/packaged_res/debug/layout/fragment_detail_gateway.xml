@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="15dp" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctlGatewayDetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chpGatewayStatus"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/gatewayStatus"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/gateway_status_online"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txvGatewaySerialNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/detailGatewaySerialNumber"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chpGatewayStatus" />
+
+        <TextView
+            android:id="@+id/txvGatewayMAC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="monospace"
+            android:text="@string/gatewayMAC"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txvGatewaySerialNumber" />
+
+        <TextView
+            android:id="@+id/txvGatewaySSID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/gatewaySSID"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txvGatewayMAC" />
+
+        <TextView
+            android:id="@+id/txvGatewayPIN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/gatewayPIN"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txvGatewaySSID"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewaySSID" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gdlDetailGatewayUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="155dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/gdlGatewayDetailDown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gdlDetailGatewayUp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txvGatewayConnectionIP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/gatewayConnectionIP"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imvGatewaySignal"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/imvGatewayDownload"
+                    app:layout_constraintEnd_toStartOf="@+id/txvGatewayConnectionPing"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txvGatewayConnectionIP"
+                    app:srcCompat="@drawable/ic_baseline_sync_alt_24" />
+
+                <TextView
+                    android:id="@+id/txvGatewayConnectionPing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo"
+                    android:text="@string/gatewayConnectionPing"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imvGatewaySignal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/imvGatewaySignal"
+                    app:layout_constraintTop_toTopOf="@+id/imvGatewaySignal" />
+
+                <ImageView
+                    android:id="@+id/imvGatewayDownload"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/txvGatewayConnectionDownloadValue"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_outline_cloud_download_24" />
+
+                <TextView
+                    android:id="@+id/txvGatewayConnectionDownloadValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo"
+                    android:text="@string/gatewayConnectionDownload"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imvGatewayDownload"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/imvGatewayDownload"
+                    app:layout_constraintTop_toTopOf="@+id/imvGatewayDownload" />
+
+                <ImageView
+                    android:id="@+id/imvGatewayUpload"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    app:layout_constraintBottom_toTopOf="@+id/imvGatewayConnectionSignal"
+                    app:layout_constraintEnd_toEndOf="@+id/imvGatewayConnectionSignal"
+                    app:layout_constraintStart_toStartOf="@+id/imvGatewayDownload"
+                    app:layout_constraintTop_toBottomOf="@+id/imvGatewayDownload"
+                    app:srcCompat="@drawable/ic_outline_cloud_upload_24" />
+
+                <TextView
+                    android:id="@+id/txvGatewayConnectionUploadValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo"
+                    android:text="@string/gatewayConnectionUpload"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imvGatewayUpload"
+                    app:layout_constraintEnd_toEndOf="@+id/txvGatewayConnectionDownloadValue"
+                    app:layout_constraintStart_toStartOf="@+id/txvGatewayConnectionDownloadValue"
+                    app:layout_constraintTop_toTopOf="@+id/imvGatewayUpload" />
+
+
+                <ImageView
+                    android:id="@+id/imvGatewayConnectionSignal"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/ic_baseline_signal_cellular_alt_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/txvGatewayConnectionSignal"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/txvGatewayConnectionSignal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo"
+                    android:text="@string/gatewayConnectionSignal"
+                    android:textColor="@color/ticket_priority_high"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imvGatewayConnectionSignal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/imvGatewayConnectionSignal"
+                    app:layout_constraintTop_toTopOf="@+id/imvGatewayConnectionSignal" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/grpGatewayStats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="txvGatewayConnectionIP,imvGatewaySignal,txvGatewayConnectionPing,imvGatewayDownload,txvGatewayConnectionDownloadValue,imvGatewayUpload,txvGatewayConnectionUploadValue,imvGatewayConnectionSignal,txvGatewayConnectionSignal" />
+
+                <TextView
+                    android:id="@+id/txvGatewayStats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo"
+                    android:text="@string/statsNA"
+                    android:textSize="150sp"
+                    android:textColor="@color/ticket_priority_critical"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gdlGatewayDetailDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="400dp" />
+
+        <TextView
+            android:id="@+id/txvGatewayHashStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/rctGatewayHash1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gdlGatewayDetailDown" />
+
+        <View
+            android:id="@+id/rctGatewayHash1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="4dp"
+            android:background="#EEEEEE"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayHashStart"
+            app:layout_constraintStart_toEndOf="@+id/txvGatewayHashStart"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayHashStart" />
+
+        <View
+            android:id="@+id/rctGatewayHash2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#EEEEEE"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayHashStart"
+            app:layout_constraintStart_toEndOf="@+id/rctGatewayHash1"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayHashStart" />
+
+        <View
+            android:id="@+id/rctGatewayHash3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#EEEEEE"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayHashStart"
+            app:layout_constraintStart_toEndOf="@+id/rctGatewayHash2"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayHashStart" />
+
+        <View
+            android:id="@+id/rctGatewayHash4"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#EEEEEE"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayHashStart"
+            app:layout_constraintStart_toEndOf="@+id/rctGatewayHash3"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayHashStart" />
+
+        <View
+            android:id="@+id/rctGatewayHash5"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#EEEEEE"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayHashStart"
+            app:layout_constraintStart_toEndOf="@+id/rctGatewayHash4"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayHashStart" />
+
+        <View
+            android:id="@+id/rctGatewayHash6"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#EEEEEE"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayHashStart"
+            app:layout_constraintStart_toEndOf="@+id/rctGatewayHash5"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayHashStart" />
+
+        <View
+            android:id="@+id/rctGatewayHash7"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#EEEEEE"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayHashStart"
+            app:layout_constraintStart_toEndOf="@+id/rctGatewayHash6"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayHashStart" />
+
+        <View
+            android:id="@+id/rctGatewayHash8"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#EEEEEE"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayHashStart"
+            app:layout_constraintStart_toEndOf="@+id/rctGatewayHash7"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayHashStart" />
+
+        <View
+            android:id="@+id/rctGatewayHash9"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#EEEEEE"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayHashStart"
+            app:layout_constraintStart_toEndOf="@+id/rctGatewayHash8"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayHashStart" />
+
+        <View
+            android:id="@+id/rctGatewayHash10"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#EEEEEE"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayHashStart"
+            app:layout_constraintStart_toEndOf="@+id/rctGatewayHash9"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayHashStart" />
+
+        <TextView
+            android:id="@+id/txvGatewayHashEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/rctGatewayHash10"
+            app:layout_constraintStart_toEndOf="@+id/rctGatewayHash10"
+            app:layout_constraintTop_toTopOf="@+id/rctGatewayHash10" />
+
+        <ImageView
+            android:id="@+id/imvGatewayKernel1"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/element_b"
+            app:layout_constraintEnd_toStartOf="@+id/imvGatewayKernel2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txvGatewayHashStart" />
+
+        <ImageView
+            android:id="@+id/imvGatewayKernel2"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/element_g"
+            app:layout_constraintBottom_toBottomOf="@+id/imvGatewayKernel1"
+            app:layout_constraintEnd_toStartOf="@+id/imvGatewayKernel3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imvGatewayKernel1"
+            app:layout_constraintTop_toTopOf="@+id/imvGatewayKernel1" />
+
+        <ImageView
+            android:id="@+id/imvGatewayKernel3"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/element_q"
+            app:layout_constraintBottom_toBottomOf="@+id/imvGatewayKernel2"
+            app:layout_constraintEnd_toStartOf="@+id/imvGatewayKernel4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imvGatewayKernel2"
+            app:layout_constraintTop_toTopOf="@+id/imvGatewayKernel2" />
+
+        <ImageView
+            android:id="@+id/imvGatewayKernel4"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/element_e"
+            app:layout_constraintBottom_toBottomOf="@+id/imvGatewayKernel3"
+            app:layout_constraintEnd_toStartOf="@+id/imvGatewayKernel5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imvGatewayKernel3"
+            app:layout_constraintTop_toTopOf="@+id/imvGatewayKernel3" />
+
+        <ImageView
+            android:id="@+id/imvGatewayKernel5"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/element_q"
+            app:layout_constraintBottom_toBottomOf="@+id/imvGatewayKernel4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imvGatewayKernel4"
+            app:layout_constraintTop_toTopOf="@+id/imvGatewayKernel4" />
+
+        <TextView
+            android:id="@+id/txvGatewayKernelRevision"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gatewayKernelRevision"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/txvGatewayVersion"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imvGatewayKernel1" />
+
+        <TextView
+            android:id="@+id/txvGatewayVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="@string/gatewayVersion"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/txvGatewayKernelRevision"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txvGatewayKernelRevision"
+            app:layout_constraintTop_toTopOf="@+id/txvGatewayKernelRevision" />
+
+        <Button
+            android:id="@+id/btnGatewayUpdate"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:text="@string/gatewayUpdate"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnGatewayReboot"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnGatewayReboot"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="@string/gatewayReboot"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/btnGatewayUpdate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnGatewayUpdate"
+            app:layout_constraintTop_toTopOf="@+id/btnGatewayUpdate" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,278 @@
+[
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_ve.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_ve.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-mdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout-land_activity_loading.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout-land\\activity_loading.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-mdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_ye.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_ye.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_ic_baseline_sync_alt_24.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\ic_baseline_sync_alt_24.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_activity_maps.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\activity_maps.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_ja.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_ja.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_wu.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_wu.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_tickets.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\tickets.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_cad.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\cad.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_e.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_e.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout-land_fragment_detail_ticket.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout-land\\fragment_detail_ticket.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_rectancle.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\rectancle.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_ic_outline_cloud_upload_24.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\ic_outline_cloud_upload_24.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_sm.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_sm.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_l.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_l.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_ic_notifications_black_24dp.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\ic_notifications_black_24dp.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_xu.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_xu.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout-land_fragment_networks.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout-land\\fragment_networks.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_fragment_detail_gateway.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_detail_gateway.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_i.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_i.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_ic_home_black_24dp.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\ic_home_black_24dp.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_z.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_z.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_fragment_q_r.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_q_r.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_ic_outline_cloud_download_24.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\ic_outline_cloud_download_24.xml"
+    },
+    {
+        "merged": "ca.qc.cstj.tenretni.app-merged_res-53:/layout_item_gateway.xml.flat",
+        "source": "ca.qc.cstj.tenretni.app-main-55:/layout/item_gateway.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_ic_baseline_my_location_24.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\ic_baseline_my_location_24.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\menu_bottom_nav_menu.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\menu\\bottom_nav_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_network.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\network.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\navigation_mobile_navigation.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\navigation\\mobile_navigation.xml"
+    },
+    {
+        "merged": "ca.qc.cstj.tenretni.app-merged_res-53:/layout_fragment_detail_ticket.xml.flat",
+        "source": "ca.qc.cstj.tenretni.app-main-55:/layout/fragment_detail_ticket.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout-land_fragment_detail_gateway.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout-land\\fragment_detail_gateway.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_b.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_b.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_activity_loading.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\activity_loading.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_no.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_no.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_q.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_q.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_item_network.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\item_network.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_item_ticket.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\item_ticket.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_fragment_tickets.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_tickets.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_fr.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_fr.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_fragment_networks.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_networks.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_ex.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_ex.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_g.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_g.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_gateway.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\gateway.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_tenretni.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\tenretni.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_a.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_a.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\font_baloo.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\font\\baloo.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_fragment_detail_ticket.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_detail_ticket.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_ic_dashboard_black_24dp.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\ic_dashboard_black_24dp.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_item_gateway.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\item_gateway.xml"
+    },
+    {
+        "merged": "ca.qc.cstj.tenretni.app-merged_res-53:/layout_fragment_detail_gateway.xml.flat",
+        "source": "ca.qc.cstj.tenretni.app-main-55:/layout/fragment_detail_gateway.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_ic_baseline_signal_cellular_alt_24.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\ic_baseline_signal_cellular_alt_24.xml"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_za.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\za.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\drawable_element_k.png.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\drawable\\element_k.png"
+    },
+    {
+        "merged": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-merged_res-53:\\layout_fragment_gateways.xml.flat",
+        "source": "C:\\Users\\olivi\\.gradle\\daemon\\7.3.3\\ca.qc.cstj.tenretni.app-main-55:\\layout\\fragment_gateways.xml"
+    }
+]

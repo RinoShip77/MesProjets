@@ -1,0 +1,3 @@
+<?php //App%255CController%255CCatalogController%2523initSession
+
+return [PHP_INT_MAX, []];
