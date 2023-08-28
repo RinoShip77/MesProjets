@@ -1,0 +1,24 @@
+Product,ServerType,ProdServer,ProdTestServer,DevTestServer,DevServer,ProdLoc,ProdTestLoc,DevTestLoc,DevLoc
+Assyst,Web Server1,WVM0PPWBIASYST1,WVM0PTWBIASYST1,WVM0DTWBIASYST1,WVM0TTWBIASYST1,\\Wvm0ppwbiasyst1\d$\Apps\Assyst\assystEnterprise,Default,Default,Default
+Assyst,Web Server2,WVM0PPWBIASYST2,WVM0PTWBIASYST2,WVM0DTWBIASYST2,WVM0TTWBIASYST2,\\Wvm0ppwbiasyst2\d$\Apps\Assyst\assystEnterprise,Default,Default,Default
+Assyst,Web Server3,WVM0PPWBIASYST3,WVM0PTWBIASYST3,WVM0DTWBIASYST3,WVM0TTWBIASYST3,\\Wvm0ppwbiasyst3\d$\Apps\Assyst\assystEnterprise,Default,Default,Default
+Assyst,Web Server4,WVM0PPWBIASYST4,WVM0PTWBIASYST4,WVM0DTWBIASYST4,WVM0TTWBIASYST4,\\Wvm0ppwbiasyst4\d$\Apps\Assyst\assystEnterprise,Default,Default,Default
+Assyst,Web Server5,WVM0PPWBIASYST5,WVM0PTWBIASYST5,WVM0DTWBIASYST5,WVM0TTWBIASYST5,\\Wvm0ppwbiasyst5\d$\Apps\Assyst\assystEnterprise,Default,Default,Default
+Assyst,App Server1,WVM0PPAPPASYST1,WVM0PPAPTASYST1,WVM0DTAPPASYST1,WVM0TTAPPASYST1,\\WVM0PPAPPASYST1\d$\Apps\Assyst,Default,Default,Default
+Assyst,App Server2,WVM0PPAPPASYST2,WVM0PPAPTASYST2,WVM0DTAPPASYST2,WVM0TTAPPASYST2,\\WVM0PPAPPASYST2\d$\Apps\Assyst,Default,Default,Default
+
+Schedflex,Web Server1,WVM0PPWBISFLEX1,WVM0PTWBISFLEX1,WVM0DTWBISFLEX1,WVM0TTWBISFLEX1,\\Wvm0ppwbisflex1\d$\Apps\Schedflex\schedflexEnterprise,Default,Default,Default
+Schedflex,Web Server2,WVM0PPWBISFLEX2,WVM0PTWBISFLEX2,WVM0DTWBISFLEX2,WVM0TTWBISFLEX2,\\Wvm0ppwbisflex2\d$\Apps\Schedflex\schedflexEnterprise,Default,Default,Default
+Schedflex,Web Server3,WVM0PPWBISFLEX3,WVM0PTWBISFLEX3,WVM0DTWBISFLEX3,WVM0TTWBISFLEX3,\\Wvm0ppwbisflex3\d$\Apps\Schedflex\schedflexEnterprise,Default,Default,Default
+Schedflex,Web Server4,WVM0PPWBISFLEX4,WVM0PTWBISFLEX4,WVM0DTWBISFLEX4,WVM0TTWBISFLEX4,\\Wvm0ppwbisflex4\d$\Apps\Schedflex\schedflexEnterprise,Default,Default,Default
+Schedflex,Web Server5,WVM0PPWBISFLEX5,WVM0PTWBISFLEX5,WVM0DTWBISFLEX5,WVM0TTWBISFLEX5,\\Wvm0ppwbisflex5\d$\Apps\Schedflex\schedflexEnterprise,Default,Default,Default
+Schedflex,App Server1,WVM0PPAPPSFLEX1,WVM0PPAPTSFLEX1,WVM0DTAPPSFLEX1,WVM0TTAPPSFLEX1,\\WVM0PPAPPSFLEX1\d$\Apps\Schedflex,Default,Default,Default
+Schedflex,App Server2,WVM0PPAPPSFLEX2,WVM0PPAPTSFLEX2,WVM0DTAPPSFLEX2,WVM0TTAPPSFLEX2,\\WVM0PPAPPSFLEX2\d$\Apps\Schedflex,Default,Default,Default
+
+Apogee,Web Server1,WVM0PPWBIAPOGE1,WVM0PTWBIAPOGE1,WVM0DTWBIAPOGE1,WVM0TTWBIAPOGE1,\\Wvm0ppwbiapoge1\d$\Apps\Apogee\apogeeEnterprise,Default,Default,Default
+Apogee,Web Server2,WVM0PPWBIAPOGE2,WVM0PTWBIAPOGE2,WVM0DTWBIAPOGE2,WVM0TTWBIAPOGE2,\\Wvm0ppwbiapoge2\d$\Apps\Apogee\apogeeEnterprise,Default,Default,Default
+Apogee,Web Server3,WVM0PPWBIAPOGE3,WVM0PTWBIAPOGE3,WVM0DTWBIAPOGE3,WVM0TTWBIAPOGE3,\\Wvm0ppwbiapoge3\d$\Apps\Apogee\apogeeEnterprise,Default,Default,Default
+Apogee,Web Server4,WVM0PPWBIAPOGE4,WVM0PTWBIAPOGE4,WVM0DTWBIAPOGE4,WVM0TTWBIAPOGE4,\\Wvm0ppwbiapoge4\d$\Apps\Apogee\apogeeEnterprise,Default,Default,Default
+Apogee,Web Server5,WVM0PPWBIAPOGE5,WVM0PTWBIAPOGE5,WVM0DTWBIAPOGE5,WVM0TTWBIAPOGE5,\\Wvm0ppwbiapoge5\d$\Apps\Apogee\apogeeEnterprise,Default,Default,Default
+Apogee,App Server1,WVM0PPAPPAPOGE1,WVM0PPAPTAPOGE1,WVM0DTAPPAPOGE1,WVM0TTAPPAPOGE1,\\WVM0PPAPPAPOGE1\d$\Apps\Apogee,Default,Default,Default
+Apogee,App Server2,WVM0PPAPPAPOGE2,WVM0PPAPTAPOGE2,WVM0DTAPPAPOGE2,WVM0TTAPPAPOGE2,\\WVM0PPAPPAPOGE2\d$\Apps\Apogee,Default,Default,Default
