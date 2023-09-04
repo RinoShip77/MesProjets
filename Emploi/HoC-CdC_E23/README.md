@@ -3,4 +3,4 @@
 
 1. CompareTools
 
-Ce sont deux scripts qui vous aident à comparer deu éléments.
+Ce sont deux scripts (documentés en anglais) qui vous aident à comparer deux éléments.

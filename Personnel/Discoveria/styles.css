@@ -1,0 +1,12 @@
+body {
+  background-image: url('https://wallpapercave.com/wp/wp5317024.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover
+}
+
+.navArrow {
+  font-size: .75em;
+  margin-left: .5em;
+  opacity: 50%
+}
