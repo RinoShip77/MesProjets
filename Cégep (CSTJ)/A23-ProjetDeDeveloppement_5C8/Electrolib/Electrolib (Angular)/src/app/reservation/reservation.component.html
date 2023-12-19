@@ -1,0 +1,307 @@
+<div class="bg-body" style="background-color: rgba(0, 0, 0, 0.068); min-height: 850px;">
+    <!-- Titre de la page -->
+    <div class="title-bar">
+        <div>
+            <h4 style="margin-left: 20px;">
+                <i class="fa-solid fa-book-bookmark" style="color: orange;"></i>&nbsp;&nbsp;
+                <span class="titres-emprunts">Mes Réservations</span>
+            </h4>
+        </div>
+    </div>
+
+    <!-- Localisation sur la page -->
+    <div class="location-bar">
+        <i class="fa-regular fa-circle-dot fa-fade" style="color: #198754; margin-right: 10px;"></i>
+        <span class="location-page-link sous-titres-emprunts">réservations</span>
+        {{window}}
+    </div>
+
+    <!-- Séparateur -->
+    <div style="height: 0; border-bottom: 8px double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;"
+        [ngClass]="
+    {
+       'hr-light' : theme == '',
+       'hr-dark' : theme == 'dark',
+    }"></div>
+
+    <!-- div contenant le tableau, bouton etc. -->
+    <div class="table-div" [ngClass]="
+    {
+       'table-div' : theme == '',
+       'table-div-dark' : theme == 'dark',
+    }">
+        <!-- Div contenant le select pour trier la table -->
+        <div class="row" style="margin-bottom: -25px;">
+            <div *ngIf="user" class="col-6 label-emprunts">
+                <i class="fa-regular fa-user"></i>&nbsp;
+                Réservations de
+                <span [routerLink]="['../profile']"
+                    style="text-decoration: underline; font-weight: 600; cursor: pointer;">{{user.firstName}}</span>
+            </div>
+            <div style="float: right; text-align:right" class="col-6">
+                <label class="label-emprunts">Trier par: </label>
+                <select class="select-style label-emprunts" (change)="orderBySelect($event)"
+                    style="width: 240px; text-align: center;">
+                    <option value="borrowedDate" selected>Id / Date de réservation</option>
+                    <option value="title">Titre du livre</option>
+                    <option value="status">État</option>
+                </select>
+                &nbsp;&nbsp;
+                <label class="label-emprunts">Ordre: </label>
+                <select class="select-style label-emprunts" (change)="orderWayBySelect($event)"
+                    style="width: 130px; text-align: center;">
+                    <option value="ASC" selected>Croissant</option>
+                    <option value="DESC">Décroissant</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tableau contenant les emprunts -->
+        <table class="table table-bordered shadow-sm table-reservations shadow-lg">
+            <!-- Titre des colonnes de la table -->
+            <thead class="table-secondary text-center">
+                <tr>
+                    <th (click)="sortBy('idReservation')">Id
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('title')">Titre du livre
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('reservationDate')">Date de réservation
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th>Date prévue retour du livre
+                    </th>
+                    <th (click)="sortBy('status')">État (Emprunté, annulée)
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <!-- Chaque rangée de la table correspond à 1 emprunt -->
+            <tbody class="text-center">
+                <tr *ngFor="let reservation of reservations" [ngClass]="
+                {
+                'status-borrowed' : reservation.isActive == 1,
+                'status-cancelled' : reservation.isActive == 0,
+                }">
+                    <td style="color: black;">{{reservation.idReservation}}</td>
+                    <td style="color: black;">{{reservation.book.title}}</td>
+                    <td style="color: black;">{{reservation.reservationDate}}</td>
+                    <td *ngIf="reservation.isActive == 1" style="color: black;">{{reservation.borrow.dueDate}}</td>
+                    <td *ngIf="reservation.isActive == 0" style="color: black;">Annulée</td>
+                    <td [ngClass]="
+                    {
+                    'td-status-borrowed' : reservation.isActive == 1,
+                    'td-status-cancelled' : reservation.isActive == 0,
+                    }">{{reservation.determineStatus()}}</td>
+                    <td>
+
+                        <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active"
+                                style="color:#1f3151; font-size: 22px;"
+                                (click)="openReservationModal(infoReservationModal, reservation)"
+                                ngbTooltip="Plus de détails"></i></a>
+                        <a><i *ngIf="reservation.isActive == 1" class="fa-regular fa-circle-xmark col-6 icone-petite"
+                                style="color: #ac0202;" (click)="openCancelModal(cancelModal, reservation)"
+                                ngbTooltip="Annuler ma réservation"></i></a>
+                        <a><i *ngIf="reservation.isActive == 0" class="fa-solid fa-repeat col-6 icone-petite i-active"
+                                style="color: rgb(63, 94, 160);" (click)="openCancelModal(cancelModal, reservation)"
+                                ngbTooltip="Réactiver ma réservation"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Bouton en bas de la page -->
+        <div class="div-btns">
+            <button (click)="openAbout(about)" data-toggle="modal" type="button"
+                class="btn btn-primary border-btn label-emprunts" style="margin-left: 10px;">
+                À propos des réservations
+            </button>
+            <button [routerLink]="['../inventory']" type="button" class="btn btn-secondary border-btn label-emprunts"
+                style="float: right; margin-right: 10px;">
+                Retourner à l'inventaire
+            </button>
+        </div>
+    </div>
+
+    <div class="d-flex logo">
+        <img src="assets/images/logos/applicationIcon.png" class="img-fluid me-2" alt="Logo d'Electrolib"
+            title="Electrolib" width="50">
+        <h1>Electrolib</h1>
+    </div>
+</div>
+
+<!-- Modal pour annuler/réactiver un emprunt -->
+<ng-template #cancelModal let-modal>
+    <div class="modal-header modal-lg" style="text-align: center; align-items: center; display: flex;">
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title"
+            *ngIf="selectedReservation.isActive">Annuler la réservation</h4>
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title"
+            *ngIf="!selectedReservation.isActive">Réactiver la réservation</h4>
+    </div>
+
+    <!-- infos sur le livre de la réservation -->
+    <div class="modal-body" style="text-align: center;">
+        <label *ngIf="selectedReservation.isActive" class="label-emprunts" style="margin-bottom: 15px;">Êtes vous sûr de
+            vouloir <br> annuler votre réservation pour:</label>
+        <label *ngIf="!selectedReservation.isActive" class="label-emprunts" style="margin-bottom: 15px;">Êtes vous sûr
+            de vouloir <br> réactiver votre réservation pour:</label>
+        <br>
+
+        <div class="div-info-cancel">
+            <span class="td-thick label-emprunts-bold"
+                style="margin-bottom: 10px;">{{selectedReservation.book.title}}</span>
+            <br>
+            <img class="image-livre-cancel" src="{{getBookCover(selectedReservation.book.idBook)}}" style="margin-top: 10px;">
+        </div>
+
+        <label *ngIf="selectedReservation.isActive"
+            style="margin-top: 15px; font-weight: 600; text-decoration: underline; color: #ac0202;"
+            class="label-emprunts-bold">
+            Vous ne récupérerez pas votre priorité dans la file d'attente
+        </label>
+
+        <label *ngIf="!selectedReservation.isActive"
+            style="margin-top: 15px; font-weight: 600; text-decoration: underline; color:#198754;"
+            class="label-emprunts-bold">
+            La date de votre réservation sera remise à la date d'aujourd'hui
+        </label>
+    </div>
+    <!-- Bouton pour fermer la modal -->
+    <div class="modal-footer">
+        <button class="btn btn-primary label-emprunts" type="submit" name="submit" value="Submit"
+            (click)="save()">Confirmer</button>
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
+    </div>
+</ng-template>
+
+<!-- Modal pour les infos du livre de la réservation -->
+<ng-template #infoReservationModal let-modal>
+    <div class="modal-header modal-lg">
+        <h4 class="modal-title" id="modal-basic-title">Informations du livre</h4>
+        <span *ngIf="selectedReservation.borrow.idBorrow != null" class="thick borrowed">(Emprunté)</span>
+        <span *ngIf="selectedReservation.borrow.idBorrow == null" class="thick notBorrowed">(Disponible)</span>
+    </div>
+
+    <!--  -->
+    <div class="modal-body row">
+        <div class="col-4 div-img" [ngClass]="
+      {
+         'div-img' : theme == '',
+         'div-img-dark' : theme == 'dark',
+      }">
+            <img class="image-livre" src="{{getBookCover(selectedReservation.book.idBook)}}"
+                default="../assets/images/books/1.png" style="margin-top:20px">
+        </div>
+        <div class="col-8" [ngClass]="
+      {
+         'divBorrowed' : selectedReservation.isActive != 1,
+         'divNotBorrowed' : selectedReservation.isActive == 1,
+         'span-light' : theme == '',
+         'span-dark' : theme == 'dark',
+      }">
+            <label class="thick">Titre:&nbsp;</label>
+            <span>{{selectedReservation.book.title}}</span>
+            <br>
+            <label class="thick">Langue d'origine:&nbsp;</label>
+            <span>{{selectedReservation.book.originalLanguage}}</span>
+            <br>
+            <label class="thick">Date de publication:&nbsp;</label>
+            <span>{{selectedReservation.book.publishedDate}}</span>
+            <br>
+            <label class="thick">isbn:&nbsp;</label>
+            <span>{{selectedReservation.book.isbn}}</span>
+            <br>
+            <label class="thick">Description:&nbsp;</label>
+            <span style="display:block; word-break: break-all;">
+                {{selectedReservation.book.description}}
+            </span>
+        </div>
+    </div>
+
+
+
+    <!-- Bouton pour fermer la modal -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close()">Annuler</button>
+    </div>
+</ng-template>
+
+<!-- Modal pour le à propos -->
+<ng-template #about let-modal>
+    <div class="modal-header modal-lg">
+        <h4 class="modal-title" id="modal-basic-title">À Propos</h4>
+    </div>
+
+    <!-- Info importantes sur le fonctionnement des reservations etc. -->
+    <div class="modal-body">
+        <h5>Informations sur vos réservations</h5>
+        <hr>
+        <!-- Div pour les modalités -->
+        <div class="divAbout" ngbAutoFocus>
+            <label class="sous-titre" [ngClass]="
+          {
+             'sous-titre' : theme == '',
+             'sous-titre-dark' : theme == 'dark',
+          }">Modalités:</label>
+          <br>
+          <label style="font-weight: 600;">Durée d'une réservation:</label>
+          <span> 
+              Lorsque vous réservez un livre, vous êtes placé dans une liste de priorité selon les autres réservations du livre.
+              Lorsque le livre sera disponible, nous vous contacterons pour que vous puissiez venir chercher et emprunter le livre.
+          </span>
+          <br>
+          <label class="mt-2" style="font-weight: 600;">Commandé:</label>
+          <span style="text-decoration:line-through;"> 
+              Lorsque vous réservez un livre qui n'est pas encore en inventaire, nous le commandons et vous serez contacté lorsque
+              nous recevrons le livre.
+          </span>
+          <hr>
+          <label class="mt-2" style="font-weight: 600;">Annulation:</label>
+          <span> 
+              Si vous annuler une réservation, celle-ci apparaitra <span style="color: #bd0000;">rouge</span> et vous aurez 1 semaine pour la réactiver.
+              Après 1 semaine, la réservation disparaitra de votre liste.
+          </span>
+      </div>
+      <br>
+  
+      <!-- Informations pour le code couleur -->
+      <div class="divAbout" >
+          <label class="sous-titre" 
+          [ngClass]="
+          {
+             'sous-titre' : theme == '',
+             'sous-titre-dark' : theme == 'dark',
+          }">Code de couleur:</label>
+          <br>
+          <label class="mt-2" style="color: #3052c2; font-weight: 600;" >Bleu:</label>
+          <span> Lorsque la réservation est active, celle-ci apparait
+                 <span style="color: #3052c2;"> bleue</span>.
+          </span>
+          <br>
+          <label class="mt-2" style="color: #b98904; font-weight: 600;">Orange:</label>
+          <span style="text-decoration:line-through;"> 
+                 Lorsque le livre n'est présentement pas en inventaire, et qu'il est commandé,
+                 la réservation apparait
+                 <span style="color: #b98904;">orange</span>
+          </span>
+          <br>
+          <label class="mt-2" style="color: #bd0000; font-weight: 600;">Rouge:</label>
+          <span> 
+                 Lorsque la réservation est annulée, celle-ci apparait en 
+                 <span style="color: #bd0000;">rouge</span>.
+          </span>
+      </div>
+    </div>
+
+    <!-- Bouton pour fermer la modal -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+    </div>
+</ng-template>

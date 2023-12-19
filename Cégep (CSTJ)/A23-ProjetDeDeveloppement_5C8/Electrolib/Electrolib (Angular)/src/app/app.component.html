@@ -1,0 +1,28 @@
+<section class="d-flex flex-column bg-body text-body-emphasis main-section" [ngStyle]="checkUser() ? { 'height': '100%' } : {}" [attr.data-bs-theme]="theme">
+  <header>
+    <!-- La barre de navigation des membres -->
+    <app-navbar></app-navbar>
+
+    <!-- La barre de navigation des admins -->
+    <app-admin-navbar></app-admin-navbar>
+  </header>
+
+  <main [ngStyle]="checkUser() ? getStyles() : {}">
+    <app-toast [ngClass]="!isConnected() ? 'd-none' : ''"></app-toast>
+
+    <!-- Le router -->
+    <router-outlet (activate)="switchTheme($event)"></router-outlet>
+
+    <div *ngIf="checkUser()" class="chat-box">
+      <div class="d-flex justify-content-end" id="chat">
+        <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()" placement="top"
+          ngbTooltip="Entrer en contact avec un administrateur">
+          <i class="far fa-comment-dots p-2 fs-1"></i>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer></footer>
+
+</section>

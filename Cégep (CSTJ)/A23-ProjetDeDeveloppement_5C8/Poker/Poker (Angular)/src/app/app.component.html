@@ -1,0 +1,30 @@
+<div class="container">
+  <section class="row border border-info border-5" id="entete">
+    <h1>Poker 420</h1>
+  </section>
+
+  <app-connexion *ngIf="!logonOK"
+    (connexionReussie)="onConnexionReussie($event)"
+    (connexionReussie)="acc.onConnexionReussie($event)">
+  </app-connexion>
+
+  <app-accueil #acc
+    (quitterAccueil)="onQuitterAccueil($event)"
+    (ouvrirCreationPartie)="creerP.onOuvrirCreationPartie($event)"
+    (ouvrirPartieEnCours)="tdj.onOuvrirPartieEnCours($event)"
+    (ouvrirParametres)="param.onOuvrir($event)">
+  </app-accueil>
+
+  <app-creation-partie #creerP
+    (demarrerPartie)="tdj.onDemarrerPartie($event)"
+    (quitterCreationPartie)="acc.onQuitterCreationPartie($event)">
+  </app-creation-partie>
+
+  <app-table-de-jeu #tdj
+    (quitterTableJeu)="acc.onQuitterCreationPartie($event)">
+  </app-table-de-jeu>
+
+  <app-parametre #param
+    (quitterParametre)="acc.onQuitterCreationPartie($event)">
+  </app-parametre>
+</div>

@@ -1,0 +1,25 @@
+<div *ngIf="visible">
+  <section class="row Contexte">
+    <h5>Paramètres de {{ joueurConnecte.nom }}</h5>
+  </section>
+
+  <section class="row">
+    <article class="col-3">
+      <img width="100" src="{{ getAvatar() }}" alt="image absente">
+      <!-- <img width=100 src="{{ svrURL + '../images/joueurs/' + joueurConnecte.id + '.png' }}" alt="image absente"> -->
+    </article>
+
+    <article class="col-9">
+      <div class="row">
+        <h3>Modifier votre image</h3>
+        
+        <form (ngSubmit)="executerTeleversement()" name="formTele">
+          <input (change)="fileChange($event)" type="file" placeholder="Fichier" name="inNomFichier">
+          <br>
+          <button *ngIf="televersementValide" type="submit" class="col-1">Téléverser</button>
+          <button (click)="annulerTeleverse()" name="btnAnnulerTele">Accueil</button>
+        </form>
+      </div>
+    </article>
+  </section>
+</div>

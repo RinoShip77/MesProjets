@@ -1,0 +1,252 @@
+<!-- Loading animation -->
+<article *ngIf="loading" style="position: fixed; right: 0; top: 0; width: calc(100% - 13em); height: 100%; z-index: 999; 
+background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
+  <div style="text-align: center;">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+      style="margin: auto; background: none; display: block; shape-rendering: auto;" width="200px" height="200px"
+      viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+      <g transform="translate(80,50)">
+        <g transform="rotate(0)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="1">
+            <animateTransform attributeName="transform" type="scale" begin="-0.875s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.875s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(71.21320343559643,71.21320343559643)">
+        <g transform="rotate(45)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.875">
+            <animateTransform attributeName="transform" type="scale" begin="-0.75s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.75s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(50,80)">
+        <g transform="rotate(90)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.75">
+            <animateTransform attributeName="transform" type="scale" begin="-0.625s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.625s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(28.786796564403577,71.21320343559643)">
+        <g transform="rotate(135)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.625">
+            <animateTransform attributeName="transform" type="scale" begin="-0.5s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.5s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(20,50.00000000000001)">
+        <g transform="rotate(180)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.5">
+            <animateTransform attributeName="transform" type="scale" begin="-0.375s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.375s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(28.78679656440357,28.786796564403577)">
+        <g transform="rotate(225)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.375">
+            <animateTransform attributeName="transform" type="scale" begin="-0.25s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.25s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(49.99999999999999,20)">
+        <g transform="rotate(270)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.25">
+            <animateTransform attributeName="transform" type="scale" begin="-0.125s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.125s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(71.21320343559643,28.78679656440357)">
+        <g transform="rotate(315)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.125">
+            <animateTransform attributeName="transform" type="scale" begin="0s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="0s"></animate>
+          </circle>
+        </g>
+      </g>
+    </svg>
+  </div>
+</article>
+
+<section class="admin-container bg-body">
+
+  <section class="section">
+
+    <article class="article">
+      <form>
+
+        
+
+        <section style="padding: 1em;">
+
+          <h4 style="text-align: center;">Sélection des informations</h4>
+          <!-- Sélection du livre -->
+          <label>Livre</label>
+          <article style="margin-bottom: 1em;">
+            <input name="bookSearchField" [(ngModel)]="bookSearchField" class="form-control" type="search"
+              placeholder="Recherche par titre" autocomplete="off" aria-label="Search"
+              (ngModelChange)="searchBooks()">
+            <div class="resultsBox">
+              <div *ngFor="let book of foundBooks" class="result">
+                <button type="button" class="result-button" title="Ajouter ce livre" (click)="selectBook(book)">{{book.title}}</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Sélection du membre -->
+          <label>Membre</label>
+          <article style="margin-bottom: 1em;">
+            <input name="userSearchField" [(ngModel)]="userSearchField" class="form-control" type="search"
+              placeholder="Recherche par numéro de membre" autocomplete="off" aria-label="Search"
+              (ngModelChange)="searchUsers()">
+            <div class="resultsBox">
+              <div *ngFor="let user of foundUsers" class="result">
+                <button type="button" class="result-button" title="Sélectionner ce membre" (click)="selectUser(user)">
+                  {{user.memberNumber}} {{user.firstName}} {{user.lastName}}
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <h4 style="text-align: center; margin-top: 2em;">Contenu de l'emprunt</h4>
+          <section style="padding: 1em; border: 1px solid lightgrey; border-radius: 6px;">
+            <!-- Livre(s) sélectionné(s) -->
+            <article style="margin-bottom: 1em;">
+              <span style="width: 100%;">Livre(s) sélectionné(s) :</span>
+              <div *ngFor="let book of selectedBooks" style="display: flex;">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <i class="fa-solid fa-circle-xmark"
+                          style="color: orange; cursor: pointer;" (click)="removeSelectedBook(book)" 
+                          title="Retirer « {{book.title}} »"></i>
+                      </td>
+                      <td>
+                        <label style="margin-left: 8px;">
+                          {{book.title}}
+                          <i class="fa-solid fa-triangle-exclamation" *ngIf="book.warning" style="color: red;"></i>
+                        </label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <span *ngIf="bookError" class="error-message">
+                <br>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Aucun livre sélectionné
+              </span>
+            </article>
+
+            <hr>
+
+            <!-- Membre sélectionné -->
+            <article>
+              <span style="width: 100%;">Membre sélectionné :</span>
+              <label>{{selectedUser.memberNumber}} {{selectedUser.firstName}} {{selectedUser.lastName}}</label>
+              <span *ngIf="userError" class="error-message">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Aucun membre sélectionné
+              </span>
+            </article>
+          </section>
+
+          <section style="color: red;">
+            <article *ngIf="unavailableBooks.length == 1">
+              <label>Ce livre est actuellement réservé par un autre membre :</label>
+              <label>{{unavailableBooks[0].title}}</label>
+            </article>
+  
+            <article *ngIf="unavailableBooks.length > 1">
+              <label>Ces livres sont actuellement réservés par un autre membre :</label>
+              <label *ngFor="let book of unavailableBooks">{{book.title}}</label>
+            </article>
+          </section>
+          
+        </section>
+
+
+        <button class="btn-save" (click)="openConfirmCreateBorrow(modalConfirmCreateBorrow)">
+          Enregistrer
+        </button>
+        <br>
+        <a [routerLink]="['/adminBorrows']">
+          <button class="button-cancel" (click)="changeTab('borrows')">Annuler</button>
+        </a>
+      </form>
+    </article>
+
+
+    <!-- Modal pour confirmation de retour d'un emprunt -->
+    <ng-template #modalConfirmCreateBorrow let-modal>
+
+      <div class="container row mx-auto p-5">
+        <h4 style="text-align: center; margin-bottom: 1em;">Voulez-vous créer l'emprunt?</h4>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Id livre</th>
+              <th>Titre</th>
+              <th>N° membre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let book of selectedBooks">
+              <td>{{book.idBook}}</td>
+              <td>{{book.title}}</td>
+              <td>{{selectedUser.memberNumber}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <div style="display: flex; justify-content: space-evenly;">
+          <button class="btn btn-warning" style="width: 100%; max-width: 10em;"
+            (click)="onSubmit() + modal.close()">Confirmer</button>
+          <button class="btn btn-primary" style="width: 100%; max-width: 10em;" (click)="modal.close()">Annuler</button>
+        </div>
+
+      </div>
+    </ng-template>
+
+    <div class="d-flex flex-column bg"
+      style="position: fixed; z-index: 999; bottom: 0; left: 0; width: 13em; padding-bottom: 1em;">
+      <div class="d-flex justify-content-center fs-5" style="color: white;">
+        <label>
+          <i class="fas fa-sun me-2"></i>
+        </label>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="colorSwitch"
+            (ngModelChange)="changeTheme()">
+        </div>
+        <label>
+          <i class="fas fa-moon"></i>
+        </label>
+      </div>
+    </div>
+
+  </section>
+</section>

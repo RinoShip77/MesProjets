@@ -1,0 +1,48 @@
+<resources>
+    <string name="login_title">Connexion</string>
+    <string name="create_account_title">Création de compte</string>
+    <string name="home_title">Home</string>
+    <string name="allies_title">Allies</string>
+    <string name="profile_title">Profile</string>
+    <string name="ally_title">Ally</string>
+    <string name="explorations_title">Explorations</string>
+    <string name="exploration_title">Exploration</string>
+    <string name="scan_title">Scan</string>
+
+    <string name="app_name">Kaomia</string>
+    <string name="portfolio" type="id">Portfolio</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="surname">Surnom</string>
+    <string name="name">Nom</string>
+    <string name="password">Mot de passe</string>
+    <string name="password_confirm">Confirmer le mot de passe</string>
+    <string name="email">Courriel</string>
+    <string name="login">Connexion</string>
+    <string name="welcome_message">Bienvenue %1$s</string>
+    <string name="connect">Se connecter</string>
+    <string name="create_an_account">Créer un compte</string>
+    <string name="explorer_inox">Inox</string>
+    <string name="explorer_location">Location</string>
+    <string name="disconnect">Déconnexion</string>
+    <string name="my_elements">Mes éléments</string>
+    <string name="login_error">Informations de connexion incorrectes</string>
+    <string name="account_create_error">Compte déjà existant</string>
+
+    <string name="minimum_length_error">Le %1$s doit contenir au moins 3 caractères</string>
+    <string name="email_error">Le courriel n\'est pas valide</string>
+    <string name="passwords_error">Les mots de passe sont différents</string>
+    <string name="empty_field_error">Veuillez remplir tous les champs</string>
+    <string name="create_account">Créer le compte</string>
+    <string name="cancel">Annuler</string>
+
+    <string name="bonus_chest_found">Coffre bonus trouvé</string>
+    <string name="next">Continuer</string>
+    <string name="ally_found">Créature trouvée</string>
+    <string name="capture">Capturer</string>
+    <string name="without_capture">Continuer sans capturer</string>
+    <string name="travel">Voyager</string>
+    <string name="destination">Destination</string>
+    <string name="vault_content">Contenu du Vault</string>
+    <string name="ally_capture_error">Éléments requis manquants pour activer le noyau de cette créature</string>
+
+</resources>

@@ -1,0 +1,38 @@
+{
+  "name": "kaomia",
+  "productName": "Kaomia",
+  "main": "dist-electron/main.js",
+  "author": "Consortium Inc.",
+  "contributors": [
+    {
+      "author": "Olivier Bourgault <1875009.cstj.qc.ca>",
+      "name": "Sébastien Moussette <1742090@cstj.qc.ca>"
+    }
+  ],
+  "description": "Kaomia en un jeu pour explorer un monde fantastique, collectionner des Allies, voyager de Portail en Portail et récolter diverses Elements tout en gagnant le plus d'Inox pour ultimement devenir le meilleur Explorateur de la galaxie Andromia.",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "dev:web": "vite --config vite.config.web.ts",
+    "build": "vite build && electron-builder",
+    "build:web": "vite build --config vite.config.web.ts"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "vue": "^3.2.47",
+    "vue-router": "^4.2.4"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "electron": "^24.4.0",
+    "electron-builder": "^23.6.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2",
+    "vite-plugin-electron": "^0.11.2",
+    "vite-plugin-electron-renderer": "^0.14.5",
+    "vue-tsc": "^1.4.2"
+  }
+}

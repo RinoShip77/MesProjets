@@ -1,0 +1,29 @@
+<div *ngIf="visible">
+  <section class="class row Contexte">
+    <h5>Bienvenue {{ joueurConnecte.nom }}
+      <img width="60" src="{{ getAvatar() }}" alt="{{ joueurConnecte.nom }}" />
+    </h5>
+  </section>
+
+  <section class="row Contexte">
+    <article>
+      <a class="btn btn-success" (click)="basculePartiesEncours()">Parties en cours</a>
+    </article>
+
+    <article *ngIf="ouvrirListePartiesEnCours">
+      <div *ngFor="let np of tabNumPartiesEnCours">
+        <span class="badge bg-primary" (click)="ouvrirPartie(np)">partie {{ np }}</span>
+      </div>
+    </article>
+  </section>
+  
+  <section class="row mt-3 Contexte">
+    <div class="d-flex justify-content-around">
+      <button class="btn btn-info w-25" (click)="creationPartie()">Créer une partie</button>
+      <button class="btn btn-info" (click)="parametres()">Paramètres</button>
+      <button class="btn btn-danger w-25" (click)="quitter()">Quitter</button>
+    </div>
+  </section>
+
+  <!-- SECTION PARTIES et tournois en cours -------------------------------------->
+</div>

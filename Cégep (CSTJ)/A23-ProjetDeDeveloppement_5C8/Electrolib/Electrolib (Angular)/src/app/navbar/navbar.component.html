@@ -1,0 +1,99 @@
+<div *ngIf="visible">
+  <nav class="navbar fixed-top navbar-expand bg-body-secondary">
+    <div class="container-fluid">
+      <a class="navbar-brand" [routerLink]="['inventory']">
+        <div class="d-flex align-items-center ms-1">
+          <img src="assets/images/logos/applicationIcon.png" class="img-fluid" alt="Logo d'Electrolib"
+            title="Electrolib" width="50">
+          <h1 class="ms-3">Electrolib</h1>
+        </div>
+      </a>
+      <div class="navbar-brand ms-3">
+      </div>
+      <div class="d-flex me-2">
+        <button class="btn btn-danger rounded-3 me-3 my-auto px-5 text-uppercase fw-bold" (click)="disconnect()">
+          Se déconnecter
+        </button>
+        <a class="nav-link" [routerLink]="['profile']">
+          <img src="https://ui-avatars.com/api/?name={{user?.firstName}}+{{user?.lastName}}&rounded=true">
+          <div style="margin-top: -15px; margin-left: 45px">
+            <span class="badge bg-success rounded-circle p-2">
+              <span class="visually-hidden">Connecté</span>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="collapse navbar-collapse " id="navbarText">
+      <ul class="navbar-nav animate side-nav bg-body-secondary">
+        <li class="nav-item bg-body-secondary">
+          <a class="nav-link" [routerLink]="['profile']">
+            Bonjour <span class="text-primary fw-bold">{{user?.firstName}}</span>
+            <!--   <span type="button" class="link-secondary" (click)="disconnect()">Se déconnecter</span> -->
+            <span class="shortmenu animate">
+              <img src="https://ui-avatars.com/api/?name={{user?.firstName}}+{{user?.lastName}}&rounded=true">
+              <div style="margin-top: -15px; margin-left: 45px">
+                <span class="badge bg-success rounded-circle p-2">
+                  <span class="visually-hidden">Connecté</span>
+                </span>
+              </div>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item border-top border-body bg-body-secondary" placement="bottom"
+          ngbTooltip="Voir tout l'inventaire">
+          <a class="nav-link" [routerLink]="['inventory']">
+            <i class="fas fa-boxes-stacked me-2"></i>
+            Inventaire
+            <i class="fas fa-boxes-stacked m-3 fs-3 text-secondary shortmenu animate"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-body bg-body-secondary" placement="bottom" ngbTooltip="Voir mon compte">
+          <a class="nav-link" [routerLink]="['profile', user]">
+            <i class="fas fa-circle-user me-2"></i>
+            Profil
+            <i class="fas fa-circle-user m-3 fs-3 text-success shortmenu animate"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-body bg-body-secondary" placement="bottom" ngbTooltip="Voir mes emprunts">
+          <a class="nav-link" [routerLink]="['borrows']">
+            <i class="fas fa-hand-holding-dollar me-2"></i>
+            Emprunts
+            <i class="fas fa-hand-holding-dollar m-3 fs-3 text-danger-emphasis shortmenu animate"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-body bg-body-secondary" placement="bottom"
+          ngbTooltip="Voir mes réservations">
+          <a class="nav-link" [routerLink]="['reservations']">
+            <i class="fas fa-solid fa-hand-holding me-2"></i>
+            Réservations
+            <i class="fas fa-hand-holding m-3 fs-3 text-warning shortmenu animate"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-body bg-body-secondary" placement="bottom"
+          ngbTooltip="Voir mes recommandations">
+          <a class="nav-link" [routerLink]="['/pageRecommendation']">
+            Recommendations
+            <i class="fa-regular fa-chart-bar g m-3 fs-3 text-primary shortmenu animate"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-body bg-body-secondary" placement="bottom"
+          ngbTooltip="Voir mes réservations">
+          <a class="nav-link" [routerLink]="['about']">
+            <i class="fa-solid fa-circle-info me-2"></i>
+            À propos
+            <i class="fa-solid fa-circle-info m-3 fs-3 shortmenu animate"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-body bg-body-secondary" placement="bottom"
+          ngbTooltip="Voir mes réservations">
+          <a class="nav-link" [routerLink]="['share']">
+            <i class="fa-solid fa-envelope-open-text me-2"></i>
+            Communiquez <br>votre expérience
+            <i class="fa-solid fa-envelope-open-text m-3 fs-3 shortmenu animate"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

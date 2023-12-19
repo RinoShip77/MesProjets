@@ -1,0 +1,51 @@
+<section class="bg-body" *ngIf="visible">
+
+    <article style="width: 13em; float: left;"></article>
+
+    <section class="main-section">
+        <div class="d-flex align-items-center m-2">
+            <img src="assets/images/logos/applicationIcon.png" class="img-fluid ms-2" alt="Logo d'Electrolib"
+                title="Electrolib" width="50">
+            <h3 class="ms-3" style="color: white;">Electrolib</h3>
+        </div>
+
+        <section>
+            <a [routerLink]="['adminInventory']">
+                <button class="btn-nav" (click)="changeTab('inventory')"
+                    [ngStyle]="(tab === 'inventory') ? getStyles() : {}">
+                    Inventaire
+                </button>
+            </a>
+            <a [routerLink]="['adminBorrows']">
+                <button class="btn-nav" (click)="changeTab('borrows')"
+                    [ngStyle]="(tab === 'borrows') ? getStyles() : {}">
+                    Emprunts
+                </button>
+            </a>
+            <a [routerLink]="['adminReservations']">
+                <button class="btn-nav" (click)="changeTab('reservations')"
+                    [ngStyle]="(tab === 'reservations') ? getStyles() : {}">
+                    Réservations
+                </button>
+            </a>
+            <a [routerLink]="['adminUsers']">
+                <button class="btn-nav" (click)="changeTab('members')"
+                    [ngStyle]="(tab === 'members') ? getStyles() : {}">
+                    Membres
+                </button>
+            </a>
+
+            <a [routerLink]="['adminShare']">
+                <button class="btn-nav" (click)="changeTab('share')" [ngStyle]="(tab === 'share') ? getStyles() : {}">
+                    Commentaires
+                </button>
+            </a>
+
+        </section>
+
+        <button class="btn btn-disconnect" (click)="disconnect()">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            Déconnexion
+        </button>
+    </section>
+</section>

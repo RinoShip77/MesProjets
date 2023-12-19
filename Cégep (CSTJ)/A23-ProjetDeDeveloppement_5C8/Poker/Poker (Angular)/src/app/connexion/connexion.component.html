@@ -1,0 +1,40 @@
+<div class="ms-4">
+  <div *ngIf="connexionVisible">
+    <h5>connectez vous:</h5>
+
+    <form>
+      <label>Nom:</label>
+      <input [(ngModel)]="joueurCandidat.nom" name="nom" type="text" class="form-control w-25"><br>
+
+      <label>Mot de passe:</label>
+      <input [(ngModel)]="joueurCandidat.motDePasse" name="mdp" type="password" class="form-control w-25"><br>
+
+      <br>
+      <button class="btn btn-primary" (click)="connexion()">Se connecter</button>
+      <br><br>
+      <button class="btn btn-warning" (click)="creationCompte()">Se créer un compte</button>
+    </form>
+  </div>
+
+  <div *ngIf="creerCompteVisible">
+    <h5>Créer votre compte</h5>
+
+    <form (ngSubmit)="validerCreationCompte()">
+      <label>Nom</label>
+      <input name="nom" class="form-control w-25" [(ngModel)]="joueurCandidat.nom"><br>
+
+      <label>Courriel</label>
+      <input name="courriel" class="form-control w-25" [(ngModel)]="joueurCandidat.courriel"><br>
+
+      <label>Mot de passe</label>
+      <input type="password" class="form-control w-25" name="mdp" [(ngModel)]="joueurCandidat.motDePasse"><br>
+
+      <label>Confirmation</label>
+      <input type="password" class="form-control w-25" name="cfn" [(ngModel)]="confirmation"><br>
+      
+      <br>
+      <button type="submit" class="btn btn-success mt-2 mx-3">Valider</button>
+      <button class="btn btn-danger mt-2 ms-3" (click)="annulerCreationCompte()">Annuler</button>
+    </form>
+  </div>
+</div>

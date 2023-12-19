@@ -1,0 +1,146 @@
+<section class="admin-container bg-body">
+    <section style="min-width: fit-content;">
+
+        <!-- Section de la barre de navigation de la page -->
+        <article class="section-navbar">
+            <article class="row section-row">
+
+                <!-- La barre de recherche -->
+                <div class="col-lg-5">
+                    <form class="search-form" style="display: flex;" role="search" (ngSubmit)="search()">
+                        <input name="searchField" [(ngModel)]="searchField" class="form-control" type="search"
+                            placeholder="Rechercher..." aria-label="Search" style="border-top-right-radius: 0;
+                            border-bottom-right-radius: 0;">
+                        <button class="btn btn-search" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Les listes déroulantes -->
+                <div class="col-lg-4">
+                    <div style="display: flex;justify-content: space-evenly; ">
+                        <div class="dropdown">
+                            <label for="sort-by" class="fit-label">Ordre</label>
+                            <select class="form-control combobox" #sortBy name="sort-by"
+                                (change)="changeSortBy(sortBy.value); sortUsers()">
+                                <option value="ascending">Croissant</option>
+                                <option value="descending">Décroissant</option>
+                            </select>
+                        </div>
+                        <div class="dropdown">
+                            <label for="search-by" class="fit-label">Trier par</label>
+                            <select class="form-control combobox" #searchBy name="search-by"
+                                (change)="changeResearchBy(searchBy.value); sortUsers()">
+                                <option value="memberNumber" selected>Numéro membre</option>
+                                <option value="name">Nom</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Les contrôles de la page -->
+                <div class="col-lg-3">
+                    <a [routerLink]="['/create-user']">
+                        <button class="btn btn-add-book" (click)="changeTab('null')">
+                            <i class="fa-solid fa-book" style="margin-right: 4px;"></i>
+                            <span>Créer un compte</span>
+                        </button>
+                    </a>
+                </div>
+
+            </article>
+        </article>
+
+        <!-- Section de la table des données -->
+        <section>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            <button (click)="sortColumnBy('memberNumber')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Numéro membre
+                        </th>
+                        <th>
+                            <button (click)="sortColumnBy('name')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Nom
+                        </th>
+                        <th>
+                            <button (click)="sortColumnBy('roles')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Rôle
+                        </th>
+                        <th>
+                            <button (click)="sortColumnBy('registrationDate')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Date de création
+                        </th>
+                        <th>
+                            <button (click)="sortColumnBy('totalPenalities')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Pénalités en cours
+                        </th>
+                        <th style="width: 10em;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of displayedUsers">
+                        <td>{{user.memberNumber}}</td>
+                        <td>{{user.lastName}}, {{user.firstName}}</td>
+                        <td>{{parseRole(user)}}</td>
+                        <td>{{user.registrationDate}}</td>
+                        <td>
+                            <span class="penalty" *ngIf="user.totalPenalities > 0">{{user.totalPenalities}}$</span>
+                        </td>
+                        <td>
+                            <article style="display: flex;">
+                                <!-- Olivier Bourgault : 2023-11-05 13:45 -->
+                                <!-- I add the user id in the router link -->
+                                <a [routerLink]="['/profile/' + user.idUser]">
+                                    <button class="btn btn-action">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        <span class="info-tooltip">Détails</span>
+                                    </button>
+                                </a>
+                            </article>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h5 *ngIf="verifyIfResultFound()" style="padding: 1em; text-align: center;">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                Aucun résultat ne correspond à vos critères de recherche
+            </h5>
+        </section>
+
+        <div class="d-flex flex-column bg"
+            style="position: fixed; z-index: 999; bottom: 0; left: 0; width: 13em; padding-bottom: 1em;">
+            <div class="d-flex justify-content-center fs-5" style="color: white;">
+                <label>
+                    <i class="fas fa-sun me-2"></i>
+                </label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="colorSwitch"
+                        (ngModelChange)="changeTheme()">
+                </div>
+                <label>
+                    <i class="fas fa-moon"></i>
+                </label>
+            </div>
+        </div>
+
+    </section>
+</section>

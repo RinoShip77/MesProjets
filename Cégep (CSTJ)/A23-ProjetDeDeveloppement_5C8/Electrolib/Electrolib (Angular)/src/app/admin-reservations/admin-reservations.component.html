@@ -1,0 +1,267 @@
+<section class="admin-container bg-body">
+    <section style="min-width: fit-content;">
+
+        <!-- Section de la barre de navigation de la page -->
+        <article class="section-navbar">
+            <article class="row section-row">
+
+                <!-- La barre de recherche -->
+                <div class="col-lg-5">
+                    <form class="search-form" style="display: flex;" role="search" (ngSubmit)="search()">
+                        <input name="searchField" [(ngModel)]="searchField" class="form-control" type="search"
+                            placeholder="Rechercher..." aria-label="Search" style="border-top-right-radius: 0;
+                            border-bottom-right-radius: 0;">
+                        <button class="btn btn-search" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Les listes déroulantes -->
+                <div class="col-lg-4">
+                    <div style="display: flex;justify-content: space-evenly; ">
+                        <div class="dropdown">
+                            <label for="sort-by" class="fit-label">Ordre</label>
+                            <select class="form-control combobox" #sortBy name="sort-by"
+                                (change)="changeSortBy(sortBy.value); sortReservations()">
+                                <option value="ascending">Croissant</option>
+                                <option value="descending">Décroissant</option>
+                            </select>
+                        </div>
+                        <div class="dropdown">
+                            <label for="search-by" class="fit-label">Trier par</label>
+                            <select class="form-control combobox" #searchBy name="search-by"
+                                (change)="changeResearchBy(searchBy.value); sortReservations()">
+                                <option value="title">Titre</option>
+                                <option value="memberNumber">Numéro de membre</option>
+                                <option value="reservationDate">Date de réservation</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Les contrôles de la page -->
+                <div class="col-lg-3">
+                    <a [routerLink]="['/create-reservation']">
+                        <button class="btn btn-add-borrow" (click)="changeTab('null')">
+                            <i class="fa-solid fa-bookmark"></i>
+                            <span>Ajouter une réservation</span>
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Les contrôles de la page -->
+                <div class="col-lg-12">
+                    <div class="checkbox" style="display: flex; align-items: center;">
+                        <input type="checkbox" checked class="check-box" name="checkbox"
+                            (change)="changeCheckBoxState($event)" style="min-height: 26px; min-width: 26px;">
+                        <label for="checkbox" style="margin-left: 1em; color: white;">
+                            Afficher uniquement les réservations en cours
+                        </label>
+                    </div>
+                </div>
+
+            </article>
+        </article>
+
+        <!-- Section de la table des données -->
+        <section>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id livre</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('title')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Titre
+                        </th>
+                        <th>N° membre emprunteur</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('memberNumber')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            N° membre réserveur
+                        </th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'reservationDate' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('reservationDate')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Date réservation
+                        </th>
+                        <th>Date retour prévue</th>
+                        <th>Retard</th>
+                        <th style="width: 10em;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let reservation of displayedReservations">
+                        <td>{{reservation.book.idBook}}</td>
+                        <td>{{reservation.book.title}}</td>
+                        <td>{{getBorrowMemberNumber(reservation)}}</td>
+                        <td>{{reservation.user.memberNumber}} {{reservation.idUser}}</td>
+                        <td>{{reservation.reservationDate}}</td>
+                        <td>{{getBorrowDueDate(reservation)}}</td>
+                        <td style="font-weight: bold; color: crimson; white-space: nowrap;
+                        overflow: hidden;">{{checkIfLate(reservation)}}</td>
+                        <td>
+                            <article style="display: flex;">
+                                <button class="btn btn-action" (click)="openAbout(about, reservation.book.idBook)"
+                                    title="Afficher les détails du livre réservé">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                                <button *ngIf="reservation.isActive === 1" class="btn btn-danger btn-action"
+                                    (click)="openConfirmActionReservation(modalConfirmCancelReservation, reservation)"
+                                    title="Annuler la réservation">
+                                    <i class="fa-solid fa-ban"></i>
+                                </button>
+                                <button *ngIf="canBeBorrowed(reservation)" class="btn btn-warning btn-action"
+                                    (click)="openConfirmActionReservation(modalConfirmCreateBorrowFromReservation, reservation)"
+                                    title="Transformer la réservation en emprunt">
+                                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                </button>
+                            </article>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h5 *ngIf="verifyIfResultFound()" style="padding: 1em; text-align: center;">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                Aucun résultat ne correspond à vos critères de recherche
+            </h5>
+        </section>
+
+        <!-- Modal pour afficher les détails d'un livre -->
+        <ng-template #about let-modal>
+
+            <div class="container row mx-auto p-5">
+                <section class="imageLivre col-5">
+                    <img class="img-fluid" src={{getBookCover(book.idBook)}} alt="imageDuLivre">
+                </section>
+                <section class="infoLivre col-6 offset-1 ">
+                    <h2>{{book.title}}</h2>
+                    <p>
+                        {{book.description}}
+                    </p>
+
+                    <div class="row">
+                        <p class="col-6">Genre :</p>
+                        <p class="col-6">{{getGenre(book.idGenre)}}</p>
+                    </div>
+                    <div class="row">
+                        <p class="col-6">Langue :</p>
+                        <p class="col-6">{{book.originalLanguage}}</p>
+                    </div>
+                    <div class="row">
+                        <p class="col-6">Date de publication :</p>
+                        <p class=" col-6">{{book.publishedDate | date : 'yyyy-MM-dd'}}</p>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-6">Isbn :</p>
+                        <p class="col-6">{{book.isbn}}</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Bouton pour fermer la modal -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+            </div>
+        </ng-template>
+
+        <!-- Modal pour la confirmation de l'annulation d'une réservation -->
+        <ng-template #modalConfirmCancelReservation let-modal>
+
+            <div class="container row mx-auto p-5">
+                <h4 style="text-align: center; margin-bottom: 1em;">Voulez-vous annuler la réservation?</h4>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id livre</th>
+                            <th>Titre</th>
+                            <th>N° membre emprunteur</th>
+                            <th>N° membre réserveur</th>
+                            <th>Date réservation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{reservation.book.idBook}}</td>
+                            <td>{{reservation.book.title}}</td>
+                            <td>{{reservation.borrowMemberNumber}}</td>
+                            <td>{{reservation.user.memberNumber}}</td>
+                            <td>{{reservation.reservationDate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="display: flex; justify-content: space-evenly;">
+                    <button class="btn btn-warning" style="width: 100%; max-width: 10em;"
+                        (click)="cancelReservation(reservation) + modal.close()">Confirmer</button>
+                    <button class="btn btn-primary" style="width: 100%; max-width: 10em;"
+                        (click)="modal.close()">Annuler</button>
+                </div>
+
+            </div>
+        </ng-template>
+
+        <!-- Modal pour la confirmation de la transformation de la réservation en emprunt -->
+        <ng-template #modalConfirmCreateBorrowFromReservation let-modal>
+
+            <div class="container row mx-auto p-5">
+                <h4 style="text-align: center; margin-bottom: 1em;">Voulez-vous transformer la réservation en emprunt?
+                </h4>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id livre</th>
+                            <th>Titre</th>
+                            <th>N° membre réserveur</th>
+                            <th>Date réservation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{reservation.book.idBook}}</td>
+                            <td>{{reservation.book.title}}</td>
+                            <td>{{reservation.user.memberNumber}}</td>
+                            <td>{{reservation.reservationDate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="display: flex; justify-content: space-evenly;">
+                    <button class="btn btn-warning" style="width: 100%; max-width: 10em;"
+                        (click)="createBorrowFromReservation(reservation) + modal.close()">Confirmer</button>
+                    <button class="btn btn-primary" style="width: 100%; max-width: 10em;"
+                        (click)="modal.close()">Annuler</button>
+                </div>
+
+            </div>
+        </ng-template>
+
+        <div class="d-flex flex-column bg"
+            style="position: fixed; z-index: 999; bottom: 0; left: 0; width: 13em; padding-bottom: 1em;">
+            <div class="d-flex justify-content-center fs-5" style="color: white;">
+                <label>
+                    <i class="fas fa-sun me-2"></i>
+                </label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="colorSwitch"
+                        (ngModelChange)="changeTheme()">
+                </div>
+                <label>
+                    <i class="fas fa-moon"></i>
+                </label>
+            </div>
+        </div>
+
+    </section>
+</section>
