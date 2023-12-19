@@ -6,6 +6,7 @@ Poker est un projet que j'ai développé en automne 2023. C'est une application 
 
    1.1. Poker (Angular)
     La portion client (une application Angular en Typescript) qui démontre les aptitudes que j'ai acquis durant le cours de projet de développement.
+   
    1.2. Poker (WAMP - Symfony)
     La portion serveur (un serveur Symfony) qui démontre les aptitudes que j'ai acquis durant le cours de projet de développement.
 
@@ -14,5 +15,6 @@ Electrolib est un projet d'équipe dans le cadre du cours de projet de développ
 
    1.1. Electrolib (Angular)
     La portion client (une application Angular en Typescript) qui démontre les aptitudes que j'ai acquis durant le cours de projet de développement.
+   
    1.2. Electrolib (Symfony)
     La portion serveur (un serveur Symfony) qui démontre les aptitudes que j'ai acquis durant le cours de projet de développement.
