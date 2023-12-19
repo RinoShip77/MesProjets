@@ -127,27 +127,13 @@ $(document).ready(function () {
         $("#btnProjetDeDeveloppementA23").click(function () {
             $("#lstProjetDeDeveloppementA23").slideToggle();
             $("#lstProjetDeDeveloppementA23").click(function () {
-                $("#btnProjetTP09A23").slideToggle();
-                $("#btnProjetA23").slideToggle();
-            });
-        });
-        $("#btnSecuriteDesDonneesA23").click(function () {
-            $("#lstSecuriteDesDonneesA23").slideToggle();
-            $("#lstSecuriteDesDonneesA23").click(function () {
-                $("#btnSecuriteA23").slideToggle();
+                $("#btnApplicationProjetA23").slideToggle();
             });
         });
         $("#btnSystemesMulticlientsA23").click(function () {
             $("#lstSystemesMulticlientsA23").slideToggle();
             $("#lstSystemesMulticlientsA23").click(function () {
-                $("#btnSystemesA23").slideToggle();
-                $("#btnSystemesA23").click(function () {
-                    $('#lstVersionA23').slideToggle();
-                    $('#lstVersionA23').click(function () {
-                        $("#btnVersionWebA23").slideToggle();
-                        $("#btnVersionAndroidA23").slideToggle();
-                    });
-                });
+                $("#btnApplicationSystemesA23").slideToggle();
             });
         });
     });
@@ -160,5 +146,8 @@ $(document).ready(function () {
     });
     $("#btnSessionH24").click(function () {
         $("#lstH24").slideToggle();
+        $("#btnSecuriteDesDonneesH24").click(function () {
+        $("#btnApplicationSecuriteH24").slideToggle();            
+        });
     });
 });
