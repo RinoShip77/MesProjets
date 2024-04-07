@@ -127,13 +127,13 @@ $(document).ready(function () {
         $("#btnProjetDeDeveloppementA23").click(function () {
             $("#lstProjetDeDeveloppementA23").slideToggle();
             $("#lstProjetDeDeveloppementA23").click(function () {
-                $("#btnApplicationProjetA23").slideToggle();
+                $("#btnProjetApplicationA23").slideToggle();
             });
         });
         $("#btnSystemesMulticlientsA23").click(function () {
             $("#lstSystemesMulticlientsA23").slideToggle();
             $("#lstSystemesMulticlientsA23").click(function () {
-                $("#btnApplicationSystemesA23").slideToggle();
+                $("#btnSystemesApplicationA23").slideToggle();
             });
         });
     });
@@ -147,7 +147,17 @@ $(document).ready(function () {
     $("#btnSessionH24").click(function () {
         $("#lstH24").slideToggle();
         $("#btnSecuriteDesDonneesH24").click(function () {
-        $("#btnApplicationSecuriteH24").slideToggle();            
+            $("#lstSecuriteDesDonneesH24").slideToggle();
+            $("#lstSecuriteDesDonneesH24").click(function () {
+                $("#btnSecuriteTP01H24").slideToggle();
+            });
+        });
+        $("#btnVeilleTechnologiqueH24").click(function () {
+            $("#lstVeilleTechnologiqueH24").slideToggle();
+            $("#lstVeilleTechnologiqueH24").click(function () {
+                $("#btnVeilleSujet1H24").slideToggle();
+                $("#btnVeilleSujet2H24").slideToggle();
+            });
         });
     });
 });
