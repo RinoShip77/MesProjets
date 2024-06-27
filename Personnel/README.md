@@ -20,3 +20,7 @@ Discoveria est un simple site HTML pour vous renseigner sur l'espace.
 5. BenYou
 
 BenYou est une version du site web Youtube (https://www.youtube.com/) dont j'ai modifié, réorganisé et adapté le visuel du site à la conception Bento UI.
+
+6. Superwiki
+
+Superwiki est une plateforme pour accéder à plusieurs outils qui ont recourent à des API.
