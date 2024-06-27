@@ -1,0 +1,25 @@
+<html>
+
+<body>
+  <h1 class="text-uppercase display-1">Supes fandom!</h1>
+  <h2 class="text-uppercase fs-3 fw-light">Search for your super friend!</h2>
+  <div id="searchForm" class="d-flex align-items-center w-25 mt-3">
+    <div class="input-group has-validation">
+      <div class="form-floating is-invalid">
+        <input type="text" class="form-control" id="floatingInputGroup" placeholder="Hero name"
+          onkeypress="keyPressed(this.value, event)" required>
+        <label for="floatingInputGroup">Enter a superhero name</label>
+      </div>
+      <button class="input-group-text" onclick="superheroSearch(document.getElementById('floatingInputGroup').value)">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span class="visually-hidden">Search</span>
+      </button>
+      <div class="invalid-feedback"></div>
+    </div>
+  </div>
+  <div id="herosCards" class="row g-4 mt-4"></div>
+  <div id="searchHistory" class="d-flex justify-content-start gap-2 mt-5 w-50">
+  </div>
+</body>
+
+</html>

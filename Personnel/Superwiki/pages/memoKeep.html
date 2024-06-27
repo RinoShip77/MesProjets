@@ -1,0 +1,22 @@
+<html>
+  <body>
+      <h1>
+        <i class="fa-solid fa-check-to-slot me-2"></i>Memo Keep
+      </h1>
+      <div id="searchForm" class="d-flex align-items-center w-50 mt-3">
+        <div class="input-group d-flex align-items-center has-validation">
+          <div class="form-floating is-invalid">
+            <input type="text" class="form-control" id="floatingInputGroup" placeholder="Hero name"
+              onkeypress="keyPressed(this.value, event)" required>
+            <label for="floatingInputGroup">Add a new task ...</label>
+          </div>
+          <i class="fa-solid fa-calendar-days fs-3"></i>
+          <button class="input-group-text" onclick="superheroSearch(document.getElementById('floatingInputGroup').value)">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span class="visually-hidden">Search</span>
+          </button>
+          <div class="invalid-feedback"></div>
+        </div>
+      </div>
+  </body>
+</html>
