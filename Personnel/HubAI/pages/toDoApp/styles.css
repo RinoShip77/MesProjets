@@ -1,0 +1,217 @@
+body {
+   font-family: Arial, sans-serif;
+   background: var(--background);
+   color: var(--text-color);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   margin: 0;
+   transition: background 0.3s, color 0.3s;
+}
+
+:root {
+   --background: #ff7e5f;
+   --text-color: #333;
+   --container-bg: white;
+   --button-bg: #ff7e5f;
+   --button-hover-bg: #feb47b;
+   --task-bg: #f9f9f9;
+   --task-hover-bg: #f1f1f1;
+   --delete-btn-bg: #ff4b5c;
+   --delete-btn-hover-bg: #ff1c3c;
+}
+
+body.dark {
+   --background: #333;
+   --text-color: #f9f9f9;
+   --container-bg: #444;
+   --button-bg: #555;
+   --button-hover-bg: #666;
+   --task-bg: #555;
+   --task-hover-bg: #666;
+   --delete-btn-bg: #ff4b5c;
+   --delete-btn-hover-bg: #ff1c3c;
+}
+
+body.blue {
+   --background: #007bff;
+   --text-color: #fff;
+   --container-bg: #0056b3;
+   --button-bg: #0056b3;
+   --button-hover-bg: #004085;
+   --task-bg: #0069d9;
+   --task-hover-bg: #0056b3;
+   --delete-btn-bg: #dc3545;
+   --delete-btn-hover-bg: #c82333;
+}
+
+body.green {
+   --background: #28a745;
+   --text-color: #fff;
+   --container-bg: #218838;
+   --button-bg: #218838;
+   --button-hover-bg: #1e7e34;
+   --task-bg: #28a745;
+   --task-hover-bg: #218838;
+   --delete-btn-bg: #dc3545;
+   --delete-btn-hover-bg: #c82333;
+}
+
+body.purple {
+   --background: #6f42c1;
+   --text-color: #fff;
+   --container-bg: #5a32a3;
+   --button-bg: #5a32a3;
+   --button-hover-bg: #4e2a8e;
+   --task-bg: #6f42c1;
+   --task-hover-bg: #5a32a3;
+   --delete-btn-bg: #dc3545;
+   --delete-btn-hover-bg: #c82333;
+}
+
+.container {
+   background: var(--container-bg);
+   padding: 30px;
+   border-radius: 15px;
+   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+   text-align: center;
+   width: 350px;
+   transition: background 0.3s;
+}
+
+h1 {
+   margin-bottom: 25px;
+}
+
+input, select {
+   width: calc(100% - 24px);
+   padding: 12px;
+   margin-bottom: 12px;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   transition: border-color 0.3s;
+}
+
+input:focus, select:focus {
+   border-color: var(--button-bg);
+}
+
+button {
+   padding: 12px 24px;
+   background: var(--button-bg);
+   border: none;
+   border-radius: 8px;
+   color: white;
+   cursor: pointer;
+   transition: background 0.3s;
+}
+
+button:hover {
+   background: var(--button-hover-bg);
+}
+
+ul {
+   list-style: none;
+   padding: 0;
+}
+
+li {
+   background: var(--task-bg);
+   margin: 8px 0;
+   padding: 12px;
+   border-radius: 8px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   transition: transform 0.3s, background 0.3s;
+}
+
+li:hover {
+   transform: scale(1.02);
+   background: var(--task-hover-bg);
+}
+
+.completed {
+   text-decoration: line-through;
+   color: #aaa;
+}
+
+.deleteBtn {
+   background: var(--delete-btn-bg);
+   border: none;
+   border-radius: 8px;
+   color: white;
+   cursor: pointer;
+   padding: 6px 12px;
+   transition: background 0.3s;
+}
+
+.deleteBtn:hover {
+   background: var(--delete-btn-hover-bg);
+}
+
+.subtaskInput {
+   width: calc(100% - 24px);
+   padding: 6px;
+   margin-bottom: 6px;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   transition: border-color 0.3s;
+}
+
+.subtaskInput:focus {
+   border-color: var(--button-bg);
+}
+
+.subtaskList {
+   list-style: none;
+   padding-left: 20px;
+}
+
+.subtask {
+   background: var(--task-bg);
+   margin: 4px 0;
+   padding: 6px;
+   border-radius: 8px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   transition: transform 0.3s, background 0.3s;
+}
+
+.subtask:hover {
+   transform: scale(1.02);
+   background: var(--task-hover-bg);
+}
+
+.subtask .deleteBtn {
+   padding: 4px 8px;
+}
+
+#searchInput {
+   width: calc(100% - 24px);
+   padding: 12px;
+   margin-bottom: 12px;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   transition: border-color 0.3s;
+}
+
+#searchInput:focus {
+   border-color: var(--button-bg);
+}
+
+#reminderContainer {
+   margin-top: 20px;
+   padding: 12px;
+   background: var(--task-bg);
+   border-radius: 8px;
+   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+   display: none;
+}
+
+.reminder {
+   color: red;
+   font-weight: bold;
+}
