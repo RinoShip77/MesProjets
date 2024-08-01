@@ -1,0 +1,17 @@
+select {
+   font-family: fontAwesome
+}
+
+nav h1 {
+   font: italic bold;
+   background: linear-gradient(to right, orange, red, cornflowerblue 50%);
+   -webkit-text-fill-color: transparent;
+   -webkit-background-clip: text;
+}
+
+h1 {
+   font: italic bold;
+   background: linear-gradient(to right, cornflowerblue 40%, red, orange);
+   -webkit-text-fill-color: transparent;
+   -webkit-background-clip: text;
+}
