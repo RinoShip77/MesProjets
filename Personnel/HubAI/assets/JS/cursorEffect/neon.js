@@ -13,11 +13,3 @@ neonCursor({
   sleepTimeCoefX: 0.0025,
   sleepTimeCoefY: 0.0025
 })
-
-let keyEvent = new KeyboardEvent("keydown", {
-  key: 'F12',
-  keyCode: 123,
-  which: 123
-});
-
-document.body.dispatchEvent(keyEvent);

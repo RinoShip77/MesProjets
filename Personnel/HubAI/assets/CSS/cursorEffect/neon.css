@@ -1,0 +1,26 @@
+#app {
+   overflow: hidden;
+   touch-action: pan-up;
+}
+
+#app canvas {
+   display: block;
+   position: fixed;
+   z-index: -1;
+}
+
+@media screen and (max-height: 800px) {
+   #app canvas {
+      bottom: 0;
+   }
+}
+
+@media screen and (min-height: 800px) {
+   #app {
+      height: 83.75vh;
+   }
+
+   #app canvas {
+      top: 16%;
+   }
+}

@@ -14,7 +14,7 @@ const duration = document.getElementById('duration');
 
 let isShuffle = false;
 let isRepeat = false;
-let currentSongIndex;
+let currentSongIndex = 0;
 let songs = [
    {
       title: 'Any Way You Want It',
@@ -103,7 +103,7 @@ async function loadSong(index) {
    const song = songs[index];
    title.textContent = song.title;
    artist.textContent = song.artist;
-   audio.src = `songs/${song.title}.mp3`;
+   audio.src = `./songs/${song.title}.mp3`;
    setColor();
    updatePlaylist();
 }
@@ -141,7 +141,7 @@ function saveState() {
 }
 
 function loadState() {
-   const state = JSON.parse(localStorage.getItem('musicPlayerState'));
+   const state = localStorage.getItem('musicPlayerState') ? JSON.parse(localStorage.getItem('musicPlayerState')) : 0;
    if (state) {
       currentSongIndex = state.currentSongIndex;
       audio.currentTime = state.currentTime;

@@ -12,7 +12,17 @@
     integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="assets/CSS/styles.css">
-  <link rel="stylesheet" href="assets/CSS/neonCursor.css">
+  <link rel="stylesheet" href="assets/CSS/cursorEffect/neon.css">
+  <!-- <link rel="stylesheet" href="assets/CSS/cursorEffect/fire.css"> -->
+
+  <script>
+    window.ga = window.ga || function () {
+       (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-105392568-1', 'auto');
+    ga('send', 'pageview');
+ </script>
 </head>
 
 <body onload="loadFile()">
@@ -29,36 +39,48 @@
       </select>
     </nav>
   </header>
+
+  <!-- Cursor effect neon -->
   <div id="app">
-    <main id="HTMLcontent"></main>
-    <footer class="mt-5 py-3 sticky-bottom">
-      <div class="d-flex justify-content-between align-items-baseline mx-4">
-        <p class="text-body-secondary">©<span id="currentYear"></span> HubAI, Inc</p>
-        <img src="assets/logo.svg" width="50" class="display-5" alt="Logo of the site (sparkles)"
-        style="cursor: pointer" onclick="loadFile()">
-        <div class="nav-item d-flex gap-4 fs-3">
-          <a href="https://github.com/Olivier1875009" class="text-body-secondary"
-          title="Open a new tab to my GitHub profile" target="_blank">
-          <i class="fa-brands fa-github" aria-describedby="GitHub logo"></i>
-        </a>
-        <a href="www.linkedin.com/in/olivier-bourgault-5b950428a" class="text-body-secondary"
-        title="Open a new tab to my LinkedIn profile" target="_blank">
-        <i class="fa-brands fa-linkedin" aria-describedby="LinkeIn logo"></i>
-      </a>
-      <a id="emailLink" class="text-body-secondary" title="Send me an email" target="_blank">
-        <i class="fa-solid fa-at" aria-describedby="Send me an email"></i>
-      </a>
+
+  <!-- Cursor effect fire -->
+  <!-- <div class="theBall-outer">
+    <div class="theBall"></div>
+  </div>
+  <div id="page" class="site">
+    <canvas class="banner_canvas" id="canvas_banner"></canvas>
+    <div class="top-title wow fadeInUp" onmousemove="color_hover(event)"> -->
+      <main id="HTMLcontent"></main>
+      <footer class="mt-5 pb-3 fixed-bottom">
+        <div class="d-flex justify-content-between align-items-top mx-4">
+          <p class="text-body-secondary">©<span id="currentYear"></span> HubAI, Inc</p>
+          <img src="assets/logo.svg" width="50" class="display-5" alt="Logo of the site (sparkles)"
+            style="cursor: pointer" onclick="loadFile()">
+          <div class="nav-item d-flex gap-4 fs-3">
+            <a href="https://github.com/Olivier1875009" class="text-body-secondary"
+              title="Open a new tab to my GitHub profile" target="_blank">
+              <i class="fa-brands fa-github" aria-describedby="GitHub logo"></i>
+            </a>
+            <a href="www.linkedin.com/in/olivier-bourgault-5b950428a" class="text-body-secondary"
+              title="Open a new tab to my LinkedIn profile" target="_blank">
+              <i class="fa-brands fa-linkedin" aria-describedby="LinkeIn logo"></i>
+            </a>
+            <a id="emailLink" class="text-body-secondary" title="Send me an email" target="_blank">
+              <i class="fa-solid fa-at" aria-describedby="Send me an email"></i>
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   </div>
-</footer>
-</div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-  <script src="assets/JS/index.js"></script>
-  <script src="assets/JS/neonCursor.js" type="module"></script>
+  <script src="assets/JS/script.js"></script>
+  <script src="assets/JS/cursorEffect/neon.js" type="module"></script>
+  <!-- <script src="assets/JS/cursorEffect/fire.js"></script> -->
 </body>
 
 </html>
