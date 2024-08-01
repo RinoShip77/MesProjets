@@ -1,0 +1,42 @@
+<html lang="en">
+<style>
+  @keyframes fadeIn {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+</style>
+
+<body>
+  <h1>
+    <i class="fa-solid fa-check-to-slot me-2"></i>Memo Keep
+  </h1>
+  <div id="taskForm" class="d-flex align-items-center w-50 mt-3">
+    <div class="input-group d-flex align-items-center has-validation border border-2 rounded-3">
+      <div class="form-floating is-invalid pe-3">
+        <input type="text" class="form-control border-0 text-success-emphasis" id="floatingInputGroup"
+          placeholder="Task title" onkeypress="keyPressed(this.value, document.getElementById('dueDate').value, event)"
+          required>
+        <label for="floatingInputGroup">Add a new task ...</label>
+      </div>
+      <input type="date" id="dueDate" class="fs-5 bg-body border-0 mx-3" />
+      <button class="input-group-text bg-body btn"
+        onclick="addTask(document.getElementById('floatingInputGroup').value, document.getElementById('dueDate').value)">
+        <i class="fa-regular fa-square-plus fs-3"></i>
+        <span class="visually-hidden">Add</span>
+      </button>
+      <div class="invalid-feedback"></div>
+    </div>
+  </div>
+  <div id="taskTable" class="rounded-3 border border-2 p-1 pt-3 w-75 my-5 visually-hidden">
+    <table class="table table-hover table-borderless">
+      <tbody id="taskTBody"></tbody>
+    </table>
+  </div>
+</body>
+
+</html>
