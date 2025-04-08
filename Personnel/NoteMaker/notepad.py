@@ -6,9 +6,9 @@ from tkinter import filedialog
 import speech_recognition
 import pyttsx3
 
-customtkinter.set_appearance_mode("system")
-customtkinter.set_default_color_theme("green")
 
+# Set some constants
+customtkinter.set_default_color_theme("green")
 openIcon = customtkinter.CTkImage(light_image=Image.open('img/open.png'), dark_image=Image.open('img/open.png'), size=(20,20))
 saveIcon = customtkinter.CTkImage(light_image=Image.open('img/save.png'), dark_image=Image.open('img/save.png'), size=(20,20))
 speakIcon = customtkinter.CTkImage(light_image=Image.open('img/speak.png'), dark_image=Image.open('img/speak.png'), size=(20,20))
@@ -47,7 +47,6 @@ class Menu(customtkinter.CTkFrame):
         self.combobox.grid(row=0, column=2, padx=10, pady=20, sticky="e")
         self.combobox.set("system")
 
-
 class TabView(customtkinter.CTkTabview):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
@@ -63,7 +62,6 @@ class TabView(customtkinter.CTkTabview):
 
         self.textbox = customtkinter.CTkTextbox(self.tab("New file"), corner_radius=5, wrap="word")
         self.textbox.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -82,7 +80,6 @@ class App(customtkinter.CTk):
 
         self.tabView = TabView(self, command=NewTab)
         self.tabView.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
-
 
 # Add methods to app
 def ChangeMode(choice):
@@ -132,6 +129,7 @@ def NewTab(title = None):
             app.tabView.textbox.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
             app.tabView.set(title)
 
+customtkinter.set_appearance_mode("system")
 # Create an window instance
 app = App()
 # Execute the main program
