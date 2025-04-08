@@ -54,21 +54,15 @@ class TabView(customtkinter.CTkTabview):
         self.grid_columnconfigure(0, weight=1)
 
         # Create tabs
-        self.add("tab 1")
-        self.add("tab 2")
+        self.add("New file")
         self.add("+")
 
         # Add a textbox in the tabs
-        self.tab("tab 1").grid_rowconfigure(0, weight=1)
-        self.tab("tab 1").grid_columnconfigure(0, weight=1)
+        self.tab("New file").grid_rowconfigure(0, weight=1)
+        self.tab("New file").grid_columnconfigure(0, weight=1)
 
-        self.textbox = customtkinter.CTkTextbox(self.tab("tab 1"), corner_radius=5, wrap="word")
+        self.textbox = customtkinter.CTkTextbox(self.tab("New file"), corner_radius=5, wrap="word")
         self.textbox.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-        
-        self.text = customtkinter.CTkTextbox(self.tab("tab 2"), corner_radius=5, wrap="word")
-        self.text.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-        
-        # self.tab("+").configure(command=NewFile)
 
 
 class App(customtkinter.CTk):
@@ -86,7 +80,7 @@ class App(customtkinter.CTk):
         self.menu = Menu(self)
         self.menu.grid(row=0, column=0, padx=20, pady=5, sticky="nsew")
 
-        self.tabView = TabView(self)
+        self.tabView = TabView(self, command=NewTab)
         self.tabView.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
 
@@ -94,24 +88,21 @@ class App(customtkinter.CTk):
 def ChangeMode(choice):
     customtkinter.set_appearance_mode(choice)
 
-def NewFile():
-    print("New file")
-    # TODO: Complete the new file function
-
 def OpenFile():
-    files = filedialog.askopenfiles(mode='r', filetype=[('*. txt')], multiple=True)
-    for file in files:
-        print(file.name)
-    # file = filedialog.askopenfile(mode='r', filetype=[('text files',' *. txt')], defaultextension='.txt', multiple=True)
-    # if file is not None:
-    #     content = file.read()
-    # app.textbox.insert("0.0", content)
+    file = filedialog.askopenfile(mode='r', title="Open file", filetype=[("*. txt")])
+    if file is not None:
+        content = file.read()
+    app.tabView.rename("New file", file.name.split("/")[len(file.name.split("/")) - 1].split(".")[0])
+    app.tabView.set(file.name.split("/")[len(file.name.split("/")) - 1].split(".")[0])
+    app.tabView.textbox.insert("0.0", content)
         
 def SaveFile():
-    openFile = filedialog.asksaveasfile(mode='w', defaultextension='.txt')
+    openFile = filedialog.asksaveasfile(mode='w', title="Save file", initialfile=app.tabView.get(), filetype=[('text files', '*.txt')])
     if openFile is None:
         return
-    text = app.textbox.get("0.0","end")
+    app.tabView.rename("New file", openFile.name.split("/")[len(openFile.name.split("/")) - 1].split(".")[0])
+    app.tabView.set(openFile.name.split("/")[len(openFile.name.split("/")) - 1].split(".")[0])
+    text = app.tabView.textbox.get("0.0","end")
     openFile.write(text)
     openFile.close()
 
@@ -122,13 +113,24 @@ def Speak():
         audio_data = recognizer.record(source, duration=5)
         # convert speech to text
         text = recognizer.recognize_google(audio_data)
-        app.textbox.insert("0.0", text)
+        app.tabView.textbox.insert("0.0", text)
 
 def Read():
     engine = pyttsx3.init()
-    text = app.textbox.get("0.0","end")
+    text = app.tabView.textbox.get("0.0","end")
     engine.say(text)
     engine.runAndWait()
+
+def NewTab(title = None):
+    if app.tabView.get() == "+":
+        if title is None:
+            title = "New file"
+            app.tabView.insert(app.tabView.index("+"), title)
+            app.tabView.tab(title).grid_rowconfigure(0, weight=1)
+            app.tabView.tab(title).grid_columnconfigure(0, weight=1)
+            app.tabView.textbox = customtkinter.CTkTextbox(app.tabView.tab(title), corner_radius=5, wrap="word")
+            app.tabView.textbox.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+            app.tabView.set(title)
 
 # Create an window instance
 app = App()
