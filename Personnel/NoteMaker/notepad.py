@@ -6,7 +6,6 @@ from tkinter import filedialog
 import speech_recognition
 import pyttsx3
 
-
 # Set some constants
 customtkinter.set_default_color_theme("green")
 openIcon = customtkinter.CTkImage(light_image=Image.open('img/open.png'), dark_image=Image.open('img/open.png'), size=(20,20))
