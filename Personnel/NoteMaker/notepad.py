@@ -134,9 +134,11 @@ def Read():
     engine.runAndWait()
 
 def GrammarCheck():
-    with language_tool_python.LanguageToolPublicAPI('en-CA') as checker:
+    with language_tool_python.LanguageToolPublicAPI('en-US') as checker:
         if checker.check(app.tabView.textbox.get("0.0","end")) is not None:
-            app.tabView.textbox.insert("0.0", checker.correct(app.tabView.textbox.get("0.0","end")))
+            text = checker.correct(app.tabView.textbox.get("0.0","end"))
+            app.tabView.textbox.delete("0.0","end")
+            app.tabView.textbox.insert("0.0", text)
 
 customtkinter.set_appearance_mode("system")
 # Create an window instance
