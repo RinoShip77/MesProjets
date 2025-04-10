@@ -7,13 +7,11 @@ import os
 from datetime import date
 import time
 
-root = Tk()
-root.title("TextToSpeechPy")
-root.geometry("900x450+200+200")
-root.resizable(True, True)
-root.configure(bg="#305065")
-
 engine = pyttsx3.init()
+
+def CenterWindowToDisplay(Screen: Tk, width: int, height: int):
+    # Centers the window to the main display/monitor
+    return f"{width}x{height}+{int((Screen.winfo_screenwidth()/2) - (width/2))}+{int((Screen.winfo_screenheight()/2) - (height/1.5))}"
 
 def speaknow():
   text = text_area.get(1.0, END)
@@ -73,6 +71,12 @@ def download():
     else:
       engine.setProperty('rate', 60)
       setVoice()
+
+root = Tk()
+root.title("TextToSpeechPy")
+root.geometry(CenterWindowToDisplay(root, 900, 450))
+root.resizable(True, True)
+root.configure(bg="#305065")
 
 # icon
 image_icon = PhotoImage(file="speak.png")

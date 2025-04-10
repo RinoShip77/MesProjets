@@ -73,6 +73,7 @@ class App(customtkinter.CTk):
         super().__init__()
         self.title("NoteMaker")
         self.geometry("1500x1000")
+        self.geometry(CenterWindowToDisplay(self, 750, 400, self._get_window_scaling()))
         self.minsize(width=1000, height=200)
         self.resizable(True, True)
         self.grid_rowconfigure(1, weight=1)
@@ -85,6 +86,10 @@ class App(customtkinter.CTk):
 
         self.tabView = TabView(self, command=NewTab)
         self.tabView.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
+
+def CenterWindowToDisplay(Screen: customtkinter.CTk, width: int, height: int, scale_factor: float = 1.0):
+    # Centers the window to the main display/monitor
+    return f"{width}x{height}+{int(((Screen.winfo_screenwidth()/2) - (width/2)) * scale_factor)}+{int(((Screen.winfo_screenheight()/2) - (height/1.5)) * scale_factor)}"
 
 # Add methods to app
 def NewTab(title = None):
