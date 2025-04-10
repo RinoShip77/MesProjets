@@ -2,30 +2,59 @@ import customtkinter
 from PIL import Image
 import speedtest
 import threading
+from tkdial import Meter
 
 bgImg = customtkinter.CTkImage(light_image=Image.open('img/backgroundd.png'), dark_image=Image.open('img/backgroundd.png'), size=(450, 780))
 pingIcon = customtkinter.CTkImage(light_image=Image.open('img/ping.png'), dark_image=Image.open('img/ping.png'), size=(30, 30))
 downloadIcon = customtkinter.CTkImage(light_image=Image.open('img/download.png'), dark_image=Image.open('img/download.png'), size=(30, 30))
 uploadIcon = customtkinter.CTkImage(light_image=Image.open('img/upload.png'), dark_image=Image.open('img/upload.png'), size=(30, 30))
 gaugeImg = customtkinter.CTkImage(light_image=Image.open('img/gauge.png'), dark_image=Image.open('img/gauge.png'), size=(350, 300))
+serviceIcon = customtkinter.CTkImage(light_image=Image.open('img/ping.png'), dark_image=Image.open('img/ping.png'), size=(30, 30))
+serverIcon = customtkinter.CTkImage(light_image=Image.open('img/ping.png'), dark_image=Image.open('img/ping.png'), size=(30, 30))
 testImg = customtkinter.CTkImage(light_image=Image.open('img/button.png'), dark_image=Image.open('img/button.png'), size=(100, 100))
 resetImg = customtkinter.CTkImage(light_image=Image.open('img/reset.png'), dark_image=Image.open('img/reset.png'), size=(100, 100))
 
-class GaugeFrame(customtkinter.CTkFrame):
+class BottomFrame(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
         self.grid_columnconfigure(0, weight=1)
 
-        # TODO: Add the gauge img
-        self.gaugeImg = customtkinter.CTkLabel(self, image=gaugeImg, text="")
-        self.gaugeImg.grid(row=0, column=0)
+        # Add widgets onto the frame, for example:
+        self.testBtn = customtkinter.CTkButton(self, image=testImg, fg_color="#141527", command=Check)
+        self.testBtn.grid(row=0)
 
-        # self.Test_Button = customtkinter.CTkButton(self, image=testImg, fg_color="#141527", command=Check)
-        # self.Test_Button.place(x=125, y=510)
+        self.resetBtn = customtkinter.CTkButton(self, image=resetImg, fg_color="#141527", command=Reset)
+        self.resetBtn.grid(row=0)
 
-        # self.Reset_Button = customtkinter.CTkButton(self, image=resetImg, fg_color="#141527", command=Reset)
-        # self.Reset_Button.place(x=190, y=600)
+class GaugeFrame(customtkinter.CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure((0, 1), weight=1)
 
+        self.serviceIcon = customtkinter.CTkLabel(self, image=serviceIcon, text="")
+        self.serviceIcon.grid(row=0, padx=(15, 0))
+        self.serviceTitle = customtkinter.CTkLabel(self, text="Service", font=("arial", 20))
+        self.serviceTitle.grid(row=1, column=0, padx=2)
+        self.service = customtkinter.CTkLabel(self, text="____", text_color="#e9b342")
+        self.service.grid(row=1, column=0, sticky="n")
+
+        self.gauge = Meter(self, bg="#242424", fg="black", start=0, end=200, start_angle=270, end_angle=-360, radius=260, scale_color="black", border_width=5, needle_color="white", axis_color="white", text_color="white", text_font="DS-Digital 30")
+        self.gauge.set_mark(1, 50, "red")
+        self.gauge.set_mark(55, 150, "yellow")
+        self.gauge.set_mark(155, 195, "green")
+        self.gauge.set(80) # set value
+        self.gauge.grid(row=0, column=1, sticky="n")
+        
+        self.serverIcon = customtkinter.CTkLabel(self, image=serverIcon, text="")
+        self.serverIcon.grid(row=0, padx=(15, 0))
+        self.serverTitle = customtkinter.CTkLabel(self, text="Server", font=("arial", 20))
+        self.serverTitle.grid(row=1, column=0, padx=2)
+        self.server = customtkinter.CTkLabel(self, text="____", text_color="#e9b342")
+        self.server.grid(row=2, column=2, sticky="n")
+
+        # self.gaugeImg = customtkinter.CTkLabel(self, image=gaugeImg, text="")
+        # self.gaugeImg.grid(row=0, column=0)
 
         # Labels to show values
         # self.Download = customtkinter.CTkLabel(self, font=("arial", 30), fg_color="#141527", text_color="#00FFFF")
@@ -118,13 +147,16 @@ class App(customtkinter.CTk):
 
         # Add frames to app
         self.topFrame = TopFrame(self, fg_color="transparent")
-        self.topFrame.grid(row=0, column=0, pady=10, sticky="nsew")
+        self.topFrame.grid(row=0, pady=10, sticky="nsew")
         
         self.dataFrame = DataFrame(self, fg_color="transparent")
-        self.dataFrame.grid(row=1, column=0, padx=50, pady=20, sticky="ew")
+        self.dataFrame.grid(row=1, padx=50, pady=20, sticky="ew")
         
         self.gaugeFrame = GaugeFrame(self) #fg_color="transparent"
-        self.gaugeFrame.grid(row=2, column=0, pady=50, sticky="nsew")
+        self.gaugeFrame.grid(row=2, pady=(50, 0), sticky="nsew")
+        
+        self.bottomFrame = BottomFrame(self, fg_color="transparent")
+        self.bottomFrame.grid(row=3, pady=50, sticky="nsew")
 
 def CenterWindowToDisplay(Screen: customtkinter.CTk, width: int, height: int, scale_factor: float = 1.0):
     """Centers the window to the main display/monitor"""
