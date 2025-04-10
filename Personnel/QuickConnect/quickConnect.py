@@ -6,7 +6,6 @@ from tkdial import Meter
 from numpy import random
 
 class Image:
-    bgImg = customtkinter.CTkImage(light_image=Image.open('img/backgroundd.png'), dark_image=Image.open('img/backgroundd.png'), size=(450, 780))
     latencyIcon = customtkinter.CTkImage(light_image=Image.open('img/latency.png'), dark_image=Image.open('img/latency.png'), size=(30, 30))
     downloadIcon = customtkinter.CTkImage(light_image=Image.open('img/download.png'), dark_image=Image.open('img/download.png'), size=(30, 30))
     uploadIcon = customtkinter.CTkImage(light_image=Image.open('img/upload.png'), dark_image=Image.open('img/upload.png'), size=(30, 30))
