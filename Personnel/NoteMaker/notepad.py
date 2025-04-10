@@ -1,6 +1,5 @@
 from tkinter import *
 import customtkinter
-from CTkMenuBar import *
 from PIL import Image
 from tkinter import filedialog
 import speech_recognition
