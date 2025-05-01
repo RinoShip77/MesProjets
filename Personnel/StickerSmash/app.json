@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ShapeYou",
-    "slug": "shapeyou",
+    "name": "StickerSmash",
+    "slug": "stickersmash",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "shapeyou",
+    "scheme": "stickersmash",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.rinoship77.stickersmash"
     },
     "web": {
       "bundler": "metro",
@@ -41,7 +42,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "d848c4b1-e963-43e5-8656-f6079bac955e"
+        "projectId": "801b10f9-183e-418c-8988-4b9950333bba"
       }
     },
     "owner": "rinoship77"

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { StyleSheet, FlatList, Platform, Pressable } from 'react-native';
-import { Image, type ImageSource } from 'expo-image';
+import { useState } from "react";
+import { StyleSheet, FlatList, Platform, Pressable } from "react-native";
+import { Image, type ImageSource } from "expo-image";
 
 type Props = {
   onSelect: (image: ImageSource) => void;
@@ -20,7 +20,7 @@ export default function EmojiList({ onSelect, onCloseModal }: Props) {
   return (
     <FlatList
       horizontal
-      showsHorizontalScrollIndicator={Platform.OS === 'web'}
+      showsHorizontalScrollIndicator={Platform.OS === "web"}
       data={emoji}
       contentContainerStyle={styles.listContainer}
       renderItem={({ item, index }) => (
@@ -28,7 +28,8 @@ export default function EmojiList({ onSelect, onCloseModal }: Props) {
           onPress={() => {
             onSelect(item);
             onCloseModal();
-          }}>
+          }}
+        >
           <Image source={item} key={index} style={styles.image} />
         </Pressable>
       )}
@@ -41,9 +42,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   image: {
     width: 100,
