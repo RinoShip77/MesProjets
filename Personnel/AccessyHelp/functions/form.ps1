@@ -116,8 +116,8 @@ function MainForm {
 
    #region Criteria label
    $criteriaLbl = [Label] @{
-      Location = [Point]::new(40, 10)
-      Size     = [Size]::new(260, 20)
+      Location = [Point]::new(30, 15)
+      Size     = [Size]::new(270, 15)
       Font     = [Font]::new("Microsoft Sans Serif", 12)
       Text     = 'Which criteria should should we test:'
    }
@@ -125,8 +125,8 @@ function MainForm {
 
    #region Criteria info label
    $criteriaInfoLbl = [Label] @{
-      Location  = [Point]::new(75, 30)
-      Size      = [Size]::new(140, 25)
+      Location  = [Point]::new(90, 40)
+      Size      = [Size]::new(140, 30)
       Font      = [Font]::new("Microsoft Sans Serif", 10)
       ForeColor = [Color]::DodgerBlue
       TextAlign = [ContentAlignment]::MiddleCenter

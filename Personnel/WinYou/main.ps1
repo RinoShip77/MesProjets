@@ -1,8 +1,8 @@
 #region Include all the functions for the good execution of the script
-Get-ChildItem -Path .\forms\dynamicForm.ps1 | Out-Null
-#endregion Include all the functions for the good execution of the script
-#region Include all the functions for the good execution of the script
-. ('.\forms\dynamicForm.ps1')
+Get-ChildItem -Path ".\forms" -Filter *.ps1 |
+ForEach-Object {
+  . $_.FullName
+}
 #endregion Include all the functions for the good execution of the script
 
 #region Include all the differents configurations possible

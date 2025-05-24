@@ -28,9 +28,11 @@ function AnalyseAccessibility {
       #endregion Call a function (with the context from where it's call) that display a box with the possibility to retry the execution
     }
     else {
-      if (-Not (Test-Path ".\reports")) {
-        New-Item -Name ".\reports" -ItemType Directory -Force | Out-Null
-        New-Item -Name ".\reports\$(Get-Date -Format "yyyy-MM-dd")" -ItemType Directory -Force | Out-Null
+      if (-Not (Test-Path .\reports)) {
+        New-Item -Name .\reports -ItemType Directory -Force | Out-Null
+      }
+      if (-Not (Test-Path .\reports\$(Get-Date -Format "yyyy-MM-dd"))) {
+        New-Item -Name .\reports\$(Get-Date -Format "yyyy-MM-dd") -ItemType Directory -Force | Out-Null
       }
       
       switch ($formData.criteria) {
@@ -43,7 +45,8 @@ function AnalyseAccessibility {
         }
       }
       
-      $images | Out-File -FilePath ".\reports\$(Get-Date -Format "yyyy-MM-dd")\$($formData.criteria -replace '\s','').html"
+      $images | Out-File -FilePath .\reports\$(Get-Date -Format "yyyy-MM-dd")\$($formData.criteria -replace '\s','')_$(Get-Date -Format "HH-mm-ss").html
+      PopUpBox -body "The report is available at: .\reports\$(Get-Date -Format "yyyy-MM-dd")\$($formData.criteria -replace '\s','')_$(Get-Date -Format "HH-mm-ss").html" -title "Information"
     }
   }
   catch {
