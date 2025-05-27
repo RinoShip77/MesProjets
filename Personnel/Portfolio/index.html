@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Olivier Bourgault</title>
+  <meta name="description" content="Ceci est mon un aperçu des mes compétences">
+  <meta name="keywords" content="Portfolio">
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Questrial:wght@400&display=swap"
+    rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" ¨>
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <!-- =======================================================
+  * Template Name: EasyFolio
+  * Template URL: https://bootstrapmade.com/easyfolio-bootstrap-portfolio-template/
+  * Updated: Feb 21 2025 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="index-page">
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div
+      class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="assets/img/logo.png" alt="Logo du site">
+        <h1 class="sitename">Olivier Bourgault</h1>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Accueil</a></li>
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#resume">CV</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+      <div class="d-flex align-items-center header-social-links">
+        <a href="https://github.com/RinoShip77" aria-label="Profil Github"><i class="bi bi-github"></i></a>
+        <a href="https://www.linkedin.com/in/olivier-bourgault-5b950428a" aria-label="Profil Linkedin"><i
+          class="bi bi-linkedin"></i></a>
+          <button class="btn border border-0" onclick="switchTheme()"><i id="themeSwitcher"
+            class="bi bi-moon-fill"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row align-items-center content">
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+
+            <!-- TODO: Implémenter le changement dynamique du texte sur le <h2> -->
+            <h2>Développeur, Technicien, Agent de support en informatique, etc.</h2>
+
+            <p class="lead" id="bio">Je suis principalement attiré vers le développement d'applications web. Mais j'aime
+              aussi expérimenter et apprendre pour élargir mes compétences.</p>
+            <div class="row cta-buttons" data-aos="fade-up" data-aos-delay="300">
+              <div class="mx-auto w-auto">
+                <a href="assets/CV_CL.pdf" class="btn btn-outline" title="Télécharger mon CV (en PDF)" download><i
+                    class="bi bi-cloud-download"></i></a>
+              </div>
+              <div class="d-flex justify-content-around">
+                <a href="#portfolio" class="btn btn-primary">Réalisations</a>
+                <a href="#contact" class="btn btn-primary">Me contacter</a>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+              <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-item">
+                  <span class="stat-number"><span id="experience">4</span>+</span>
+                  <span class="stat-label">Années d'expérience</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number"><span id="projects">39</span>+</span>
+                  <span class="stat-label">Projets complétés</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="hero-image">
+              <img id="avatar" src="assets/img/profil/Profil_Icon.png" alt="Portfolio Hero Image" class="img-fluid"
+                data-aos="zoom-out" data-aos-delay="300">
+              <div class="shape-1"></div>
+              <div class="shape-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- /Hero Section -->
+    <!-- About Section -->
+    <section id="about" class="about section light-background">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>À propos</h2>
+        <div class="title-shape">
+          <svg viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0,10 C 40,0 60,20 100,10 C 140,0 160,20 200,10" fill="none" stroke="currentColor"
+              stroke-width="2"></path>
+          </svg>
+        </div>
+        <p>Je suis un diplômé en technique de l'informatique qui affectionne plus particulièrement le développement Web.
+          Je suis très fiable, consciencieux, ouvert d'esprit, organisé, responsable et autonome dans les tâches que
+          j'entreprends.</p>
+      </div><!-- End Section Title -->
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row align-items-center">
+          <div class="col-lg-6 position-relative" data-aos="fade-right" data-aos-delay="200">
+            <div class="about-image">
+              <img src="assets/img/profil/Profil_Avatar.png" alt="Profile Image" class="img-fluid rounded-4">
+            </div>
+          </div>
+          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
+            <div class="about-content">
+              <span class="subtitle">À propos de moi</span>
+              <h2>Développeur Web &amp; Technicien en informatique</h2>
+              <p class="lead mb-4">Je me spécialise dans la création de nouvelles applications ou d'optimiser une
+                structure déjà en place. J'apprécie plus particulièrement automatiser et résoudre des problématiques
+                lors de la conception de logiciels. Je parle couramment le français et je peux facilement entretenir une
+                conversation en anglais.</p>
+              <div class="personal-info">
+                <div class="row g-4">
+                  <div class="col-6">
+                    <div class="info-item">
+                      <span class="label">Nom</span>
+                      <span class="value">Olivier Bourgault</span>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="info-item">
+                      <span class="label">Téléphone</span>
+                      <span class="value">+1 (819) 962-0709</span>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="info-item">
+                      <span class="label">Âge</span>
+                      <span class="value" aria-label="24 ans"><span id="age">24</span> ans</span>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="info-item">
+                      <span class="label">Occupation</span>
+                      <span class="value">Développeur web</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center mt-5 info-item">
+                  <span class="label">Courriel</span>
+                  <span class="value">bourgault.olivier8501@gmail.com</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- /About Section -->
+    <!-- Skills Section -->
+    <section id="skills" class="skills section">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row g-4 skills-animation">
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="skill-box">
+              <div class="d-flex justify-content-between">
+                <h3>HTML</h3>
+                <img src="assets/img/portfolio/html_icon.png" width="15" height="15" alt="HTML">
+              </div>
+              <span class="text-end d-block">95%</span>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="skill-box">
+              <div class="d-flex justify-content-between">
+                <h3>CSS</h3>
+                <i class="bi bi-css"></i>
+              </div>
+              <span class="text-end d-block">85%</span>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="skill-box">
+              <div class="d-flex justify-content-between">
+                <h3>JavaScript</h3>
+                <i class="bi bi-javascript"></i>
+              </div>
+              <span class="text-end d-block">85%</span>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="skill-box">
+              <div class="d-flex justify-content-between">
+                <h3>TypeScript</h3>
+                <i class="bi bi-typescript"></i>
+              </div>
+              <span class="text-end d-block">75%</span>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="skill-box">
+              <div class="d-flex justify-content-between">
+                <h3>Visual Studio Code</h3>
+                <img src="assets/img/portfolio/vs_code_icon.png" width="20" height="20" alt="Visual Studio Code">
+              </div>
+              <span class="text-end d-block">75%</span>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="skill-box">
+              <div class="d-flex justify-content-between">
+                <h3>Windows</h3>
+                <i class="bi bi-windows"></i>
+              </div>
+              <span class="text-end d-block">80%</span>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="skill-box">
+              <div class="d-flex justify-content-between">
+                <h3>Git</h3>
+                <i class="bi bi-git"></i>
+              </div>
+              <span class="text-end d-block">70%</span>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="skill-box">
+              <div class="d-flex justify-content-between">
+                <h3>Teams</h3>
+                <i class="bi bi-microsoft-teams"></i>
+              </div>
+              <span class="text-end d-block">85%</span>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-5 cta-buttons">
+          <div class="d-flex justify-content-center gap-5">
+            <button class="btn btn-primary text-nowrap" type="button" data-bs-toggle="collapse"
+              data-bs-target="#languages" aria-expanded="false" aria-controls="languageCollapse">
+              Voir tous mes langages.
+            </button>
+            <button class="btn btn-primary text-nowrap" type="button" data-bs-toggle="collapse"
+              data-bs-target="#softwares" aria-expanded="false" aria-controls="softwareCollapse">
+              Voir tous mes logiciels.
+            </button>
+          </div>
+          <div class="collapse mt-3" id="languages">
+            <div class="card card-body rounded-3 text-center">
+              <div class="col-6 mx-auto w-auto">
+                <span class="btn btn-outline">HTML</span>
+                <span class="btn btn-outline">CSS</span>
+                <span class="btn btn-outline">JavaScript</span>
+                <span class="btn btn-outline">Bootstrap</span>
+                <span class="btn btn-outline">jQuery</span>
+                <span class="btn btn-outline">Batch</span>
+                <span class="btn btn-outline">PowerShell</span>
+                <span class="btn btn-outline">JSON</span>
+                <span class="btn btn-outline">C++</span>
+                <span class="btn btn-outline">C#</span>
+                <span class="btn btn-outline">WPF</span>
+                <span class="btn btn-outline">TypeScript</span>
+                <span class="btn btn-outline">Angular</span>
+                <span class="btn btn-outline">PHP</span>
+                <span class="btn btn-outline">Kotlin</span>
+                <span class="btn btn-outline">NodeJS</span>
+                <span class="btn btn-outline">Docker</span>
+                <span class="btn btn-outline">Kubernetes</span>
+                <span class="btn btn-outline">MySQL</span>
+                <span class="btn btn-outline">MariaDB</span>
+                <span class="btn btn-outline">YAML</span>
+                <span class="btn btn-outline">Symfony</span>
+                <span class="btn btn-outline">Twig</span>
+                <span class="btn btn-outline">Electron</span>
+                <span class="btn btn-outline">Vue</span>
+                <span class="btn btn-outline">Vite</span>
+                <span class="btn btn-outline">React</span>
+                <span class="btn btn-outline">Python</span>
+                <span class="btn btn-outline">React Native</span>
+                <span class="btn btn-outline">Etc.</span>
+              </div>
+            </div>
+          </div>
+          <div class="collapse mt-3" id="softwares">
+            <div class="card card-body rounded-3 text-center">
+              <div class="col-6 mx-auto w-auto">
+                <span class="btn btn-outline">Word</span>
+                <span class="btn btn-outline">Excel</span>
+                <span class="btn btn-outline">PowerPoint</span>
+                <span class="btn btn-outline">OneDrive</span>
+                <span class="btn btn-outline">Outlook</span>
+                <span class="btn btn-outline">Visio</span>
+                <span class="btn btn-outline">Teams</span>
+                <span class="btn btn-outline">Windows</span>
+                <span class="btn btn-outline">Linux</span>
+                <span class="btn btn-outline">GitHub</span>
+                <span class="btn btn-outline">Arduino</span>
+                <span class="btn btn-outline">Visual Studio</span>
+                <span class="btn btn-outline">Visual Studio Code</span>
+                <span class="btn btn-outline">Arduino IDE</span>
+                <span class="btn btn-outline">WampServer</span>
+                <span class="btn btn-outline">phpMyAdmin</span>
+                <span class="btn btn-outline">Postman</span>
+                <span class="btn btn-outline">Android Studio</span>
+                <span class="btn btn-outline">MongoDB</span>
+                <span class="btn btn-outline">Node-RED</span>
+                <span class="btn btn-outline">SQL developer</span>
+                <span class="btn btn-outline">WordPress</span>
+                <span class="btn btn-outline">cPanel</span>
+                <span class="btn btn-outline">Azure DevOps</span>
+                <span class="btn btn-outline">Etc.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- /Skills Section -->
+    <!-- Resume Section -->
+    <section id="resume" class="resume section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>CV</h2>
+        <div class="title-shape">
+          <svg viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0,10 C 40,0 60,20 100,10 C 140,0 160,20 200,10" fill="none" stroke="currentColor"
+              stroke-width="2"></path>
+          </svg>
+        </div>
+        <p>Ceci est un simple aperçu de mon cirriculum vitea. Je vous invite à consulter le <a href="assets/CV_CL.pdf"
+            title="Télécharger mon CV (en PDF)" download>document</a> PDF.</p>
+      </div><!-- End Section Title -->
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row">
+          <div class="col-12">
+            <div class="resume-wrapper">
+              <div class="resume-block" data-aos="fade-up">
+                <h2>Expérience de travail</h2>
+                <div class="timeline">
+                  <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="timeline-left">
+                      <h4 class="company">Chambre des Communes - House of Commons</h4>
+                    </div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-right">
+                      <span class="period">Été 2024</span>
+                      <h3 class="position">Technicien informatique</h3>
+                      <p class="description">Tester des sites et des applications pour assurer que ceux-ci sont
+                        accessible selon les directives pour l'accessibilité du contenu Web (WCAG). Transcrire le
+                        résultat de mes tests dans Azure DevOps et ensuite créer des rapports Excel détaillés sur ces
+                        problèmes.</p>
+                    </div>
+                    <div class="timeline-right">
+                      <span class="period">Été 2023</span>
+                      <h3 class="position">Technicien informatique</h3>
+                      <p class="description">Assisté les utilisateurs dans la résolution de problèmes par l'entremise
+                        d'un système de billets. Si nécessaire, regarder dans la base de données de l'application pour
+                        trouver la cause du problème. J'ai créé un script PowerShell pour aider mon équipe à accélérer
+                        le processus de résolutions de problèmes. Celui-ci compare le contenu de deux dossiers en
+                        comparant une ligne après l'autre.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="timeline-left">
+                      <h4 class="company">VIWEB</h4>
+                      <span class="period">Hiver 2024</span>
+                    </div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-right">
+                      <h3 class="position">Stagiaire en développement Web</h3>
+                      <p class="description">
+                        Développer mon propre thème pour un site Wordpress de ventes en ligne avec l'aide de l'extension
+                        WooCommerce. Personnaliser le catalogue et automatiser le processus d'achat.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
+                    <div class="timeline-left">
+                      <h4 class="company">Cégep de Saint-Jérôme</h4>
+                      <span class="period">2023 - 2024</span>
+                    </div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-right">
+                      <h3 class="position">Tuteur TIC</h3>
+                      <p class="description">Accueillir et supporter les cégépiens sur le plan technique. Assister avec
+                        l'impression. Assister dans l'accès aux principaux services en ligne du collège. Assister dans
+                        l'utilisation de base avec la suite
+                        Microsoft 365.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="resume-block" data-aos="fade-up" data-aos-delay="100">
+                <h2>Mon éducation</h2>
+                <div class="timeline">
+                  <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="timeline-left">
+                      <h4 class="company">Cégep de Saint-Jérôme</h4>
+                      <span class="period">2024</span>
+                    </div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-right">
+                      <h3 class="position">Diplôme d'études collégiales en technique de l'informatique.</h3>
+                      <p class="description">J'ai débuté mon parcours en Sciences informatique et Mathématique. J'ai
+                        finalement changé de programme pour me spécialiser en informatique.</p>
+                    </div>
+                  </div>
+                  <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="timeline-left">
+                      <h3 class="company">École secondaire Hormisdas-Gamelin</h3>
+                      <span class="period">2018</span>
+                    </div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-right">
+                      <h4 class="position">Diplôme d'études secondaires</h4>
+                      <p class="description">Mon parcours était dans le programme sportif.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- /Resume Section -->
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Portfolio</h2>
+        <div class="title-shape">
+          <svg viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0,10 C 40,0 60,20 100,10 C 140,0 160,20 200,10" fill="none" stroke="currentColor"
+              stroke-width="2"></path>
+          </svg>
+        </div>
+        <p class='portfolio-text'>Ces projets ne sont qu'une partie de mes réalisations.<br>
+          Pour voir l'ensemble de mon code, veuillez visiter mon dépôt <a
+            href='https://github.com/RinoShip77/MesProjets' target='_blank'>GitHub</a>.</p>
+      </div><!-- End Section Title -->
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+          <div class="portfolio-filters-container" data-aos="fade-up" data-aos-delay="200">
+            <ul class="portfolio-filters isotope-filters" id="filters">
+              <li data-filter="*" class="filter-active">Tout</li>
+              <li data-filter=".filter-school">Scolaires</li>
+              <li data-filter=".filter-profesionnal">Professionnels</li>
+              <li data-filter=".filter-personnal">Personnels</li>
+            </ul>
+          </div>
+          <div class="row g-4 isotope-container" data-aos="fade-up" data-aos-delay="300">
+            <!-- Start Portfolio Item -->
+            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-school">
+              <div class="portfolio-card">
+                <div class="portfolio-image">
+                  <img src="assets/img/portfolio/electrolib.png" class="img-fluid" alt="" loading="lazy">
+                  <div class="portfolio-overlay">
+                    <div class="portfolio-actions">
+                      <a href="assets/img/portfolio/electrolib.png" class="glightbox preview-link"
+                        data-gallery="portfolio-gallery-web"><i class="bi bi-eye"></i></a>
+                      <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio-content">
+                  <span class="category">Scolaires</span>
+                  <h3>Electrolib</h3>
+                  <p class="text-break">Il s'agit d'un logiciel de gestion d'inventaire à destination d'une
+                    bibliothèque.</p>
+                </div>
+              </div>
+            </div>
+            <!-- End Portfolio Item -->
+            <!-- Start Portfolio Item -->
+            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-profesionnal">
+              <div class="portfolio-card">
+                <div class="portfolio-image">
+                  <img src="assets/img/portfolio/compareTools.png" class="img-fluid" alt="" loading="lazy">
+                  <div class="portfolio-overlay">
+                    <div class="portfolio-actions">
+                      <a href="assets/img/portfolio/compareTools.png" class="glightbox preview-link"
+                        data-gallery="portfolio-gallery-graphics"><i class="bi bi-eye"></i></a>
+                      <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio-content">
+                  <span class="category">Professionnels</span>
+                  <h3>CompareTools</h3>
+                  <p class="text-break">C'est un script PowerShell qui effectue une comparaison complète de deux
+                    fichiers ou dossiers.</p>
+                </div>
+              </div>
+            </div>
+            <!-- End Portfolio Item -->
+            <!-- Start Portfolio Item -->
+            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-personnal">
+              <div class="portfolio-card">
+                <div class="portfolio-image">
+                  <img src="assets/img/portfolio/hubAI.png" class="img-fluid" alt="" loading="lazy">
+                  <div class="portfolio-overlay">
+                    <div class="portfolio-actions">
+                      <a href="assets/img/portfolio/hubAI.png" class="glightbox preview-link"
+                        data-gallery="portfolio-gallery-motion"><i class="bi bi-eye"></i></a>
+                      <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio-content">
+                  <span class="category">Personnels</span>
+                  <h3>HubAI</h3>
+                  <p class="text-break">C'est une simple plateforme qui donne accès à quatre petites applications.</p>
+                </div>
+              </div>
+            </div>
+            <!-- End Portfolio Item -->
+            <!-- Start Portfolio Item -->
+            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-school">
+              <div class="portfolio-card">
+                <div class="portfolio-image">
+                  <img src="assets/img/portfolio/kaomia.png" class="img-fluid" alt="" loading="lazy">
+                  <div class="portfolio-overlay">
+                    <div class="portfolio-actions">
+                      <a href="assets/img/portfolio/kaomia.png" class="glightbox preview-link"
+                        data-gallery="portfolio-gallery-web"><i class="bi bi-eye"></i></a>
+                      <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio-content">
+                  <span class="category">Scolaires</span>
+                  <h3>Kaomia</h3>
+                  <p class="text-break">C'est un portail qui permet de voir les statistiques d'un jeu.</p>
+                </div>
+              </div>
+            </div>
+            <!-- End Portfolio Item -->
+            <!-- Start Portfolio Item -->
+            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-school">
+              <div class="portfolio-card">
+                <div class="portfolio-image">
+                  <img src="assets/img/portfolio/evomeal.png" class="img-fluid" alt="" loading="lazy">
+                  <div class="portfolio-overlay">
+                    <div class="portfolio-actions">
+                      <a href="assets/img/portfolio/evomeal.png" class="glightbox preview-link"
+                        data-gallery="portfolio-gallery-web"><i class="bi bi-eye"></i></a>
+                      <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio-content">
+                  <span class="category">Scolaires</span>
+                  <h3>EVOMEAL</h3>
+                  <p class="text-break">C'est un site de vente en ligne avec Symfony.</p>
+                </div>
+              </div>
+            </div>
+            <!-- End Portfolio Item -->
+            <!-- Start Portfolio Item -->
+            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-personnal">
+              <div class="portfolio-card">
+                <div class="portfolio-image">
+                  <img src="assets/img/portfolio/shopro.png" class="img-fluid" alt="" loading="lazy">
+                  <div class="portfolio-overlay">
+                    <div class="portfolio-actions">
+                      <a href="assets/img/portfolio/shopro.png" class="glightbox preview-link"
+                        data-gallery="portfolio-gallery-motion"><i class="bi bi-eye"></i></a>
+                      <a href="https://github.com/RinoShip77/MesProjets/tree/main/Personnel/Shopro" target="_blank"
+                        class="details-link"><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio-content">
+                  <span class="category">Personnels</span>
+                  <h3>Shopro</h3>
+                  <p class="text-break">C'est un site de vente en ligne.</p>
+                </div>
+              </div>
+            </div>
+            <!-- End Portfolio Item -->
+          </div><!-- End Portfolio Container -->
+        </div>
+      </div>
+    </section><!-- /Portfolio Section -->
+    <!-- Contact Section -->
+    <section id="contact" class="contact section light-background">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row g-5">
+          <div class="col-lg-6">
+            <div class="content" data-aos="fade-up" data-aos-delay="200">
+              <div class="section-category mb-3">Contact</div>
+              <h2 class="display-5 mb-4">Contactez moi</h2>
+              <p class="lead mb-4">Un simple courriel et je pourrai aider votre entreprise à changer le monde.</p>
+              <div class="contact-info mt-5">
+                <div class="info-item d-flex mb-3">
+                  <i class="bi bi-envelope-at me-3"></i>
+                  <span>bourgault.olivier8501@gmail.com</span>
+                </div>
+                <div class="info-item d-flex mb-3">
+                  <i class="bi bi-telephone me-3"></i>
+                  <span>+1 (819) 962-0709</span>
+                </div>
+                <div class="info-item d-flex mb-4">
+                  <i class="bi bi-geo-alt me-3"></i>
+                  <span>508 rue Costello, Gatineau, QC J8L 1Y3</span>
+                </div>
+                <a href="https://maps.app.goo.gl/ZZXjt6SFtjhXeJMb8" class="map-link d-inline-flex align-items-center">
+                  Open Map
+                  <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="contact-form card" data-aos="fade-up" data-aos-delay="300">
+              <div class="card-body p-4 p-lg-5">
+                <form action="" class="email-form">
+                  <div class="row gy-4">
+                    <div class="col-12">
+                      <input type="text" name="name" class="form-control" placeholder="Nom" required>
+                    </div>
+                    <div class="col-12 ">
+                      <input type="email" class="form-control" name="email"
+                        placeholder="bourgault.olivier8501@gmail.com" required readonly disabled>
+                    </div>
+                    <div class="col-12">
+                      <input type="text" class="form-control" name="subject" placeholder="Subjet" required>
+                    </div>
+                    <div class="col-12">
+                      <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+                    </div>
+                    <div class="col-12 text-center">
+                      <button type="submit" onclick="sendEmail()" class="btn btn-submit w-100">Submit Message</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div class="badge-base LI-profile-badge mt-5" data-locale="fr_FR" data-size="large" data-theme="light"
+            data-type="HORIZONTAL" data-vanity="olivier-bourgault-5b950428a" data-version="v1"><a
+              class="badge-base__link LI-simple-link"
+              href="https://ca.linkedin.com/in/olivier-bourgault-5b950428a?trk=profile-badge"></a>
+          </div>
+        </div>
+      </div>
+    </section><!-- /Contact Section -->
+  </main>
+  <footer id="footer" class="footer">
+    <div class="container">
+      <div class="copyright text-center ">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Olvier Bourgault</strong></p><span>All Rights
+          Reserved</span>
+        </p>
+      </div>
+      <div class="social-links d-flex justify-content-center">
+        <a href="https://github.com/RinoShip77" aria-label="Profil Github"><i class="bi bi-github"></i></a>
+        <a href="https://www.linkedin.com/in/olivier-bourgault-5b950428a" aria-label="Profil Linkedin"><i
+            class="bi bi-linkedin"></i></a>
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <!-- LinkdIn profile -->
+  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
