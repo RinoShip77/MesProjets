@@ -11,14 +11,21 @@ const VideoCard = require("../models/VideoCard");
 exports.getAll = function (req, res) {
   productFunctions.getAll(req.params.table, (err, products) => {
     if (err) throw err;
-    res.json(products);
+    
+    let elements = [];
+
+    products.forEach(product => {
+      elements.push(CreateProduct(product, req.params.table));
+    });
+
+    res.json(elements);
   });
 };
 
 exports.getOne = function (req, res) {
   productFunctions.getOne(req.params.table, req.params.id, (err, product) => {
     if (err) throw err;
-    res.json(...product);
+    res.json(CreateProduct(...product, req.params.table));
   });
 };
 
@@ -85,7 +92,7 @@ function CreateProduct(body, table) {
       product = new StorageDrive(body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.capacity, body.type);
       break;
 
-    case 'test':
+    case 'video_cards':
       product = new VideoCard(body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.chipset, body.memory, body.clock, body.frameSync);
       break;
   }
