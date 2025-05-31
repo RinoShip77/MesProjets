@@ -14,6 +14,7 @@
 :root {
   --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --heading-font: "Questrial", sans-serif;
+  --coding-font: "Fira Code", monospace;
   --nav-font: "Noto Sans", sans-serif;
 }
 
@@ -36,7 +37,7 @@
   /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
   --nav-color: #0a0f14;
   /* The default color of the main navmenu links */
-  --nav-hover-color: #0077ff;
+  --nav-hover-color: #0656b1;
   /* Applied to main navmenu links when they are hovered over or active */
   --nav-mobile-background-color: #ffffff;
   /* Used as the background color for mobile navigation menu */
@@ -44,7 +45,7 @@
   /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
   --nav-dropdown-color: #0a0f14;
   /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #0077ff;
+  --nav-dropdown-hover-color: #0656b1;
   /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
 }
 
@@ -61,16 +62,795 @@
 
   /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
   --nav-color: #f5f0eb;
-  --nav-hover-color: #ff8800;
+  --nav-hover-color: #f9a94e;
   --nav-mobile-background-color: #000000;
   --nav-dropdown-background-color: #000000;
   --nav-dropdown-color: #f5f0eb;
-  --nav-dropdown-hover-color: #ff8800;
+  --nav-dropdown-hover-color: #f9a94e;
 }
 
 /* Smooth scroll */
 :root {
   scroll-behavior: smooth;
+}
+
+/*--------------------------------------------------------------
+# Loader
+  From Jon Kantner
+  https://codepen.io/jkantner/pen/wvXbboe
+--------------------------------------------------------------*/
+/* Loader */
+.pl,
+.pl__ball,
+.pl__ball-inner-shadow,
+.pl__ball-side-shadows,
+.pl__ball-texture,
+.pl__inner-ring,
+.pl__outer-ring,
+.pl__track-cover {
+  border-radius: 50%;
+}
+
+.pl {
+  position: relative;
+  width: 16em;
+  height: 16em;
+}
+
+.pl__ball,
+.pl__ball-inner-shadow,
+.pl__ball-outer-shadow,
+.pl__ball-side-shadows,
+.pl__ball-texture,
+.pl__ball-texture:before,
+.pl__inner-ring,
+.pl__outer-ring,
+.pl__track-cover {
+  position: absolute;
+}
+
+.pl__ball,
+.pl__ball-inner-shadow,
+.pl__ball-outer-shadow,
+.pl__ball-texture:before,
+.pl__track-cover {
+  animation: ball 3s linear infinite;
+}
+
+.pl__ball {
+  top: calc(50% - 1.25em);
+  left: calc(50% - 1.25em);
+  transform: rotate(0) translateY(-6.5em);
+  width: 2.5em;
+  height: 2.5em;
+}
+
+.pl__ball-inner-shadow {
+  animation-name: ballInnerShadow;
+  box-shadow:
+    0 0.1em 0.2em hsla(0, 0%, 0%, 0.3),
+    0 0 0.2em hsla(0, 0%, 0%, 0.1) inset,
+    0 -1em 0.5em hsla(0, 0%, 0%, 0.15) inset;
+  width: 100%;
+  height: 100%;
+}
+
+.pl__ball-outer-shadow {
+  animation-name: ballOuterShadow;
+  background-image: linear-gradient(hsla(0, 0%, 0%, 0.15), hsla(0, 0%, 0%, 0));
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  filter: blur(2px);
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 250%;
+  transform: rotate(20deg);
+  transform-origin: 50% 0;
+  z-index: -2;
+}
+
+.pl__ball-side-shadows {
+  background-color: hsla(0, 0%, 0%, 0.1);
+  filter: blur(2px);
+  width: 100%;
+  height: 100%;
+  transform: scale(0.75, 1.1);
+  z-index: -1;
+}
+
+.pl__ball-texture {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  transform: translate3d(0, 0, 0);
+}
+
+.pl__ball-texture:before {
+  animation-name: ballTexture;
+  animation-duration: 0.25s;
+  background: url(https://assets.codepen.io/416221/snow.jpg) 0 0 / 50% 100%;
+  content: "";
+  display: block;
+  filter: brightness(1.05);
+  top: 0;
+  right: 0;
+  width: 200%;
+  height: 100%;
+}
+
+.pl__inner-ring {
+  box-shadow:
+    0 -0.25em 0.5em hsla(0, 0%, 100%, 0.4),
+    0 0.5em 0.75em hsla(0, 0%, 100%, 0.4) inset,
+    0 0.5em 0.375em hsla(0, 0%, 0%, 0.15),
+    0 -0.5em 0.75em hsla(0, 0%, 0%, 0.15) inset;
+  top: 2.375em;
+  left: 2.375em;
+  width: calc(100% - 4.75em);
+  height: calc(100% - 4.75em);
+}
+
+.pl__outer-ring {
+  box-shadow:
+    0 -0.45em 0.375em hsla(0, 0%, 0%, 0.15),
+    0 0.5em 0.75em hsla(0, 0%, 0%, 0.15) inset,
+    0 0.25em 0.5em hsla(0, 0%, 100%, 0.4),
+    0 -0.5em 0.75em hsla(0, 0%, 100%, 0.4) inset;
+  top: 0.75em;
+  left: 0.75em;
+  width: calc(100% - 1.5em);
+  height: calc(100% - 1.5em);
+}
+
+.pl__track-cover {
+  animation-name: trackCover;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes ball {
+  from {
+    transform: rotate(0) translateY(-6.5em);
+  }
+
+  50% {
+    transform: rotate(180deg) translateY(-6em);
+  }
+
+  to {
+    transform: rotate(360deg) translateY(-6.5em);
+  }
+}
+
+@keyframes ballInnerShadow {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes ballOuterShadow {
+  from {
+    transform: rotate(20deg);
+  }
+
+  to {
+    transform: rotate(-340deg);
+  }
+}
+
+@keyframes ballTexture {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(50%);
+  }
+}
+
+@keyframes trackCover {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*--------------------------------------------------------------
+# Loading bar
+  From Timothy Batt
+  https://codepen.io/JamminCoder/pen/LYBmbKX
+--------------------------------------------------------------*/
+.loading__bar {
+	position: relative;
+	height: 1.5rem;
+	width: 25rem;
+  margin-top: 1em;
+	background-color: rgb(236, 235, 235);
+	border-radius: 1em;
+	overflow: hidden;
+}
+
+.loading__bar::after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	content: "";
+	width: 50%;
+	height: 100%;
+	background: linear-gradient(90deg, rgba(35, 59, 240, 0.333), rgba(111, 126, 243, 0.891));
+	animation: 2s loading-animation infinite;
+	border-radius: 1em;
+}
+
+@keyframes loading-animation {
+	0% {
+		left: -50%;
+	}
+
+	100% {
+		left: 150%;
+	}
+}
+
+/*--------------------------------------------------------------
+# Typewriter effect
+  From Alvaro Montoro
+  https://codepen.io/alvaromontoro/pen/rNwVpdd
+--------------------------------------------------------------*/
+@keyframes typing {
+
+  0%,
+  11.5% {
+    content: "";
+  }
+
+  0.5%,
+  11% {
+    content: "D";
+  }
+
+  1%,
+  10.5% {
+    content: "Dé";
+  }
+
+  1.5%,
+  10% {
+    content: "Dév";
+  }
+
+  2%,
+  9.5% {
+    content: "Déve";
+  }
+
+  2.5%,
+  9% {
+    content: "Dével";
+  }
+
+  3%,
+  8.5% {
+    content: "Dévelo";
+  }
+
+  3.5%,
+  8% {
+    content: "Dévelop";
+  }
+
+  4%,
+  7.5% {
+    content: "Développ";
+  }
+
+  4.5%,
+  7% {
+    content: "Développe";
+  }
+
+  5%,
+  6.5% {
+    content: "Développeu";
+  }
+
+  5.5%,
+  6% {
+    content: "Développeur";
+  }
+
+  12%,
+  23.5% {
+    content: "";
+  }
+
+  12.5%,
+  23% {
+    content: "P";
+  }
+
+  13%,
+  22.5% {
+    content: "Pr";
+  }
+
+  13.5%,
+  22% {
+    content: "Pro";
+  }
+
+  14%,
+  21.5% {
+    content: "Prog";
+  }
+
+  14.5%,
+  21% {
+    content: "Progr";
+  }
+
+  15%,
+  20.5% {
+    content: "Progra";
+  }
+
+  15.5%,
+  20% {
+    content: "Program";
+  }
+
+  16%,
+  19.5% {
+    content: "Programm";
+  }
+
+  16.5%,
+  19% {
+    content: "Programme";
+  }
+
+  17%,
+  18.5% {
+    content: "Programmeu";
+  }
+
+  17.5%,
+  18% {
+    content: "Programmeur";
+  }
+
+  24%,
+  34.5% {
+    content: "";
+  }
+
+  24.5%,
+  34% {
+    content: "T";
+  }
+
+  25%,
+  33.5% {
+    content: "Te";
+  }
+
+  25.5%,
+  33% {
+    content: "Tec";
+  }
+
+  26%,
+  32.5% {
+    content: "Tech";
+  }
+
+  26.5%,
+  32% {
+    content: "Techn";
+  }
+
+  27%,
+  31.5% {
+    content: "Techni";
+  }
+
+  27.5%,
+  31% {
+    content: "Technic";
+  }
+
+  28%,
+  30.5% {
+    content: "Technici";
+  }
+
+  28.5%,
+  30% {
+    content: "Technicie";
+  }
+
+  29%,
+  29.5% {
+    content: "Technicien";
+  }
+
+  35%,
+  46.5% {
+    content: "";
+  }
+
+  35.5%,
+  46% {
+    content: "I";
+  }
+
+  36%,
+  45.5% {
+    content: "In";
+  }
+
+  36.5%,
+  45% {
+    content: "Int";
+  }
+
+  37%,
+  44.5% {
+    content: "Inté";
+  }
+
+  37.5%,
+  44% {
+    content: "Intég";
+  }
+
+  38%,
+  43.5% {
+    content: "Intégr";
+  }
+
+  38.5%,
+  43% {
+    content: "Intégra";
+  }
+
+  39%,
+  42.5% {
+    content: "Intégrat";
+  }
+
+  39.5%,
+  42% {
+    content: "Intégrate";
+  }
+
+  40%,
+  41.5% {
+    content: "Intégrateu";
+  }
+
+  40.5%,
+  41% {
+    content: "Intégrateur";
+  }
+
+  47%,
+  58.5% {
+    content: "";
+  }
+
+  47.5%,
+  58% {
+    content: "C";
+  }
+
+  48%,
+  57.5% {
+    content: "Co";
+  }
+
+  48.5%,
+  57% {
+    content: "Con";
+  }
+
+  49%,
+  56.5% {
+    content: "Conc";
+  }
+
+  49.5%,
+  56% {
+    content: "Conce";
+  }
+
+  50%,
+  55.5% {
+    content: "Concep";
+  }
+
+  50.5%,
+  55% {
+    content: "Concep";
+  }
+
+  51%,
+  54.5% {
+    content: "Concept";
+  }
+
+  51.5%,
+  54% {
+    content: "Concepte";
+  }
+
+  52%,
+  53.5% {
+    content: "Concepteu";
+  }
+
+  52.5%,
+  53% {
+    content: "Concepteur";
+  }
+
+  59%,
+  67.5% {
+    content: "";
+  }
+
+  59.5%,
+  67% {
+    content: "C";
+  }
+
+  60%,
+  66.5% {
+    content: "Cr";
+  }
+
+  60.5%,
+  66% {
+    content: "Cré";
+  }
+
+  61%,
+  65.5% {
+    content: "Créa";
+  }
+
+  61.5%,
+  65% {
+    content: "Créat";
+  }
+
+  62%,
+  64.5% {
+    content: "Créate";
+  }
+
+  62.5%,
+  64% {
+    content: "Créateu";
+  }
+
+  63%,
+  63.5% {
+    content: "Créateur";
+  }
+
+  68%,
+  74.5% {
+    content: "";
+  }
+
+  68.5%,
+  74% {
+    content: "C";
+  }
+
+  69%,
+  73.5% {
+    content: "Co";
+  }
+
+  69.5%,
+  73% {
+    content: "Cod";
+  }
+
+  70%,
+  72.5% {
+    content: "Code";
+  }
+
+  70.5%,
+  72% {
+    content: "Codeu";
+  }
+
+  71%,
+  71.5% {
+    content: "Codeur";
+  }
+
+  75%,
+  88.5% {
+    content: "";
+  }
+
+  75.5%,
+  88% {
+    content: "I";
+  }
+
+  76%,
+  87.5% {
+    content: "In";
+  }
+
+  76.5%,
+  87% {
+    content: "Inf";
+  }
+
+  77%,
+  86.5% {
+    content: "Info";
+  }
+
+  77.5%,
+  86% {
+    content: "Infor";
+  }
+
+  78%,
+  85.5% {
+    content: "Inform";
+  }
+
+  78.5%,
+  85% {
+    content: "Informa";
+  }
+
+  79%,
+  84.5% {
+    content: "Informat";
+  }
+
+  79.5%,
+  84% {
+    content: "Informati";
+  }
+
+  80%,
+  83.5% {
+    content: "Informatic";
+  }
+
+  80.5%,
+  83% {
+    content: "Informatici";
+  }
+
+  81%,
+  82.5% {
+    content: "Informaticie";
+  }
+
+  81.5%,
+  82% {
+    content: "Informaticien";
+  }
+
+  89%,
+  99.8% {
+    content: "";
+  }
+
+  89.5%,
+  99.6% {
+    content: "P";
+  }
+
+  90%,
+  99.4% {
+    content: "Pr";
+  }
+
+  90.5%,
+  99.2% {
+    content: "Pro";
+  }
+
+  91%,
+  99% {
+    content: "Prof";
+  }
+
+  91.5%,
+  98.8% {
+    content: "Profe";
+  }
+
+  92%,
+  98.6% {
+    content: "Profes";
+  }
+
+  92.5%,
+  98.4% {
+    content: "Profess";
+  }
+
+  93%,
+  98.2% {
+    content: "Professi";
+  }
+
+  93.5%,
+  98% {
+    content: "Professio";
+  }
+
+  94%,
+  97.5% {
+    content: "Profession";
+  }
+
+  94.5%,
+  97% {
+    content: "Professionn";
+  }
+
+  95%,
+  96.5% {
+    content: "Professionne";
+  }
+
+  95.5%,
+  96% {
+    content: "Professionnel";
+  }
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.typewriter {
+  color: var(--accent-color);
+  font-family: var(--coding-font);
+  --caret: currentcolor;
+}
+
+.typewriter::before {
+  content: "";
+  animation: 30s typing 0.5s infinite;
+}
+
+.typewriter::after {
+  content: "";
+  border-right: 1px solid var(--caret);
+  animation: blink 0.5s linear infinite;
 }
 
 /*--------------------------------------------------------------
@@ -176,7 +956,7 @@ h6 {
   padding-left: 6px;
   display: inline-block;
   transition: 0.3s;
-  font-size: 16px;
+  font-size: 1em;
 }
 
 .header .header-social-links a:hover {
@@ -849,25 +1629,23 @@ section,
   font-size: .75em;
 }
 
-.about .signature {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+.about .map-link {
+  color: var(--heading-color);
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
 }
 
-.about .signature .signature-image {
-  max-width: 150px;
+.about .map-link i {
+  transition: transform 0.3s ease;
 }
 
-.about .signature .signature-info h4 {
-  font-size: 1.25rem;
-  margin-bottom: 0.25rem;
+.about .map-link:hover {
+  color: var(--accent-color);
 }
 
-.about .signature .signature-info p {
-  font-size: 0.875rem;
-  color: color-mix(in srgb, var(--default-color), transparent 40%);
-  margin: 0;
+.about .map-link:hover i {
+  transform: translateX(5px);
 }
 
 /*--------------------------------------------------------------
@@ -1212,283 +1990,8 @@ section,
 }
 
 /*--------------------------------------------------------------
-# Testimonials Section
---------------------------------------------------------------*/
-.testimonials .testimonials-slider {
-  width: 100%;
-  position: relative;
-  padding-bottom: 60px;
-}
-
-.testimonials .swiper-wrapper {
-  height: auto;
-}
-
-.testimonials .testimonial-item {
-  background-color: var(--surface-color);
-  padding: 40px;
-  border-radius: 20px;
-}
-
-@media (max-width: 575px) {
-  .testimonials .testimonial-item {
-    padding: 20px;
-  }
-}
-
-.testimonials .testimonial-item h2 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-.testimonials .testimonial-item p {
-  font-size: 16px;
-  line-height: 1.8;
-  margin-bottom: 30px;
-  font-style: italic;
-}
-
-.testimonials .testimonial-item .profile {
-  gap: 15px;
-}
-
-.testimonials .testimonial-item .profile .profile-img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.testimonials .testimonial-item .profile .profile-info h3 {
-  font-size: 18px;
-  margin: 0;
-  font-weight: 600;
-}
-
-.testimonials .testimonial-item .profile .profile-info span {
-  font-size: 14px;
-  color: color-mix(in srgb, var(--default-color) 70%, transparent);
-}
-
-.testimonials .testimonial-item .featured-img-wrapper {
-  min-height: 400px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 16px;
-}
-
-.testimonials .testimonial-item .featured-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.testimonials .swiper-navigation {
-  position: absolute;
-  bottom: 0;
-  gap: 10px;
-}
-
-.testimonials .swiper-button-prev,
-.testimonials .swiper-button-next {
-  position: relative;
-  left: auto;
-  right: auto;
-  top: auto;
-  margin: 0;
-  width: 44px;
-  height: 44px;
-  background-color: var(--surface-color);
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--default-color) 10%, transparent);
-  transition: 0.3s;
-}
-
-.testimonials .swiper-button-prev::after,
-.testimonials .swiper-button-next::after {
-  font-size: 20px;
-  color: var(--default-color);
-}
-
-.testimonials .swiper-button-prev:hover,
-.testimonials .swiper-button-next:hover {
-  background-color: var(--accent-color);
-  border-color: var(--accent-color);
-}
-
-.testimonials .swiper-button-prev:hover::after,
-.testimonials .swiper-button-next:hover::after {
-  color: var(--contrast-color);
-}
-
-/*--------------------------------------------------------------
-# Services Section
---------------------------------------------------------------*/
-.services {
-  padding: 80px 0;
-}
-
-.services .servies-title {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.services .btn-outline-primary {
-  color: var(--accent-color);
-  border-color: var(--accent-color);
-  padding: 10px 30px;
-  border-radius: 50px;
-  transition: all 0.3s ease;
-}
-
-.services .btn-outline-primary:hover {
-  background-color: var(--accent-color);
-  color: var(--contrast-color);
-}
-
-.services .service-item {
-  background-color: var(--surface-color);
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  height: 100%;
-  transition: transform 0.3s ease;
-}
-
-.services .service-item:hover {
-  transform: scale(1.05);
-}
-
-.services .service-item i {
-  font-size: 2.5rem;
-  color: var(--accent-color);
-  display: inline-block;
-  margin-bottom: 15px;
-}
-
-.services .service-item h3 {
-  font-size: 1.25rem;
-  margin-bottom: 15px;
-}
-
-.services .service-item h3 a {
-  color: var(--heading-color);
-}
-
-.services .service-item h3 a:hover {
-  color: var(--accent-color);
-}
-
-.services .service-item p {
-  font-size: 0.9rem;
-  color: color-mix(in srgb, var(--default-color), transparent 25%);
-}
-
-@media (max-width: 991px) {
-  .services h2 {
-    font-size: 2rem;
-  }
-}
-
-/*--------------------------------------------------------------
-# Faq Section
---------------------------------------------------------------*/
-.faq .faq-container .faq-item {
-  background-color: var(--surface-color);
-  position: relative;
-  padding: 20px;
-  margin-bottom: 15px;
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.faq .faq-container .faq-item:last-child {
-  margin-bottom: 0;
-}
-
-.faq .faq-container .faq-item h3 {
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  margin: 0 30px 0 0;
-  transition: 0.3s;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.faq .faq-container .faq-item h3 .num {
-  color: var(--accent-color);
-  padding-right: 5px;
-}
-
-.faq .faq-container .faq-item h3:hover {
-  color: var(--accent-color);
-}
-
-.faq .faq-container .faq-item .faq-content {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: 0.3s ease-in-out;
-  visibility: hidden;
-  opacity: 0;
-}
-
-.faq .faq-container .faq-item .faq-content p {
-  margin-bottom: 0;
-  overflow: hidden;
-}
-
-.faq .faq-container .faq-item .faq-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 16px;
-  line-height: 0;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-.faq .faq-container .faq-item .faq-toggle:hover {
-  color: var(--accent-color);
-}
-
-.faq .faq-container .faq-active {
-  background-color: color-mix(in srgb, var(--accent-color), transparent 97%);
-  border-color: color-mix(in srgb, var(--accent-color), transparent 80%);
-}
-
-.faq .faq-container .faq-active h3 {
-  color: var(--accent-color);
-}
-
-.faq .faq-container .faq-active .faq-content {
-  grid-template-rows: 1fr;
-  visibility: visible;
-  opacity: 1;
-  padding-top: 10px;
-}
-
-.faq .faq-container .faq-active .faq-toggle {
-  transform: rotate(90deg);
-  color: var(--accent-color);
-}
-
-/*--------------------------------------------------------------
 # Contact Section
 --------------------------------------------------------------*/
-.contact .section-category {
-  font-family: var(--heading-font);
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
 
 .contact .content h2 {
   font-weight: 700;
@@ -1499,39 +2002,12 @@ section,
   color: color-mix(in srgb, var(--default-color), transparent 25%);
 }
 
-.contact .contact-info .info-item {
-  font-size: 1.1rem;
-}
-
-.contact .contact-info .info-item i {
-  color: var(--accent-color);
-  font-size: 1.4rem;
-}
-
-.contact .contact-info .map-link {
-  color: var(--heading-color);
-  font-weight: 500;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-}
-
-.contact .contact-info .map-link i {
-  transition: transform 0.3s ease;
-}
-
-.contact .contact-info .map-link:hover {
-  color: var(--accent-color);
-}
-
-.contact .contact-info .map-link:hover i {
-  transform: translateX(5px);
-}
-
 .contact .contact-form {
   background-color: var(--surface-color);
   border: none;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
   border-radius: 12px;
+  margin-top: -3em;
 }
 
 .contact .contact-form .form-control,

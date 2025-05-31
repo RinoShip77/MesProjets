@@ -25,14 +25,16 @@
 >
 >12. [***Phoneword***](Phoneword) est une autre application **en .NET MAUI** qui converti les mots en numéro de téléphone.
 >
->13. [***QuickConnect***](QuickConnect) est un script **en Python** qui vous aide à tester votre connexion internet.
+>13. [***Portfolio***](Portfolio) est un simple site **en HTML, CSS et JS** qui me sert actuellement de portfolio ainsi que de vitrine sur internet.
 >
->14. [***SchoolProject***](SchoolProject) est un simple site **en HTML, CSS et JS** qui facilitait l'accès à mes différents projets scolaires.
+>14. [***QuickConnect***](QuickConnect) est un script **en Python** qui vous aide à tester votre connexion internet.
 >
->15. [***Shopro***](Shopro) est un site **en HTML, CSS et JS** de e-commerce fictif pour maganisiner et voir l'ensemble du catalogue.
+>15. [***SchoolProject***](SchoolProject) est un simple site **en HTML, CSS et JS** qui facilitait l'accès à mes différents projets scolaires.
 >
->16. [***StickerSmash***](StickerSmash) est une application **en React Native** *(avec Expo)* qui permet de modifier des photos.
+>16. [***Shopro***](Shopro) est un site **en HTML, CSS et JS** de e-commerce fictif pour maganisiner et voir l'ensemble du catalogue.
 >
->17. [***Superwiki***](Superwiki) est un site **en HTML, CSS et JS** qui sert de plateforme pour accéder à plusieurs outils qui ont recourent à des API.
+>17. [***StickerSmash***](StickerSmash) est une application **en React Native** *(avec Expo)* qui permet de modifier des photos.
 >
->18. [***WinYou***](WinYou) est un script **en Powershell** pour créer un formulaire de fçacon 100% personnalisable *(pas encore fonctionnelle)*.
+>18. [***Superwiki***](Superwiki) est un site **en HTML, CSS et JS** qui sert de plateforme pour accéder à plusieurs outils qui ont recourent à des API.
+>
+>19. [***WinYou***](WinYou) est un script **en Powershell** pour créer un formulaire de fçacon 100% personnalisable *(pas encore fonctionnelle)*.
