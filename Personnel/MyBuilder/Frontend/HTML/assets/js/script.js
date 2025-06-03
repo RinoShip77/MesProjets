@@ -60,16 +60,16 @@ function createProduct(product) {
   card.classList.add("card", "h-100", "shadow-sm");
   column.appendChild(card);
 
-  // let modalLink = document.createElement("button");
-  // modalLink.type = "button";
-  // modalLink.setAttribute("data-bs-toggle", "modal");
-  // modalLink.setAttribute("data-bs-toggle", `#productModal`);
-  // column.onclick = function () {
-  //   createProductModal(product);
-  // }
-  // modalLink.appendChild(column);  
+  let modalLink = document.createElement("button");
+  modalLink.type = "button";
+  modalLink.setAttribute("data-bs-toggle", "modal");
+  modalLink.setAttribute("data-bs-toggle", `#productModal`);
+  column.onclick = function () {
+    createProductModal(product);
+  }
+  modalLink.appendChild(column);  
 
-  // card.append(createBody(element.imageURL, element.name, element.price, element.quantity));
+  card.append(createBody(element.imageURL, element.name, element.price, element.quantity));
   card.append(createCardBody(product.imageURL, product.name, product.price, 2, number));
   document.getElementById("productsContainer").appendChild(column);
 }
@@ -94,7 +94,7 @@ function createCardBody(image, title, price, quantity, number) {
   node_1.setAttribute('type', 'button');
   node_1.setAttribute('class', 'btn btn-primary');
   node_1.setAttribute('data-bs-toggle', 'modal');
-  node_1.setAttribute('data-bs-target', `productModal${number}`); //${title.replace(/ /g, "_")}
+  node_1.setAttribute('data-bs-target', `productModal${number}`);
   node_1.onclick = function () {
     createProductModal(image, number);
   }

@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const categoriesRoutes = require("./routes/categories.route.js");
 const productsRoutes = require("./routes/products.route.js");
@@ -6,6 +7,7 @@ const usersRoutes = require("./routes/users.route.js");
 const middleware = require("./middlewares/error.js");
 
 const app = express();
+app.use(cors({ origin: true, credentials: true }));
 
 // Middleware
 app.use(bodyParser.json());
