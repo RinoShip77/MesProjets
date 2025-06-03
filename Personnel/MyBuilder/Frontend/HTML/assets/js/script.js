@@ -14,20 +14,21 @@ function getProducts(table = "cases") {
 }
 
 function createCategorySwitch(category) {
+  
   let input = document.createElement("input");
-  input.id = `${category.title}Switch`;
-  input.classList.add("form-check-input", "me-3", "fs-5");
+  input.id = `${category.Tables_in_my_builder}Switch`;
+  input.classList.add("form-check-input", "me-3");
   input.name = "categorySwitch";
   input.type = "radio";
   input.role = "switch";
   input.onchange = function () {
-    getProducts(category.title);
+    getProducts(category.Tables_in_my_builder);
   }
 
   let label = document.createElement("label");
-  label.innerHTML = `${category.title.replace("_", " ")} ${categoryIcon(category.title.replace("_", " "))}`;
-  label.classList.add("form-check-label", "text-capitalize", "fs-4");
-  label.setAttribute("for", `${category.title}Switch`);
+  label.innerHTML = `${category.Tables_in_my_builder.replace(/_/g, " ")} ${categoryIcon(category.Tables_in_my_builder.replace(/_/g, " "))}`;
+  label.classList.add("form-check-label", "text-capitalize");
+  label.setAttribute("for", `${category.Tables_in_my_builder}Switch`);
 
   let container = document.createElement("div");
   container.classList.add("form-check", "form-switch", "d-flex", "align-items-center", "my-3");
@@ -38,10 +39,10 @@ function createCategorySwitch(category) {
 
 function createCategoryDropdown(category) {
   let link = document.createElement("a");
-  link.innerHTML = `${category.title.replace("_", " ")} ${categoryIcon(category.title.replace("_", " "))}`;
+  link.innerHTML = `${category.Tables_in_my_builder.replace(/_/g, " ")} ${categoryIcon(category.Tables_in_my_builder.replace(/_/g, " "))}`;
   link.classList.add("dropdown-item", "text-capitalize");
   link.onclick = function () {
-    getProducts(category.title);
+    getProducts(category.Tables_in_my_builder);
   }
 
   let dropdownItem = document.createElement("li");
@@ -51,32 +52,25 @@ function createCategoryDropdown(category) {
 }
 
 function createProduct(product) {
-  let number = Math.floor(Math.random() * 100);
-
+  let modalLink = document.createElement("a");
+  modalLink.type = "button";
+  modalLink.classList.add("card", "text-decoration-none", "h-100", "shadow");
+  modalLink.setAttribute("data-bs-toggle", "modal");
+  modalLink.setAttribute("data-bs-target", `#productModal${product.id}`);
+  modalLink.append(createCardBody(product.imageURL, product.name, product.price, 2));
+  createProductModal(product);
+  
   let column = document.createElement("div");
   column.classList.add("col");
-
-  let card = document.createElement("div");
-  card.classList.add("card", "h-100", "shadow-sm");
-  column.appendChild(card);
-
-  let modalLink = document.createElement("button");
-  modalLink.type = "button";
-  modalLink.setAttribute("data-bs-toggle", "modal");
-  modalLink.setAttribute("data-bs-toggle", `#productModal`);
-  column.onclick = function () {
-    createProductModal(product);
-  }
-  modalLink.appendChild(column);  
-
-  card.append(createBody(element.imageURL, element.name, element.price, element.quantity));
-  card.append(createCardBody(product.imageURL, product.name, product.price, 2, number));
+  column.appendChild(modalLink);
+  
   document.getElementById("productsContainer").appendChild(column);
 }
 
-function createCardBody(image, title, price, quantity, number) {
+function createCardBody(image, title, price, quantity) {
   let imageTag = document.createElement("img");
   imageTag.src = image;
+  imageTag.onerror = function () { this.src = "https://static-00.iconduck.com/assets.00/no-image-icon-512x512-lfoanl0w.png" };
   imageTag.classList.add("card-img-top", "img-fluid", "img-thumbnail");
   imageTag.alt = `Image de ${title}`;
 
@@ -88,29 +82,11 @@ function createCardBody(image, title, price, quantity, number) {
   priceTag.innerHTML = price;
   priceTag.classList.add("text-body-secondary");
 
-
-
-  var node_1 = document.createElement('BUTTON');
-  node_1.setAttribute('type', 'button');
-  node_1.setAttribute('class', 'btn btn-primary');
-  node_1.setAttribute('data-bs-toggle', 'modal');
-  node_1.setAttribute('data-bs-target', `productModal${number}`);
-  node_1.onclick = function () {
-    createProductModal(image, number);
-  }
-
-  var node_2 = document.createTextNode((new String("Launch demo modal")));
-  node_1.appendChild(node_2);
-
-
-
-
-
   let footer = createCardFooter(quantity);
 
   let body = document.createElement("div");
-  body.classList.add("card-body", "bg-body-secondary");
-  body.append(imageTag, titleTag, priceTag, node_1, footer);
+  body.classList.add("card-body", "d-flex", "flex-column", "justify-content-between", "bg-body-secondary");
+  body.append(imageTag, titleTag, priceTag, footer);
 
   return body;
 }
@@ -146,7 +122,6 @@ function createQuantityInput(quantity) {
   increaseQuantity.type = "button";
   increaseQuantity.classList.add("btn", "btn-sm");
 
-
   let inputGroup = document.createElement("div");
   inputGroup.classList.add("d-flex", "align-items-center");
   inputGroup.append(decreaseQuantity, input, increaseQuantity);
@@ -154,58 +129,64 @@ function createQuantityInput(quantity) {
   return inputGroup;
 }
 
-function createProductModal(image, number) {
+function createProductModal(product) {
+  let node_1 = document.createElement("DIV");
+  node_1.classList.add("modal", "fade");
+  node_1.setAttribute("id", `productModal${product.id}`);
+  node_1.setAttribute("tabindex", "-1");
+  node_1.setAttribute("aria-labelledby", product.name);
 
-  var node_1 = document.createElement('DIV');
-  node_1.setAttribute('class', 'modal-header');
-
-  var node_2 = document.createElement('H1');
-  node_2.setAttribute('class', 'modal-title fs-5');
-  node_2.setAttribute('id', 'exampleModalLabel');
+  let node_2 = document.createElement("DIV");
+  node_2.classList.add("modal-dialog");
   node_1.appendChild(node_2);
 
-  var node_3 = document.createTextNode((new String("Modal title")));
+  let node_3 = document.createElement("DIV");
+  node_3.classList.add("modal-content");
   node_2.appendChild(node_3);
 
-  var node_4 = document.createElement('BUTTON');
-  node_4.setAttribute('type', 'button');
-  node_4.setAttribute('class', 'btn-close');
-  node_4.setAttribute('data-bs-dismiss', 'modal');
-  node_4.setAttribute('aria-label', 'Close');
-  node_1.appendChild(node_4);
+  let node_4 = document.createElement("DIV");
+  node_4.classList.add("modal-header");
+  node_3.appendChild(node_4);
 
-  var node_5 = document.createElement('DIV');
-  node_5.setAttribute('class', 'modal-body');
+  let node_5 = document.createElement("H1");
+  node_5.innerHTML = product.name;
+  node_5.classList.add("modal-title", "fs-5");
+  node_5.setAttribute("id", "exampleModalLabel");
+  node_4.appendChild(node_5);
 
-  let imageTag = document.createElement("img");
-  imageTag.src = image;
-  imageTag.classList.add("card-img-top", "img-fluid", "img-thumbnail");
-  imageTag.alt = `Image de `;
-  node_5.appendChild(imageTag)
+  let node_7 = document.createElement("BUTTON");
+  node_7.setAttribute("type", "button");
+  node_7.classList.add("btn-close");
+  node_7.setAttribute("data-bs-dismiss", "modal");
+  node_7.setAttribute("aria-label", "Close");
+  node_4.appendChild(node_7);
 
-  var node_6 = document.createElement('DIV');
-  node_6.setAttribute('class', 'modal-footer');
+  let node_8 = document.createElement("DIV");
+  node_8.classList.add("modal-body");
+  node_3.appendChild(node_8);
 
-  var node_7 = document.createElement('BUTTON');
-  node_7.setAttribute('type', 'button');
-  node_7.setAttribute('class', 'btn btn-secondary');
-  node_7.setAttribute('data-bs-dismiss', 'modal');
-  node_6.appendChild(node_7);
+  let node_9 = document.createElement("DIV");
+  node_9.classList.add("modal-footer");
+  node_3.appendChild(node_9);
 
-  var node_8 = document.createTextNode((new String("Close")));
-  node_7.appendChild(node_8);
-
-  var node_9 = document.createElement('BUTTON');
-  node_9.setAttribute('type', 'button');
-  node_9.setAttribute('class', 'btn btn-primary');
-  node_6.appendChild(node_9);
-
-  var node_10 = document.createTextNode((new String("Save changes")));
+  let node_10 = document.createElement("BUTTON");
+  node_10.setAttribute("type", "button");
+  node_10.classList.add("btn", "btn-secondary");
+  node_10.setAttribute("data-bs-dismiss", "modal");
   node_9.appendChild(node_10);
 
+  let node_11 = document.createTextNode((new String("Close")));
+  node_10.appendChild(node_11);
 
-  // document.getElementById("productModal").remove();
-  document.getElementById("modalContent").appendChild(node_1);
+  let node_12 = document.createElement("BUTTON");
+  node_12.setAttribute("type", "button");
+  node_12.classList.add("btn", "btn-primary");
+  node_9.appendChild(node_12);
+
+  let node_13 = document.createTextNode((new String("Save changes")));
+  node_12.appendChild(node_13);
+
+  document.body.appendChild(node_1);
 }
 
 function categoryIcon(category) {
@@ -252,11 +233,10 @@ function fetchData(path) {
       }
     })
     .then(data => {
-      data.forEach(element => {
+      data.slice(0, 10).forEach(element => {
         if (path.includes("/")) {
           switch (path.substr(0, path.indexOf("/"))) {
             case "products":
-              console.log(path)
               createProduct(element);
               break;
             case "users":
