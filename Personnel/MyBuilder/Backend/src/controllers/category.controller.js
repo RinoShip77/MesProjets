@@ -1,9 +1,16 @@
 const categoryFunctions = require("../functions/category.function");
+const Category = require("../models/Category");
 
 exports.getAll = function (req, res) {
   categoryFunctions.getAll((err, categories) => {
     if (err) throw err;
-    res.json(categories);
+    let elements = [];
+
+    categories.forEach(category => {
+      elements.push(new Category(category.Name.replace(/_/g, " ").replace(/^./, category.Name.replace(/_/g, " ")[0].toUpperCase()), category.Rows));
+    });
+
+    res.json(elements);
   });
 };
 

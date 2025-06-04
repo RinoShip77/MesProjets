@@ -1,7 +1,7 @@
 const db = require("../core/database");
 
 exports.getAll = function (callback) {
-  db.query(`SHOW TABLES`, callback);
+  db.query("SHOW TABLE STATUS WHERE COMMENT = 'productsTable'", callback);
 };
 
 exports.create = function (newCategory, callback) {
