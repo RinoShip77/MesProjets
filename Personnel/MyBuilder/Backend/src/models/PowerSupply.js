@@ -1,10 +1,9 @@
 const Product = require("./Product");
 
 class PowerSupply extends Product {
-  constructor(id, name, imageURL, productURL, price, manufacturer, type, rating, wattage, length) {
-    super(id, name, imageURL, productURL, price, manufacturer);
+  constructor(id, name, imageURL, productURL, price, manufacturer, quantity, rating, type, wattage, length) {
+    super(id, name, imageURL, productURL, price, manufacturer, quantity, rating);
     this.type = type;
-    this.rating = rating;
     this.wattage = wattage;
     this.length = length;
   }

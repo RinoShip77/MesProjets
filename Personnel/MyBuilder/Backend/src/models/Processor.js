@@ -1,8 +1,8 @@
 const Product = require("./Product");
 
 class Processor extends Product {
-  constructor(id, name, imageURL, productURL, price, manufacturer, series, microarchitecture, socket, coreCount, clock, integratedGraphics) {
-    super(id, name, imageURL, productURL, price, manufacturer);
+  constructor(id, name, imageURL, productURL, price, manufacturer, quantity, rating, series, microarchitecture, socket, coreCount, clock, integratedGraphics) {
+    super(id, name, imageURL, productURL, price, manufacturer, quantity, rating);
     this.series = series;
     this.microarchitecture = microarchitecture;
     this.socket = socket;
