@@ -6,16 +6,16 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 main();
 
 function main() {
-  fetchData("categories");
+  fetchData();
   getProducts();
-  
+
   // if (window.innerWidth < 1100) {
   //   document.getElementById("categoriesContainer").classList.add("row");
-  
+
   //   for (let index = 0; index < document.getElementById("categoriesContainer").children.length; index++) {
   //     let newRow = document.createElement("div");
   //     newRow.classList.add("col");
-      
+
   //     console.log(index)
   //     if(index === 1) {
   //       newRow.append(document.getElementById("categoriesContainer").children[index], document.getElementById("categoriesContainer").children[index + 1]);
@@ -40,18 +40,20 @@ function createCategorySwitch(category) {
   input.type = "radio";
   input.role = "switch";
   input.onchange = function () {
-    getProducts(category.name.replace(" ", /_/g).toLowerCase());
+    getProducts(category.name.replace(" ", "_").toLowerCase());
   }
-  
+
   let label = document.createElement("label");
   label.innerHTML = `${category.name} ${categoryIcon(category.name)}`;
   label.classList.add("form-check-label");
   label.setAttribute("for", `${category.name}Switch`);
-  
+  label.setAttribute("data-bs-toggle", "tooltip");
+  label.setAttribute("data-bs-title", `${category.count}`);
+  label.setAttribute("data-bs-placement", "right");
+  generateTooltip(label);
+
   let container = document.createElement("div");
   container.classList.add("form-check", "form-switch", "d-flex", "align-items-center", "my-3");
-  container.setAttribute("data-bs-toggle", "tooltip");
-  container.setAttribute("data-bs-title", `${category.count}`);
   container.append(input, label);
 
   document.getElementById("categoriesContainer").appendChild(container);
@@ -64,8 +66,10 @@ function createCategoryDropdown(category) {
   link.classList.add("dropdown-item");
   link.setAttribute("data-bs-toggle", "tooltip");
   link.setAttribute("data-bs-title", `${category.count}`);
+  link.setAttribute("data-bs-placement", "right");
+  generateTooltip(link);
   link.onclick = function () {
-    getProducts(category.name.replace(" ", /_/g).toLowerCase());
+    getProducts(category.name.replace(" ", "_").toLowerCase());
   }
 
   let dropdownItem = document.createElement("li");
@@ -80,7 +84,7 @@ function createProduct(product) {
   modalLink.classList.add("card", "text-decoration-none", "h-100", "shadow");
   modalLink.setAttribute("data-bs-toggle", "modal");
   modalLink.setAttribute("data-bs-target", `#productModal${product.id}`);
-  modalLink.append(createCardBody(product.imageURL, product.name, product.price, 2));
+  modalLink.append(createCardBody(product));
   createProductModal(product);
 
   let column = document.createElement("div");
@@ -90,39 +94,36 @@ function createProduct(product) {
   document.getElementById("productsContainer").appendChild(column);
 }
 
-function createCardBody(image, title, price, quantity) {
+function createCardBody(product) {
   let imageTag = document.createElement("img");
-  imageTag.src = image;
+  imageTag.src = product.imageURL;
   imageTag.onerror = function () { this.src = "https://static-00.iconduck.com/assets.00/no-image-icon-512x512-lfoanl0w.png" };
   imageTag.classList.add("card-img-top", "img-fluid", "img-thumbnail");
-  imageTag.alt = `Image de ${title}`;
+  imageTag.alt = `Image de ${product.name}`;
 
   let titleTag = document.createElement("h4");
-  titleTag.innerHTML = title;
+  titleTag.innerHTML = product.name;
   titleTag.classList.add("card-title", "pt-2");
 
   let priceTag = document.createElement("p");
-  priceTag.innerHTML = price;
   priceTag.classList.add("text-body-secondary");
-
-  let footer = createCardFooter(quantity);
+  priceTag.innerHTML = product.price;
 
   let body = document.createElement("div");
   body.classList.add("card-body", "d-flex", "flex-column", "justify-content-between", "bg-body-secondary");
-  body.append(imageTag, titleTag, priceTag, footer);
+  body.append(imageTag, titleTag, priceTag, createCardFooter(product));
 
   return body;
 }
 
-function createCardFooter(quantity) {
-  let input = createQuantityInput(quantity);
-  let addToCart = document.createElement("a");
-  addToCart.innerHTML = "Add To Cart";
-  addToCart.type = "button";
-
-  let footer = document.createElement("div");
-  footer.classList.add("d-flex", "justify-content-between");
-  footer.append(input, addToCart);
+function createCardFooter(product) {
+  let footer = document.createElement("button");
+  footer.classList.add("btn", "btn-success", "w-auto")
+  footer.type = "button";
+  footer.innerHTML = "Add To Cart";
+  footer.onclick = function () {
+    addToCart(product);
+  }
 
   return footer;
 }
@@ -212,6 +213,80 @@ function createProductModal(product) {
   document.body.appendChild(node_1);
 }
 
+function genratePlaceholder(number) {
+  for (let index = 0; index < number; index++) {
+
+    var node_1 = document.createElement('DIV');
+    node_1.setAttribute('class', 'card');
+    node_1.setAttribute('aria-hidden', 'true');
+
+    var node_2 = document.createElement('IMG');
+    node_2.setAttribute('src', 'https://static-00.iconduck.com/assets.00/no-image-icon-512x512-lfoanl0w.png');
+    node_2.classList.add('card-img-top', 'w-75', 'mx-auto', 'pt-3');
+    node_2.setAttribute('alt', 'Image');
+    node_1.appendChild(node_2);
+
+    var node_3 = document.createElement('DIV');
+    node_3.setAttribute('class', 'card-body');
+    node_1.appendChild(node_3);
+
+    var node_4 = document.createElement('H5');
+    node_4.setAttribute('class', 'card-title placeholder-glow');
+    node_3.appendChild(node_4);
+
+    var node_5 = document.createElement('SPAN');
+    node_5.setAttribute('class', 'placeholder col-6');
+    node_4.appendChild(node_5);
+
+    var node_6 = document.createElement('P');
+    node_6.setAttribute('class', 'card-text placeholder-glow');
+    node_3.appendChild(node_6);
+
+    var node_7 = document.createElement('SPAN');
+    node_7.setAttribute('class', 'placeholder col-7');
+    node_6.appendChild(node_7);
+
+    var node_8 = document.createElement('SPAN');
+    node_8.setAttribute('class', 'placeholder col-4');
+    node_6.appendChild(node_8);
+
+    var node_9 = document.createElement('SPAN');
+    node_9.setAttribute('class', 'placeholder col-4');
+    node_6.appendChild(node_9);
+
+    var node_10 = document.createElement('SPAN');
+    node_10.setAttribute('class', 'placeholder col-6');
+    node_6.appendChild(node_10);
+
+    var node_11 = document.createElement('SPAN');
+    node_11.setAttribute('class', 'placeholder col-8');
+    node_6.appendChild(node_11);
+
+    var node_12 = document.createElement('A');
+    node_12.setAttribute('class', 'btn btn-primary disabled placeholder col-6');
+    node_12.setAttribute('aria-disabled', 'true');
+    node_3.appendChild(node_12);
+
+    document.getElementById("productsContainer").appendChild(node_1);
+  }
+}
+
+function addToCart(product, quantity = 1) {
+  // let cart = localStorage.getItem("cart");
+  // cart = cart ? JSON.parse(cart) : [];
+  
+  // const existingProductIndex = cart.findIndex((item) => item.id === product.id);
+  
+  // if (existingProductIndex !== -1) {
+  //   cart[existingProductIndex].quantity += quantity;
+  // } else {
+  //   cart.push(product);
+  // }
+  
+  // console.log(quantity);
+  // localStorage.setItem("cart", JSON.stringify(cart));
+}
+
 function categoryIcon(category) {
   let icon;
 
@@ -246,7 +321,13 @@ function categoryIcon(category) {
   return icon;
 }
 
-function fetchData(path) {
+function generateTooltip(element) {
+  return new bootstrap.Tooltip(element, {
+    container: document.body
+  })
+}
+
+function fetchData(path = "categories") {
   fetch(BASE_URL + path)
     .then(response => {
       if (response.ok) {
@@ -258,9 +339,9 @@ function fetchData(path) {
     .then(data => {
       data.forEach(element => {
         if (path.includes("/")) {
-          switch (path.substr(0, path.indexOf("/"))) {
+          switch (path.substring(0, path.indexOf("/"))) {
             case "products":
-              createProduct(element);
+              (element) ? createProduct(element) : genratePlaceholder(25);
               break;
             case "users":
               // createUser(element);
