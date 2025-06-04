@@ -60,13 +60,21 @@
 
   <main>
     <div class="row d-flex justify-content-center p-5">
-      <div class="col-auto bg">
+      <div class="col-auto text-lg-center">
         <h1>Categories</h1>
         <div id="categoriesContainer" class="ms-3 fs-5">
+          <div class="form-check form-switch d-flex align-items-center my-3" data-bs-toggle="tooltip"
+            data-bs-title="25">
+            <input id="CasesSwitch" class="form-check-input me-3" name="categorySwitch" type="radio" role="switch">
+            <label class="form-check-label" for="CasesSwitch">
+              Cases <i class="bi bi-pc"></i>
+            </label>
+          </div>
+          <br>
         </div>
       </div>
-      <div class="col-8 ms-lg-auto">
-        <div id="productsContainer" class="row row-cols-3 row-cols-xl-6 g-4 overflow-y-scroll" style="height: 75vh;">
+      <div class="col-9 ms-xl-auto">
+        <div id="productsContainer" class="row row-cols-3 row-cols-xxl-6 g-4 overflow-y-scroll" style="height: 75vh;">
         </div>
       </div>
     </div>
@@ -92,7 +100,7 @@
       </li>
     </ul>
   </footer>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
     crossorigin="anonymous"></script>

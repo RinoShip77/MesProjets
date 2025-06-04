@@ -1,11 +1,30 @@
 const BASE_URL = "http://localhost:5000/";
 const COLORS = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"];
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 main();
 
 function main() {
   fetchData("categories");
   getProducts();
+  
+  // if (window.innerWidth < 1100) {
+  //   document.getElementById("categoriesContainer").classList.add("row");
+  
+  //   for (let index = 0; index < document.getElementById("categoriesContainer").children.length; index++) {
+  //     let newRow = document.createElement("div");
+  //     newRow.classList.add("col");
+      
+  //     console.log(index)
+  //     if(index === 1) {
+  //       newRow.append(document.getElementById("categoriesContainer").children[index], document.getElementById("categoriesContainer").children[index + 1]);
+  //       document.getElementById("categoriesContainer").appendChild(newRow);
+  //     }
+  //   }
+  // } else {
+  //   document.getElementById("categoriesContainer").classList.remove("row");
+  // }
 }
 
 function getProducts(table = "cases") {
@@ -14,24 +33,25 @@ function getProducts(table = "cases") {
 }
 
 function createCategorySwitch(category) {
-  
   let input = document.createElement("input");
-  input.id = `${category.Tables_in_my_builder}Switch`;
+  input.id = `${category.name}Switch`;
   input.classList.add("form-check-input", "me-3");
   input.name = "categorySwitch";
   input.type = "radio";
   input.role = "switch";
   input.onchange = function () {
-    getProducts(category.Tables_in_my_builder);
+    getProducts(category.name.replace(" ", /_/g).toLowerCase());
   }
-
+  
   let label = document.createElement("label");
-  label.innerHTML = `${category.Tables_in_my_builder.replace(/_/g, " ")} ${categoryIcon(category.Tables_in_my_builder.replace(/_/g, " "))}`;
-  label.classList.add("form-check-label", "text-capitalize");
-  label.setAttribute("for", `${category.Tables_in_my_builder}Switch`);
-
+  label.innerHTML = `${category.name} ${categoryIcon(category.name)}`;
+  label.classList.add("form-check-label");
+  label.setAttribute("for", `${category.name}Switch`);
+  
   let container = document.createElement("div");
   container.classList.add("form-check", "form-switch", "d-flex", "align-items-center", "my-3");
+  container.setAttribute("data-bs-toggle", "tooltip");
+  container.setAttribute("data-bs-title", `${category.count}`);
   container.append(input, label);
 
   document.getElementById("categoriesContainer").appendChild(container);
@@ -39,10 +59,13 @@ function createCategorySwitch(category) {
 
 function createCategoryDropdown(category) {
   let link = document.createElement("a");
-  link.innerHTML = `${category.Tables_in_my_builder.replace(/_/g, " ")} ${categoryIcon(category.Tables_in_my_builder.replace(/_/g, " "))}`;
-  link.classList.add("dropdown-item", "text-capitalize");
+  link.type = "button";
+  link.innerHTML = `${category.name} ${categoryIcon(category.name)}`;
+  link.classList.add("dropdown-item");
+  link.setAttribute("data-bs-toggle", "tooltip");
+  link.setAttribute("data-bs-title", `${category.count}`);
   link.onclick = function () {
-    getProducts(category.Tables_in_my_builder);
+    getProducts(category.name.replace(" ", /_/g).toLowerCase());
   }
 
   let dropdownItem = document.createElement("li");
@@ -59,11 +82,11 @@ function createProduct(product) {
   modalLink.setAttribute("data-bs-target", `#productModal${product.id}`);
   modalLink.append(createCardBody(product.imageURL, product.name, product.price, 2));
   createProductModal(product);
-  
+
   let column = document.createElement("div");
   column.classList.add("col");
   column.appendChild(modalLink);
-  
+
   document.getElementById("productsContainer").appendChild(column);
 }
 
@@ -193,25 +216,25 @@ function categoryIcon(category) {
   let icon;
 
   switch (category) {
-    case "coolers":
+    case "Coolers":
       icon = "<i class='bi bi-fan'></i>";
       break;
-    case "motherboards":
+    case "Motherboards":
       icon = "<i class='bi bi-motherboard-fill'></i>";
       break;
-    case "power supplies":
+    case "Power supplies":
+      icon = "<i class='bi bi-battery-charging'></i>";
+      break;
+    case "Processors":
       icon = "<i class='bi bi-cpu-fill'></i>";
       break;
-    case "processors":
-      icon = "<i class='bi bi-pc'></i>";
-      break;
-    case "ram brackets":
+    case "Ram brackets":
       icon = "<i class='bi bi-nvme-fill'></i>";
       break;
-    case "storage drives":
+    case "Storage drives":
       icon = "<i class='bi bi-device-ssd-fill'></i>";
       break;
-    case "video cards":
+    case "Video cards":
       icon = "<i class='bi bi-pci-card'></i>";
       break;
 
@@ -233,7 +256,7 @@ function fetchData(path) {
       }
     })
     .then(data => {
-      data.slice(0, 10).forEach(element => {
+      data.forEach(element => {
         if (path.includes("/")) {
           switch (path.substr(0, path.indexOf("/"))) {
             case "products":
