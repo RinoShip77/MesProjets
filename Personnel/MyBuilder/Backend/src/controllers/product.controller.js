@@ -11,7 +11,7 @@ const VideoCard = require("../models/VideoCard");
 exports.getAll = function (req, res) {
   productFunctions.getAll(req.params.table, (err, products) => {
     if (err) throw err;
-    
+
     let elements = [];
 
     products.forEach(product => {
@@ -65,35 +65,35 @@ function CreateProduct(body, table) {
 
   switch (table) {
     case 'cases':
-      product = new Case(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantity, body.rating, body.type, body.powerSupply, body.sidePanel, body.frontPanelUSB, body.motherboardFormFactor, body.maximumVideoCardLength, body.dimensions);
+      product = new Case(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantityInStock, body.rating, body.type, body.powerSupply, body.sidePanel, body.frontPanelUSB, body.motherboardFormFactor, body.maximumVideoCardLength, body.dimensions);
       break;
 
     case 'coolers':
-      product = new Cooler(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantity, body.rating, body.fanRPM, body.noiseLvl, body.height, body.waterCooled, body.fanless);
+      product = new Cooler(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantityInStock, body.rating, body.fanRPM, body.noiseLvl, body.height, body.waterCooled, body.fanless);
       break;
 
     case 'motherboards':
-      product = new Motherboard(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantity, body.rating, body.socket, body.formFactor, body.chipset, body.memoryMax, body.memoryType, body.memorySlots, body.onboardEthernet, body.wirelessNetworking);
+      product = new Motherboard(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantityInStock, body.rating, body.socket, body.formFactor, body.chipset, body.memoryMax, body.memoryType, body.memorySlots, body.onboardEthernet, body.wirelessNetworking);
       break;
 
     case 'power_supplies':
-      product = new PowerSupply(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantity, body.rating, body.type, body.rating, body.wattage, body.length);
+      product = new PowerSupply(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantityInStock, body.rating, body.type, body.rating, body.wattage, body.length);
       break;
 
     case 'processors':
-      product = new Processor(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantity, body.rating, body.series, body.microarchitecture, body.socket, body.coreCount, body.clock, body.integratedGraphics);
+      product = new Processor(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantityInStock, body.rating, body.series, body.microarchitecture, body.socket, body.coreCount, body.clock, body.integratedGraphics);
       break;
 
     case 'ram_brackets':
-      product = new RAMBracket(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantity, body.rating, body.speed, body.modules, body.voltage);
+      product = new RAMBracket(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantityInStock, body.rating, body.speed, body.modules, body.voltage);
       break;
 
     case 'storage_drives':
-      product = new StorageDrive(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantity, body.rating, body.capacity, body.type);
+      product = new StorageDrive(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantityInStock, body.rating, body.capacity, body.type);
       break;
 
     case 'video_cards':
-      product = new VideoCard(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantity, body.rating, body.chipset, body.memory, body.clock, body.frameSync);
+      product = new VideoCard(body.id, body.name, body.imageURL, body.productURL, body.price, body.manufacturer, body.quantityInStock, body.rating, body.chipset, body.memory, body.clock, body.frameSync);
       break;
   }
 

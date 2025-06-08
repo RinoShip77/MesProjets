@@ -1,8 +1,8 @@
 const Product = require("./Product");
 
 class Cooler extends Product {
-  constructor(id, name, imageURL, productURL, price, manufacturer, quantity, rating, fanRPM, noiseLvl, height, waterCooled, fanless) {
-    super(id, name, imageURL, productURL, price, manufacturer, quantity, rating);
+  constructor(id, name, imageURL, productURL, price, manufacturer, quantityInStock, rating, fanRPM, noiseLvl, height, waterCooled, fanless) {
+    super(id, name, imageURL, productURL, price, manufacturer, quantityInStock, rating);
     this.fanRPM = fanRPM;
     this.noiseLvl = noiseLvl;
     this.height = height;

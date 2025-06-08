@@ -1,8 +1,8 @@
 const Product = require("./Product");
 
 class Motherboard extends Product {
-  constructor(id, name, imageURL, productURL, price, manufacturer, quantity, rating, socket, formFactor, chipset, memoryMax, memoryType, memorySlots, onboardEthernet, wirelessNetworking) {
-    super(id, name, imageURL, productURL, price, manufacturer, quantity, rating);
+  constructor(id, name, imageURL, productURL, price, manufacturer, quantityInStock, rating, socket, formFactor, chipset, memoryMax, memoryType, memorySlots, onboardEthernet, wirelessNetworking) {
+    super(id, name, imageURL, productURL, price, manufacturer, quantityInStock, rating);
     this.socket = socket;
     this.formFactor = formFactor;
     this.chipset = chipset;
