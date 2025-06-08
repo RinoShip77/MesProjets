@@ -5,6 +5,8 @@ main();
 function main() {
   fetchData();
   getProducts();
+
+  document.getElementById("cartQuantity").innerHTML = (localStorage.getItem("cart") !== null) ? (JSON.parse(localStorage.getItem("cart"))).length : 0;
 }
 
 function getProducts(table = "cases") {
@@ -13,7 +15,7 @@ function getProducts(table = "cases") {
 }
 
 function createCategoryFilters(category) {
-  if(window.innerWidth > 1110) {
+  if (window.innerWidth > 1110) {
     createCategorySwitch(category);
   } else {
     createCategoryButtons(category);
@@ -30,20 +32,20 @@ function createCategorySwitch(category) {
   input.onchange = function () {
     getProducts(category.name.replace(" ", "_").toLowerCase());
   }
-  
+
   let label = document.createElement("label");
-  label.innerHTML = `${category.name}${categoryIcon(category.name)}`;
+  label.innerHTML = `${category.name} ${categoryIcon(category.name)}`;
   label.classList.add("form-check-label");
   label.setAttribute("for", `${category.name}Switch`);
   label.setAttribute("data-bs-toggle", "tooltip");
   label.setAttribute("data-bs-title", `${category.count}`);
   label.setAttribute("data-bs-placement", "right");
   generateTooltip(label);
-  
+
   let container = document.createElement("div");
   container.classList.add("form-check", "form-switch", "d-flex", "align-items-center", "my-3");
   container.append(input, label);
-  
+
   document.getElementById("categoriesContainer").appendChild(container);
 }
 
@@ -130,7 +132,7 @@ function createCardBody(product) {
 
 function createCardFooter(product) {
   let footer = document.createElement("button");
-  footer.classList.add("btn", "btn-success", "rounded-0", "rounded-bottom", "w-100")
+  footer.classList.add("btn", "btn-success", "rounded-0", "rounded-bottom", "w-100");
   footer.type = "button";
   footer.innerHTML = "Add To Cart";
   footer.onclick = function () {
@@ -168,8 +170,8 @@ function createQuantityInput(quantity) {
 function createProductModal(product) {
   let node_1 = document.createElement("DIV");
   node_1.classList.add("modal", "fade");
-  node_1.setAttribute("id", `productModal${product.id}`);
-  node_1.setAttribute("tabindex", "-1");
+  node_1.id = `productModal${product.id}`;
+  node_1.tabIndex = "-1";
   node_1.setAttribute("aria-labelledby", product.name);
 
   let node_2 = document.createElement("DIV");
@@ -187,11 +189,11 @@ function createProductModal(product) {
   let node_5 = document.createElement("H1");
   node_5.innerHTML = product.name;
   node_5.classList.add("modal-title", "fs-5");
-  node_5.setAttribute("id", "exampleModalLabel");
+  node_5.id = "exampleModalLabel";
   node_4.appendChild(node_5);
 
   let node_7 = document.createElement("BUTTON");
-  node_7.setAttribute("type", "button");
+  node_7.type = "button";
   node_7.classList.add("btn-close");
   node_7.setAttribute("data-bs-dismiss", "modal");
   node_7.setAttribute("aria-label", "Close");
@@ -206,7 +208,7 @@ function createProductModal(product) {
   node_3.appendChild(node_9);
 
   let node_10 = document.createElement("BUTTON");
-  node_10.setAttribute("type", "button");
+  node_10.type = "button";
   node_10.classList.add("btn", "btn-secondary");
   node_10.setAttribute("data-bs-dismiss", "modal");
   node_9.appendChild(node_10);
@@ -215,7 +217,7 @@ function createProductModal(product) {
   node_10.appendChild(node_11);
 
   let node_12 = document.createElement("BUTTON");
-  node_12.setAttribute("type", "button");
+  node_12.type = "button";
   node_12.classList.add("btn", "btn-primary");
   node_9.appendChild(node_12);
 
@@ -227,77 +229,87 @@ function createProductModal(product) {
 
 function genratePlaceholder(number) {
   for (let index = 0; index < number; index++) {
+    let content_1 = document.createElement("SPAN");
+    content_1.classList.add("placeholder", "col-6");
 
-    var node_1 = document.createElement('DIV');
-    node_1.setAttribute('class', 'card');
-    node_1.setAttribute('aria-hidden', 'true');
+    let content_2 = document.createElement("SPAN");
+    content_2.classList.add("placeholder", "col-7");
 
-    var node_2 = document.createElement('IMG');
-    node_2.setAttribute('src', 'https://static-00.iconduck.com/assets.00/no-image-icon-512x512-lfoanl0w.png');
-    node_2.classList.add('card-img-top', 'w-75', 'mx-auto', 'pt-3');
-    node_2.setAttribute('alt', 'Image');
-    node_1.appendChild(node_2);
+    let content_3 = document.createElement("SPAN");
+    content_3.classList.add("placeholder", "col-4");
 
-    var node_3 = document.createElement('DIV');
-    node_3.setAttribute('class', 'card-body');
-    node_1.appendChild(node_3);
+    let content_4 = document.createElement("SPAN");
+    content_4.classList.add("placeholder", "col-4");
 
-    var node_4 = document.createElement('H5');
-    node_4.setAttribute('class', 'card-title placeholder-glow');
-    node_3.appendChild(node_4);
+    let content_5 = document.createElement("SPAN");
+    content_5.classList.add("placeholder", "col-6");
 
-    var node_5 = document.createElement('SPAN');
-    node_5.setAttribute('class', 'placeholder col-6');
-    node_4.appendChild(node_5);
+    let content_6 = document.createElement("SPAN");
+    content_6.classList.add("placeholder", "col-8");
 
-    var node_6 = document.createElement('P');
-    node_6.setAttribute('class', 'card-text placeholder-glow');
-    node_3.appendChild(node_6);
+    let text = document.createElement("P");
+    text.classList.add("card-text", "placeholder-glow");
+    text.append(content_2, content_3, content_4, content_5, content_6);
 
-    var node_7 = document.createElement('SPAN');
-    node_7.setAttribute('class', 'placeholder col-7');
-    node_6.appendChild(node_7);
+    let image = document.createElement("IMG");
+    image.src = "https://static-00.iconduck.com/assets.00/no-image-icon-512x512-lfoanl0w.png";
+    image.classList.add("card-img-top", "w-75", "mx-auto", "pt-3");
+    image.alt = "N/A";
 
-    var node_8 = document.createElement('SPAN');
-    node_8.setAttribute('class', 'placeholder col-4');
-    node_6.appendChild(node_8);
+    let title = document.createElement("H5");
+    title.classList.add("card-title", "placeholder-glow");
+    title.appendChild(content_1);
 
-    var node_9 = document.createElement('SPAN');
-    node_9.setAttribute('class', 'placeholder col-4');
-    node_6.appendChild(node_9);
+    let body = document.createElement("DIV");
+    body.classList.add("card-body");
+    body.append(title, text);
 
-    var node_10 = document.createElement('SPAN');
-    node_10.setAttribute('class', 'placeholder col-6');
-    node_6.appendChild(node_10);
+    let card = document.createElement("DIV");
+    card.classList.add("card");
+    card.setAttribute("aria-hidden", "true");
+    card.append(image, body);
 
-    var node_11 = document.createElement('SPAN');
-    node_11.setAttribute('class', 'placeholder col-8');
-    node_6.appendChild(node_11);
+    let container = document.createElement("div");
+    container.classList.add("col");
+    container.appendChild(card);
 
-    var node_12 = document.createElement('A');
-    node_12.setAttribute('class', 'btn btn-primary disabled placeholder col-6');
-    node_12.setAttribute('aria-disabled', 'true');
-    node_3.appendChild(node_12);
-
-    document.getElementById("productsContainer").appendChild(node_1);
+    document.getElementById("productsContainer").appendChild(container);
   }
 }
 
 function addToCart(product, quantity = 1) {
-  console.log("Add to cart:" + product.id)
-  // let cart = localStorage.getItem("cart");
-  // cart = cart ? JSON.parse(cart) : [];
-  
-  // const existingProductIndex = cart.findIndex((item) => item.id === product.id);
-  
-  // if (existingProductIndex !== -1) {
-  //   cart[existingProductIndex].quantity += quantity;
-  // } else {
-  //   cart.push(product);
-  // }
-  
-  // console.log(quantity);
-  // localStorage.setItem("cart", JSON.stringify(cart));
+  let cart = (localStorage.getItem("cart") !== null) ? JSON.parse(localStorage.getItem("cart")) : [];
+  cart.push(product);
+
+  sendToast(product.imageURL, product.name, quantity);
+  document.getElementById("cartQuantity").innerHTML = cart.length;
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function login(username, password) {
+  // console.log(`Credentials:\n${username}\n${password}`);
+
+  let user = {
+    email: username,
+    password: password
+  };
+
+  fetch(BASE_URL + "users/login", {
+    method: "POST",
+    body: JSON.stringify(user),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  })
+  .then((response) => response.json())
+  .then((json) => {
+    let user = json;
+    localStorage.setItem("user", user)
+    console.log(user)
+  });
+  console.log(user)
+
+  // postData("users/login", user);
 }
 
 function categoryIcon(category) {
@@ -331,7 +343,7 @@ function categoryIcon(category) {
       break;
   }
 
-  return `<i class="bi bi-${icon} ms-2"></i>`;
+  return `<i class="bi bi-${icon}"></i>`;
 }
 
 function generateTooltip(element) {
@@ -340,7 +352,21 @@ function generateTooltip(element) {
   })
 }
 
-function fetchData(path = "categories") {
+function sendToast(image, name, quantity) {
+  document.getElementById("toastImage").src = image;
+  document.getElementById("toastImage").alt = name;
+  document.getElementById("toastTitle").innerHTML = name;
+  document.getElementById("toastMessage").innerHTML = `${name} was added ${quantity} time.`;
+
+  if (quantity > 1) {
+    document.getElementById("toastMessage").innerHTML = document.getElementById("toastMessage").innerHTML.slice(-1);
+    document.getElementById("toastMessage").innerHTML += `${name} was added ${quantity} times.`;
+  }
+
+  bootstrap.Toast.getOrCreateInstance(document.getElementById("liveToast")).show();
+}
+
+function fetchData(path = "categories",) {
   fetch(BASE_URL + path)
     .then(response => {
       if (response.ok) {
@@ -366,5 +392,25 @@ function fetchData(path = "categories") {
         }
       });
     })
-    .catch(error => console.error("There was a problem with the fetch operation:", error));
+    .catch(error => {
+      genratePlaceholder(25);
+      console.error("There was a problem with the fetch operation:", error);
+    });
+}
+
+function postData(path, data) {
+  fetch(BASE_URL + path, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((responseData) => {
+      console.log('Success:', responseData);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 }
