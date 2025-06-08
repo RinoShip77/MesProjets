@@ -4,7 +4,7 @@ exports.getAll = function (callback) {
   db.query(`SELECT * FROM users`, callback);
 };
 
-exports.getOne = function (user, callback) {
+exports.login = function (user, callback) {
   if(user.email) {
     db.query(`SELECT * FROM users WHERE email = '${user.email}' AND password = '${user.password}'`, callback);
   } else {

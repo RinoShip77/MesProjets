@@ -8,12 +8,11 @@ exports.getAll = function (req, res) {
   });
 };
 
-exports.getOne = async function (req, res) {
+exports.login = async function (req, res) {
   const user = new User(req.body.email, req.body.username, req.body.password);
   await user.hashPassword();
-  console.log(user)
 
-  userFunctions.getOne(user, (err, user) => {
+  userFunctions.login(user, (err, user) => {
     if (err) throw err;
 
     if (req.body.email) {
