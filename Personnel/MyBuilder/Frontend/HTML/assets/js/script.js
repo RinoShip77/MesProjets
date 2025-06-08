@@ -294,22 +294,7 @@ function login(username, password) {
     password: password
   };
 
-  fetch(BASE_URL + "users/login", {
-    method: "POST",
-    body: JSON.stringify(user),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    }
-  })
-  .then((response) => response.json())
-  .then((json) => {
-    let user = json;
-    localStorage.setItem("user", user)
-    console.log(user)
-  });
-  console.log(user)
-
-  // postData("users/login", user);
+  postData("users/login", user);
 }
 
 function categoryIcon(category) {
@@ -366,7 +351,7 @@ function sendToast(image, name, quantity) {
   bootstrap.Toast.getOrCreateInstance(document.getElementById("liveToast")).show();
 }
 
-function fetchData(path = "categories",) {
+function fetchData(path = "categories") {
   fetch(BASE_URL + path)
     .then(response => {
       if (response.ok) {
@@ -400,17 +385,24 @@ function fetchData(path = "categories",) {
 
 function postData(path, data) {
   fetch(BASE_URL + path, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   })
-    .then((response) => response.json())
-    .then((responseData) => {
-      console.log('Success:', responseData);
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Network response was not ok");
+      }
+    })
+    .then((data) => {
+      console.log("Success:", data);
     })
     .catch((error) => {
-      console.error('Error:', error);
+      sendToast(product.imageURL, product.name, quantity);
+      console.error("Error:", error);
     });
 }
