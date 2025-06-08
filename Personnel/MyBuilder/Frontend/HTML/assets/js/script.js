@@ -1,30 +1,10 @@
 const BASE_URL = "http://localhost:5000/";
-const COLORS = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"];
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 main();
 
 function main() {
   fetchData();
   getProducts();
-
-  // if (window.innerWidth < 1100) {
-  //   document.getElementById("categoriesContainer").classList.add("row");
-
-  //   for (let index = 0; index < document.getElementById("categoriesContainer").children.length; index++) {
-  //     let newRow = document.createElement("div");
-  //     newRow.classList.add("col");
-
-  //     console.log(index)
-  //     if(index === 1) {
-  //       newRow.append(document.getElementById("categoriesContainer").children[index], document.getElementById("categoriesContainer").children[index + 1]);
-  //       document.getElementById("categoriesContainer").appendChild(newRow);
-  //     }
-  //   }
-  // } else {
-  //   document.getElementById("categoriesContainer").classList.remove("row");
-  // }
 }
 
 function getProducts(table = "cases") {
@@ -32,31 +12,62 @@ function getProducts(table = "cases") {
   fetchData(`products/${table}`);
 }
 
+function createCategoryFilters(category) {
+  if(window.innerWidth > 1110) {
+    createCategorySwitch(category);
+  } else {
+    createCategoryButtons(category);
+  }
+}
+
 function createCategorySwitch(category) {
   let input = document.createElement("input");
   input.id = `${category.name}Switch`;
   input.classList.add("form-check-input", "me-3");
-  input.name = "categorySwitch";
+  input.name = "categoryFilters";
   input.type = "radio";
   input.role = "switch";
   input.onchange = function () {
     getProducts(category.name.replace(" ", "_").toLowerCase());
   }
-
+  
   let label = document.createElement("label");
-  label.innerHTML = `${category.name} ${categoryIcon(category.name)}`;
+  label.innerHTML = `${category.name}${categoryIcon(category.name)}`;
   label.classList.add("form-check-label");
   label.setAttribute("for", `${category.name}Switch`);
   label.setAttribute("data-bs-toggle", "tooltip");
   label.setAttribute("data-bs-title", `${category.count}`);
   label.setAttribute("data-bs-placement", "right");
   generateTooltip(label);
-
+  
   let container = document.createElement("div");
   container.classList.add("form-check", "form-switch", "d-flex", "align-items-center", "my-3");
   container.append(input, label);
-
+  
   document.getElementById("categoriesContainer").appendChild(container);
+}
+
+function createCategoryButtons(category) {
+  let input = document.createElement("input");
+  input.id = `${category.name}Buttons`;
+  input.classList.add("btn-check");
+  input.name = "categoryFilters";
+  input.type = "radio";
+  input.onchange = function () {
+    getProducts(category.name.replace(" ", "_").toLowerCase());
+  }
+
+  let label = document.createElement("label");
+  label.innerHTML = `${categoryIcon(category.name)}`;
+  label.classList.add("btn", "fs-3");
+  label.setAttribute("for", `${category.name}Buttons`);
+  label.setAttribute("data-bs-toggle", "tooltip");
+  label.setAttribute("data-bs-title", `${category.name} - ${category.count}`);
+  label.setAttribute("data-bs-placement", "bottom");
+  generateTooltip(label);
+
+  document.getElementById("categoriesContainer").parentElement.classList.add("text-center", "mb-3");
+  document.getElementById("categoriesContainer").append(input, label);
 }
 
 function createCategoryDropdown(category) {
@@ -81,7 +92,8 @@ function createCategoryDropdown(category) {
 function createProduct(product) {
   let modalLink = document.createElement("a");
   modalLink.type = "button";
-  modalLink.classList.add("card", "text-decoration-none", "h-100", "shadow");
+  modalLink.classList.add("card", "text-decoration-none", "shadow", "rounded-0", "rounded-top", "bg-body-secondary");
+  modalLink.style.height = "23rem";
   modalLink.setAttribute("data-bs-toggle", "modal");
   modalLink.setAttribute("data-bs-target", `#productModal${product.id}`);
   modalLink.append(createCardBody(product));
@@ -89,7 +101,7 @@ function createProduct(product) {
 
   let column = document.createElement("div");
   column.classList.add("col");
-  column.appendChild(modalLink);
+  column.append(modalLink, createCardFooter(product));
 
   document.getElementById("productsContainer").appendChild(column);
 }
@@ -110,15 +122,15 @@ function createCardBody(product) {
   priceTag.innerHTML = product.price;
 
   let body = document.createElement("div");
-  body.classList.add("card-body", "d-flex", "flex-column", "justify-content-between", "bg-body-secondary");
-  body.append(imageTag, titleTag, priceTag, createCardFooter(product));
+  body.classList.add("card-body");
+  body.append(imageTag, titleTag, priceTag);
 
   return body;
 }
 
 function createCardFooter(product) {
   let footer = document.createElement("button");
-  footer.classList.add("btn", "btn-success", "w-auto")
+  footer.classList.add("btn", "btn-success", "rounded-0", "rounded-bottom", "w-100")
   footer.type = "button";
   footer.innerHTML = "Add To Cart";
   footer.onclick = function () {
@@ -272,6 +284,7 @@ function genratePlaceholder(number) {
 }
 
 function addToCart(product, quantity = 1) {
+  console.log("Add to cart:" + product.id)
   // let cart = localStorage.getItem("cart");
   // cart = cart ? JSON.parse(cart) : [];
   
@@ -292,33 +305,33 @@ function categoryIcon(category) {
 
   switch (category) {
     case "Coolers":
-      icon = "<i class='bi bi-fan'></i>";
+      icon = "fan";
       break;
     case "Motherboards":
-      icon = "<i class='bi bi-motherboard-fill'></i>";
+      icon = "motherboard-fill";
       break;
     case "Power supplies":
-      icon = "<i class='bi bi-battery-charging'></i>";
+      icon = "battery-charging";
       break;
     case "Processors":
-      icon = "<i class='bi bi-cpu-fill'></i>";
+      icon = "cpu-fill";
       break;
     case "Ram brackets":
-      icon = "<i class='bi bi-nvme-fill'></i>";
+      icon = "nvme-fill";
       break;
     case "Storage drives":
-      icon = "<i class='bi bi-device-ssd-fill'></i>";
+      icon = "device-ssd-fill";
       break;
     case "Video cards":
-      icon = "<i class='bi bi-pci-card'></i>";
+      icon = "pci-card";
       break;
 
     default:
-      icon = "<i class='bi bi-pc'></i>";
+      icon = "pc";
       break;
   }
 
-  return icon;
+  return `<i class="bi bi-${icon} ms-2"></i>`;
 }
 
 function generateTooltip(element) {
@@ -349,7 +362,7 @@ function fetchData(path = "categories") {
           }
         } else {
           createCategoryDropdown(element);
-          createCategorySwitch(element);
+          createCategoryFilters(element);
         }
       });
     })
