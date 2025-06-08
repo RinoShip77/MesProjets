@@ -9,24 +9,24 @@ exports.getAll = function (req, res) {
 };
 
 exports.login = async function (req, res) {
-  const user = new User(req.body.email, req.body.username, req.body.password);
-  await user.hashPassword();
-
-  userFunctions.login(user, (err, user) => {
+  const tempUser = new User(req.body.email, req.body.password);
+  // await tempUser.hashPassword();
+  
+  userFunctions.login(tempUser, async (err, user) => {
     if (err) throw err;
-
-    if (req.body.email) {
-      res.json({ message: `Connected as '${req.body.email}'.` });
+    
+    if (user.length === 0) {
+      res.json({ message: `Bad credentials.` });
     } else {
-      res.json({ message: `Connected as '${req.body.username}'.` });
+      res.json({ message: `Connected as '${req.body.email}'.` });
     }
   });
 };
 
 exports.create = async function (req, res) {
-  const newUser = new User(req.body.email, req.body.username, req.body.password, req.body.firstName, req.body.lastName, req.body.role);
-  await newUser.hashPassword();
-  
+  const newUser = new User(req.body.email, req.body.password, req.body.firstName, req.body.lastName);
+  // await newUser.hashPassword();
+
   userFunctions.create(newUser, (err, result) => {
     if (err) throw err;
     res.json({ message: `The user ${req.body.firstName} was created successfully.` });
@@ -34,10 +34,10 @@ exports.create = async function (req, res) {
 };
 
 exports.update = async function (req, res) {
-  const updatedUser = new User(req.body.email, req.body.username, req.body.password, req.body.firstName, req.body.lastName, req.body.role);
-  await updatedUser.hashPassword();
-  
-  userFunctions.update(req.params.id, updatedUser, (err, result) => {
+  const updatedUser = new User(req.body.email, req.body.password, req.body.firstName, req.body.lastName);
+  // await updatedUser.hashPassword();
+
+  userFunctions.update(req.params.id, updatedUser, (err, user) => {
     if (err) throw err;
     res.json({ message: `The user ${req.params.id} was updated successfully.` });
   });
