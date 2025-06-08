@@ -286,10 +286,7 @@ function addToCart(product, quantity = 1) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-function login(username, password) {
-  // console.log(`Credentials:\n${username}\n${password}`);
-
-  let user = {
+function login(username, password) {let user = {
     email: username,
     password: password
   };
@@ -338,17 +335,17 @@ function generateTooltip(element) {
 }
 
 function sendToast(image, name, quantity) {
-  document.getElementById("toastImage").src = image;
-  document.getElementById("toastImage").alt = name;
-  document.getElementById("toastTitle").innerHTML = name;
-  document.getElementById("toastMessage").innerHTML = `${name} was added ${quantity} time.`;
+  document.getElementById("cartToastImage").src = image;
+  document.getElementById("cartToastImage").alt = name;
+  document.getElementById("cartToastTitle").innerHTML = name;
+  document.getElementById("cartToastMessage").innerHTML = `${name} was added ${quantity} time.`;
 
   if (quantity > 1) {
-    document.getElementById("toastMessage").innerHTML = document.getElementById("toastMessage").innerHTML.slice(-1);
-    document.getElementById("toastMessage").innerHTML += `${name} was added ${quantity} times.`;
+    document.getElementById("cartToastMessage").innerHTML = document.getElementById("toastMessage").innerHTML.slice(-1);
+    document.getElementById("cartToastMessage").innerHTML += `${name} was added ${quantity} times.`;
   }
 
-  bootstrap.Toast.getOrCreateInstance(document.getElementById("liveToast")).show();
+  bootstrap.Toast.getOrCreateInstance(document.getElementById("cartToast")).show();
 }
 
 function fetchData(path = "categories") {
@@ -399,10 +396,20 @@ function postData(path, data) {
       }
     })
     .then((data) => {
-      console.log("Success:", data);
+      if(!data.message.includes("Bad")) {
+        document.getElementById("loginToast").classList.add("bg-success")
+        document.getElementById("loginToast").classList.remove("bg-danger")
+        document.getElementById("userStatus").classList.toggle("d-none");
+        sessionStorage.setItem("user", JSON.stringify(data.user));
+      } else {
+        document.getElementById("loginToast").classList.add("bg-danger")
+        document.getElementById("loginToast").classList.remove("bg-success")
+      }
+
+      document.getElementById("loginToastMessage").innerHTML = data.message;
+      bootstrap.Toast.getOrCreateInstance(document.getElementById("loginToast")).show();
     })
     .catch((error) => {
-      sendToast(product.imageURL, product.name, quantity);
       console.error("Error:", error);
     });
 }

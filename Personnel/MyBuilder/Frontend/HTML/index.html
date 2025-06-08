@@ -32,8 +32,8 @@
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
-          <div class="offcanvas-body align-items-center fs-5">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <div class="offcanvas-body align-items-center text-center fs-5">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 gap-2">
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="#">Home</a>
               </li>
@@ -44,13 +44,14 @@
                 <ul id="categoriesDropdown" class="dropdown-menu">
                 </ul>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#loginModal"
+              <li class="nav-item d-flex justify-content-around align-items-center me-4">
+                <a class="nav-link position-relative" type="button" data-bs-toggle="modal" data-bs-target="#loginModal"
                   aria-label="Login">
-                  <i class="bi bi-person-circle"></i>
+                  <i class="bi bi-person-circle fs-4"></i>
+                  <span id="userStatus" class="position-absolute top-25 start-75 translate-middle mt-1 p-2 bg-success border border-light rounded-circle d-none">
+                    <span class="visually-hidden">Connected</span>
+                  </span>
                 </a>
-              </li>
-              <li class="nav-item me-2">
                 <a class="nav-link position-relative" aria-label="cart">
                   <i class="bi bi-cart-fill"></i>
                   <span id="cartQuantity"
@@ -59,11 +60,11 @@
                   </span>
                 </a>
               </li>
+              <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
             </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
           </div>
         </div>
       </div>
@@ -119,24 +120,23 @@
               <span class="input-group-text">
                 <i class="bi bi-at"></i>
               </span>
-              <input id="email" class="form-control" type="email"
-                placeholder="Please enter your email address.">
+              <input id="email" class="form-control" type="email" placeholder="Please enter your email address.">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text">
                 <i class="bi bi-shield-lock"></i>
               </span>
-              <input id="password" class="form-control" type="password"
-                placeholder="Please enter your password.">
+              <input id="password" class="form-control" type="password" placeholder="Please enter your password.">
             </div>
-            <button class="btn btn-dark fs-4 mt-3 ps-3 pe-3" onclick="login(document.getElementById('email').value, document.getElementById('password').value)">
+            <button class="btn btn-dark fs-4 mt-3 ps-3 pe-3"
+              onclick="login(document.getElementById('email').value, document.getElementById('password').value)">
               Login<i class="bi bi-unlock2-fill ms-3"></i>
             </button>
           </div>
         </div>
         <div class="text-center">
           <p>No account yet?<a href="#" class="text-decoration-none text-dark fw-bold fs-5 ms-2">
-            Sign up</a>
+              Sign up</a>
           </p>
         </div>
       </div>
@@ -145,13 +145,23 @@
 
   <!-- Add to cart toast -->
   <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-header">
-        <img id="toastImage" class="rounded me-2" width="35" height="35">
-        <strong id="toastTitle" class="me-auto"></strong>
+        <img id="cartToastImage" class="rounded me-2" width="35" height="35">
+        <strong id="cartToastTitle" class="me-auto"></strong>
         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
-      <div id="toastMessage" class="toast-body"></div>
+      <div id="cartToastMessage" class="toast-body"></div>
+    </div>
+  </div>
+
+  <!-- Login toast -->
+  <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+    <div id="loginToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div id="loginToastMessage" class="toast-body text-white fs-5"></div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
     </div>
   </div>
 
