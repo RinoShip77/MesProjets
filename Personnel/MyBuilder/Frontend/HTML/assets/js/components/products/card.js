@@ -2,7 +2,7 @@ function createProduct(product) {
   let modalLink = document.createElement("a");
   modalLink.type = "button";
   modalLink.classList.add("card", "text-decoration-none", "shadow", "rounded-0", "rounded-top", "bg-body-secondary");
-  modalLink.style.height = "20rem";
+  modalLink.style.height = "28rem";
   modalLink.setAttribute("data-bs-toggle", "modal");
   modalLink.setAttribute("data-bs-target", `#productModal${product.id}`);
   modalLink.append(createCardBody(product));
