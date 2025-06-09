@@ -6,11 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MyBuilder
   </title>
-  <link rel="icon" type="image/x-icon" href="assets/img/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.svg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body data-bs-theme="light">
@@ -47,16 +46,17 @@
               <li class="nav-item d-flex justify-content-around align-items-center me-4">
                 <a class="nav-link position-relative" type="button" data-bs-toggle="modal" data-bs-target="#loginModal"
                   aria-label="Login">
-                  <i class="bi bi-person-circle fs-4"></i>
-                  <span id="userStatus" class="position-absolute top-25 start-75 translate-middle mt-1 p-2 bg-success border border-light rounded-circle d-none">
+                  <i id="loginLink" class="bi bi-person-circle fs-4"></i>
+                  <span id="userStatus"
+                    class="position-absolute top-25 start-75 translate-middle mt-1 p-2 bg-success border border-light rounded-circle d-none">
                     <span class="visually-hidden">Connected</span>
                   </span>
                 </a>
-                <a class="nav-link position-relative" aria-label="cart">
+                <a class="nav-link position-relative" type="button" data-bs-toggle="modal" data-bs-target="#cartModal"
+                  aria-label="cart">
                   <i class="bi bi-cart-fill"></i>
                   <span id="cartQuantity"
-                    class="position-absolute top-25 start-100 translate-middle badge rounded-circle bg-secondary">
-                    0
+                    class="position-absolute top-25 start-100 translate-middle badge rounded-circle bg-secondary d-none">
                   </span>
                 </a>
               </li>
@@ -120,27 +120,135 @@
               <span class="input-group-text">
                 <i class="bi bi-at"></i>
               </span>
-              <input id="email" class="form-control" type="email" placeholder="Please enter your email address.">
+              <input id="_email" class="form-control" type="email" placeholder="Please enter your email address.">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text">
                 <i class="bi bi-shield-lock"></i>
               </span>
-              <input id="password" class="form-control" type="password" placeholder="Please enter your password.">
+              <input id="_password" class="form-control" type="password" placeholder="Please enter your password.">
             </div>
             <button class="btn btn-dark fs-4 mt-3 ps-3 pe-3"
-              onclick="login(document.getElementById('email').value, document.getElementById('password').value)">
-              Login<i class="bi bi-unlock2-fill ms-3"></i>
+              onclick="login(document.getElementById('_email').value, document.getElementById('_password').value)">
+              Login
+              <i class="bi bi-unlock2-fill ms-3"></i>
             </button>
           </div>
         </div>
         <div class="text-center">
-          <p>No account yet?<a href="#" class="text-decoration-none text-dark fw-bold fs-5 ms-2">
-              Sign up</a>
+          <p>
+            No account yet?
+            <a href="#" class="text-decoration-none text-dark fw-bold fs-5 ms-2">
+              Sign up
+            </a>
           </p>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Cart modal -->
+  <div class="modal fade" id="cartModal" aria-labelledby="exampleModalToggleLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Cart</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Show a second modal and hide this one with the button below.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success align-items-center" data-bs-target="#checkoutModal" data-bs-toggle="modal">
+            Go to checkout
+            <i class="bi bi-arrow-right-square m-2"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout modal -->
+  <div class="modal fade" id="checkoutModal" aria-labelledby="exampleModalToggleLabel2" tabindex="-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="btn btn-success me-auto" data-bs-target="#cartModal" data-bs-toggle="modal">
+            <i class="bi bi-arrow-left-square m-2"></i>
+            Go back to your cart
+          </button>
+          <h1 class="modal-title ms-auto fs-3" id="exampleModalToggleLabel2">
+            Checkout
+            <i class="bi bi-tools"></i>
+          </h1>
+        </div>
+        <div class="modal-body d-flex flex-column justify-content-center align-items-center pb-5 gap-3">
+          <div class="d-flex justify-content-center align-items-center g-5 pb-3">
+            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
+              <h4 class="text-center mb-5">Delivery</h4>
+              <div class="row g-3 w-75">
+                <div class="col-sm-6"> <label for="firstName" class="form-label">First name</label>
+                  <input type="text" class="form-control" id="firstName">
+                </div>
+                <div class="col-sm-6">
+                  <label for="lastName" class="form-label">Last name</label>
+                  <input type="text" class="form-control" id="lastName">
+                </div>
+                <div class="col-12">
+                  <label for="email" class="form-label">Email</label>
+                  <div class="input-group"> <span class="input-group-text">@</span>
+                    <input type="email" class="form-control" id="email">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label for="address" class="form-label">Addresse</label>
+                  <input type="text" class="form-control" id="address">
+                </div>
+                <div class="col-6">
+                  <label for="postalCode" class="form-label">Postal Code</label>
+                  <input type="text" class="form-control" id="postalCode">
+                </div>
+              </div>
+            </div>
+            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
+              <h4 class="text-center">Payment</h4>
+              <div class="d-flex gap-4 my-3">
+                <div class="form-check">
+                  <input id="credit" name="paymentMethod" type="radio" class="form-check-input">
+                  <label class="form-check-label" for="credit">Credit card</label>
+                </div>
+                <div class="form-check"> <input id="debit" name="paymentMethod" type="radio" class="form-check-input">
+                  <label class="form-check-label" for="debit">Debit card</label>
+                </div>
+              </div>
+              <div class="row gy-3">
+                <div class="col-12">
+                  <label for="cardName" class="form-label">Name on card</label>
+                  <input type="text" class="form-control" id="cardName">
+                </div>
+                <div class="col-12">
+                  <label for="cardNumber" class="form-label">Credit card number</label>
+                  <input type="text" class="form-control" id="cardNumber">
+                </div>
+                <div class="col-6">
+                  <label for="cardExpiration" class="form-label">Expiration</label>
+                  <input type="text" class="form-control" id="cardExpiration">
+                </div>
+                <div class="col-6">
+                  <label for="cardCVV" class="form-label">CVV</label>
+                  <input type="text" class="form-control" id="cardCVV">
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-outline-success btn-lg w-50">
+            Proceed to payment
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 
   <!-- Add to cart toast -->
@@ -168,7 +276,16 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
     crossorigin="anonymous"></script>
-  <script src="assets/js/script.js"></script>
-</body>
-
-</html>
+    <script src="assets/js/components/categories/button.js"></script>
+    <script src="assets/js/components/categories/dropdown.js"></script>
+    <script src="assets/js/components/categories/filter.js"></script>
+    <script src="assets/js/components/categories/switch.js"></script>
+    <script src="assets/js/components/products/card.js"></script>
+    <script src="assets/js/components/products/modal.js"></script>
+    <script src="assets/js/components/products/placeholder.js"></script>
+    <script src="assets/js/components/data.js"></script>
+    <script src="assets/js/components/helpers.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+  
+  </html>
