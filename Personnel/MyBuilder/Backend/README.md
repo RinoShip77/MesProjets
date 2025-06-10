@@ -16,3 +16,12 @@ This is for my server in NodeJS.
 >
 > - ````npm start````
 > *** 
+
+PS: To correctly run the server you need to add a *'.env'* file at the root of the project with these variables
+````
+PORT={{THE PORT OF THE SERVER}}
+DB_HOST={{WHERE YOUR DATABASE IS LOCATED}}
+DB_USER={{THE USERNAME TO ENTER THE MYSQL INSTANCE}}
+DB_PASSWORD={{THE PASSWORD TO ENTER THE MYSQL INSTANCE}}
+DB_DATABASE={{THE NAME OF YOUR DATABASE}}
+````
