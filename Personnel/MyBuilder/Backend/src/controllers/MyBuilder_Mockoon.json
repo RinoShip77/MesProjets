@@ -1,0 +1,475 @@
+{
+  "uuid": "85b38d93-a703-43d0-b400-bf8f17148dfd",
+  "lastMigration": 33,
+  "name": "MyBuilder Mockoon",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 5000,
+  "hostname": "",
+  "folders": [
+    {
+      "uuid": "0d1dbb46-8829-486f-aaf7-35bbb8b5371e",
+      "name": "Categories",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "27d03b42-c6ef-41f8-8284-fc4cf272b715"
+        },
+        {
+          "type": "route",
+          "uuid": "362ad10a-89da-47b6-958f-dc5332fefbdf"
+        },
+        {
+          "type": "route",
+          "uuid": "177ea0ed-097d-4329-8e0a-387ad87c8052"
+        },
+        {
+          "type": "route",
+          "uuid": "d144b1d6-6a84-440d-8325-b43e8f098266"
+        }
+      ]
+    },
+    {
+      "uuid": "20eaf670-93f7-4274-8809-f2ac4795503d",
+      "name": "Products",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "119c4be0-6cbc-4a5b-b430-35c993a16b4d"
+        },
+        {
+          "type": "route",
+          "uuid": "823f31b1-c334-4845-ac6c-1522cb8cd33a"
+        },
+        {
+          "type": "route",
+          "uuid": "13ed52f8-eccf-4e67-81c9-7fe27bb6ef47"
+        },
+        {
+          "type": "route",
+          "uuid": "f2039645-079e-499b-88a2-dde99d101b54"
+        },
+        {
+          "type": "route",
+          "uuid": "b77c13e5-e9cb-4222-bdca-3f15166d15ed"
+        },
+        {
+          "type": "route",
+          "uuid": "5cf4ee5a-9cbc-43dc-a37a-27b4f83a9829"
+        }
+      ]
+    },
+    {
+      "uuid": "0a6a6e8d-9078-4c4e-aeed-298cc366385d",
+      "name": "Users",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "0005fa2c-e6c2-4a56-9cb3-d587454c7828"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "uuid": "27d03b42-c6ef-41f8-8284-fc4cf272b715",
+      "type": "http",
+      "documentation": "Retrieve All",
+      "method": "get",
+      "endpoint": "categories",
+      "responses": [
+        {
+          "uuid": "7a9ee82c-9b25-4f9b-9b69-1c3b22353cd5",
+          "body": "[\n  {\n    \"title\": \"cases\"\n  },\n  {\n    \"title\": \"coolers\"\n  },\n  {\n    \"title\": \"motherboards\"\n  },\n  {\n    \"title\": \"power_supplies\"\n  },\n  {\n    \"title\": \"processors\"\n  },\n  {\n    \"title\": \"ram_brackets\"\n  },\n  {\n    \"title\": \"storage_drives\"\n  },\n  {\n    \"title\": \"video_cards\"\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "0005fa2c-e6c2-4a56-9cb3-d587454c7828",
+      "type": "http",
+      "documentation": "Retrieve All",
+      "method": "get",
+      "endpoint": "accounts",
+      "responses": [
+        {
+          "uuid": "02728f46-e158-410d-9735-920cedceaf63",
+          "body": "[\n  {{#repeat 10}}\n    {\n      \"id\": \"{{faker 'string.uuid'}}\",\n      \"name\": \"{{faker 'company.name'}}\",\n      \"balance\": {{faker 'finance.amount'}},\n      \"isActive\": {{faker 'datatype.boolean'}}\n    }\n  {{/repeat}}\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "362ad10a-89da-47b6-958f-dc5332fefbdf",
+      "type": "http",
+      "documentation": "Create One",
+      "method": "post",
+      "endpoint": "categories/add",
+      "responses": [
+        {
+          "uuid": "289e2c3a-8eae-4b80-b4d7-070735a73a59",
+          "body": "{\r\n    \"message\": \"La catégorie a bien été créé.\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "177ea0ed-097d-4329-8e0a-387ad87c8052",
+      "type": "http",
+      "documentation": "Update One",
+      "method": "put",
+      "endpoint": "categories/modify/test",
+      "responses": [
+        {
+          "uuid": "4c304294-97ac-4650-b814-3b4326b2bf0c",
+          "body": "{\r\n    \"message\": \"La catégorie a bien été modifié.\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "d144b1d6-6a84-440d-8325-b43e8f098266",
+      "type": "http",
+      "documentation": "Delete One",
+      "method": "delete",
+      "endpoint": "categories/delete/test",
+      "responses": [
+        {
+          "uuid": "4cd765e4-48f8-4ddf-9cb3-a2c512a608b8",
+          "body": "{\r\n    \"message\": \"La catégorie a bien été supprimé.\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "119c4be0-6cbc-4a5b-b430-35c993a16b4d",
+      "type": "http",
+      "documentation": "Retrieve All",
+      "method": "get",
+      "endpoint": "products/cases",
+      "responses": [
+        {
+          "uuid": "699777d3-14e5-42e8-b035-3d6b82e3b3af",
+          "body": "[\n  {{#repeat 10}}\n    {\n    \"name\": \"MSI GeForce RTX 3060 Ventus 2X 12G\",\n    \"imageURL\": \"\\/\\/cdna.pcpartpicker.com\\/static\\/forever\\/images\\/product\\/dbc81b89efc82ce66fb2e3ab7e0f0658.256p.jpg\",\n    \"productURL\": \"https:\\/\\/pcpartpicker.com\\/product\\/pD8bt6\\/msi-geforce-rtx-3060-ventus-2x-12g-geforce-rtx-3060-12gb-12-gb-video-card-rtx3060ventus2x12goc\",\n    \"price\": \"289.00 $\",\n    \"manufacturer\": \"MSI\",\n    \"chipset\": \"GeForce RTX 3060 12GB\",\n    \"memory\": \"12 GB\",\n    \"clock\": \"1320 MHz\",\n    \"frameSync\": \"G-Sync\"\n    }\n  {{/repeat}}\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "13ed52f8-eccf-4e67-81c9-7fe27bb6ef47",
+      "type": "http",
+      "documentation": "Retrieve One",
+      "method": "get",
+      "endpoint": "products/cases/2",
+      "responses": [
+        {
+          "uuid": "57d2112f-23c6-4bb1-b8ac-d6a8ce19452b",
+          "body": "{\n  \"name\": \"MSI GeForce RTX 3060 Ventus 2X 12G\",\n  \"imageURL\": \"//cdna.pcpartpicker.com/static/forever/images/product/dbc81b89efc82ce66fb2e3ab7e0f0658.256p.jpg\",\n  \"productURL\": \"https://pcpartpicker.com/product/pD8bt6/msi-geforce-rtx-3060-ventus-2x-12g-geforce-rtx-3060-12gb-12-gb-video-card-rtx3060ventus2x12goc\",\n  \"price\": \"289.00 $\",\n  \"manufacturer\": \"MSI\",\n  \"chipset\": \"GeForce RTX 3060 12GB\",\n  \"memory\": \"12 GB\",\n  \"clock\": \"1320 MHz\",\n  \"frameSync\": \"G-Sync\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "f2039645-079e-499b-88a2-dde99d101b54",
+      "type": "http",
+      "documentation": "Create One",
+      "method": "post",
+      "endpoint": "products/add/cases",
+      "responses": [
+        {
+          "uuid": "499dff77-ca10-47db-8e8f-e899a50d3217",
+          "body": "{\r\n    \"message\": \"Le produit a bien été créé.\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b77c13e5-e9cb-4222-bdca-3f15166d15ed",
+      "type": "http",
+      "documentation": "Update One",
+      "method": "put",
+      "endpoint": "products/modify/cases/5152",
+      "responses": [
+        {
+          "uuid": "c8d49ab6-8dbb-4e90-90d1-4df116b27281",
+          "body": "{\r\n    \"message\": \"Le produit a bien été modifié.\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "5cf4ee5a-9cbc-43dc-a37a-27b4f83a9829",
+      "type": "http",
+      "documentation": "Delete One",
+      "method": "delete",
+      "endpoint": "products/delete/cases/3700",
+      "responses": [
+        {
+          "uuid": "5292764c-5fe6-4fab-b4a0-47a7d6a02c65",
+          "body": "{\r\n    \"message\": \"Le produit a bien été supprimé.\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "823f31b1-c334-4845-ac6c-1522cb8cd33a",
+      "type": "http",
+      "documentation": "Retrieve All",
+      "method": "get",
+      "endpoint": "products/coolers",
+      "responses": [
+        {
+          "uuid": "65aa8ac5-1233-4d92-a208-90a72e38b1b3",
+          "body": "[\n  {{#repeat 10}}\n    {\n    \"name\": \"NZXT H5 Flow\",\n    \"imageURL\": \"//cdna.pcpartpicker.com/static/forever/images/product/84cb77175187296029f50f8bf6ca6960.256p.jpg\",\n    \"productURL\": \"https://pcpartpicker.com/product/RY4Ycf/nzxt-h5-flow-atx-mid-tower-case-cc-h51fb-01\",\n    \"price\": \"94.99 $\",\n    \"manufacturer\": \"NZXT\",\n    \"type\": \"ATX Mid Tower\",\n    \"powerSupply\": \"None\",\n    \"sidePanel\": \"Tempered Glass\",\n    \"frontPanelUSB\": \"USB 3.2 Gen 2 Type-C, USB 3.2 Gen 1 Type-A\",\n    \"motherboardFormFactor\": \"ATX, EATX, Micro ATX, Mini ITX\",\n    \"maximumVideoCardLength\": \"365 mm / 14.37\\\"\",\n    \"dimensions\": \"446 mm x 227 mm x 464 mm, 17.559\\\" x 8.937\\\" x 18.268\\\"\"\n    }\n  {{/repeat}}\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "folder",
+      "uuid": "0d1dbb46-8829-486f-aaf7-35bbb8b5371e"
+    },
+    {
+      "type": "folder",
+      "uuid": "20eaf670-93f7-4274-8809-f2ac4795503d"
+    },
+    {
+      "type": "folder",
+      "uuid": "0a6a6e8d-9078-4c4e-aeed-298cc366385d"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
