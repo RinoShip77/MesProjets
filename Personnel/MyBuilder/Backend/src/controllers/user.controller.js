@@ -18,7 +18,6 @@ exports.login = async function (req, res) {
     if (user.length === 0) {
       res.json({ message: `Bad credentials.` });
     } else {
-      console.log(user)
       res.json({user: user[0], message: `Connected as '${req.body.email}'.` });
     }
   });
