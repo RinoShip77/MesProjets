@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use("/categories", categoriesRoutes);
 app.use("/products", productsRoutes);
 app.use("/users", usersRoutes);
-// app.use("/orders", ordersRoutes);
+app.use("/orders", ordersRoutes);
 
 // Error middleware
 app.use(middleware);
