@@ -5,6 +5,12 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+/**
+ * Initiatialise some constants
+ */
+const TODAY = new Date();
+const BIRTH = new Date("2001-05-08");
+const START = new Date("2021-01-25");
 
 /**
  * Initiate glightbox
@@ -29,10 +35,20 @@ function aosInit() {
   * On page load
   */
 window.addEventListener('load', function (e) {
+  if (window.innerWidth <= 540) {
+    document.getElementsByClassName("loading__bar")[0].classList.toggle("d-none");
+  }
+
   setTimeout(() => {
     document.getElementById("spinner").classList.add("d-none");
     document.getElementById("page").classList.remove("d-none");
+    document.getElementById('age').innerHTML = diffDate(BIRTH, TODAY);
+    document.getElementById('experience').innerHTML = diffDate(START, TODAY);
     main();
+
+    setTimeout(() => {
+      document.getElementsByClassName("filter-active")[0].click();
+    }, 750);
   }, 3000);
 });
 
@@ -46,22 +62,29 @@ document.addEventListener('scroll', function (e) {
 });
 
 /**
+  * On resize
+  */
+window.addEventListener('resize', function (e) {
+  positionSkills();
+});
+
+/**
   * Hide the spinner and show the page
   */
 function main() {
   if (location.href.includes("https")) {
     document.getElementById("projects").innerHTML = 0;
 
-    getData('https://api.github.com/users/rinoship77');
     getData('https://api.github.com/repos/rinoship77/mesprojets');
   }
 
-  adjustSkills("languages");
-  adjustSkills("softwares");
+  aosInit();
+  positionSkills();
   scrollPosition();
   toggleScrolled();
-  aosInit();
   navmenuScrollspy();
+  adjustSkills("languages");
+  adjustSkills("softwares");
 }
 
 /**
@@ -205,25 +228,23 @@ function scrollPosition() {
  * Show the data that was fetch
  */
 function displayData(url, data) {
-  const date = new Date();
-
   if (url.includes("rinoship77")) {
-    switch (url.slice(0, url.indexOf("/"))) {
-      case 'users':
-        document.getElementById('avatar').src = data.avatar_url;
-        document.getElementById('bio').innerHTML = data.bio;
-        document.getElementById('experience').innerHTML = diffDate(new Date(data.created_at), date);
-        document.getElementById('age').innerHTML = diffDate(new Date("2001-05-08"), date);
-        break;
-
-      case 'repos':
-        getData(data.contents_url.slice(0, (data.contents_url.lastIndexOf("/") + 1)));
-    }
+    getData(data.contents_url.slice(0, (data.contents_url.lastIndexOf("/") + 1)));
   } else {
     for (let index = 0; index < data.length - 1; index++) {
       getData(data[index].url);
     }
   }
+}
+
+/**
+ * Set the number of projects
+ */
+function countProjects(projects) {
+  projects.forEach(project => {
+    if (project.type === "dir")
+      document.getElementById("projects").innerHTML = parseInt(document.getElementById("projects").innerHTML) + 1;
+  });
 }
 
 /**
@@ -255,7 +276,18 @@ document.querySelector('.scroll-top').addEventListener('click', (e) => {
 });
 
 /**
- * Add a margin to erach skill
+ * Add a margin to each skill
+*/
+function positionSkills() {
+  if (window.innerWidth < 540) {
+    document.getElementById("skills-collapsable").children[0].classList.add("flex-column");
+  } else {
+    document.getElementById("skills-collapsable").children[0].classList.remove("flex-column");
+  }
+}
+
+/**
+ * Add a margin to each skill
 */
 function adjustSkills(category) {
   for (let index = 0; index < document.getElementById(category).children[0].children[0].children.length; index++) {
@@ -295,16 +327,8 @@ async function getData(url) {
     if (!url.includes("?")) {
       displayData(url.substring((url.indexOf("github.com/") + 11)), data);
     } else {
-      if (document.getElementById("projects").innerHTML.length !== 0) {
-        data.forEach(projects => {
-          if (projects.type === "dir") {
-            document.getElementById("projects").innerHTML = parseInt(document.getElementById("projects").innerHTML) + 1;
-          }
-        });
-      }
-      document.getElementById("projects").innerHTML = parseInt(document.getElementById("projects").innerHTML);
+      countProjects(data);
     }
-
   } catch (error) {
     console.error('There was an error!', error);
   }
