@@ -17,9 +17,9 @@ exports.create = async function (req, res) {
 };
 
 exports.checkout = async function (req, res) {
-  // let paymentLink = await stripe.paymentLinks.create({
-  //   line_items: req.body.products
-  // });
+  let paymentLink = await stripe.paymentLinks.create({
+    line_items: req.body.products
+  });
 
-  // res.json(`${paymentLink.url}?prefilled_email=${req.body.user}`)
+  res.json(`${paymentLink.url}?prefilled_email=${req.body.user}`)
 };
