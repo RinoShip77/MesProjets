@@ -7,7 +7,7 @@ function addToCart(product, quantity = 1) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-function login(username, password) {
+function login(username = "johndoe@gmail.com", password = "1234") {
   let user = {
     email: username,
     password: password
@@ -19,10 +19,36 @@ function login(username, password) {
 function connect() {
   if (sessionStorage.getItem("user") !== null) {
     document.getElementById("userStatus").classList.toggle("d-none");
+    document.getElementById("logoutLink").classList.toggle("d-none");
     document.getElementById("loginLink").setAttribute("data-bs-toggle", "tooltip");
     document.getElementById("loginLink").setAttribute("data-bs-title", `${JSON.parse(sessionStorage.getItem("user")).firstName} ${JSON.parse(sessionStorage.getItem("user")).lastName}`);
     document.getElementById("loginLink").setAttribute("data-bs-placement", "bottom");
+
     generateTooltip(document.getElementById("loginLink"));
+  }
+}
+
+function disconnect() {
+  document.getElementById("logoutLink").classList.toggle("d-none");
+  sessionStorage.removeItem("user");
+  location.reload();
+}
+
+function switchTheme() {
+  let theme = (sessionStorage.getItem("theme") !== null) ? sessionStorage.getItem("theme") : "light";
+
+  switch (theme) {
+    case "light":
+      document.getElementById("themeSwitcher").classList.replace("bi-moon-stars-fill", "bi-sun-fill");
+      document.body.setAttribute("data-bs-theme", "dark");
+      sessionStorage.setItem("theme", "dark");
+      break;
+
+    case "dark":
+      document.getElementById("themeSwitcher").classList.replace("bi-sun-fill", "bi-moon-stars-fill");
+      document.body.setAttribute("data-bs-theme", "light");
+      sessionStorage.setItem("theme", "light");
+      break;
   }
 }
 

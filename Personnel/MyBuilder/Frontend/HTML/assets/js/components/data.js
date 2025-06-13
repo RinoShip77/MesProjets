@@ -49,7 +49,13 @@ function postData(path, data) {
       if (!data.message.includes("Bad")) {
         document.getElementById("loginToast").classList.add("bg-success");
         document.getElementById("loginToast").classList.remove("bg-danger");
+        bootstrap.Modal.getOrCreateInstance(document.getElementById("loginModal")).hide();
         connect();
+        document.getElementById("loginToast").addEventListener('hidden.bs.toast', () => {
+          console.log("hidden");
+          location.reload();
+        });
+
         sessionStorage.setItem("user", JSON.stringify(data.user));
       } else {
         document.getElementById("loginToast").classList.add("bg-danger");
