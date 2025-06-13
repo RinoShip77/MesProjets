@@ -1,39 +1,3 @@
-function addToCart(product, quantity = 1) {
-  let cart = (localStorage.getItem("cart") !== null) ? JSON.parse(localStorage.getItem("cart")) : [];
-  cart.push(product);
-
-  sendToast(product.imageURL, product.name, quantity);
-  document.getElementById("cartQuantity").innerHTML = cart.length;
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-function login(username = "johndoe@gmail.com", password = "1234") {
-  let user = {
-    email: username,
-    password: password
-  };
-
-  postData("users/login", user);
-}
-
-function connect() {
-  if (sessionStorage.getItem("user") !== null) {
-    document.getElementById("userStatus").classList.toggle("d-none");
-    document.getElementById("logoutLink").classList.toggle("d-none");
-    document.getElementById("loginLink").setAttribute("data-bs-toggle", "tooltip");
-    document.getElementById("loginLink").setAttribute("data-bs-title", `${JSON.parse(sessionStorage.getItem("user")).firstName} ${JSON.parse(sessionStorage.getItem("user")).lastName}`);
-    document.getElementById("loginLink").setAttribute("data-bs-placement", "bottom");
-
-    generateTooltip(document.getElementById("loginLink"));
-  }
-}
-
-function disconnect() {
-  document.getElementById("logoutLink").classList.toggle("d-none");
-  sessionStorage.removeItem("user");
-  location.reload();
-}
-
 function switchTheme() {
   let theme = (sessionStorage.getItem("theme") !== null) ? sessionStorage.getItem("theme") : "light";
 

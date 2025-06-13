@@ -43,16 +43,9 @@
                 <ul id="categoriesDropdown" class="dropdown-menu">
                 </ul>
               </li>
-              <li class="nav-item d-flex justify-content-around align-items-center">
+              <li class="nav-item d-flex justify-content-around align-items-center me-4">
                 <a class="nav-link" type="button" onclick="switchTheme()">
                   <i id="themeSwitcher" class="bi bi-moon-stars-fill"></i>
-                </a>
-                <a class="nav-link position-relative" type="button" data-bs-toggle="modal" data-bs-target="#cartModal"
-                  aria-label="cart">
-                  <i class="bi bi-cart-fill"></i>
-                  <span id="cartQuantity"
-                    class="position-absolute top-25 start-100 translate-middle badge rounded-circle bg-secondary d-none">
-                  </span>
                 </a>
                 <a class="nav-link position-relative" type="button" data-bs-toggle="modal" data-bs-target="#loginModal"
                   aria-label="Login">
@@ -65,6 +58,13 @@
                 <button id="logoutLink" class="btn btn-link d-none" onclick="disconnect()">
                   Logout
                 </button>
+                <a class="nav-link position-relative" type="button" data-bs-toggle="modal" data-bs-target="#cartModal"
+                  aria-label="cart" onclick="setCheckoutLink()">
+                  <i class="bi bi-cart-fill"></i>
+                  <span id="cartQuantity"
+                    class="position-absolute top-25 start-100 translate-middle badge rounded-circle bg-secondary d-none">
+                  </span>
+                </a>
               </li>
               <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -168,96 +168,13 @@
           Show a second modal and hide this one with the button below.
         </div>
         <div class="modal-footer">
-          <button class="btn btn-success align-items-center" data-bs-target="#checkoutModal" data-bs-toggle="modal">
+          <a id="checkoutLink" class="btn btn-success align-items-center">
             Go to checkout
             <i class="bi bi-arrow-right-square m-2"></i>
-          </button>
+          </a>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Checkout modal -->
-  <div class="modal fade" id="checkoutModal" aria-labelledby="exampleModalToggleLabel2" tabindex="-1"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button class="btn btn-success me-auto" data-bs-target="#cartModal" data-bs-toggle="modal">
-            <i class="bi bi-arrow-left-square m-2"></i>
-            Go back to your cart
-          </button>
-          <h1 class="modal-title ms-auto fs-3" id="exampleModalToggleLabel2">
-            Checkout
-            <i class="bi bi-tools"></i>
-          </h1>
-        </div>
-        <div class="modal-body d-flex flex-column justify-content-center align-items-center pb-5 gap-3">
-          <div class="d-flex justify-content-center align-items-center g-5 pb-3">
-            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
-              <h4 class="text-center mb-5">Delivery</h4>
-              <div class="row g-3 w-75">
-                <div class="col-sm-6"> <label for="firstName" class="form-label">First name</label>
-                  <input type="text" class="form-control" id="firstName">
-                </div>
-                <div class="col-sm-6">
-                  <label for="lastName" class="form-label">Last name</label>
-                  <input type="text" class="form-control" id="lastName">
-                </div>
-                <div class="col-12">
-                  <label for="email" class="form-label">Email</label>
-                  <div class="input-group"> <span class="input-group-text">@</span>
-                    <input type="email" class="form-control" id="email">
-                  </div>
-                </div>
-                <div class="col-6">
-                  <label for="address" class="form-label">Addresse</label>
-                  <input type="text" class="form-control" id="address">
-                </div>
-                <div class="col-6">
-                  <label for="postalCode" class="form-label">Postal Code</label>
-                  <input type="text" class="form-control" id="postalCode">
-                </div>
-              </div>
-            </div>
-            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
-              <h4 class="text-center">Payment</h4>
-              <div class="d-flex gap-4 my-3">
-                <div class="form-check">
-                  <input id="credit" name="paymentMethod" type="radio" class="form-check-input">
-                  <label class="form-check-label" for="credit">Credit card</label>
-                </div>
-                <div class="form-check"> <input id="debit" name="paymentMethod" type="radio" class="form-check-input">
-                  <label class="form-check-label" for="debit">Debit card</label>
-                </div>
-              </div>
-              <div class="row gy-3">
-                <div class="col-12">
-                  <label for="cardName" class="form-label">Name on card</label>
-                  <input type="text" class="form-control" id="cardName">
-                </div>
-                <div class="col-12">
-                  <label for="cardNumber" class="form-label">Credit card number</label>
-                  <input type="text" class="form-control" id="cardNumber">
-                </div>
-                <div class="col-6">
-                  <label for="cardExpiration" class="form-label">Expiration</label>
-                  <input type="text" class="form-control" id="cardExpiration">
-                </div>
-                <div class="col-6">
-                  <label for="cardCVV" class="form-label">CVV</label>
-                  <input type="text" class="form-control" id="cardCVV">
-                </div>
-              </div>
-            </div>
-          </div>
-          <button class="btn btn-outline-success btn-lg w-50">
-            Proceed to payment
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
   </div>
 
   <!-- Add to cart toast -->
@@ -292,8 +209,10 @@
   <script src="assets/js/components/products/card.js"></script>
   <script src="assets/js/components/products/modal.js"></script>
   <script src="assets/js/components/products/placeholder.js"></script>
+  <script src="assets/js/components/cart.js"></script>
   <script src="assets/js/components/data.js"></script>
   <script src="assets/js/components/helpers.js"></script>
+  <script src="assets/js/components/user.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 

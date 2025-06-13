@@ -1,4 +1,4 @@
-function fetchData(path = "categories") {
+function get(path = "categories") {
   fetch(BASE_URL + path)
     .then(response => {
       if (response.ok) {
@@ -30,7 +30,7 @@ function fetchData(path = "categories") {
     });
 }
 
-function postData(path, data) {
+function post(path, data) {
   fetch(BASE_URL + path, {
     method: "POST",
     headers: {
@@ -46,24 +46,32 @@ function postData(path, data) {
       }
     })
     .then((data) => {
-      if (!data.message.includes("Bad")) {
-        document.getElementById("loginToast").classList.add("bg-success");
-        document.getElementById("loginToast").classList.remove("bg-danger");
-        bootstrap.Modal.getOrCreateInstance(document.getElementById("loginModal")).hide();
-        connect();
-        document.getElementById("loginToast").addEventListener('hidden.bs.toast', () => {
-          console.log("hidden");
-          location.reload();
-        });
+      if (path.includes("users")) {
+        if (!data.message.includes("Bad")) {
+          document.getElementById("loginToast").classList.add("bg-success");
+          document.getElementById("loginToast").classList.remove("bg-danger");
+          bootstrap.Modal.getOrCreateInstance(document.getElementById("loginModal")).hide();
+          connect();
+          document.getElementById("loginToast").addEventListener('hidden.bs.toast', () => {
+            console.log("hidden");
+            location.reload();
+          });
 
-        sessionStorage.setItem("user", JSON.stringify(data.user));
+          sessionStorage.setItem("user", JSON.stringify(data.user));
+        } else {
+          document.getElementById("loginToast").classList.add("bg-danger");
+          document.getElementById("loginToast").classList.remove("bg-success");
+        }
+
+        document.getElementById("loginToastMessage").innerHTML = data.message;
+        bootstrap.Toast.getOrCreateInstance(document.getElementById("loginToast")).show();
       } else {
-        document.getElementById("loginToast").classList.add("bg-danger");
-        document.getElementById("loginToast").classList.remove("bg-success");
+        if(path === "orders/add") {
+          updateCheckout(data.priceID);
+        } else {
+          sessionStorage.setItem("checkoutLink", data);
+        }
       }
-
-      document.getElementById("loginToastMessage").innerHTML = data.message;
-      bootstrap.Toast.getOrCreateInstance(document.getElementById("loginToast")).show();
     })
     .catch((error) => {
       console.error("Error:", error);

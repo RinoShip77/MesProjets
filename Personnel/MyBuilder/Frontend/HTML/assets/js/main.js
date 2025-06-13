@@ -3,7 +3,10 @@ const BASE_URL = "http://localhost:5000/";
 main();
 
 function main() {
-  fetchData();
+  let cart = (localStorage.getItem("cart") !== null) ? JSON.parse(localStorage.getItem("cart")) : [];
+  document.getElementById("cartQuantity").innerHTML = cart.length;
+  
+  get();
   getProducts();
 
   if (sessionStorage.getItem("user") !== null)
@@ -19,7 +22,7 @@ function main() {
 
 function getProducts(table = "cases") {
   document.getElementById("productsContainer").innerHTML = "";
-  fetchData(`products/${table}`);
+  get(`products/${table}`);
 }
 
 function createQuantityInput(quantity) {
