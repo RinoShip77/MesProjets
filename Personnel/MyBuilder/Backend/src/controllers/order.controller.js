@@ -33,9 +33,11 @@ exports.checkout = async function (req, res) {
 exports.checkoutSuccess = async function (req, res) {
   const checkoutSession = await stripe.checkout.sessions.retrieve(req.query.id);
 
-  res.json(`Thanks ${checkoutSession.customer_details.name} for your order!`);
+  //TODO: Redirect to the frontend with message
+  res.send(`Thanks ${checkoutSession.customer_details.name} for your order!`);
 };
 
 exports.checkoutError = async function (req, res) {
-  res.json("Sorry, somethig went wrong with the payement");
+  //TODO: Redirect to the frontend with message
+  res.send("Sorry, somethig went wrong with the payement.");
 };
