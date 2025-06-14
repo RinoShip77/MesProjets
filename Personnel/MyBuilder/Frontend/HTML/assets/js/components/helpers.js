@@ -50,9 +50,13 @@ function categoryIcon(category) {
   return `<i class="bi bi-${icon}"></i>`;
 }
 
-function updateCartLenght() {
+function updateCartLength() {
   let cart = (localStorage.getItem("cart") !== null) ? JSON.parse(localStorage.getItem("cart")) : [];
   document.getElementById("cartQuantity").innerHTML = cart.length;
+}
+
+function calculateTotal(cart) {
+  return parseFloat((cart.reduce((accumulator, currentValue) => accumulator + (parseFloat(currentValue.price.slice(0, -2))), 0) * 100).toFixed(2));
 }
 
 function generateTooltip(element) {

@@ -5,7 +5,7 @@ main();
 function main() {
   getData();
   getProducts();
-  updateCartLenght();  
+  updateCartLength();  
 
   if (sessionStorage.getItem("user") !== null)
     connect();

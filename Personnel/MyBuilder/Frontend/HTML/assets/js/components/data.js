@@ -25,9 +25,6 @@ function getData(path = "categories") {
           }
         });
       } else {
-        //TODO: Put the payment message in a toast
-        // console.log(location.pathname)
-        // console.log(path.slice(path.indexOf(location.href)))
         if (!data.message.includes("Sorry")) {
           document.getElementById("paymentToast").classList.add("bg-success");
           document.getElementById("paymentToast").classList.remove("bg-danger");
@@ -38,8 +35,10 @@ function getData(path = "categories") {
           document.getElementById("paymentToast").classList.add("bg-danger");
           document.getElementById("paymentToast").classList.remove("bg-success");
         }
-
+        
+        //TODO: Put the payment message in a toast
         document.getElementById("paymentToastMessage").innerHTML = data;
+        
         bootstrap.Toast.getOrCreateInstance(document.getElementById("paymentToast")).show();
       }
     })
@@ -72,7 +71,6 @@ function postData(path, data) {
           bootstrap.Modal.getOrCreateInstance(document.getElementById("loginModal")).hide();
           connect();
           document.getElementById("loginToast").addEventListener('hidden.bs.toast', () => {
-            console.log("hidden");
             location.reload();
           });
 
