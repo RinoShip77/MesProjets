@@ -3,11 +3,9 @@ const BASE_URL = "http://localhost:5000/";
 main();
 
 function main() {
-  let cart = (localStorage.getItem("cart") !== null) ? JSON.parse(localStorage.getItem("cart")) : [];
-  document.getElementById("cartQuantity").innerHTML = cart.length;
-  
-  get();
+  getData();
   getProducts();
+  updateCartLenght();  
 
   if (sessionStorage.getItem("user") !== null)
     connect();
@@ -22,7 +20,7 @@ function main() {
 
 function getProducts(table = "cases") {
   document.getElementById("productsContainer").innerHTML = "";
-  get(`products/${table}`);
+  getData(`products/${table}`);
 }
 
 function createQuantityInput(quantity) {

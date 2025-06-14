@@ -1,25 +1,37 @@
 require("dotenv").config();
 
-// TODO: Take the key from .env file
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 
-exports.create = async function (req, res) {
-  let product = await stripe.products.create({
-    name: req.body.name,
-    images: [`https:${req.body.imageURL}`],
-    default_price_data: {
-      currency: "cad",
-      unit_amount: (parseFloat(req.body.price.slice(0, -2)) * 100)
-    }
+exports.checkout = async function (req, res) {
+  const checkoutSession = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          unit_amount: (parseFloat(req.body.price) * 100),
+          currency: "cad",
+          product_data: {
+            name: "MyBuilder"
+          }
+        },
+        quantity: 1
+      }
+    ],
+    customer_email: req.body.user,
+    payment_method_types: ["card"],
+    mode: "payment",
+    success_url: `${req.protocol}://${req.get('host')}/orders/checkout/success?id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${req.protocol}://${req.get('host')}/orders/checkout/error`
   });
 
-  res.json({ priceID: product.default_price });
+  res.json(checkoutSession.url)
 };
 
-exports.checkout = async function (req, res) {
-  let paymentLink = await stripe.paymentLinks.create({
-    line_items: req.body.products
-  });
+exports.checkoutSuccess = async function (req, res) {
+  const checkoutSession = await stripe.checkout.sessions.retrieve(req.query.id);
 
-  res.json(`${paymentLink.url}?prefilled_email=${req.body.user}`)
+  res.json(`Thanks ${checkoutSession.customer_details.name} for your order!`);
+};
+
+exports.checkoutError = async function (req, res) {
+  res.json("Sorry, somethig went wrong with the payement");
 };

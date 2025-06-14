@@ -11,17 +11,28 @@ function addToCart(product, quantity = 1) {
   localStorage.setItem("cart", JSON.stringify(cart));
   sendToast(newProduct.imageURL, newProduct.name, quantity);
 
-  if (quantity !== 1) {
-    // Add the cart
-    cart.forEach(product => {
-      post("orders/add", product)
-    });
-  } else {
-    // Add ONLY the new product
-    post("orders/add", newProduct)
-  }
+  // if (quantity !== 1) {
+  //   // Add the cart
+  //   cart.forEach(product => {
+  //     post("orders/add", product)
+  //   });
+  // } else {
+  //   // Add ONLY the new product
+  //   post("orders/add", newProduct)
+  // }
 
-  // location.reload();
+  updateCartLenght();
+}
+
+function checkout() {
+  let email = (sessionStorage.getItem("user") !== null) ? JSON.parse(sessionStorage.getItem("user")).email : "";
+
+  postData("orders/checkout",
+    {
+      price: "59.00",
+      user: email
+    }
+  );
 }
 
 function updateCheckout(price, quantity = 1) {
@@ -36,19 +47,19 @@ function updateCheckout(price, quantity = 1) {
 }
 
 function setCheckoutLink() {
-  if (localStorage.getItem("cart") !== null) {
-    let email = (localStorage.getItem("user") !== null) ? JSON.parse(sessionStorage.getItem('user')).email : "johndoe@gmail.com";
-    let checkout = {
-      products: JSON.parse(localStorage.getItem("checkoutProducts")),
-      user: email
-    }
+  // if (localStorage.getItem("cart") !== null) {
+  //   let email = (localStorage.getItem("user") !== null) ? JSON.parse(sessionStorage.getItem('user')).email : "johndoe@gmail.com";
+  //   let checkout = {
+  //     products: JSON.parse(localStorage.getItem("checkoutProducts")),
+  //     user: email
+  //   }
 
-    post("orders/checkout", checkout);
-    console.log(checkout);
-    setTimeout(() => {
-      document.getElementById("checkoutLink").href = sessionStorage.getItem("checkoutLink");
-    }, 1000);
-  }
+  //   post("orders/checkout", checkout);
+  //   console.log(checkout);
+  //   setTimeout(() => {
+  //     document.getElementById("checkoutLink").href = sessionStorage.getItem("checkoutLink");
+  //   }, 1000);
+  // }
 }
 
 function resetCheckout() {

@@ -4,7 +4,7 @@ function login(username = "johndoe@gmail.com", password = "1234") {
     password: password
   };
 
-  post("users/login", user);
+  postData("users/login", user);
 }
 
 function connect() {

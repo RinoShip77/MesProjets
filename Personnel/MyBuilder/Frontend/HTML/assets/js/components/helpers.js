@@ -50,6 +50,11 @@ function categoryIcon(category) {
   return `<i class="bi bi-${icon}"></i>`;
 }
 
+function updateCartLenght() {
+  let cart = (localStorage.getItem("cart") !== null) ? JSON.parse(localStorage.getItem("cart")) : [];
+  document.getElementById("cartQuantity").innerHTML = cart.length;
+}
+
 function generateTooltip(element) {
   return new bootstrap.Tooltip(element, {
     container: document.body

@@ -1,4 +1,4 @@
-function get(path = "categories") {
+function getData(path = "categories") {
   fetch(BASE_URL + path)
     .then(response => {
       if (response.ok) {
@@ -8,21 +8,40 @@ function get(path = "categories") {
       }
     })
     .then(data => {
-      data.forEach(element => {
-        if (path.includes("/")) {
-          switch (path.substring(0, path.indexOf("/"))) {
-            case "products":
-              (element) ? createProduct(element) : genratePlaceholder(25);
-              break;
-            case "users":
-              // createUser(element);
-              break;
+      if (!path.includes("users") || !path.includes("orders")) {
+        data.forEach(element => {
+          if (path.includes("/")) {
+            switch (path.substring(0, path.indexOf("/"))) {
+              case "products":
+                (element) ? createProduct(element) : genratePlaceholder(25);
+                break;
+              case "users":
+                // createUser(element);
+                break;
+            }
+          } else {
+            createCategoryDropdown(element);
+            createCategoryFilters(element);
           }
+        });
+      } else {
+        //TODO: Put the payment message in a toast
+        // console.log(location.pathname)
+        // console.log(path.slice(path.indexOf(location.href)))
+        if (!data.message.includes("Sorry")) {
+          document.getElementById("paymentToast").classList.add("bg-success");
+          document.getElementById("paymentToast").classList.remove("bg-danger");
+          document.getElementById("paymentToast").addEventListener('hidden.bs.toast', () => {
+            localStorage.removeItem("cart");
+          });
         } else {
-          createCategoryDropdown(element);
-          createCategoryFilters(element);
+          document.getElementById("paymentToast").classList.add("bg-danger");
+          document.getElementById("paymentToast").classList.remove("bg-success");
         }
-      });
+
+        document.getElementById("paymentToastMessage").innerHTML = data;
+        bootstrap.Toast.getOrCreateInstance(document.getElementById("paymentToast")).show();
+      }
     })
     .catch(error => {
       genratePlaceholder(25);
@@ -30,7 +49,7 @@ function get(path = "categories") {
     });
 }
 
-function post(path, data) {
+function postData(path, data) {
   fetch(BASE_URL + path, {
     method: "POST",
     headers: {
@@ -66,11 +85,7 @@ function post(path, data) {
         document.getElementById("loginToastMessage").innerHTML = data.message;
         bootstrap.Toast.getOrCreateInstance(document.getElementById("loginToast")).show();
       } else {
-        if(path === "orders/add") {
-          updateCheckout(data.priceID);
-        } else {
-          sessionStorage.setItem("checkoutLink", data);
-        }
+        location.assign(data);
       }
     })
     .catch((error) => {
