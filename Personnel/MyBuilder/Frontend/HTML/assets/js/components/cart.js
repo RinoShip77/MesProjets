@@ -24,7 +24,8 @@ function checkout() {
     postData("orders/checkout",
       {
         price: calculateTotal(JSON.parse(localStorage.getItem("cart"))),
-        user: email
+        user: email,
+        statusURL: `${location.origin}/pages`
       }
     );
   } else {
