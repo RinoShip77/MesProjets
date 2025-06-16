@@ -22,7 +22,6 @@ exports.checkout = async function (req, res) {
     payment_method_types: ["card"],
     mode: "payment",
     success_url: `${req.protocol}://${req.get('host')}/orders/checkout/success?id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${req.protocol}://${req.get('host')}/orders/checkout/cancel`
   };
   
   if(req.body.user.length !== 0)
@@ -36,11 +35,5 @@ exports.checkout = async function (req, res) {
 exports.checkoutSuccess = async function (req, res) {
   const checkoutSession = await stripe.checkout.sessions.retrieve(req.query.id);
   
-  res.redirect(`${statusURL}${req._parsedUrl.pathname.slice(req._parsedUrl.pathname.lastIndexOf("/"))}Checkout.html?name=${checkoutSession.customer_details.name}&total=${checkoutSession.amount_total}`);
-  // res.send(`Thanks ${checkoutSession.customer_details.name} for your order!`);
-};
-
-exports.checkoutCancel = async function (req, res) {
-  res.redirect(`${statusURL}${req._parsedUrl.pathname.slice(req._parsedUrl.pathname.lastIndexOf("/"))}Checkout.html`);
-  // res.send("Sorry, somethig went wrong with the payement.");
+  res.redirect(`${statusURL}${req._parsedUrl.pathname.slice(req._parsedUrl.pathname.lastIndexOf("/"))}Checkout.html?name=${checkoutSession.customer_details.name}&order=${checkoutSession.id}&total=${checkoutSession.amount_total}&date=${checkoutSession.created}`);
 };
