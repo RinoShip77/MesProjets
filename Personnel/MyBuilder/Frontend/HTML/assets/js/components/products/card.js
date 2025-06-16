@@ -1,15 +1,14 @@
 function createProduct(product) {
   let modalLink = document.createElement("a");
   modalLink.type = "button";
-  modalLink.classList.add("card", "text-decoration-none", "shadow", "rounded-0", "rounded-top", "bg-body-secondary");
-  modalLink.style.height = "28rem";
+  modalLink.classList.add("card", "text-decoration-none", "shadow", "rounded-0", "rounded-top", "bg-body-secondary", "h-100");
   modalLink.setAttribute("data-bs-toggle", "modal");
   modalLink.setAttribute("data-bs-target", `#productModal${product.id}`);
   modalLink.append(createCardBody(product));
   createProductModal(product);
 
   let column = document.createElement("div");
-  column.classList.add("col");
+  column.classList.add("col", "mb-5");
   column.append(modalLink, createCardFooter(product));
 
   document.getElementById("productsContainer").appendChild(column);
