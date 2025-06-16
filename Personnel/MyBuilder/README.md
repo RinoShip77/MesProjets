@@ -9,15 +9,20 @@ This is the UI portion of MyBuilder.
 
 3. Enter the folder that contain the version you want:
 - HTML;
-- VueJS; (skip to step 5)
-- React; (skip to step 5)
+- VueJS; (skip to step 6)
+- React; (skip to step 6)
 - etc.;
 
-4. Open the **index.html'**.
+4. Open the **'index.html'**.
 
-5. Inside the disered version, open a **terminal** (like CMD).
+5. Before you start the server, you need to modify a constant in the [constants.js](Frontend\HTML\assets\js\components\helpers\constants.js) inside the *'HTML'* version. Replace:
+````
+const BASE_URL = {{THE URL TO REACH YOUR SERVER}}
+````
 
-6. Type these **commands** to start the application:
+6. Inside the disered version, open a **terminal** (like CMD).
+
+7. Type these **commands** to start the application:
 
 >***
 > - ````npm install````
