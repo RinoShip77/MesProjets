@@ -25,21 +25,7 @@ function getData(path = "categories") {
           }
         });
       } else {
-        if (!data.message.includes("Sorry")) {
-          document.getElementById("paymentToast").classList.add("bg-success");
-          document.getElementById("paymentToast").classList.remove("bg-danger");
-          document.getElementById("paymentToast").addEventListener('hidden.bs.toast', () => {
-            localStorage.removeItem("cart");
-          });
-        } else {
-          document.getElementById("paymentToast").classList.add("bg-danger");
-          document.getElementById("paymentToast").classList.remove("bg-success");
-        }
-        
-        //TODO: Put the payment message in a toast
-        document.getElementById("paymentToastMessage").innerHTML = data;
-        
-        bootstrap.Toast.getOrCreateInstance(document.getElementById("paymentToast")).show();
+        //TODO: Manage get request for users and orders
       }
     })
     .catch(error => {

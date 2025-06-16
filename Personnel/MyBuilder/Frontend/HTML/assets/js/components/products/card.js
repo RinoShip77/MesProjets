@@ -20,7 +20,7 @@ function createCardBody(product) {
   imageTag.src = product.imageURL;
   imageTag.onerror = function () { this.src = "https://static-00.iconduck.com/assets.00/no-image-icon-512x512-lfoanl0w.png" };
   imageTag.classList.add("card-img-top", "img-fluid", "img-thumbnail");
-  imageTag.alt = `Image de ${product.name}`;
+  imageTag.alt = `Image of ${product.name}`;
 
   let titleTag = document.createElement("h4");
   titleTag.innerHTML = product.name;

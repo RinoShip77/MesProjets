@@ -51,12 +51,25 @@ function categoryIcon(category) {
 }
 
 function updateCartLength() {
-  let cart = (localStorage.getItem("cart") !== null) ? JSON.parse(localStorage.getItem("cart")) : [];
+  let cart = getCart();
+
   document.getElementById("cartQuantity").innerHTML = cart.length;
 }
 
-function calculateTotal(cart) {
-  return parseFloat((cart.reduce((accumulator, currentValue) => accumulator + (parseFloat(currentValue.price.slice(0, -2))), 0) * 100).toFixed(2));
+function calculateSubtotal(cart) {
+  return parseFloat(cart.reduce((accumulator, currentValue) => accumulator + (parseFloat(currentValue.price.slice(0, -2))), 0).toFixed(2));
+}
+
+function calculateTaxes(total, rate) {
+  return parseFloat((total * rate).toFixed(2));
+}
+
+function calculateTotal(subtotal, gst, qst, delivery) {
+  return parseFloat((subtotal + gst + qst + delivery).toFixed(2));
+}
+
+function getCart() {
+  return (localStorage.getItem("cart") !== null) ? JSON.parse(localStorage.getItem("cart")) : [];
 }
 
 function generateTooltip(element) {
