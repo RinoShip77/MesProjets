@@ -6,6 +6,5 @@ const router = express.Router();
 // Routes
 router.post("/checkout", orderController.checkout);
 router.get("/checkout/success", orderController.checkoutSuccess);
-router.get("/checkout/cancel", orderController.checkoutCancel);
 
 module.exports = router;
