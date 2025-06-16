@@ -178,21 +178,12 @@
 
   <script>
     const urlParam = new URLSearchParams(location.search);
-
-    // TODO: Update the server to return the order number
-    // TODO: Replace the hard coded unix timestamp by 'urlParam.get("date")'
-    let date = new Date(1750030262 * 1000);
-
+    const date = new Date(urlParam.get("date") * 1000);
+    
     document.getElementById("customerName").innerHTML = urlParam.get("name");
-
-    // TODO: Update the server to return the order number
-    // TODO: Replace the hard coded id by 'urlParam.get("order")'
-    let id = "cs_test_a1VHmASYHYb7dQo0msdEcrf1IwdnFCWVbaN2FW7LoxLfCRw9zEPkg4av8z";
-
-    document.getElementById("orderNumber").innerHTML = `${id.slice(0, 15)}...`;
-    document.getElementById("orderNumber").setAttribute("data-bs-title", id);
+    document.getElementById("orderNumber").innerHTML = `${urlParam.get("order").slice(0, 15)}...`;
+    document.getElementById("orderNumber").setAttribute("data-bs-title", urlParam.get("order"));
     new bootstrap.Tooltip(document.getElementById("orderNumber"), { container: document.body });
-
     document.getElementById("checkoutTotal").innerHTML = parseFloat(urlParam.get("total")) / 100;
     document.getElementById("orderDate").innerHTML = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}, ${date.toLocaleTimeString()}`;
   </script>
