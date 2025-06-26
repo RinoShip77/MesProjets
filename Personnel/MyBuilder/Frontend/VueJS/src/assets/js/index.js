@@ -5,7 +5,7 @@ import { connect } from "./components/user/user";
 export function main() {
   getData();
   getProducts();
-  updateCartLength();  
+  updateCartLength(); 
 
   if (sessionStorage.getItem("user") !== null)
     connect();

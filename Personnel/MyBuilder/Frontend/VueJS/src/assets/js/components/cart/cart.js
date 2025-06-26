@@ -1,10 +1,5 @@
-import { calculateSubtotal } from "../../helpers/functions";
-import { calculateTaxes } from "../../helpers/functions";
-import { calculateTotal } from "../../helpers/functions";
-import { getCart } from "../../helpers/functions";
+import { calculateSubtotal, calculateTaxes, calculateTotal, getCart, sendToast, updateCartLength } from "../../helpers/functions";
 import { createRow } from "./modal";
-import { sendToast } from "../../helpers/functions";
-import { updateCartLength } from "../../helpers/functions";
 import { postData } from "../../helpers/data";
 import CONSTANTS from "../../helpers/constants";
 

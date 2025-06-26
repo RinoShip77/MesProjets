@@ -1,11 +1,16 @@
 import { postData } from "../../helpers/data";
 import { generateTooltip } from "../../helpers/functions";
 
-export function login(username = "johndoe@gmail.com", password = "1234") {
+export function login(username, password) {
   let user = {
     email: username,
     password: password
   };
+
+  if (username.length === 0 && password.length === 0) {
+    user.email = "johndoe@gmail.com";
+    user.password = "1234";
+  }
 
   postData("users/login", user);
 }
@@ -26,4 +31,15 @@ export function disconnect() {
   document.getElementById("logoutLink").classList.toggle("d-none");
   sessionStorage.removeItem("user");
   location.reload();
+}
+
+export function signup(firstName, lastName, email, password) {
+  let user = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: password
+  }
+
+  postData("users/add", user);
 }

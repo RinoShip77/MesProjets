@@ -1,6 +1,5 @@
 import { getProducts } from "../../index";
-import { categoryIcon } from "../../helpers/functions";
-import { generateTooltip } from "../../helpers/functions";
+import { categoryIcon, generateTooltip } from "../../helpers/functions";
 
 export function createCategoryDropdown(category) {
   let link = document.createElement("a");

@@ -13,11 +13,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { main } from "@/assets/js/index";
-import { updateCartLength } from "@/assets/js/helpers/functions";
 
 onMounted(() => {
   main();
-})
+});
+// TODO: Create the admin dashboard
 </script>

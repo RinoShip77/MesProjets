@@ -72,16 +72,15 @@
               <span class="input-group-text">
                 <i class="bi bi-at"></i>
               </span>
-              <input id="_email" class="form-control" type="email" placeholder="Please enter your email address.">
+              <input id="login_email" class="form-control" type="email" placeholder="Please enter your email address.">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text">
                 <i class="bi bi-shield-lock"></i>
               </span>
-              <input id="_password" class="form-control" type="password" placeholder="Please enter your password.">
+              <input id="login_password" class="form-control" type="password" placeholder="Please enter your password.">
             </div>
-            <button type="submit" class="btn btn-dark fs-4 mt-3 ps-3 pe-3"
-              @click="user_login">
+            <button type="submit" class="btn btn-dark fs-4 mt-3 ps-3 pe-3" @click="user_login">
               Login
               <i class="bi bi-unlock2-fill ms-3"></i>
             </button>
@@ -93,16 +92,72 @@
         <div class="text-center">
           <p>
             No account yet?
-            <a href="#" class="text-decoration-none text-dark fw-bold fs-5 ms-2">
+            <button class="btn btn-link text-decoration-none text-dark fw-bold fs-5 ms-2" data-bs-target="#signUpModal"
+              data-bs-toggle="modal">
               Sign up
-            </a>
+            </button>
           </p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- //TODO: Create the signup modal -->
+  <!-- Sign up modal -->
+  <div class="modal fade" id="signUpModal" aria-hidden="true" aria-labelledby="signUpModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Sign up</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex flex-column justify-content-center align-items-center mx-5 px-5">
+            <div class="d-flex gap-5 mb-3">
+              <div class="input-group mx-3">
+                <span class="input-group-text">
+                  <i class="bi bi-person-vcard-fill"></i>
+                </span>
+                <div class="form-floating">
+                  <input id="_firstName" class="form-control" type="text" placeholder="Please enter your first name.">
+                  <label for="_firstName">First name</label>
+                </div>
+              </div>
+              <div class="input-group mx-3">
+                <span class="input-group-text">
+                  <i class="bi bi-person-vcard-fill"></i>
+                </span>
+                <div class="form-floating">
+                  <input id="_lastName" class="form-control" type="text" placeholder="Please enter your last name.">
+                  <label for="_lastName">Last name</label>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="bi bi-envelope-at-fill"></i>
+              </span>
+              <div class="form-floating">
+                <input id="signup_email" class="form-control" type="email" placeholder="Please enter your email address.">
+                <label for="signup_email">Email</label>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="bi bi-key-fill"></i>
+              </span>
+              <div class="form-floating">
+                <input id="signup_password" class="form-control" type="password" placeholder="Please enter your password.">
+                <label for="signup_password">Password</label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success fs-4 mt-3 ps-3 pe-3" @click="user_signup">
+              Create account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Cart modal -->
   <div class="modal fade" id="cartModal" aria-labelledby="exampleModalToggleLabel" tabindex="-1" aria-hidden="true">
@@ -202,10 +257,8 @@
 
 <script>
 import { switchTheme } from "../assets/js/helpers/functions";
-import { openCart } from "../assets/js/components/cart/cart";
-import { disconnect } from "../assets/js/components/user/user";
-import { login } from "../assets/js/components/user/user";
-import { emptyCart } from "../assets/js/components/cart/cart";
+import { openCart, emptyCart } from "../assets/js/components/cart/cart";
+import { disconnect, login, signup } from "../assets/js/components/user/user";
 
 export default {
   methods: {
@@ -222,11 +275,15 @@ export default {
     },
 
     user_login() {
-      login(document.getElementById('_email').value, document.getElementById('_password').value);
+      login(document.getElementById('login_email').value.trim(), document.getElementById('login_password').value.trim());
     },
 
     empty_cart() {
       emptyCart();
+    },
+
+    user_signup() {
+      signup(document.getElementById('_firstName').value, document.getElementById('_lastName').value, document.getElementById('signup_email').value, document.getElementById('signup_password').value);
     }
   }
 };
