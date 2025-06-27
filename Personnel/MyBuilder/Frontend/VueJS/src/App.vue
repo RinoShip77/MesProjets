@@ -1,14 +1,22 @@
 <script setup>
-import Header from './components/Header.vue'
+import Admin from './components/Admin/Admin.vue'
+import Header from './components/Core/Header.vue'
 import Main from './components/Main.vue'
-import Footer from './components/Footer.vue'
+import Footer from './components/Core/Footer.vue'
+import { isAdmin } from './assets/js/helpers/functions'
 </script>
 
 <template>
+  
   <!-- #region Home page -->
-  <Header />
-
-  <Main />
+  
+  <div v-if="isAdmin()">
+    <Admin />
+  </div>
+  <div v-else>
+    <Header />
+    <Main />
+  </div>
 
   <Footer />
   <!-- #endregion Home page -->

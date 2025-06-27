@@ -72,6 +72,16 @@ export function getCart() {
   return (localStorage.getItem("cart") !== null) ? JSON.parse(localStorage.getItem("cart")) : [];
 }
 
+export function getUser() {
+  return (sessionStorage.getItem("user") !== null) && JSON.parse(sessionStorage.getItem("user"));
+}
+
+export function isAdmin() {
+  if(sessionStorage.getItem("user") !== null) {
+   return (JSON.parse(sessionStorage.getItem("user")).role === "admin") ? true : false;
+  }
+}
+
 export function generateTooltip(element) {
   return new bootstrap.Tooltip(element, {
     container: document.body

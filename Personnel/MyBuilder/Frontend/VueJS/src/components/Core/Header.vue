@@ -256,9 +256,9 @@
 </template>
 
 <script>
-import { switchTheme } from "../assets/js/helpers/functions";
-import { openCart, emptyCart } from "../assets/js/components/cart/cart";
-import { disconnect, login, signup } from "../assets/js/components/user/user";
+import { switchTheme } from "../../assets/js/helpers/functions";
+import { openCart, emptyCart } from "../../assets/js/components/cart/cart";
+import { disconnect, login, signup } from "../../assets/js/components/user/user";
 
 export default {
   methods: {
