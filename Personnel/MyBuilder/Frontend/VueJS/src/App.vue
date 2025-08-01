@@ -3,19 +3,26 @@ import Admin from './components/Admin/Admin.vue'
 import Header from './components/Core/Header.vue'
 import Main from './components/Main.vue'
 import Footer from './components/Core/Footer.vue'
+import Success from './components/Success.vue'
 import { isAdmin } from './assets/js/helpers/functions'
+
+let confirmation = location.href.includes("pages")
 </script>
 
 <template>
-  
   <!-- #region Home page -->
-  
   <div v-if="isAdmin()">
     <Admin />
   </div>
   <div v-else>
     <Header />
-    <Main />
+
+    <div v-if="!confirmation">
+      <Main />
+    </div>
+    <div v-else>
+      <Success />
+    </div>
   </div>
 
   <Footer />

@@ -82,6 +82,10 @@ export function isAdmin() {
   }
 }
 
+export function getHomeURL() {
+  return location.origin;
+}
+
 export function generateTooltip(element) {
   return new bootstrap.Tooltip(element, {
     container: document.body

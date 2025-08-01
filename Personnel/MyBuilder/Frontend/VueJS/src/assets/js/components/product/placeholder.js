@@ -23,7 +23,7 @@ export function generatePlaceholder(number) {
     text.append(content_2, content_3, content_4, content_5, content_6);
 
     let image = document.createElement("IMG");
-    image.src = "https://static-00.iconduck.com/assets.00/no-image-icon-512x512-lfoanl0w.png";
+    image.src = "https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/c5/no-image-px759fvb06aw65eaaqpopg.png/no-image-ousebmandtg1ym1w6nntl.png?_a=DATAdtAAZAA0";
     image.classList.add("card-img-top", "w-75", "mx-auto", "pt-3");
     image.alt = "N/A";
 
@@ -44,6 +44,6 @@ export function generatePlaceholder(number) {
     container.classList.add("col");
     container.appendChild(card);
 
-    document.getElementById("productsContainer").appendChild(container);
+    (document.getElementById("productsContainer")) && document.getElementById("productsContainer").appendChild(container);
   }
 }

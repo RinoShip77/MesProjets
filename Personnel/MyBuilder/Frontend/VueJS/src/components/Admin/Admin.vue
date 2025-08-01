@@ -85,10 +85,10 @@ import { getUser } from "../../assets/js/helpers/functions";
         <div class="card p-3 shadow-lg">
           <Dashboard />
         </div>
-        <div class="card p-3 shadow-lg">
+        <div class="card p-3 shadow-lg overflow-auto" style="max-height: 30vh;">
           <Customers />
         </div>
-        <div class="card p-3 shadow-lg overflow-y-scroll" style="height: 30vh;">
+        <div class="card p-3 shadow-lg overflow-auto" style="max-height: 30vh;">
           <Products />
         </div>
       </div>
@@ -119,13 +119,12 @@ export default {
     },
 
     switch_theme() {
-      switchTheme();
+      switchTheme()
     },
 
     user_disconnect() {
-      disconnect();
+      disconnect()
     }
   }
-
-};
+}
 </script>

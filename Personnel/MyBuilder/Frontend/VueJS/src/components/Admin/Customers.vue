@@ -30,3 +30,13 @@
   </tbody>
 </table>
 </template>
+
+<script>
+import { initAdmin } from "@/assets/js";
+
+export default {
+  mounted() {
+    initAdmin();
+  }
+}
+</script>

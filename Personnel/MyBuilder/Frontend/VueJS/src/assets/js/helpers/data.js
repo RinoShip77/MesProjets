@@ -4,9 +4,11 @@ import { createCategoryDropdown } from "../components/category/dropdown";
 import { createCategoryFilters } from "../components/category/filter";
 import { connect } from "../components/user/user";
 import CONSTANTS from "./constants";
+import { isAdmin } from "./functions";
+import { createRow as createAdminProduct } from "../components/product/admin";
 
 export function getData(path = "categories") {
-  fetch(CONSTANTS.BASE_URL + path)
+  fetch(CONSTANTS.SERVER_URL + path)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -20,15 +22,21 @@ export function getData(path = "categories") {
           if (path.includes("/")) {
             switch (path.substring(0, path.indexOf("/"))) {
               case "products":
-                (element) ? createProduct(element) : generatePlaceholder(25);
+                if (!isAdmin()) {
+                  (element) ? createProduct(element) : generatePlaceholder(25);
+                } else {
+                  createAdminProduct(element);
+                }
                 break;
               case "users":
                 // createUser(element);
                 break;
             }
           } else {
-            createCategoryDropdown(element);
-            createCategoryFilters(element);
+            if (!isAdmin()) {
+              createCategoryDropdown(element);
+              createCategoryFilters(element);
+            }
           }
         });
       } else {
@@ -42,7 +50,7 @@ export function getData(path = "categories") {
 }
 
 export function postData(path, data) {
-  fetch(CONSTANTS.BASE_URL + path, {
+  fetch(CONSTANTS.SERVER_URL + path, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-success-subtle">
     <div class="container-fluid">
-      <a class="navbar-brand fs-1" href="">
+      <a class="navbar-brand fs-1" href="../../index.html">
         <i class="bi bi-tools"></i>
         MyBuilder
       </a>
@@ -19,7 +19,7 @@
         <div class="offcanvas-body align-items-center text-center fs-5">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 gap-2">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="">Home</a>
+              <a class="nav-link" aria-current="page" href="../../index.html">Home</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -241,7 +241,7 @@
                 <hr>
               </div>
               <div class="text-center my-5">
-                <a id="checkoutLink" class="btn btn-success align-items-center fs-5" @click="checkout()">
+                <a id="checkoutLink" class="btn btn-success align-items-center fs-5" @click="order_checkout">
                   Go to checkout
                   <i class="bi bi-cash-coin m-2"></i>
                 </a>
@@ -257,7 +257,7 @@
 
 <script>
 import { switchTheme } from "../../assets/js/helpers/functions";
-import { openCart, emptyCart } from "../../assets/js/components/cart/cart";
+import { openCart, emptyCart, checkout } from "../../assets/js/components/cart/cart";
 import { disconnect, login, signup } from "../../assets/js/components/user/user";
 
 export default {
@@ -278,12 +278,16 @@ export default {
       login(document.getElementById('login_email').value.trim(), document.getElementById('login_password').value.trim());
     },
 
+    user_signup() {
+      signup(document.getElementById('_firstName').value, document.getElementById('_lastName').value, document.getElementById('signup_email').value, document.getElementById('signup_password').value);
+    },
+
     empty_cart() {
       emptyCart();
     },
 
-    user_signup() {
-      signup(document.getElementById('_firstName').value, document.getElementById('_lastName').value, document.getElementById('signup_email').value, document.getElementById('signup_password').value);
+    order_checkout() {
+      checkout();
     }
   }
 };

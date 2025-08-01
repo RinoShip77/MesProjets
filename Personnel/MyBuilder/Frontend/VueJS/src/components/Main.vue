@@ -1,3 +1,12 @@
+<script setup>
+import { onMounted } from 'vue';
+import { main } from "@/assets/js/index";
+
+onMounted(() => {
+  main();
+});
+</script>
+
 <template>
   <div class="row d-flex justify-content-center p-5">
     <div class="col-auto">
@@ -11,13 +20,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { onMounted } from 'vue';
-import { main } from "@/assets/js/index";
-
-onMounted(() => {
-  main();
-});
-// TODO: Create the admin dashboard
-</script>

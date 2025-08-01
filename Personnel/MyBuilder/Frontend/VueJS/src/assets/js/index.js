@@ -17,8 +17,20 @@ export function main() {
     }
   }
 }
+export function initAdmin() {
+  getAdminCustomers();
+  getAdminProducts();
+}
 
 export function getProducts(table = "cases") {
   document.getElementById("productsContainer").innerHTML = "";
+  getData(`products/${table}`);
+}
+
+export function getAdminCustomers() {
+  getData("users");
+}
+
+export function getAdminProducts(table = "cases") {
   getData(`products/${table}`);
 }

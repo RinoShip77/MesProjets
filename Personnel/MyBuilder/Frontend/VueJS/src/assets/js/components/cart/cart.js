@@ -71,7 +71,7 @@ export function checkout() {
   if (localStorage.getItem("cart") !== null) {
     postData("orders/checkout",
       {
-        price: calculateTotal(calculateSubtotal(cart), calculateTaxes(calculateSubtotal(cart), GST), calculateTaxes(calculateSubtotal(cart), QST), calculateTaxes(calculateSubtotal(cart), SHIPPING_RATE)) * 100,
+        price: calculateTotal(calculateSubtotal(cart), calculateTaxes(calculateSubtotal(cart), CONSTANTS.GST), calculateTaxes(calculateSubtotal(cart), CONSTANTS.QST), calculateTaxes(calculateSubtotal(cart), CONSTANTS.SHIPPING_RATE)) * 100,
         user: email,
         statusURL: `${location.origin}/pages`
       }
