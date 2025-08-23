@@ -1,0 +1,12 @@
+{
+  "name": "cineverse",
+  "version": "1.0.0",
+  "description": "CineVerse – modern movie search app with theme switching and glass UI",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

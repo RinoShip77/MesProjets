@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CineVerse</title>
+  <meta name="color-scheme" content="light dark" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="bg-gradient" aria-hidden="true"></div>
+
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">🎬</div>
+      <h1 class="title">CineVerse</h1>
+    </div>
+    <div class="controls">
+      <div class="theme-toggle" role="group" aria-label="Theme">
+        <button data-theme="system" title="System">💻</button>
+        <button data-theme="light" title="Light">🌞</button>
+        <button data-theme="dark" title="Dark">🌙</button>
+        <button data-theme="neon" title="Neon">👾</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="hero">
+      <h2>Find your next favorite movie</h2>
+      <form id="search-form" class="search" role="search">
+        <input id="search-input" class="search-input" type="search" placeholder="Search Spiderman…" required />
+        <button class="search-btn" type="submit">🔍</button>
+      </form>
+    </section>
+    <section id="results" class="grid" aria-live="polite" aria-busy="false"></section>
+  </main>
+
+  <footer class="app-footer">
+    <p>© <span id="year"></span> CineVerse • Data courtesy of the provided IMDB search endpoint.</p>
+    <nav>
+      <a href="#">About</a> •
+      <a href="#">API Source</a> •
+      <a href="#">GitHub</a>
+    </nav>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+  <script src="./app.js" type="module"></script>
+</body>
+</html>
