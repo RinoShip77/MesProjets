@@ -1,0 +1,2 @@
+TODO:
+- Add simple admin page to upload/add new videos.
