@@ -1,2 +1,5 @@
 TODO:
 - Add simple admin page to upload/add new videos.
+- Add a watch history tables.
+- Account
+- Authentification

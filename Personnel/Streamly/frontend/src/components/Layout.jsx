@@ -11,8 +11,20 @@ export default function Layout() {
           </button>
           <div id="nav" className="collapse navbar-collapse">
             <ul className="navbar-nav ms-auto">
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Browse</a>
+                <ul className="dropdown-menu">
+                  <li>
+                    <NavLink className="dropdown-item" to="/browse">All Movies</NavLink>
+                  </li>
+                  <li><hr className="dropdown-divider" /></li>
+                  <li>
+                    <NavLink className="dropdown-item" to="/browse/genres">By Genres</NavLink>
+                  </li>
+                </ul>
+              </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/browse">Browse</NavLink>
+                <NavLink className="nav-link" to="/admin">Admin</NavLink>
               </li>
             </ul>
           </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '../services/api.jsx'
-import HeroCarousel from '../components/HeroCarousel.jsx'
+import HeroCarousel from './HeroCarousel.jsx'
 
 export default function Browse() {
   const limit = 12
@@ -9,6 +9,8 @@ export default function Browse() {
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
+  const totalPages = Math.ceil(total / limit)
+  const user = JSON.parse(localStorage.getItem('streamlyUser'))
 
   // URL query params
   const [searchParams, setSearchParams] = useSearchParams()
@@ -34,18 +36,21 @@ export default function Browse() {
     params.set('limit', limit)
     setSearchParams(params)
 
-    // Fetch from backend
+    // Fetch videosfrom backend
     api.get(`/videos?${params.toString()}`)
       .then(res => {
         // Set the genres list
-        const uniqueGenres = [...new Set(res.videos.map(v => v.genre).filter(Boolean))]
+        const uniqueGenres = res.genres.substring(res.genres.indexOf('(') + 1, res.genres.lastIndexOf(')')).replace(/'/g, "").split(',').map(item => item.trim());
         setGenres(uniqueGenres)
+
         // Set videos and total count
         setVideos(res.videos)
         setTotal(res.total)
       })
       .finally(() => setLoading(false))
+
   }, [search, selectedGenres, sortMode, setSearchParams, page])
+
 
   // Filtered list
   const filtered = videos.filter(v => {
@@ -75,17 +80,15 @@ export default function Browse() {
     )
   }
 
-  const totalPages = Math.ceil(total / limit)
-
   if (loading) return <div>Loading…</div>
 
   return (
     <div className="d-flex flex-column h-100">
+      <h1 className="mb-5 text-center">Connected as {user.name}</h1>
       <HeroCarousel videos={videos} count={5} />
 
       {/* Catalog */}
       <div className="container-fluid flex-grow-1">
-        <h2 className="mb-4">Browse</h2>
         {/* Search bar */}
         <div className="container-fluid py-3">
           <input
@@ -214,25 +217,25 @@ export default function Browse() {
         </div>
 
         {/* Pagination */}
-        <nav aria-label="Page navigation">
+        <nav className="d-flex justify-content-center mt-3" aria-label="Page navigation">
           <ul className="pagination">
-              <li key={page - 1} class="page-item">
-                <button className="page-link" onClick={() => setPage(page - 1)} aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </button>
-              </li>
-          {[...Array(totalPages)].map((_, i) => (
+            <li key={page - 1} className="page-item">
+              <a className="page-link" type="button" onClick={() => setPage(page - 1)} aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {[...Array(totalPages)].map((_, i) => (
               <li key={i} className={`page-item ${page === i + 1 ? 'active' : ''}`}>
-                <button className="page-link" onClick={() => setPage(i + 1)}>
+                <a className="page-link" type="button" onClick={() => setPage(i + 1)}>
                   {i + 1}
-                </button>
+                </a>
               </li>
-              ))}
-              <li key={page + 1} className="page-item">
-                <button className="page-link" onClick={() => setPage(page + 1)} aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </button>
-              </li>
+            ))}
+            <li key={page + 1} className="page-item">
+              <a className="page-link" type="button" onClick={() => setPage(page + 1)} aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
