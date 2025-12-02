@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+import 'package:macro_vision/screens/settings_screen.dart'; 
+
+// Convertir en StatefulWidget
+class HomeScreen extends StatefulWidget {
+  final Widget cameraScreen;
+
+  const HomeScreen({super.key, required this.cameraScreen});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  
+  // Fonction pour naviguer vers les réglages et attendre le retour
+  void _navigateToSettings(BuildContext context) async {
+    // Naviguer et attendre que l'écran SettingsScreen soit "popped" (fermé)
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const SettingsScreen()),
+    );
+    
+    // Une fois revenu, force la reconstruction de l'HomeScreen. 
+    // Ceci est crucial pour rafraîchir le contexte de l'application.
+    setState(() {});
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('MacroVision'),
+        elevation: 0,
+        actions: [
+          // Bouton 1 : Réglages
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => _navigateToSettings(context), // Appel de la fonction asynchrone
+            tooltip: 'Réglages de l\'application',
+          ),
+          // Bouton 2 : Connexion (Placeholder)
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Fonctionnalité de connexion non implémentée.')),
+              );
+            },
+            tooltip: 'Connexion / Profil',
+          ),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Logo ou titre stylisé
+            Icon(Icons.fitness_center, size: 100, color: Theme.of(context).colorScheme.primary),
+            const SizedBox(height: 20),
+            Text(
+              'Bienvenue sur MacroVision',
+              selectionColor: Theme.of(context).colorScheme.primary,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 50),
+            
+            // Bouton principal pour la caméra
+            ElevatedButton.icon(
+              icon: const Icon(Icons.camera_alt),
+              label: const Text('Commencer l\'analyse', style: TextStyle(fontSize: 18)),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                // Utilisation de la couleur primaire dynamique
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              onPressed: () {
+                // Navigue vers l'écran de la caméra (qui utilisera le contexte rafraîchi)
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => widget.cameraScreen),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
