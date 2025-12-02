@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:macro_vision/screens/history_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:macro_vision/models/user_profile.dart';
@@ -153,6 +154,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 setState(() {
                   _profile.goal = newValue!;
                 });
+              },
+            ),
+
+            const SizedBox(height: 15),
+            
+            // NOUVEL ÉLÉMENT : Accès à l'Historique
+            ListTile(
+              leading: Icon(Icons.history, color: Theme.of(context).primaryColor),
+              title: const Text('Voir l\'Historique des Analyses'),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const HistoryScreen()),
+                );
               },
             ),
 

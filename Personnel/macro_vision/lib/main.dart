@@ -20,6 +20,9 @@ import 'package:macro_vision/screens/result_screen.dart';
 // Feedback Utilisateur
 import 'package:audioplayers/audioplayers.dart';
 
+// Base de Données Locale
+import 'package:macro_vision/services/database_service.dart';
+import 'package:macro_vision/models/nutritional_facts_entry.dart';
 
 // Variable globale pour stocker la liste des caméras disponibles
 List<CameraDescription>? cameras;
@@ -59,30 +62,32 @@ class MacroVisionApp extends StatelessWidget {
       create: (context) => ThemeProvider(),
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
-          
           // 2. Déterminer l'écran initial (Caméra ou Erreur)
           Widget cameraOrErrorScreen;
           if (cameras != null && cameras!.isNotEmpty) {
-            cameraOrErrorScreen = CameraScreen(camera: cameras!.first); 
+            cameraOrErrorScreen = CameraScreen(camera: cameras!.first);
           } else {
             cameraOrErrorScreen = const ErrorScreen(
-              message: "Aucune caméra n'a été trouvée ou les permissions sont manquantes.",
+              message:
+                  "Aucune caméra n'a été trouvée ou les permissions sont manquantes.",
             );
           }
 
           // 3. Déterminer la couleur primaire (personnalisée si mode custom)
-          final MaterialColor primaryColor = themeProvider.themeModeOption == ThemeModeOption.custom 
-            ? themeProvider.customTheme.color
-            : Colors.green;
+          final MaterialColor primaryColor =
+              themeProvider.themeModeOption == ThemeModeOption.custom
+              ? themeProvider.customTheme.color
+              : Colors.green;
 
           return MaterialApp(
             title: 'MacroVision AI',
             debugShowCheckedModeBanner: false,
-            
+
             // GESTION DES THÈMES
-            themeMode: themeProvider.themeMode, 
-            
-            theme: ThemeData( // Thème Clair (pour Light mode)
+            themeMode: themeProvider.themeMode,
+
+            theme: ThemeData(
+              // Thème Clair (pour Light mode)
               primarySwatch: primaryColor,
               brightness: Brightness.light,
               appBarTheme: AppBarTheme(
@@ -94,8 +99,9 @@ class MacroVisionApp extends StatelessWidget {
                 brightness: Brightness.light,
               ),
             ),
-            
-            darkTheme: ThemeData( // Thème Sombre (pour Dark mode)
+
+            darkTheme: ThemeData(
+              // Thème Sombre (pour Dark mode)
               primarySwatch: primaryColor,
               brightness: Brightness.dark,
               appBarTheme: AppBarTheme(
@@ -131,7 +137,11 @@ class ErrorScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Erreur')),
       body: Center(
-        child: Text(message, textAlign: TextAlign.center, style: const TextStyle(color: Colors.red)),
+        child: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.red),
+        ),
       ),
     );
   }
@@ -154,7 +164,7 @@ class _CameraScreenState extends State<CameraScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
   final GeminiService _geminiService = GeminiService();
-  
+
   bool _isInitialized = false;
   bool _isAnalyzing = false;
   bool _showSuccessAnimation = false;
@@ -174,15 +184,18 @@ class _CameraScreenState extends State<CameraScreen> {
       ResolutionPreset.medium,
       enableAudio: false,
     );
-    _initializeControllerFuture = _controller.initialize().then((_) {
-      if (mounted) {
-        setState(() {
-          _isInitialized = true;
+    _initializeControllerFuture = _controller
+        .initialize()
+        .then((_) {
+          if (mounted) {
+            setState(() {
+              _isInitialized = true;
+            });
+          }
+        })
+        .catchError((e) {
+          debugPrint("Erreur d'initialisation de la caméra: $e");
         });
-      }
-    }).catchError((e) {
-      debugPrint("Erreur d'initialisation de la caméra: $e");
-    });
   }
 
   @override
@@ -194,7 +207,8 @@ class _CameraScreenState extends State<CameraScreen> {
 
   // Gère la photo prise via la caméra
   Future<void> _takePhoto() async {
-    if (!_isInitialized || _controller.value.isTakingPicture || _isAnalyzing) return;
+    if (!_isInitialized || _controller.value.isTakingPicture || _isAnalyzing)
+      return;
 
     try {
       final XFile file = await _controller.takePicture();
@@ -212,7 +226,7 @@ class _CameraScreenState extends State<CameraScreen> {
   // Gère la sélection d'une image depuis la galerie
   Future<void> _selectFromGallery() async {
     if (_isAnalyzing) return;
-    
+
     final XFile? file = await _picker.pickImage(source: ImageSource.gallery);
     if (file != null) {
       await _processImage(file.path);
@@ -226,7 +240,7 @@ class _CameraScreenState extends State<CameraScreen> {
     });
 
     await Future.delayed(const Duration(milliseconds: 500));
-    
+
     setState(() {
       _showSuccessAnimation = false;
     });
@@ -242,40 +256,49 @@ class _CameraScreenState extends State<CameraScreen> {
 
     try {
       // 1. Appeler le service Gemini
-      final NutritionalFacts results = await _geminiService.analyzeImage(File(imagePath));
-      
+      final NutritionalFacts results = await _geminiService.analyzeImage(
+        File(imagePath),
+      );
+
       // FEEDBACK DE SUCCÈS
-      await _audioPlayer.play(AssetSource('audio/success.mp3')); 
+      await _audioPlayer.play(AssetSource('audio/success.mp3'));
       await HapticFeedback.mediumImpact();
-      
+
       // Montrer l'animation avant la navigation
-      await _showSuccessAndNavigate(); 
+      await _showSuccessAndNavigate();
 
       // 2. Afficher les résultats
-      if (mounted) {
-        // Enregistrer le fichier dans un emplacement temporaire pour l'écran de résultats
-        final Directory appDocumentsDir = await getTemporaryDirectory();
-        final String savedPath = '${appDocumentsDir.path}/temp_macro_vision_${DateTime.now().millisecondsSinceEpoch}.jpg';
-        
-        // Copier le fichier original
-        await File(imagePath).copy(savedPath); 
+      // Enregistrer le fichier dans un emplacement temporaire pour l'écran de résultats
+      final Directory appDocumentsDir = await getTemporaryDirectory();
+      final String savedPath = '${appDocumentsDir.path}/temp_macro_vision_${DateTime.now().millisecondsSinceEpoch}.jpg';
 
+      // Copier le fichier original
+      await File(imagePath).copy(savedPath);
+
+      // 1. Créer l'entrée d'historique
+      final entry = NutritionalFactsEntry.fromAnalysis(results, savedPath);
+
+      // 2. Enregistrer l'entrée dans la BDD
+      await DatabaseService().insertEntry(entry);
+
+      // 3. Afficher les résultats (maintenant, on utilise l'Entry)
+      if (mounted) {
         await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => ResultScreen(
               facts: results,
-              imagePath: savedPath,
+              imagePath: savedPath, // Toujours passer le chemin pour l'affichage immédiat
             ),
           ),
         );
       }
-
+      // }
     } catch (e) {
       if (mounted) {
         // FEEDBACK D'ERREUR
-        _audioPlayer.play(AssetSource('audio/error.mp3')); 
+        _audioPlayer.play(AssetSource('audio/error.mp3'));
         await HapticFeedback.mediumImpact();
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Erreur d\'analyse : ${e.toString()}')),
         );
@@ -295,33 +318,35 @@ class _CameraScreenState extends State<CameraScreen> {
       appBar: AppBar(
         title: const Text('Analyse Alimentaire'),
         // Utilisez la couleur primaire, mais assurez-vous qu'elle soit transparente pour la vue caméra
-        backgroundColor: Theme.of(context).colorScheme.primary, 
+        backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
       ),
       extendBodyBehindAppBar: true, // Pour que l'image s'étende sous l'AppBar
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done && _isInitialized) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              _isInitialized) {
             final size = MediaQuery.of(context).size;
-            final scale = (size.aspectRatio * _controller.value.aspectRatio) * 1.5;
+            final scale =
+                (size.aspectRatio * _controller.value.aspectRatio) * 1.5;
 
             return Stack(
               alignment: Alignment.center,
               children: [
                 // 1. Vue de la Caméra (avec le nouveau Transform.scale)
-                SizedBox.expand( // <--- S'ASSURER QUE LA TAILLE EST MAXIMALE
+                SizedBox.expand(
+                  // <--- S'ASSURER QUE LA TAILLE EST MAXIMALE
                   child: Transform.scale(
                     scale: scale, // Utilise le nouveau calcul 'scale'
-                    alignment: Alignment.topCenter, // Centre l'image verticalement dans la zone visible
-                    child: Center(
-                      child: CameraPreview(_controller),
-                    ),
+                    alignment: Alignment
+                        .topCenter, // Centre l'image verticalement dans la zone visible
+                    child: Center(child: CameraPreview(_controller)),
                   ),
                 ),
-                
+
                 // 2. Surcouche d'Animation de Succès
-                if (_showSuccessAnimation) 
+                if (_showSuccessAnimation)
                   TweenAnimationBuilder<double>(
                     tween: Tween<double>(begin: 0.0, end: 1.0),
                     duration: const Duration(milliseconds: 300),
@@ -330,10 +355,15 @@ class _CameraScreenState extends State<CameraScreen> {
                         scale: scale,
                         child: Icon(
                           Icons.check_circle,
-                          color: Theme.of(context).primaryColor, // Utilise la couleur du thème
+                          color: Theme.of(
+                            context,
+                          ).primaryColor, // Utilise la couleur du thème
                           size: 150,
                           shadows: [
-                              BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 10)
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.5),
+                              blurRadius: 10,
+                            ),
                           ],
                         ),
                       );
@@ -342,19 +372,25 @@ class _CameraScreenState extends State<CameraScreen> {
               ],
             );
           } else if (snapshot.hasError) {
-            return const Center(child: Text("Erreur de chargement de la caméra."));
+            return const Center(
+              child: Text("Erreur de chargement de la caméra."),
+            );
           } else {
             // Afficher un indicateur de chargement
-            return Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor));
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ),
+            );
           }
         },
       ),
-      
+
       // Boutons de Galerie et de Capture (Horizontal)
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             // 1. Bouton de SÉLECTION/GALERIE
@@ -368,7 +404,9 @@ class _CameraScreenState extends State<CameraScreen> {
             // 2. Bouton de CAPTURE PRINCIPAL
             FloatingActionButton(
               heroTag: 'captureBtn',
-              onPressed: _isAnalyzing ? null : _takePhoto, // Déclenche _takePhoto
+              onPressed: _isAnalyzing
+                  ? null
+                  : _takePhoto, // Déclenche _takePhoto
               backgroundColor: Theme.of(context).colorScheme.primary,
               shape: const CircleBorder(),
               child: _isAnalyzing

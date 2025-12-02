@@ -63,6 +63,12 @@ dependencies:
   # Pour stocker les préférences utilisateur localement
   shared_preferences: ^2.2.2
 
+  # Pour la base de données locale
+  sqflite: ^2.3.0
+
+  # Pour la gestion de la localisation et des formats de date/heure
+  intl: ^0.18.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
