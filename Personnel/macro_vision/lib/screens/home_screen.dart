@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:macro_vision/screens/settings_screen.dart'; 
+import 'package:macro_vision/screens/settings_screen.dart';
+import 'package:macro_vision/screens/user_profile_screen.dart';
 
 // Convertir en StatefulWidget
 class HomeScreen extends StatefulWidget {
@@ -36,17 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () => _navigateToSettings(context), // Appel de la fonction asynchrone
-            tooltip: 'Réglages de l\'application',
+            tooltip: 'Réglages',
           ),
           // Bouton 2 : Connexion (Placeholder)
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Fonctionnalité de connexion non implémentée.')),
+              // Navigation vers le nouvel écran de profil
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const UserProfileScreen()),
               );
             },
-            tooltip: 'Connexion / Profil',
+            tooltip: 'Profil',
           ),
         ],
       ),
