@@ -3,8 +3,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:macro_vision/screens/history_screen.dart';
+import 'package:macro_vision/services/nutrition_calculator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:macro_vision/models/user_profile.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -47,8 +47,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     }
 
     _nameController = TextEditingController(text: _profile.name);
-    _weightController = TextEditingController(text: _profile.weight.toStringAsFixed(1));
-    _heightController = TextEditingController(text: _profile.height.toStringAsFixed(0));
+    _weightController = TextEditingController(
+      text: _profile.weight.toStringAsFixed(1),
+    );
+    _heightController = TextEditingController(
+      text: _profile.height.toStringAsFixed(0),
+    );
     _ageController = TextEditingController(text: _profile.age.toString());
 
     setState(() {
@@ -65,7 +69,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('userProfile', jsonEncode(_profile.toJson()));
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profil mis à jour avec succès!')),
@@ -83,7 +87,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _ageController.dispose();
     super.dispose();
   }
-  
+
   // --- UI ---
 
   @override
@@ -94,11 +98,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         body: const Center(child: CircularProgressIndicator()),
       );
     }
-    
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mon Profil'),
-      ),
+      appBar: AppBar(title: const Text('Mon Profil')),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -110,13 +112,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               label: 'Nom d\'utilisateur',
               keyboardType: TextInputType.name,
             ),
-            
+
             // Poids (kg)
             _buildTextField(
               controller: _weightController,
               label: 'Poids (kg)',
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              validator: (val) => val == null || double.tryParse(val) == null ? 'Entrez un poids valide.' : null,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              validator: (val) => val == null || double.tryParse(val) == null
+                  ? 'Entrez un poids valide.'
+                  : null,
             ),
 
             // Grandeur (cm)
@@ -124,15 +130,64 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               controller: _heightController,
               label: 'Grandeur (cm)',
               keyboardType: TextInputType.number,
-              validator: (val) => val == null || int.tryParse(val) == null ? 'Entrez une grandeur valide.' : null,
+              validator: (val) => val == null || int.tryParse(val) == null
+                  ? 'Entrez une grandeur valide.'
+                  : null,
             ),
-            
+
             // Âge
             _buildTextField(
               controller: _ageController,
               label: 'Âge',
               keyboardType: TextInputType.number,
-              validator: (val) => val == null || int.tryParse(val) == null ? 'Entrez un âge valide.' : null,
+              validator: (val) => val == null || int.tryParse(val) == null
+                  ? 'Entrez un âge valide.'
+                  : null,
+            ),
+
+            const SizedBox(height: 15),
+
+            // Genre (Dropdown)
+            DropdownButtonFormField<Gender>(
+              decoration: const InputDecoration(
+                labelText: 'Sexe',
+                border: OutlineInputBorder(),
+              ),
+              initialValue: _profile.gender,
+              items: Gender.values.map((Gender gender) {
+                return DropdownMenuItem<Gender>(
+                  value: gender,
+                  child: Text(gender == Gender.male ? 'Homme' : 'Femme'),
+                );
+              }).toList(),
+              onChanged: (Gender? newValue) {
+                setState(() {
+                  _profile.gender = newValue!;
+                });
+              },
+            ),
+
+            const SizedBox(height: 15),
+
+            // Niveau d'Activité (Dropdown)
+            DropdownButtonFormField<ActivityLevel>(
+              decoration: const InputDecoration(
+                labelText: 'Niveau d\'Activité Physique',
+                border: OutlineInputBorder(),
+              ),
+              initialValue: _profile.activityLevel,
+              items: ActivityLevel.values.map((ActivityLevel level) {
+                return DropdownMenuItem<ActivityLevel>(
+                  value: level,
+                  // Utilise le service pour afficher les noms clairs (doit être importé)
+                  child: Text(NutritionCalculator.getActivityName(level)),
+                );
+              }).toList(),
+              onChanged: (ActivityLevel? newValue) {
+                setState(() {
+                  _profile.activityLevel = newValue!;
+                });
+              },
             ),
 
             const SizedBox(height: 20),
@@ -143,12 +198,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 labelText: 'Objectif Principal',
                 border: OutlineInputBorder(),
               ),
-              value: _profile.goal,
+              initialValue: _profile.goal,
               items: _goals.map((String goal) {
-                return DropdownMenuItem<String>(
-                  value: goal,
-                  child: Text(goal),
-                );
+                return DropdownMenuItem<String>(value: goal, child: Text(goal));
               }).toList(),
               onChanged: (String? newValue) {
                 setState(() {
@@ -158,15 +210,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
 
             const SizedBox(height: 15),
-            
+
             // NOUVEL ÉLÉMENT : Accès à l'Historique
             ListTile(
-              leading: Icon(Icons.history, color: Theme.of(context).primaryColor),
+              leading: Icon(
+                Icons.history,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               title: const Text('Voir l\'Historique des Analyses'),
               trailing: const Icon(Icons.arrow_forward_ios, size: 16),
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const HistoryScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const HistoryScreen(),
+                  ),
                 );
               },
             ),
@@ -181,14 +238,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 backgroundColor: Theme.of(context).primaryColor,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Sauvegarder le Profil', style: TextStyle(fontSize: 18)),
+              child: const Text(
+                'Sauvegarder le Profil',
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           ],
         ),
       ),
     );
   }
-  
+
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
@@ -204,12 +264,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           labelText: label,
           border: const OutlineInputBorder(),
         ),
-        validator: validator ?? (value) {
-          if (value == null || value.isEmpty) {
-            return 'Ce champ est requis.';
-          }
-          return null;
-        },
+        validator:
+            validator ??
+            (value) {
+              if (value == null || value.isEmpty) {
+                return 'Ce champ est requis.';
+              }
+              return null;
+            },
       ),
     );
   }

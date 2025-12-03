@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:macro_vision/screens/dashboard_screen.dart';
 import 'package:macro_vision/screens/settings_screen.dart';
 import 'package:macro_vision/screens/user_profile_screen.dart';
 
@@ -67,6 +68,28 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 50),
+
+            // NOUVEAU: Bouton vers le Tableau de Bord
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: OutlinedButton.icon(
+                icon: const Icon(Icons.show_chart),
+                label: const Text('Voir le Tableau de Bord'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
+                  foregroundColor: Theme.of(context).colorScheme.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const DashboardScreen()),
+                  );
+                },
+              ),
+            ),
             
             // Bouton principal pour la caméra
             ElevatedButton.icon(

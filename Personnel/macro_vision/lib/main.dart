@@ -207,8 +207,9 @@ class _CameraScreenState extends State<CameraScreen> {
 
   // Gère la photo prise via la caméra
   Future<void> _takePhoto() async {
-    if (!_isInitialized || _controller.value.isTakingPicture || _isAnalyzing)
+    if (!_isInitialized || _controller.value.isTakingPicture || _isAnalyzing) {
       return;
+    }
 
     try {
       final XFile file = await _controller.takePicture();
