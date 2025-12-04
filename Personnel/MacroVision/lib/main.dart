@@ -263,7 +263,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
       // FEEDBACK DE SUCCÈS
       await _audioPlayer.play(AssetSource('audio/success.mp3'));
-      await HapticFeedback.mediumImpact();
+      await HapticFeedback.mediumImpact(); // TODO: Ajuster le feedback haptique
 
       // Montrer l'animation avant la navigation
       await _showSuccessAndNavigate();

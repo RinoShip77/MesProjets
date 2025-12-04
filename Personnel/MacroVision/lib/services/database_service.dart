@@ -138,11 +138,13 @@ class DatabaseService {
     
     List<DailySummary> weeklySummary = [];
     final now = DateTime.now();
-    for (int i = 6; i >= 0; i--) {
+    
+    // Construit la liste [Jour-6, Jour-5, ..., Aujourd'hui]
+    for (int i = 6; i >= 0; i--) { 
       final date = now.subtract(Duration(days: i));
       final dateString = DateFormat('yyyy-MM-dd').format(date);
       final dayName = DateFormat('E', 'fr').format(date);
-      
+
       weeklySummary.add(
         DailySummary(
           dayName: dayName,
@@ -150,7 +152,8 @@ class DatabaseService {
         ),
       );
     }
-
-    return weeklySummary.reversed.toList();
+    
+    // Le retour de la liste de 7 éléments.
+    return weeklySummary;
   }
 }
