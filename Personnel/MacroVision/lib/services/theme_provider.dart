@@ -88,10 +88,10 @@ class ThemeProvider with ChangeNotifier {
         return ThemeMode.dark;
       case ThemeModeOption.custom:
         // Si CUSTOM, utilise le dernier mode de luminosité défini.
-        // Si _baseThemeMode n'a jamais été défini (reste System), utilise Light par défaut.
+        // Si _baseThemeMode n'a jamais été défini (reste System), utilise System par défaut.
         return _baseThemeMode != ThemeMode.system
             ? _baseThemeMode
-            : ThemeMode.light;
+            : ThemeMode.system;
       case ThemeModeOption.system:
       default:
         return ThemeMode.system;

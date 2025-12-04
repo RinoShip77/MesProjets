@@ -356,9 +356,7 @@ class _CameraScreenState extends State<CameraScreen> {
                         scale: scale,
                         child: Icon(
                           Icons.check_circle,
-                          color: Theme.of(
-                            context,
-                          ).primaryColor, // Utilise la couleur du thème
+                          color: Theme.of(context).colorScheme.primary, // Utilise la couleur du thème
                           size: 150,
                           shadows: [
                             BoxShadow(
@@ -380,7 +378,7 @@ class _CameraScreenState extends State<CameraScreen> {
             // Afficher un indicateur de chargement
             return Center(
               child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.primary,
               ),
             );
           }

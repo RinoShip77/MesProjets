@@ -99,8 +99,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       },
       borderRadius: BorderRadius.circular(8.0),
       selectedColor: Colors.white,
-      fillColor: Theme.of(context).primaryColor,
-      color: Theme.of(context).primaryColor,
+      fillColor: Theme.of(context).colorScheme.primary,
+      color: Theme.of(context).colorScheme.primary,
       constraints: const BoxConstraints(minHeight: 36.0, minWidth: 80.0),
       children: const [
         Text('Barres'),
@@ -211,7 +211,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     int flex = 0,
   }) {
     final progress = goal > 0 ? (consumed / goal).clamp(0.0, 1.0) : 0.0;
-    final Color color = Theme.of(context).primaryColor;
 
     final cardContent = Card(
       child: Padding(
@@ -221,9 +220,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             Text(
               title,
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
@@ -234,7 +231,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             LinearProgressIndicator(
               value: progress,
               backgroundColor: Colors.grey[300],
-              color: color,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ],
         ),
@@ -264,7 +261,6 @@ class WeeklyChart extends StatelessWidget {
         }
 
         final data = snapshot.data ?? [];
-        final Color primaryColor = Theme.of(context).primaryColor;
 
         if (data.isEmpty) {
           return const SizedBox(
@@ -285,8 +281,8 @@ class WeeklyChart extends StatelessWidget {
         return SizedBox(
           height: 250,
           child: chartType == ChartType.bar
-              ? _buildBarChart(context, data, maxY, primaryColor)
-              : _buildLineChart(context, data, maxY, primaryColor),
+              ? _buildBarChart(context, data, maxY, Theme.of(context).colorScheme.primary)
+              : _buildLineChart(context, data, maxY, Theme.of(context).colorScheme.primary),
         );
       },
     );

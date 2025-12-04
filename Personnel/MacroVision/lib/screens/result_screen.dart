@@ -131,8 +131,8 @@ class _ResultScreenState extends State<ResultScreen> {
                           _useKilojoules = newValue;
                         });
                       },
-                      activeThumbColor: Theme.of(context).primaryColor,
-                      thumbColor: WidgetStateProperty.all(Theme.of(context).primaryColor),
+                      activeThumbColor: Theme.of(context).colorScheme.primary,
+                      thumbColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary),
                       trackOutlineColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary),
                     ),
                   ],

@@ -235,7 +235,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               onPressed: _saveUserProfile,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 15),
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Colors.white,
               ),
               child: const Text(
