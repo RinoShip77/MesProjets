@@ -241,11 +241,9 @@ class WeeklyChart extends StatelessWidget {
         double maxCalories = data
             .map((e) => e.calories)
             .reduce((a, b) => a > b ? a : b);
-        
-        // Fixe la hauteur maximale à au moins 2500 pour le test si les valeurs sont très petites
         final double maxY = maxCalories > 0
             ? (maxCalories + 500)
-            : 2500; 
+            : 2500;
 
         return SizedBox(
           height: 250,
@@ -256,7 +254,6 @@ class WeeklyChart extends StatelessWidget {
               barTouchData: BarTouchData(enabled: false),
               titlesData: FlTitlesData(
                 show: true,
-                // Simplification maximale pour s'assurer que les titres d'axe ne bloquent rien
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
@@ -274,9 +271,13 @@ class WeeklyChart extends StatelessWidget {
                   sideTitles: SideTitles(
                     showTitles: true,
                     reservedSize: 40,
-                    interval: maxY / 4, // Laisse FlChart choisir 4 intervalles
+                    interval: 500,
                     getTitlesWidget: (value, meta) {
-                       return SideTitleWidget(
+                      if (value % 500 != 0 && value != 0) {
+                        return Container();
+                      }
+
+                      return SideTitleWidget(
                         meta: meta,
                         space: 4,
                         child: Text(
@@ -314,30 +315,22 @@ class WeeklyChart extends StatelessWidget {
               barGroups: data.asMap().entries.map((entry) {
                 final index = entry.key;
                 final summary = entry.value;
-                
-                // TEST CRITIQUE: Force une hauteur minimale (500) à la barre si la valeur est > 0.
-                final double barHeight = summary.calories > 0 
-                  ? summary.calories.clamp(500.0, double.infinity) 
-                  : 0.0;
-                
                 return BarChartGroupData(
                   x: index,
                   barRods: [
                     BarChartRodData(
-                      toY: barHeight, // Utilise la hauteur forcée pour le test
+                      toY: summary.calories,
                       color: primaryColor.withOpacity(0.8),
                       width: 18,
-                      // Rendre le design simple pour éviter les erreurs de rendu
                       borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(4),
-                        topRight: Radius.circular(4),
+                        topLeft: Radius.circular(6),
+                        topRight: Radius.circular(6),
                       ),
-                      // ENLÈVE backDrawRodData POUR SIMPLIFIER EN CAS DE CONFLIT
-                      // backDrawRodData: BackgroundBarChartRodData( 
-                      //   show: true,
-                      //   toY: maxY,
-                      //   color: Colors.grey[200],
-                      // ), 
+                      backDrawRodData: BackgroundBarChartRodData(
+                        show: true,
+                        toY: maxY,
+                        color: Colors.grey[200],
+                      ),
                     ),
                   ],
                 );

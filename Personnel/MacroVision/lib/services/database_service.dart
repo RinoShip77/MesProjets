@@ -133,17 +133,20 @@ class DatabaseService {
 
     Map<String, double> summaryMap = {};
     for (var row in result) {
-      summaryMap[row['day'] as String] = (row['totalCalories'] as num).toDouble();
+        final String dayKey = row['day'] as String;
+        final num totalCalNum = row['totalCalories'] as num; 
+        final double totalCal = totalCalNum.toDouble();
+        summaryMap[dayKey] = totalCal;
     }
     
     List<DailySummary> weeklySummary = [];
     final now = DateTime.now();
     
-    // Construit la liste [Jour-6, Jour-5, ..., Aujourd'hui]
     for (int i = 6; i >= 0; i--) { 
       final date = now.subtract(Duration(days: i));
       final dateString = DateFormat('yyyy-MM-dd').format(date);
-      final dayName = DateFormat('E', 'fr').format(date);
+      // Utilisation du format par défaut pour éviter le plantage de la locale 'fr'
+      final dayName = DateFormat('E').format(date); 
 
       weeklySummary.add(
         DailySummary(
@@ -153,7 +156,6 @@ class DatabaseService {
       );
     }
     
-    // Le retour de la liste de 7 éléments.
     return weeklySummary;
   }
 }
