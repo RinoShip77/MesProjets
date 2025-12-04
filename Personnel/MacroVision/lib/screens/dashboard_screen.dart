@@ -10,6 +10,12 @@ import 'package:macro_vision/models/user_profile.dart';
 import 'package:macro_vision/services/database_service.dart';
 import 'package:macro_vision/services/nutrition_calculator.dart';
 
+// 1. DÉFINITION DE L'ÉNUMÉRATION
+enum ChartType {
+  bar,
+  line,
+}
+
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -28,6 +34,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   };
 
   late Future<void> _loadingFuture;
+  
+  // 2. VARIABLE D'ÉTAT POUR LE TYPE DE GRAPHIQUE
+  ChartType _selectedChartType = ChartType.bar; 
 
   @override
   void initState() {
@@ -77,6 +86,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {
       _loadingFuture = _loadData();
     });
+  }
+
+  // 3. WIDGET DU SÉLECTEUR DE GRAPHIQUE
+  Widget _buildChartTypeSelector() {
+    return ToggleButtons(
+      isSelected: ChartType.values.map((type) => type == _selectedChartType).toList(),
+      onPressed: (int index) {
+        setState(() {
+          _selectedChartType = ChartType.values[index];
+        });
+      },
+      borderRadius: BorderRadius.circular(8.0),
+      selectedColor: Colors.white,
+      fillColor: Theme.of(context).primaryColor,
+      color: Theme.of(context).primaryColor,
+      constraints: const BoxConstraints(minHeight: 36.0, minWidth: 80.0),
+      children: const [
+        Text('Barres'),
+        Text('Lignes'),
+      ],
+    );
   }
 
   @override
@@ -157,7 +187,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 const SizedBox(height: 10),
-                WeeklyChart(),
+                
+                // UTILISATION DU SÉLECTEUR
+                _buildChartTypeSelector(),
+                const SizedBox(height: 16),
+
+                // PASSAGE DE LA SÉLECTION AU GRAPHIQUE
+                WeeklyChart(chartType: _selectedChartType), 
               ],
             ),
           );
@@ -212,7 +248,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 // --- Widget du Graphique Hebdomadaire ---
 
 class WeeklyChart extends StatelessWidget {
-  const WeeklyChart({super.key});
+  final ChartType chartType;
+  const WeeklyChart({required this.chartType, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -247,98 +284,180 @@ class WeeklyChart extends StatelessWidget {
 
         return SizedBox(
           height: 250,
-          child: BarChart(
-            BarChartData(
-              alignment: BarChartAlignment.spaceAround,
-              maxY: maxY,
-              barTouchData: BarTouchData(enabled: false),
-              titlesData: FlTitlesData(
-                show: true,
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    getTitlesWidget: (value, meta) {
-                      return SideTitleWidget(
-                        meta: meta,
-                        space: 4,
-                        child: Text(data[value.toInt()].dayName),
-                      );
-                    },
-                    interval: 1,
-                  ),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 40,
-                    interval: 500,
-                    getTitlesWidget: (value, meta) {
-                      if (value % 500 != 0 && value != 0) {
-                        return Container();
-                      }
-
-                      return SideTitleWidget(
-                        meta: meta,
-                        space: 4,
-                        child: Text(
-                          '${value.toInt()}',
-                          style: const TextStyle(
-                            fontSize: 10,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                topTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
-                rightTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
-              ),
-              gridData: const FlGridData(show: false),
-              borderData: FlBorderData(
-                show: true,
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.grey.withOpacity(0.5),
-                    width: 1,
-                  ),
-                  left: BorderSide(
-                    color: Colors.grey.withOpacity(0.5),
-                    width: 1,
-                  ),
-                ),
-              ),
-              barGroups: data.asMap().entries.map((entry) {
-                final index = entry.key;
-                final summary = entry.value;
-                return BarChartGroupData(
-                  x: index,
-                  barRods: [
-                    BarChartRodData(
-                      toY: summary.calories,
-                      color: primaryColor.withOpacity(0.8),
-                      width: 18,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(6),
-                        topRight: Radius.circular(6),
-                      ),
-                      backDrawRodData: BackgroundBarChartRodData(
-                        show: true,
-                        toY: maxY,
-                        color: Colors.grey[200],
-                      ),
-                    ),
-                  ],
-                );
-              }).toList(),
-            ),
-          ),
+          child: chartType == ChartType.bar
+              ? _buildBarChart(context, data, maxY, primaryColor)
+              : _buildLineChart(context, data, maxY, primaryColor),
         );
       },
+    );
+  }
+
+  // --- GRAPHIQUE EN LIGNES ---
+  Widget _buildLineChart(
+    BuildContext context,
+    List<DailySummary> data,
+    double maxY,
+    Color primaryColor,
+  ) {
+    return LineChart(
+      LineChartData(
+        minY: 0,
+        maxY: maxY,
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, meta) {
+                return SideTitleWidget(
+                  meta: meta,
+                  space: 4,
+                  child: Text(data[value.toInt()].dayName),
+                );
+              },
+              interval: 1,
+            ),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 40,
+              interval: maxY / 4, 
+              getTitlesWidget: (value, meta) {
+                return SideTitleWidget(
+                  meta: meta,
+                  space: 4,
+                  child: Text(
+                    '${value.toInt()}',
+                    style: const TextStyle(fontSize: 10, color: Colors.grey),
+                  ),
+                );
+              },
+            ),
+          ),
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        ),
+        gridData: const FlGridData(show: true, drawVerticalLine: false),
+        borderData: FlBorderData(
+          show: true,
+          border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
+        ),
+        lineBarsData: [
+          LineChartBarData(
+            spots: data.asMap().entries.map((entry) {
+              final index = entry.key;
+              final summary = entry.value;
+              return FlSpot(index.toDouble(), summary.calories);
+            }).toList(),
+            isCurved: true,
+            color: primaryColor.withOpacity(0.8),
+            // CORRECTION: 'barAreaSuddenly' a été supprimé car il n'est pas supporté par votre version de fl_chart.
+            dotData: const FlDotData(show: true), // Afficher les points sur la ligne
+            belowBarData: BarAreaData(show: true, color: primaryColor.withOpacity(0.3)),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  // --- GRAPHIQUE À BARRES ---
+  Widget _buildBarChart(
+    BuildContext context,
+    List<DailySummary> data,
+    double maxY,
+    Color primaryColor,
+  ) {
+    return BarChart(
+      BarChartData(
+        alignment: BarChartAlignment.spaceAround,
+        maxY: maxY,
+        barTouchData: BarTouchData(enabled: false),
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, meta) {
+                return SideTitleWidget(
+                  meta: meta,
+                  space: 4,
+                  child: Text(data[value.toInt()].dayName),
+                );
+              },
+              interval: 1,
+            ),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 40,
+              interval: 500,
+              getTitlesWidget: (value, meta) {
+                if (value % 500 != 0 && value != 0) {
+                  return Container();
+                }
+
+                return SideTitleWidget(
+                  meta: meta,
+                  space: 4,
+                  child: Text(
+                    '${value.toInt()}',
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+        ),
+        gridData: const FlGridData(show: false),
+        borderData: FlBorderData(
+          show: true,
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey.withOpacity(0.5),
+              width: 1,
+            ),
+            left: BorderSide(
+              color: Colors.grey.withOpacity(0.5),
+              width: 1,
+            ),
+          ),
+        ),
+        barGroups: data.asMap().entries.map((entry) {
+          final index = entry.key;
+          final summary = entry.value;
+          return BarChartGroupData(
+            x: index,
+            barRods: [
+              BarChartRodData(
+                toY: summary.calories,
+                color: primaryColor.withOpacity(0.8),
+                width: 18,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(6),
+                  topRight: Radius.circular(6),
+                ),
+                backDrawRodData: BackgroundBarChartRodData(
+                  show: true,
+                  toY: maxY,
+                  color: Colors.grey[200],
+                ),
+              ),
+            ],
+          );
+        }).toList(),
+      ),
     );
   }
 }
