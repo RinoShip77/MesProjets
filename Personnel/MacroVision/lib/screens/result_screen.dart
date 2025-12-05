@@ -1,20 +1,25 @@
+// lib/screens/result_screen.dart
+
 import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:macro_vision/models/nutritional_facts.dart';
 import 'package:macro_vision/services/theme_provider.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:macro_vision/models/user_profile.dart'; // Import pour UserProfile
 
 class ResultScreen extends StatefulWidget {
   final NutritionalFacts
-  initialFacts; // FIX: Changé de 'facts' à 'initialFacts'
-  final String imagePath; // Chemin de l'image pour l'affichage
+  initialFacts; 
+  final String imagePath; 
 
   const ResultScreen({
     super.key,
     required this.initialFacts,
     required this.imagePath,
-  }); // FIX: Changé de 'facts' à 'initialFacts'
+  }); 
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -27,42 +32,88 @@ class _ResultScreenState extends State<ResultScreen> {
   // true = affiche Kilojoules (kJ)
   // false = affiche Kilocalories (kcal)
   bool _useKilojoules = false;
+  
+  // NOUVEAU: Préférence d'unité chargée (g ou oz pour la portion)
+  bool _isMetric = true; 
 
   // Taux de conversion : 1 kcal ≈ 4.184 kJ
   static const double _kJConversionFactor = 4.184;
+  // NOUVEAU: Constante de conversion: 1 gramme ≈ 0.035274 once (oz)
+  static const double _gToOz = 0.035274;
 
   @override
   void initState() {
     super.initState();
     _currentFacts = widget.initialFacts;
-    // Pré-remplir avec l'estimation initiale de Gemini
-    _weightController.text = _currentFacts.portionInGrams.toStringAsFixed(0);
+    _loadUnitPreference(); // Chargement de la préférence d'unité
+  }
+  
+  // NOUVEAU: Chargement de la préférence d'unité
+  Future<void> _loadUnitPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userJson = prefs.getString('userProfile');
+    
+    if (userJson != null) {
+      final profile = UserProfile.fromJson(jsonDecode(userJson));
+      setState(() {
+        _isMetric = profile.isMetric;
+      });
+    }
+
+    // Pré-remplir avec l'estimation initiale de l'IA (après conversion)
+    _weightController.text = _getDisplayPortion(
+      _currentFacts.portionInGrams,
+    ).toStringAsFixed(0);
+  }
+
+  // NOUVEAU: Conversion du poids (g) pour l'affichage (oz)
+  double _getDisplayPortion(double grams) {
+    if (_isMetric) {
+      return grams; // Afficher en grammes
+    } else {
+      return grams * _gToOz; // Afficher en onces (oz)
+    }
   }
 
   // Fonction pour l'ajustement (Prompt 2.1)
   void _refineAnalysis() {
-    final double? newWeight = double.tryParse(_weightController.text);
+    // Remplacer la virgule par un point pour le parsing
+    final double? displayWeight = double.tryParse(_weightController.text.replaceAll(',', '.'));
 
-    if (newWeight != null && newWeight > 0) {
-      // Nous repartons de l'estimation initiale de l'IA pour éviter les arrondis cumulés
-      final updatedFacts = widget.initialFacts.copyWithRefinedWeight(newWeight);
+    if (displayWeight != null && displayWeight > 0) {
+      // 1. Conversion de la valeur saisie (Impérial/oz) vers le STOCKAGE (Métrique/g)
+      double newWeightInGrams;
+      if (!_isMetric) {
+        // Conversion onces (oz) -> grammes (g)
+        newWeightInGrams = displayWeight / _gToOz; 
+      } else {
+        newWeightInGrams = displayWeight; // Reste en grammes
+      }
+
+      // 2. Application de la mise à l'échelle sur le modèle (qui utilise des grammes)
+      final updatedFacts = widget.initialFacts.copyWithRefinedWeight(newWeightInGrams);
 
       setState(() {
         _currentFacts = updatedFacts;
-        _weightController.text = newWeight.toStringAsFixed(0);
+        // 3. Mettre à jour le contrôleur avec la valeur affichée (g ou oz)
+        _weightController.text = _getDisplayPortion(
+          updatedFacts.portionInGrams,
+        ).toStringAsFixed(0);
       });
+      
+      final String portionUnit = _isMetric ? 'g' : 'oz';
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Analyse ajustée pour ${newWeight.toStringAsFixed(0)}g.',
+            'Analyse ajustée pour ${_weightController.text}$portionUnit.',
           ),
         ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Veuillez entrer un poids valide en grammes.'),
+          content: Text('Veuillez entrer un poids valide.'),
         ),
       );
     }
@@ -129,7 +180,6 @@ class _ResultScreenState extends State<ResultScreen> {
     // Le Consumer est essentiel pour forcer la reconstruction du widget lorsque le thème change
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        // final double caloriesInKcal = widget.initialFacts.calories;
         final double caloriesInKcal = _currentFacts.calories;
 
         final String energyUnit;
@@ -147,12 +197,19 @@ class _ResultScreenState extends State<ResultScreen> {
           energyValue = caloriesInKcal;
           switchLabel = 'Afficher en kJ';
         }
+        
+        // NOUVEAU: Déterminer l'unité et le label pour la portion
+        final String portionUnit = _isMetric ? 'g' : 'oz';
+        final String portionLabel = _isMetric ? 'Poids réel ($portionUnit)' : 'Poids réel ($portionUnit)';
+        final double initialDisplayPortion = _getDisplayPortion(widget.initialFacts.portionInGrams);
+        final double currentDisplayPortion = _getDisplayPortion(_currentFacts.portionInGrams);
+
 
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              _currentFacts.foodName,
-            ), // TODO : Ajuster pour toujours afficher le nom correct
+              _currentFacts.foodName,  // TODO : Ajuster pour toujours afficher le nom correct
+            ), 
             backgroundColor: Theme.of(context).colorScheme.primary,
           ),
           body: SingleChildScrollView(
@@ -172,9 +229,9 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // --- AJUSTEMENT DE LA PORTION (Prompt 2.1) ---
+                // --- AJUSTEMENT DE LA PORTION (avec unité dynamique) ---
                 Text(
-                  'Portion estimée par l\'IA: ${_formatNumber(widget.initialFacts.portionInGrams, fractionDigits: 0)}g',
+                  'Portion estimée par l\'IA: ${_formatNumber(initialDisplayPortion, fractionDigits: 0)}$portionUnit',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontStyle: FontStyle.italic,
                   ),
@@ -186,13 +243,14 @@ class _ResultScreenState extends State<ResultScreen> {
                     Expanded(
                       child: TextFormField(
                         controller: _weightController,
-                        decoration: const InputDecoration(
-                          labelText: 'Poids réel (g)',
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration( 
+                          labelText: portionLabel, // Label dynamique
+                          border: const OutlineInputBorder(),
                         ),
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.numberWithOptions(decimal: true),
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                          // Permet les décimales (point ou virgule)
+                          FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
                         ],
                       ),
                     ),
@@ -213,7 +271,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 const Divider(height: 30),
 
-                // --- SWITCH POUR SÉLECTIONNER L'UNITÉ ---
+                // --- SWITCH POUR SÉLECTIONNER L'UNITÉ D'ÉNERGIE ---
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -248,9 +306,9 @@ class _ResultScreenState extends State<ResultScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // --- Titre ---
+                        // --- Titre (avec unité dynamique) ---
                         Text(
-                          'Analyse Nutritionnelle pour ${_formatNumber(_currentFacts.portionInGrams, fractionDigits: 0)}g',
+                          'Analyse Nutritionnelle pour ${_formatNumber(currentDisplayPortion, fractionDigits: 0)}$portionUnit',
                           style: Theme.of(context).textTheme.headlineSmall
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),

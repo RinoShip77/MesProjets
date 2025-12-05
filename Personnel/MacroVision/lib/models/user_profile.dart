@@ -10,13 +10,15 @@ enum ActivityLevel {
 
 class UserProfile {
   String name;
-  // TODO : Mettre à jour les unités si nécessaire (ex: poids en livres)
-  double weight; // en kg
-  double height; // en cm
+  double weight; // en kg (STOCKAGE METRIQUE)
+  double height; // en cm (STOCKAGE METRIQUE)
   int age;
   String goal; // Objectif principal (ex: Maintien, Perte de poids, etc.)
   Gender gender;
   ActivityLevel activityLevel;
+  
+  // NOUVEAU: Choix de l'unité. true = Métrique (kg, cm), false = Impérial (lbs, ft/in)
+  bool isMetric; 
 
   UserProfile({
     this.name = 'Utilisateur',
@@ -26,6 +28,7 @@ class UserProfile {
     this.goal = 'Maintien',
     this.gender = Gender.male, // Par défaut
     this.activityLevel = ActivityLevel.sedentary, // Par défaut
+    this.isMetric = true, // Par défaut à Métrique
   });
 
   // Pour stocker l'objet dans SharedPreferences (en JSON)
@@ -37,6 +40,7 @@ class UserProfile {
         'goal': goal,
         'gender': gender.name, // Sauvegarde comme string
         'activityLevel': activityLevel.name, // Sauvegarde comme string
+        'isMetric': isMetric, // AJOUTÉ
       };
 
   // Pour charger l'objet depuis SharedPreferences (en JSON)
@@ -65,8 +69,9 @@ class UserProfile {
       height: (json['height'] as num?)?.toDouble() ?? 170.0,
       age: json['age'] ?? 30,
       goal: json['goal'] ?? 'Maintien',
-      gender: parseGender(json['gender']), // Chargement du nouveau champ
-      activityLevel: parseActivity(json['activityLevel']), // Chargement du nouveau champ
+      gender: parseGender(json['gender']),
+      activityLevel: parseActivity(json['activityLevel']),
+      isMetric: json['isMetric'] as bool? ?? true, // LECTURE DU NOUVEAU CHAMP
     );
   }
 }

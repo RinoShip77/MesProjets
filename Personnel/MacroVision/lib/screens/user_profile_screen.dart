@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import ajouté pour FilteringTextInputFormatter
 import 'package:macro_vision/screens/history_screen.dart';
 import 'package:macro_vision/services/nutrition_calculator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +28,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   // Liste des objectifs pour le Dropdown
   final List<String> _goals = ['Perte de poids', 'Gain musculaire', 'Maintien'];
+  
+  // Constantes de Conversion
+  static const double _kgToLbs = 2.20462;
+  static const double _cmToInches = 0.393701;
 
   @override
   void initState() {
@@ -34,7 +39,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _loadUserProfile();
   }
 
-  // --- LOGIQUE DE PERSISTANCE ---
+  // --- LOGIQUE DE PERSISTANCE ET CONVERSION ---
 
   Future<void> _loadUserProfile() async {
     final prefs = await SharedPreferences.getInstance();
@@ -46,36 +51,86 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       _profile = UserProfile(); // Valeurs par défaut
     }
 
+    // CORRECTION CRUCIALE : Initialiser tous les contrôleurs avant la logique de conversion
     _nameController = TextEditingController(text: _profile.name);
-    _weightController = TextEditingController(
-      text: _profile.weight.toStringAsFixed(1),
-    );
-    _heightController = TextEditingController(
-      text: _profile.height.toStringAsFixed(0),
-    );
     _ageController = TextEditingController(text: _profile.age.toString());
+    // Initialiser les contrôleurs de poids/taille avec la valeur de stockage (temporaire)
+    _weightController = TextEditingController(text: _profile.weight.toString()); 
+    _heightController = TextEditingController(text: _profile.height.toString()); 
+    
+    // Appel à la fonction de mise à jour. Les contrôleurs sont maintenant sûrs à utiliser.
+    _updateUnitSystem(_profile.isMetric);
 
     setState(() {
       _isLoading = false;
     });
   }
 
-  Future<void> _saveUserProfile() async {
-    if (_formKey.currentState!.validate()) {
-      _profile.name = _nameController.text;
-      _profile.weight = double.tryParse(_weightController.text) ?? 0.0;
-      _profile.height = double.tryParse(_heightController.text) ?? 0.0;
-      _profile.age = int.tryParse(_ageController.text) ?? 0;
+  // NOUVEAU: Fonction pour mettre à jour l'état et l'affichage des unités
+  void _updateUnitSystem(bool newIsMetric) {
+    // 1. Mettre à jour la préférence d'unité.
+    _profile.isMetric = newIsMetric;
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('userProfile', jsonEncode(_profile.toJson()));
+    // 2. Calculer les valeurs pour l'AFFICHAGE en utilisant la valeur de STOCKAGE (toujours en kg/cm)
+    double newDisplayWeight = _profile.weight;
+    double newDisplayHeight = _profile.height;
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profil mis à jour avec succès!')),
-        );
-        Navigator.pop(context); // Retour à l'écran précédent
-      }
+    if (!newIsMetric) {
+      // Conversion KG -> LBS pour l'affichage
+      newDisplayWeight = _profile.weight * _kgToLbs;
+      // Conversion CM -> POUCES pour l'affichage
+      newDisplayHeight = _profile.height * _cmToInches;
+    }
+
+    // 3. Mettre à jour les contrôleurs pour refléter les nouvelles valeurs formatées.
+    // Les unités métriques (kg, cm) sont affichées sans décimale.
+    // Les unités impériales (lbs, pouces) sont affichées avec une décimale.
+    _weightController.text = newDisplayWeight.toStringAsFixed(newIsMetric ? 0 : 1);
+    _heightController.text = newDisplayHeight.toStringAsFixed(newIsMetric ? 0 : 1);
+  }
+
+  Future<void> _saveUserProfile({bool shouldPop = true}) async {
+    // Assurez-vous que l'objet _profile a les bonnes valeurs de stockage métrique
+    if (!_formKey.currentState!.validate()) {
+      if (shouldPop) return;
+    }
+
+    // 1. Récupérer les valeurs affichées (en unités courantes)
+    // Remplacer la virgule par un point pour le parsing
+    final double displayWeight = double.tryParse(_weightController.text.replaceAll(',', '.')) ?? 0.0;
+    final double displayHeight = double.tryParse(_heightController.text.replaceAll(',', '.')) ?? 0.0;
+    final int age = int.tryParse(_ageController.text) ?? 0;
+
+    // 2. Conversion des valeurs d'affichage vers le STOCKAGE (Métrique)
+    double storageWeight = displayWeight;
+    double storageHeight = displayHeight;
+
+    if (!_profile.isMetric) {
+      // Conversion LBS -> KG
+      storageWeight = displayWeight / _kgToLbs;
+      // Conversion INCHES -> CM
+      storageHeight = displayHeight / _cmToInches;
+    }
+    
+    // 3. Mettre à jour l'objet UserProfile avec les valeurs STOCKÉES (Métrique) et le choix d'unité
+    _profile.name = _nameController.text;
+    _profile.weight = storageWeight; // Stocké en KG
+    _profile.height = storageHeight; // Stocké en CM
+    _profile.age = age;
+    // Les autres champs (gender, activityLevel, goal) sont mis à jour directement via les Dropdowns
+    // _profile.isMetric est mis à jour dans le SwitchListTile
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userProfile', jsonEncode(_profile.toJson()));
+    
+    // NOTE: C'est ici que le NutritionCalculator mettrait à jour les objectifs
+    // await NutritionCalculator().updateGoals(_profile);
+
+    if (mounted && shouldPop) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profil mis à jour avec succès!')),
+      );
+      Navigator.pop(context); // Retour à l'écran précédent
     }
   }
 
@@ -98,6 +153,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         body: const Center(child: CircularProgressIndicator()),
       );
     }
+    
+    // Détermination des unités pour les labels
+    final String weightUnit = _profile.isMetric ? 'kg' : 'lbs';
+    final String heightUnit = _profile.isMetric ? 'cm' : 'pouces'; 
+    final Color primaryColor = Theme.of(context).colorScheme.primary;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Mon Profil')),
@@ -106,31 +166,60 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[
+            
+            // --- NOUVEAU: CHOIX DU SYSTÈME D'UNITÉ (Impérial vs Métrique) ---
+            SwitchListTile(
+              title: const Text('Système d\'Unités', style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(_profile.isMetric ? 'Métrique (kg, cm)' : 'Impérial (lbs, pouces)'),
+              value: _profile.isMetric,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Appel de la nouvelle fonction de mise à jour/conversion dans le setState
+                  _updateUnitSystem(newValue);
+                  // CORRECTION: Sauvegarde immédiate de la préférence d'unité sans navigation
+                  _saveUserProfile(shouldPop: false);
+                });
+              },
+              secondary: Icon(Icons.straighten, color: primaryColor),
+              activeThumbColor: primaryColor,
+              thumbColor: WidgetStateProperty.all(primaryColor),
+              trackOutlineColor: WidgetStateProperty.all(primaryColor),
+            ),
+            const Divider(),
+
             // Nom
             _buildTextField(
               controller: _nameController,
               label: 'Nom d\'utilisateur',
               keyboardType: TextInputType.name,
+              formatters: null, // Pas de formatage spécifique pour le texte
             ),
 
-            // Poids (kg)
+            // Poids (kg / lbs) - Utilise l'unité dynamique
             _buildTextField(
               controller: _weightController,
-              label: 'Poids (kg)',
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
-              validator: (val) => val == null || double.tryParse(val) == null
+              label: 'Poids ($weightUnit)',
+              // Pour les décimales, on utilise numberWithOptions(decimal: true)
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              // CORRECTION: Formateur pour accepter les décimales (virgules et points)
+              formatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
+              ],
+              validator: (val) => val == null || double.tryParse(val.replaceAll(',', '.')) == null
                   ? 'Entrez un poids valide.'
                   : null,
             ),
 
-            // Grandeur (cm)
+            // Grandeur (cm / pouces) - Utilise l'unité dynamique
             _buildTextField(
               controller: _heightController,
-              label: 'Grandeur (cm)',
-              keyboardType: TextInputType.number,
-              validator: (val) => val == null || int.tryParse(val) == null
+              label: 'Grandeur ($heightUnit)',
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              // CORRECTION: Formateur pour accepter les décimales
+              formatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
+              ],
+              validator: (val) => val == null || double.tryParse(val.replaceAll(',', '.')) == null
                   ? 'Entrez une grandeur valide.'
                   : null,
             ),
@@ -140,12 +229,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               controller: _ageController,
               label: 'Âge',
               keyboardType: TextInputType.number,
+              // CORRECTION: Formateur pour accepter uniquement les chiffres
+              formatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               validator: (val) => val == null || int.tryParse(val) == null
                   ? 'Entrez un âge valide.'
                   : null,
             ),
 
-            const SizedBox(height: 15),
+            const SizedBox(height: 24),
 
             // Genre (Dropdown)
             DropdownButtonFormField<Gender>(
@@ -161,9 +254,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 );
               }).toList(),
               onChanged: (Gender? newValue) {
-                setState(() {
-                  _profile.gender = newValue!;
-                });
+                if (newValue != null) {
+                  setState(() {
+                    _profile.gender = newValue;
+                  });
+                }
               },
             ),
 
@@ -179,14 +274,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               items: ActivityLevel.values.map((ActivityLevel level) {
                 return DropdownMenuItem<ActivityLevel>(
                   value: level,
-                  // Utilise le service pour afficher les noms clairs (doit être importé)
+                  // Utilise le service pour afficher les noms clairs
                   child: Text(NutritionCalculator.getActivityName(level)),
                 );
               }).toList(),
               onChanged: (ActivityLevel? newValue) {
-                setState(() {
-                  _profile.activityLevel = newValue!;
-                });
+                if (newValue != null) {
+                  setState(() {
+                    _profile.activityLevel = newValue;
+                  });
+                }
               },
             ),
 
@@ -203,19 +300,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 return DropdownMenuItem<String>(value: goal, child: Text(goal));
               }).toList(),
               onChanged: (String? newValue) {
-                setState(() {
-                  _profile.goal = newValue!;
-                });
+                if (newValue != null) {
+                  setState(() {
+                    _profile.goal = newValue;
+                  });
+                }
               },
             ),
 
             const SizedBox(height: 15),
 
-            // NOUVEL ÉLÉMENT : Accès à l'Historique
+            // Accès à l'Historique
             ListTile(
               leading: Icon(
                 Icons.history,
-                color: Theme.of(context).colorScheme.primary,
+                color: primaryColor,
               ),
               title: const Text('Voir l\'Historique des Analyses'),
               trailing: const Icon(Icons.arrow_forward_ios, size: 16),
@@ -232,10 +331,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             // Bouton de Sauvegarde
             ElevatedButton(
-              onPressed: _saveUserProfile,
+              onPressed: () => _saveUserProfile(shouldPop: true),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 15),
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: primaryColor,
                 foregroundColor: Colors.white,
               ),
               child: const Text(
@@ -249,16 +348,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
+  // Fonction utilitaire mise à jour pour accepter les formatters
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
     required TextInputType keyboardType,
+    List<TextInputFormatter>? formatters, // NOUVEAU: Paramètre optionnel
     String? Function(String?)? validator,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: TextFormField(
         controller: controller,
+        // Utilisation du paramètre formatters
+        inputFormatters: formatters,
         keyboardType: keyboardType,
         decoration: InputDecoration(
           labelText: label,
