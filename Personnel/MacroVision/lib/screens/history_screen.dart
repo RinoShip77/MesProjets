@@ -114,7 +114,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => ResultScreen(
-                facts: entry, // L'entrée est un type NutritionalFacts
+                initialFacts: entry, // L'entrée est un type NutritionalFacts
                 imagePath: entry.imagePath,
               ),
             ),

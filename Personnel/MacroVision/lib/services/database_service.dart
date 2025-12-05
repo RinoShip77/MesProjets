@@ -1,14 +1,11 @@
-// lib/services/database_service.dart
-
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
-
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 
 class DailySummary {
-  final String dayName; 
+  final String dayName;
   final double calories;
 
   DailySummary({required this.dayName, required this.calories});
@@ -25,6 +22,7 @@ class DatabaseService {
   final String columnId = 'id';
   final String columnTimestamp = 'timestamp';
   final String columnName = 'foodName';
+  final String columnPortionInGrams = 'portionInGrams'; // AJOUTÉ
   final String columnCalories = 'calories';
   final String columnTotalFat = 'totalFat';
   final String columnSaturatedFat = 'saturatedFat';
@@ -37,7 +35,7 @@ class DatabaseService {
   final String columnSugar = 'sugar';
   final String columnProtein = 'protein';
   final String columnImagePath = 'imagePath';
-  
+
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDB();
@@ -50,14 +48,14 @@ class DatabaseService {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2, // PASSAGE DE VERSION 1 À 2
       onCreate: (db, version) {
-        return db.execute(
-          '''
+        return db.execute('''
           CREATE TABLE $tableName(
             $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
             $columnTimestamp INTEGER,
             $columnName TEXT,
+            $columnPortionInGrams REAL, -- AJOUTÉ
             $columnCalories REAL,
             $columnTotalFat REAL,
             $columnSaturatedFat REAL,
@@ -71,52 +69,71 @@ class DatabaseService {
             $columnProtein REAL,
             $columnImagePath TEXT
           )
-          ''',
-        );
+          ''');
+      },
+      // Ajout de la logique onUpgrade pour les utilisateurs existants
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          // Ajout de la nouvelle colonne avec une valeur par défaut de 0.0
+          await db.execute(
+            'ALTER TABLE $tableName ADD COLUMN $columnPortionInGrams REAL DEFAULT 0.0',
+          );
+        }
       },
     );
   }
 
   Future<int> insertEntry(NutritionalFactsEntry entry) async {
     final db = await database;
-    return await db.insert(tableName, entry.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    return await db.insert(
+      tableName,
+      entry.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<int> deleteEntry(int id) async {
     final db = await database;
-    return await db.delete(
-      tableName,
-      where: '$columnId = ?',
-      whereArgs: [id],
-    );
+    return await db.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
   }
 
   Future<List<NutritionalFactsEntry>> getHistory() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
       tableName,
-      orderBy: '$columnTimestamp DESC', 
+      orderBy: '$columnTimestamp DESC',
     );
     return List.generate(maps.length, (i) {
       return NutritionalFactsEntry.fromMap(maps[i]);
     });
   }
 
-  Future<List<NutritionalFactsEntry>> getHistoryForDay(int startTimestamp) async {
+  Future<List<NutritionalFactsEntry>> getHistoryForDay(
+    int startTimestamp,
+  ) async {
     final db = await database;
-    return await db.query(
-      tableName,
-      where: '$columnTimestamp >= ?',
-      whereArgs: [startTimestamp],
-    ).then((maps) {
-      return List.generate(maps.length, (i) => NutritionalFactsEntry.fromMap(maps[i]));
-    });
+    return await db
+        .query(
+          tableName,
+          where: '$columnTimestamp >= ?',
+          whereArgs: [startTimestamp],
+        )
+        .then((maps) {
+          return List.generate(
+            maps.length,
+            (i) => NutritionalFactsEntry.fromMap(maps[i]),
+          );
+        });
   }
 
   Future<List<DailySummary>> getWeeklySummary() async {
     final db = await database;
     final sevenDaysAgo = DateTime.now().subtract(const Duration(days: 7));
-    final startTimestamp = DateTime(sevenDaysAgo.year, sevenDaysAgo.month, sevenDaysAgo.day).millisecondsSinceEpoch;
+    final startTimestamp = DateTime(
+      sevenDaysAgo.year,
+      sevenDaysAgo.month,
+      sevenDaysAgo.day,
+    ).millisecondsSinceEpoch;
 
     final List<Map<String, dynamic>> result = await db.rawQuery(
       '''
@@ -133,29 +150,26 @@ class DatabaseService {
 
     Map<String, double> summaryMap = {};
     for (var row in result) {
-        final String dayKey = row['day'] as String;
-        final num totalCalNum = row['totalCalories'] as num; 
-        final double totalCal = totalCalNum.toDouble();
-        summaryMap[dayKey] = totalCal;
+      final String dayKey = row['day'] as String;
+      final num totalCalNum = row['totalCalories'] as num;
+      final double totalCal = totalCalNum.toDouble();
+      summaryMap[dayKey] = totalCal;
     }
-    
+
     List<DailySummary> weeklySummary = [];
     final now = DateTime.now();
-    
-    for (int i = 6; i >= 0; i--) { 
+
+    for (int i = 6; i >= 0; i--) {
       final date = now.subtract(Duration(days: i));
       final dateString = DateFormat('yyyy-MM-dd').format(date);
       // Utilisation du format par défaut pour éviter le plantage de la locale 'fr'
-      final dayName = DateFormat('E').format(date); 
+      final dayName = DateFormat('E').format(date);
 
       weeklySummary.add(
-        DailySummary(
-          dayName: dayName,
-          calories: summaryMap[dateString] ?? 0.0,
-        ),
+        DailySummary(dayName: dayName, calories: summaryMap[dateString] ?? 0.0),
       );
     }
-    
+
     return weeklySummary;
   }
 }

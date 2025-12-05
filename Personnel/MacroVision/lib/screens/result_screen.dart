@@ -1,27 +1,72 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:macro_vision/models/nutritional_facts.dart';
-import 'package:macro_vision/services/theme_provider.dart'; // Pour le Consumer
+import 'package:macro_vision/services/theme_provider.dart';
+import 'package:flutter/services.dart';
 
 class ResultScreen extends StatefulWidget {
-  final NutritionalFacts facts;
+  final NutritionalFacts
+  initialFacts; // FIX: Changé de 'facts' à 'initialFacts'
   final String imagePath; // Chemin de l'image pour l'affichage
 
-  const ResultScreen({super.key, required this.facts, required this.imagePath});
+  const ResultScreen({
+    super.key,
+    required this.initialFacts,
+    required this.imagePath,
+  }); // FIX: Changé de 'facts' à 'initialFacts'
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+  late NutritionalFacts _currentFacts;
+  final TextEditingController _weightController = TextEditingController();
+
   // true = affiche Kilojoules (kJ)
   // false = affiche Kilocalories (kcal)
   bool _useKilojoules = false;
 
   // Taux de conversion : 1 kcal ≈ 4.184 kJ
   static const double _kJConversionFactor = 4.184;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentFacts = widget.initialFacts;
+    // Pré-remplir avec l'estimation initiale de Gemini
+    _weightController.text = _currentFacts.portionInGrams.toStringAsFixed(0);
+  }
+
+  // Fonction pour l'ajustement (Prompt 2.1)
+  void _refineAnalysis() {
+    final double? newWeight = double.tryParse(_weightController.text);
+
+    if (newWeight != null && newWeight > 0) {
+      // Nous repartons de l'estimation initiale de l'IA pour éviter les arrondis cumulés
+      final updatedFacts = widget.initialFacts.copyWithRefinedWeight(newWeight);
+
+      setState(() {
+        _currentFacts = updatedFacts;
+        _weightController.text = newWeight.toStringAsFixed(0);
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Analyse ajustée pour ${newWeight.toStringAsFixed(0)}g.',
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Veuillez entrer un poids valide en grammes.'),
+        ),
+      );
+    }
+  }
 
   // Fonction pour formater les nombres au format français (point -> virgule)
   String _formatNumber(double value, {int fractionDigits = 1}) {
@@ -56,6 +101,8 @@ class _ResultScreenState extends State<ResultScreen> {
 
   // Widget utilitaire pour afficher une sous-ligne
   Widget _buildSubFactRow(String label, double value, String unit) {
+    final int fractionDigits = unit == 'mg' ? 0 : 1;
+
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
       child: Row(
@@ -63,7 +110,7 @@ class _ResultScreenState extends State<ResultScreen> {
         children: [
           Text(label, style: const TextStyle(fontSize: 14)),
           Text(
-            '${_formatNumber(value)} $unit', // Par défaut à 1 décimale
+            '${_formatNumber(value, fractionDigits: fractionDigits)} $unit',
             style: const TextStyle(fontSize: 14),
           ),
         ],
@@ -71,13 +118,19 @@ class _ResultScreenState extends State<ResultScreen> {
     );
   }
 
+  // Bouton pour sauvegarder et revenir (Prompt 2.1)
+  void _saveAndReturn() {
+    // Renvoie les faits ajustés (ou non ajustés) à l'écran précédent.
+    Navigator.of(context).pop(_currentFacts);
+  }
+
   @override
   Widget build(BuildContext context) {
     // Le Consumer est essentiel pour forcer la reconstruction du widget lorsque le thème change
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        // --- Logique de bascule pour l'énergie ---
-        final double caloriesInKcal = widget.facts.calories;
+        // final double caloriesInKcal = widget.initialFacts.calories;
+        final double caloriesInKcal = _currentFacts.calories;
 
         final String energyUnit;
         final double energyValue;
@@ -97,8 +150,9 @@ class _ResultScreenState extends State<ResultScreen> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text(widget.facts.foodName),
-            // Utilisation de la couleur primaire dynamique du thème
+            title: Text(
+              _currentFacts.foodName,
+            ), // TODO : Ajuster pour toujours afficher le nom correct
             backgroundColor: Theme.of(context).colorScheme.primary,
           ),
           body: SingleChildScrollView(
@@ -118,12 +172,52 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 const SizedBox(height: 16),
 
+                // --- AJUSTEMENT DE LA PORTION (Prompt 2.1) ---
+                Text(
+                  'Portion estimée par l\'IA: ${_formatNumber(widget.initialFacts.portionInGrams, fractionDigits: 0)}g',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _weightController,
+                        decoration: const InputDecoration(
+                          labelText: 'Poids réel (g)',
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: _refineAnalysis,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 15,
+                        ),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text('Ajuster l\'Analyse'),
+                    ),
+                  ],
+                ),
+                const Divider(height: 30),
+
                 // --- SWITCH POUR SÉLECTIONNER L'UNITÉ ---
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      switchLabel, style: TextStyle(fontSize: 14)),
+                    Text(switchLabel, style: TextStyle(fontSize: 14)),
                     Switch(
                       value: _useKilojoules,
                       onChanged: (bool newValue) {
@@ -132,8 +226,12 @@ class _ResultScreenState extends State<ResultScreen> {
                         });
                       },
                       activeThumbColor: Theme.of(context).colorScheme.primary,
-                      thumbColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary),
-                      trackOutlineColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary),
+                      thumbColor: WidgetStateProperty.all(
+                        Theme.of(context).colorScheme.primary,
+                      ),
+                      trackOutlineColor: WidgetStateProperty.all(
+                        Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                   ],
                 ),
@@ -152,7 +250,7 @@ class _ResultScreenState extends State<ResultScreen> {
                       children: [
                         // --- Titre ---
                         Text(
-                          'Analyse Nutritionnelle',
+                          'Analyse Nutritionnelle pour ${_formatNumber(_currentFacts.portionInGrams, fractionDigits: 0)}g',
                           style: Theme.of(context).textTheme.headlineSmall
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
@@ -176,44 +274,42 @@ class _ResultScreenState extends State<ResultScreen> {
                         ),
                         _buildFactRow(
                           'Matières grasses totales',
-                          widget.facts.totalFat,
+                          _currentFacts.totalFat,
                           'g',
                         ),
                         _buildSubFactRow(
                           'Graisses saturées',
-                          widget.facts.saturatedFat,
+                          _currentFacts.saturatedFat,
                           'g',
                         ),
                         _buildSubFactRow(
                           'Graisses trans',
-                          widget.facts.transFat,
+                          _currentFacts.transFat,
                           'g',
                         ),
-
                         _buildFactRow(
                           'Cholestérol',
-                          widget.facts.cholesterol,
+                          _currentFacts.cholesterol,
                           'mg',
                         ),
-                        _buildFactRow('Sodium', widget.facts.sodium, 'mg'),
+                        _buildFactRow('Sodium', _currentFacts.sodium, 'mg'),
                         _buildFactRow(
                           'Potassium',
-                          widget.facts.potassium,
+                          _currentFacts.potassium,
                           'mg',
                         ),
-
                         _buildFactRow(
                           'Glucides totaux',
-                          widget.facts.totalCarbohydrates,
+                          _currentFacts.totalCarbohydrates,
                           'g',
                         ),
                         _buildSubFactRow(
                           'Fibres alimentaires',
-                          widget.facts.dietaryFiber,
+                          _currentFacts.dietaryFiber,
                           'g',
                         ),
-                        _buildSubFactRow('Sucres', widget.facts.sugar, 'g'),
-                        _buildFactRow('Protéines', widget.facts.protein, 'g'),
+                        _buildSubFactRow('Sucres', _currentFacts.sugar, 'g'),
+                        _buildFactRow('Protéines', _currentFacts.protein, 'g'),
                       ],
                     ),
                   ),
@@ -221,10 +317,25 @@ class _ResultScreenState extends State<ResultScreen> {
 
                 const SizedBox(height: 20),
 
+                // --- BOUTON D'ACTION (Ajouter à l'Historique / Nouvelle analyse) ---
+                ElevatedButton(
+                  onPressed: _saveAndReturn,
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text(
+                    'Ajouter à l\'Historique',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
                 // --- BOUTON D'ACTION (Nouvelle analyse) ---
                 Center(
                   child: TextButton.icon(
-                    // Utiliser la couleur primaire dynamique pour le texte et l'icône
                     icon: Icon(
                       Icons.camera_alt,
                       color: Theme.of(context).colorScheme.primary,
@@ -238,8 +349,8 @@ class _ResultScreenState extends State<ResultScreen> {
                       ),
                     ),
                     onPressed: () {
-                      // Revenir à l'écran précédent
-                      Navigator.of(context).pop();
+                      // Revenir à l'écran précédent en renvoyant null
+                      Navigator.of(context).pop(null);
                     },
                   ),
                 ),

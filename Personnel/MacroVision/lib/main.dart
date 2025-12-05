@@ -268,32 +268,40 @@ class _CameraScreenState extends State<CameraScreen> {
       // Montrer l'animation avant la navigation
       await _showSuccessAndNavigate();
 
-      // 2. Afficher les résultats
-      // Enregistrer le fichier dans un emplacement temporaire pour l'écran de résultats
+      // 2. Préparation du chemin d'enregistrement
       final Directory appDocumentsDir = await getTemporaryDirectory();
       final String savedPath = '${appDocumentsDir.path}/temp_macro_vision_${DateTime.now().millisecondsSinceEpoch}.jpg';
-
-      // Copier le fichier original
       await File(imagePath).copy(savedPath);
 
-      // 1. Créer l'entrée d'historique
+      // 3. Créer et insérer l'entrée initiale pour obtenir un ID
       final entry = NutritionalFactsEntry.fromAnalysis(results, savedPath);
+      final entryId = await DatabaseService().insertEntry(entry);
 
-      // 2. Enregistrer l'entrée dans la BDD
-      await DatabaseService().insertEntry(entry);
-
-      // 3. Afficher les résultats (maintenant, on utilise l'Entry)
+      // 4. Afficher les résultats et attendre l'ajustement utilisateur
       if (mounted) {
-        await Navigator.of(context).push(
+        // CORRECTION: Utilisation de initialFacts et await pour récupérer l'objet raffiné
+        final NutritionalFacts? refinedFacts = await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => ResultScreen(
-              facts: results,
-              imagePath: savedPath, // Toujours passer le chemin pour l'affichage immédiat
+              initialFacts: results, // Passage de l'objet initial de l'IA
+              imagePath: savedPath, 
             ),
           ),
         );
+
+        // 5. Mise à jour de la base de données si l'utilisateur a ajusté l'analyse
+        if (refinedFacts != null) {
+          // Créer une nouvelle entrée (avec l'ID existant) basée sur les faits ajustés
+          final updatedEntry = NutritionalFactsEntry.fromAnalysis(
+            refinedFacts, 
+            savedPath,
+            id: entryId, // Utilise l'ID pour forcer la mise à jour (via ConflictAlgorithm.replace)
+          );
+          
+          // Mettre à jour l'entrée dans la base de données
+          await DatabaseService().insertEntry(updatedEntry);
+        }
       }
-      // }
     } catch (e) {
       if (mounted) {
         // FEEDBACK D'ERREUR

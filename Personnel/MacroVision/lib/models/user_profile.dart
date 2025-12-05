@@ -10,6 +10,7 @@ enum ActivityLevel {
 
 class UserProfile {
   String name;
+  // TODO : Mettre à jour les unités si nécessaire (ex: poids en livres)
   double weight; // en kg
   double height; // en cm
   int age;

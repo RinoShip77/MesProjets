@@ -10,6 +10,7 @@ class NutritionalFactsEntry extends NutritionalFacts {
     required this.timestamp,
     required this.imagePath,
     required super.foodName,
+    required super.portionInGrams, // AJOUTÉ
     required super.calories,
     required super.totalFat,
     required super.saturatedFat,
@@ -20,15 +21,21 @@ class NutritionalFactsEntry extends NutritionalFacts {
     required super.totalCarbohydrates,
     required super.dietaryFiber,
     required super.sugar,
-    required super.protein
+    required super.protein,
   });
-  
+
   // Créer à partir d'un résultat d'analyse + le chemin de la photo
-  factory NutritionalFactsEntry.fromAnalysis(NutritionalFacts facts, String path) {
+  factory NutritionalFactsEntry.fromAnalysis(
+    NutritionalFacts facts,
+    String path,
+    {int? id}
+  ) {
     return NutritionalFactsEntry(
+      id: id,
       timestamp: DateTime.now().millisecondsSinceEpoch,
       imagePath: path,
       foodName: facts.foodName,
+      portionInGrams: facts.portionInGrams, // AJOUTÉ
       calories: facts.calories,
       totalFat: facts.totalFat,
       saturatedFat: facts.saturatedFat,
@@ -39,7 +46,7 @@ class NutritionalFactsEntry extends NutritionalFacts {
       totalCarbohydrates: facts.totalCarbohydrates,
       dietaryFiber: facts.dietaryFiber,
       sugar: facts.sugar,
-      protein: facts.protein
+      protein: facts.protein,
     );
   }
 
@@ -49,6 +56,7 @@ class NutritionalFactsEntry extends NutritionalFacts {
       'id': id,
       'timestamp': timestamp,
       'foodName': foodName,
+      'portionInGrams': portionInGrams, // AJOUTÉ
       'calories': calories,
       'totalFat': totalFat,
       'saturatedFat': saturatedFat,
@@ -71,17 +79,20 @@ class NutritionalFactsEntry extends NutritionalFacts {
       timestamp: map['timestamp'],
       imagePath: map['imagePath'],
       foodName: map['foodName'],
-      calories: map['calories'],
-      totalFat: map['totalFat'],
-      saturatedFat: map['saturatedFat'],
-      transFat: map['transFat'],
-      cholesterol: map['cholesterol'],
-      sodium: map['sodium'],
-      potassium: map['potassium'],
-      totalCarbohydrates: map['totalCarbohydrates'],
-      dietaryFiber: map['dietaryFiber'],
-      sugar: map['sugar'],
-      protein: map['protein'],
+      portionInGrams:
+          (map['portionInGrams'] as num?)?.toDouble() ?? 0.0, // AJOUTÉ
+      calories: (map['calories'] as num?)?.toDouble() ?? 0.0,
+      totalFat: (map['totalFat'] as num?)?.toDouble() ?? 0.0,
+      saturatedFat: (map['saturatedFat'] as num?)?.toDouble() ?? 0.0,
+      transFat: (map['transFat'] as num?)?.toDouble() ?? 0.0,
+      cholesterol: (map['cholesterol'] as num?)?.toDouble() ?? 0.0,
+      sodium: (map['sodium'] as num?)?.toDouble() ?? 0.0,
+      potassium: (map['potassium'] as num?)?.toDouble() ?? 0.0,
+      totalCarbohydrates:
+          (map['totalCarbohydrates'] as num?)?.toDouble() ?? 0.0,
+      dietaryFiber: (map['dietaryFiber'] as num?)?.toDouble() ?? 0.0,
+      sugar: (map['sugar'] as num?)?.toDouble() ?? 0.0,
+      protein: (map['protein'] as num?)?.toDouble() ?? 0.0,
     );
   }
 }
