@@ -1,10 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+
+// Packages Externes
 import 'package:camera/camera.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +19,7 @@ import 'package:macro_vision/screens/result_screen.dart';
 
 // Feedback Utilisateur
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/services.dart';
 
 // Base de Données Locale
 import 'package:macro_vision/services/database_service.dart';
@@ -35,10 +36,10 @@ Future<void> main() async {
   // Garantit que les widgets Flutter sont initialisés
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Charge le fichier .env
+  // 1. Charge le fichier .env
   await dotenv.load(fileName: ".env");
 
-  // Initialisation des caméras
+  // 2. Initialisation des caméras
   try {
     cameras = await availableCameras();
   } on CameraException catch (e) {
@@ -64,6 +65,7 @@ class MacroVisionApp extends StatelessWidget {
         builder: (context, themeProvider, child) {
           // 2. Déterminer l'écran initial (Caméra ou Erreur)
           Widget cameraOrErrorScreen;
+
           if (cameras != null && cameras!.isNotEmpty) {
             cameraOrErrorScreen = CameraScreen(camera: cameras!.first);
           } else {
@@ -82,10 +84,7 @@ class MacroVisionApp extends StatelessWidget {
           return MaterialApp(
             title: 'MacroVision AI',
             debugShowCheckedModeBanner: false,
-
-            // GESTION DES THÈMES
             themeMode: themeProvider.themeMode,
-
             theme: ThemeData(
               // Thème Clair (pour Light mode)
               primarySwatch: primaryColor,
@@ -130,7 +129,6 @@ class MacroVisionApp extends StatelessWidget {
 
 class ErrorScreen extends StatelessWidget {
   final String message;
-
   const ErrorScreen({super.key, required this.message});
 
   @override
@@ -138,10 +136,13 @@ class ErrorScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Erreur')),
       body: Center(
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.red),
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Text(
+            message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 18, color: Colors.red),
+          ),
         ),
       ),
     );
@@ -149,7 +150,7 @@ class ErrorScreen extends StatelessWidget {
 }
 
 // =========================================================================
-// WIDGET D'AFFICHAGE DE LA CAMÉRA
+// WIDGET D'AFFICHAGE DE LA CAMÉRA (CameraScreen)
 // =========================================================================
 
 class CameraScreen extends StatefulWidget {
@@ -162,14 +163,14 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  late CameraController _controller;
-  late Future<void> _initializeControllerFuture;
-  final GeminiService _geminiService = GeminiService();
-
   bool _isInitialized = false;
   bool _isAnalyzing = false;
   bool _showSuccessAnimation = false;
+  bool _isFlashOn = false;
 
+  late CameraController _controller;
+  late Future<void> _initializeControllerFuture;
+  final GeminiService _geminiService = GeminiService();
   final AudioPlayer _audioPlayer = AudioPlayer();
   final ImagePicker _picker = ImagePicker();
 
@@ -179,12 +180,10 @@ class _CameraScreenState extends State<CameraScreen> {
     _initializeCamera();
   }
 
+  // Initialisation de la caméra
   void _initializeCamera() {
-    _controller = CameraController(
-      widget.camera,
-      ResolutionPreset.medium,
-      enableAudio: false,
-    );
+    _controller = CameraController(widget.camera, ResolutionPreset.high);
+
     _initializeControllerFuture = _controller
         .initialize()
         .then((_) {
@@ -199,22 +198,50 @@ class _CameraScreenState extends State<CameraScreen> {
         });
   }
 
+  // Basculer le mode Flash
+  Future<void> _toggleFlash() async {
+    if (!_isInitialized) return; // Sécurité
+
+    // Définir le mode Flash
+    try {
+      final newFlashMode = _isFlashOn ? FlashMode.off : FlashMode.torch;
+      await _controller.setFlashMode(newFlashMode);
+
+      // Mettre à jour l'état et forcer le rafraîchissement de l'icône
+      setState(() {
+        _isFlashOn = !_isFlashOn;
+      });
+    } on CameraException catch (e) {
+      debugPrint("Erreur lors du basculement du flash : $e");
+      // Optionnel : Afficher un Toast ou SnackBar à l'utilisateur
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();
-    _audioPlayer.dispose();
+    // _audioPlayer.dispose();
+    // _picker.dispose();
     super.dispose();
   }
 
-  // Gère la photo prise via la caméra
+  // -----------------------------------------------------------
+  // LOGIQUE DE CAPTURE ET D'ANALYSE
+  // -----------------------------------------------------------
+
+  // 1. Gère la photo prise via la caméra
   Future<void> _takePhoto() async {
-    if (!_isInitialized || _controller.value.isTakingPicture || _isAnalyzing) {
-      return;
-    }
+    if (!_isInitialized || _controller.value.isTakingPicture) return;
+
+    setState(() {
+      _isAnalyzing = true;
+    });
+
+    await _audioPlayer.play(AssetSource('audio/shutter.mp3'));
 
     try {
       final XFile file = await _controller.takePicture();
-      await _processImage(file.path);
+      await _analyseImage(file.path);
     } catch (e) {
       debugPrint(e.toString());
       if (mounted) {
@@ -222,20 +249,26 @@ class _CameraScreenState extends State<CameraScreen> {
           SnackBar(content: Text('Erreur de capture : ${e.toString()}')),
         );
       }
+    } finally {
+      // Remettre l'état d'analyse à false (sauf si une navigation a eu lieu)
+      if (mounted) {
+        setState(() {
+          _isAnalyzing = false;
+        });
+      }
     }
   }
 
-  // Gère la sélection d'une image depuis la galerie
+  // 2. Gère la sélection d'une image depuis la galerie
   Future<void> _selectFromGallery() async {
-    if (_isAnalyzing) return;
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
-    final XFile? file = await _picker.pickImage(source: ImageSource.gallery);
-    if (file != null) {
-      await _processImage(file.path);
+    if (image != null) {
+      await _analyseImage(image.path);
     }
   }
 
-  // Affiche l'icône de succès et attend brièvement
+  // 3. Affiche l'icône de succès et attend brièvement
   Future<void> _showSuccessAndNavigate() async {
     setState(() {
       _showSuccessAnimation = true;
@@ -248,44 +281,42 @@ class _CameraScreenState extends State<CameraScreen> {
     });
   }
 
-  // Processus d'analyse (commun à la photo et à la galerie)
-  Future<void> _processImage(String imagePath) async {
-    if (!mounted) return;
-
+  // 4.Processus d'analyse (commun à la photo ET à la galerie)
+  Future<void> _analyseImage(String imagePath) async {
     setState(() {
       _isAnalyzing = true;
     });
 
     try {
       // 1. Appeler le service Gemini
-      final NutritionalFacts results = await _geminiService.analyzeImage(
-        File(imagePath),
+      final NutritionalFacts initialFacts = await _geminiService.analyzeImage(
+        File(imagePath), // TODO: Change to pass only the string
       );
 
-      // FEEDBACK DE SUCCÈS
+      // 2. FeedBack de succès
       await _audioPlayer.play(AssetSource('audio/success.mp3'));
-      await HapticFeedback.mediumImpact(); // TODO: Ajuster le feedback haptique
+      await HapticFeedback.mediumImpact();
 
-      // Montrer l'animation avant la navigation
+      // 3. Montrer l'animation avant la navigation
       await _showSuccessAndNavigate();
 
       // 2. Préparation du chemin d'enregistrement
       final Directory appDocumentsDir = await getTemporaryDirectory();
-      final String savedPath = '${appDocumentsDir.path}/temp_macro_vision_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final String savedPath =
+          '${appDocumentsDir.path}/temp_macro_vision_${DateTime.now().millisecondsSinceEpoch}.jpg';
       await File(imagePath).copy(savedPath);
 
       // 3. Créer et insérer l'entrée initiale pour obtenir un ID
-      final entry = NutritionalFactsEntry.fromAnalysis(results, savedPath);
+      final entry = NutritionalFactsEntry.fromAnalysis(initialFacts, savedPath);
       final entryId = await DatabaseService().insertEntry(entry);
 
       // 4. Afficher les résultats et attendre l'ajustement utilisateur
       if (mounted) {
-        // CORRECTION: Utilisation de initialFacts et await pour récupérer l'objet raffiné
         final NutritionalFacts? refinedFacts = await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => ResultScreen(
-              initialFacts: results, // Passage de l'objet initial de l'IA
-              imagePath: savedPath, 
+              initialFacts: initialFacts, // Passage de l'objet initial de l'IA
+              imagePath: savedPath,
             ),
           ),
         );
@@ -294,18 +325,18 @@ class _CameraScreenState extends State<CameraScreen> {
         if (refinedFacts != null) {
           // Créer une nouvelle entrée (avec l'ID existant) basée sur les faits ajustés
           final updatedEntry = NutritionalFactsEntry.fromAnalysis(
-            refinedFacts, 
+            refinedFacts,
             savedPath,
             id: entryId, // Utilise l'ID pour forcer la mise à jour (via ConflictAlgorithm.replace)
           );
-          
+
           // Mettre à jour l'entrée dans la base de données
           await DatabaseService().insertEntry(updatedEntry);
         }
       }
     } catch (e) {
       if (mounted) {
-        // FEEDBACK D'ERREUR
+        // 6. FeedBack d'erreur
         _audioPlayer.play(AssetSource('audio/error.mp3'));
         await HapticFeedback.mediumImpact();
 
@@ -322,40 +353,127 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
+  // -----------------------------------------------------------
+  // WIDGET DE CONSTRUCTION
+  // -----------------------------------------------------------
+
   @override
   Widget build(BuildContext context) {
+    // Afficher l'écran de chargement si le contrôleur n'est pas prêt
+    if (!_isInitialized) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Analyse Alimentaire')),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Analyse Alimentaire'),
         // Utilisez la couleur primaire, mais assurez-vous qu'elle soit transparente pour la vue caméra
         backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 0,
       ),
-      extendBodyBehindAppBar: true, // Pour que l'image s'étende sous l'AppBar
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               _isInitialized) {
-            final size = MediaQuery.of(context).size;
-            final scale =
-                (size.aspectRatio * _controller.value.aspectRatio) * 1.5;
-
             return Stack(
               alignment: Alignment.center,
               children: [
                 // 1. Vue de la Caméra (avec le nouveau Transform.scale)
-                SizedBox.expand(
-                  // <--- S'ASSURER QUE LA TAILLE EST MAXIMALE
-                  child: Transform.scale(
-                    scale: scale, // Utilise le nouveau calcul 'scale'
-                    alignment: Alignment
-                        .topCenter, // Centre l'image verticalement dans la zone visible
-                    child: Center(child: CameraPreview(_controller)),
+                Positioned.fill(
+                  child: Align(
+                    alignment: const Alignment(
+                      0.0,
+                      1.0,
+                    ),
+                    child: CameraPreview(_controller),
                   ),
                 ),
 
-                // 2. Surcouche d'Animation de Succès
+                // 2. Bouton Flash/Lampe de poche (en haut à droite)
+                Positioned(
+                  top: 90,
+                  right: 20,
+                  child: FloatingActionButton(
+                    heroTag: 'flashBtn',
+                    onPressed: _isAnalyzing ? null : _toggleFlash,
+                    backgroundColor: _isFlashOn
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).primaryColorDark,
+                    child: Icon(
+                      _isFlashOn ? Icons.flash_on : Icons.flash_off,
+                      color: _isFlashOn
+                          ? Theme.of(context).primaryColorDark
+                          : Theme.of(context).primaryColorLight,
+                    ),
+                  ),
+                ),
+
+                // 3. Guide de Cadrage Visuel (texte centré en bas ou en haut)
+                Positioned(
+                  top: 25,
+                  left: 20,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.black54, // Fond sombre semi-transparent
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text(
+                      "Conseil : Ciblez un aliment à la fois, avec une bonne lumière.",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // 4. Cadre Visuel pour le Cadrage
+                Center(
+                  child: Container(
+                    width:
+                        MediaQuery.of(context).size.width *
+                        0.8, // 80% de la largeur
+                    height:
+                        MediaQuery.of(context).size.width * 0.8, // Cadre carré
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white70, // Couleur du cadre
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // 5. Overlay d'analyse (si _isAnalyzing est true)
+                if (_isAnalyzing)
+                  Container(
+                    color: Colors.black54,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Analyse en cours par l\'IA...',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                // 6. Surcouche d'Animation de Succès
                 if (_showSuccessAnimation)
                   TweenAnimationBuilder<double>(
                     tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -365,7 +483,9 @@ class _CameraScreenState extends State<CameraScreen> {
                         scale: scale,
                         child: Icon(
                           Icons.check_circle,
-                          color: Theme.of(context).colorScheme.primary, // Utilise la couleur du thème
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary, // Utilise la couleur du thème
                           size: 150,
                           shadows: [
                             BoxShadow(
@@ -396,7 +516,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
       // Boutons de Galerie et de Capture (Horizontal)
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+        padding: const EdgeInsets.only(left: 20.0, right: 40.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
