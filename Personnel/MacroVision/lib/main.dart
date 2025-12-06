@@ -92,7 +92,7 @@ class MacroVisionApp extends StatelessWidget {
               brightness: Brightness.light,
               appBarTheme: AppBarTheme(
                 backgroundColor: primaryColor,
-                foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
               ),
               colorScheme: ColorScheme.fromSwatch(
                 primarySwatch: primaryColor,
@@ -106,7 +106,7 @@ class MacroVisionApp extends StatelessWidget {
               brightness: Brightness.dark,
               appBarTheme: AppBarTheme(
                 backgroundColor: primaryColor,
-                foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
               ),
               colorScheme: ColorScheme.fromSwatch(
                 backgroundColor: Colors.black,
