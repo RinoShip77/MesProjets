@@ -14,10 +14,20 @@ class CustomTheme {
 
 // Liste des thèmes personnalisés disponibles
 const List<CustomTheme> customThemes = [
-  CustomTheme("Classique Vert", Colors.green),
-  CustomTheme("Océan Bleu", Colors.blue),
-  CustomTheme("Passion Rouge", Colors.red),
-  CustomTheme("Élégance Violette", Colors.purple),
+  CustomTheme("Menthe", Colors.green),
+  CustomTheme("Océan", Colors.blue),
+  CustomTheme("Passion", Colors.red),
+  CustomTheme("Néon", Colors.purple),
+  CustomTheme("Platine", Colors.grey),
+  CustomTheme("Merlot", Colors.brown),
+  CustomTheme("Citron", Colors.yellow),
+  CustomTheme("Platine", Colors.lime),
+  CustomTheme("Paon", Colors.cyan),
+  CustomTheme("Azur", Colors.teal),
+  CustomTheme("Bonbon", Colors.pink),
+  CustomTheme("Citrouille", Colors.orange),
+  CustomTheme("Lapis", Colors.indigo),
+  CustomTheme("Écarlate", Colors.deepOrange),
 ];
 
 class PrefKeys {

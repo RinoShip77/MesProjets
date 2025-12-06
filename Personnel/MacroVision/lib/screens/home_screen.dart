@@ -74,11 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.only(bottom: 20.0),
               child: OutlinedButton.icon(
                 icon: const Icon(Icons.show_chart),
-                label: const Text('Voir le Tableau de Bord'),
+                label: const Text('Voir le Tableau de Bord', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15)),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
-                  foregroundColor: Theme.of(context).colorScheme.primary,
+                  backgroundColor: Theme.of(context).colorScheme.onPrimary.withAlpha(80),
+                  foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),

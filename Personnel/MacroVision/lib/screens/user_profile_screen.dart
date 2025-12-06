@@ -28,7 +28,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   // Liste des objectifs pour le Dropdown
   final List<String> _goals = ['Perte de poids', 'Gain musculaire', 'Maintien'];
-  
+
   // Constantes de Conversion
   static const double _kgToLbs = 2.20462;
   static const double _cmToInches = 0.393701;
@@ -55,9 +55,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _nameController = TextEditingController(text: _profile.name);
     _ageController = TextEditingController(text: _profile.age.toString());
     // Initialiser les contrôleurs de poids/taille avec la valeur de stockage (temporaire)
-    _weightController = TextEditingController(text: _profile.weight.toString()); 
-    _heightController = TextEditingController(text: _profile.height.toString()); 
-    
+    _weightController = TextEditingController(text: _profile.weight.toString());
+    _heightController = TextEditingController(text: _profile.height.toString());
+
     // Appel à la fonction de mise à jour. Les contrôleurs sont maintenant sûrs à utiliser.
     _updateUnitSystem(_profile.isMetric);
 
@@ -85,8 +85,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     // 3. Mettre à jour les contrôleurs pour refléter les nouvelles valeurs formatées.
     // Les unités métriques (kg, cm) sont affichées sans décimale.
     // Les unités impériales (lbs, pouces) sont affichées avec une décimale.
-    _weightController.text = newDisplayWeight.toStringAsFixed(newIsMetric ? 0 : 1);
-    _heightController.text = newDisplayHeight.toStringAsFixed(newIsMetric ? 0 : 1);
+    _weightController.text = newDisplayWeight.toStringAsFixed(
+      newIsMetric ? 0 : 1,
+    );
+    _heightController.text = newDisplayHeight.toStringAsFixed(
+      newIsMetric ? 0 : 1,
+    );
   }
 
   Future<void> _saveUserProfile({bool shouldPop = true}) async {
@@ -97,8 +101,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     // 1. Récupérer les valeurs affichées (en unités courantes)
     // Remplacer la virgule par un point pour le parsing
-    final double displayWeight = double.tryParse(_weightController.text.replaceAll(',', '.')) ?? 0.0;
-    final double displayHeight = double.tryParse(_heightController.text.replaceAll(',', '.')) ?? 0.0;
+    final double displayWeight =
+        double.tryParse(_weightController.text.replaceAll(',', '.')) ?? 0.0;
+    final double displayHeight =
+        double.tryParse(_heightController.text.replaceAll(',', '.')) ?? 0.0;
     final int age = int.tryParse(_ageController.text) ?? 0;
 
     // 2. Conversion des valeurs d'affichage vers le STOCKAGE (Métrique)
@@ -111,7 +117,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       // Conversion INCHES -> CM
       storageHeight = displayHeight / _cmToInches;
     }
-    
+
     // 3. Mettre à jour l'objet UserProfile avec les valeurs STOCKÉES (Métrique) et le choix d'unité
     _profile.name = _nameController.text;
     _profile.weight = storageWeight; // Stocké en KG
@@ -122,7 +128,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('userProfile', jsonEncode(_profile.toJson()));
-    
+
     // NOTE: C'est ici que le NutritionCalculator mettrait à jour les objectifs
     // await NutritionCalculator().updateGoals(_profile);
 
@@ -153,10 +159,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         body: const Center(child: CircularProgressIndicator()),
       );
     }
-    
+
     // Détermination des unités pour les labels
     final String weightUnit = _profile.isMetric ? 'kg' : 'lbs';
-    final String heightUnit = _profile.isMetric ? 'cm' : 'pouces'; 
+    final String heightUnit = _profile.isMetric ? 'cm' : 'pouces';
     final Color primaryColor = Theme.of(context).colorScheme.primary;
 
     return Scaffold(
@@ -166,11 +172,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[
-            
             // --- NOUVEAU: CHOIX DU SYSTÈME D'UNITÉ (Impérial vs Métrique) ---
             SwitchListTile(
-              title: const Text('Système d\'Unités', style: TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text(_profile.isMetric ? 'Métrique (kg, cm)' : 'Impérial (lbs, pouces)'),
+              title: const Text(
+                'Système d\'Unités',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(
+                _profile.isMetric
+                    ? 'Métrique (kg, cm)'
+                    : 'Impérial (lbs, pouces)',
+              ),
               value: _profile.isMetric,
               onChanged: (bool newValue) {
                 setState(() {
@@ -200,12 +212,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               controller: _weightController,
               label: 'Poids ($weightUnit)',
               // Pour les décimales, on utilise numberWithOptions(decimal: true)
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               // CORRECTION: Formateur pour accepter les décimales (virgules et points)
               formatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
               ],
-              validator: (val) => val == null || double.tryParse(val.replaceAll(',', '.')) == null
+              validator: (val) =>
+                  val == null ||
+                      double.tryParse(val.replaceAll(',', '.')) == null
                   ? 'Entrez un poids valide.'
                   : null,
             ),
@@ -214,12 +230,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             _buildTextField(
               controller: _heightController,
               label: 'Grandeur ($heightUnit)',
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               // CORRECTION: Formateur pour accepter les décimales
               formatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
               ],
-              validator: (val) => val == null || double.tryParse(val.replaceAll(',', '.')) == null
+              validator: (val) =>
+                  val == null ||
+                      double.tryParse(val.replaceAll(',', '.')) == null
                   ? 'Entrez une grandeur valide.'
                   : null,
             ),
@@ -230,21 +250,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               label: 'Âge',
               keyboardType: TextInputType.number,
               // CORRECTION: Formateur pour accepter uniquement les chiffres
-              formatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
+              formatters: [FilteringTextInputFormatter.digitsOnly],
               validator: (val) => val == null || int.tryParse(val) == null
                   ? 'Entrez un âge valide.'
                   : null,
             ),
 
-            const SizedBox(height: 24),
-
             // Genre (Dropdown)
             DropdownButtonFormField<Gender>(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Sexe',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
               ),
               initialValue: _profile.gender,
               items: Gender.values.map((Gender gender) {
@@ -266,9 +287,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             // Niveau d'Activité (Dropdown)
             DropdownButtonFormField<ActivityLevel>(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Niveau d\'Activité Physique',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
               ),
               initialValue: _profile.activityLevel,
               items: ActivityLevel.values.map((ActivityLevel level) {
@@ -291,9 +317,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             // Objectif (Dropdown)
             DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Objectif Principal',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
               ),
               initialValue: _profile.goal,
               items: _goals.map((String goal) {
@@ -308,14 +339,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               },
             ),
 
-            const SizedBox(height: 15),
+            Divider(
+              height: 45,
+              thickness: 2,
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+            ),
 
             // Accès à l'Historique
             ListTile(
-              leading: Icon(
-                Icons.history,
-                color: primaryColor,
-              ),
+              leading: Icon(Icons.history, color: primaryColor),
               title: const Text('Voir l\'Historique des Analyses'),
               trailing: const Icon(Icons.arrow_forward_ios, size: 16),
               onTap: () {
@@ -327,7 +359,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               },
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
 
             // Bouton de Sauvegarde
             ElevatedButton(
@@ -366,6 +398,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
         ),
         validator:
             validator ??

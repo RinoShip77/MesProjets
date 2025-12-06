@@ -11,15 +11,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/models/user_profile.dart'; // Import pour UserProfile
 
 class ResultScreen extends StatefulWidget {
-  final NutritionalFacts
-  initialFacts; 
-  final String imagePath; 
+  final NutritionalFacts initialFacts;
+  final String imagePath;
 
   const ResultScreen({
     super.key,
     required this.initialFacts,
     required this.imagePath,
-  }); 
+  });
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -32,9 +31,9 @@ class _ResultScreenState extends State<ResultScreen> {
   // true = affiche Kilojoules (kJ)
   // false = affiche Kilocalories (kcal)
   bool _useKilojoules = false;
-  
+
   // NOUVEAU: Préférence d'unité chargée (g ou oz pour la portion)
-  bool _isMetric = true; 
+  bool _isMetric = true;
 
   // Taux de conversion : 1 kcal ≈ 4.184 kJ
   static const double _kJConversionFactor = 4.184;
@@ -47,12 +46,12 @@ class _ResultScreenState extends State<ResultScreen> {
     _currentFacts = widget.initialFacts;
     _loadUnitPreference(); // Chargement de la préférence d'unité
   }
-  
+
   // NOUVEAU: Chargement de la préférence d'unité
   Future<void> _loadUnitPreference() async {
     final prefs = await SharedPreferences.getInstance();
     final userJson = prefs.getString('userProfile');
-    
+
     if (userJson != null) {
       final profile = UserProfile.fromJson(jsonDecode(userJson));
       setState(() {
@@ -78,20 +77,24 @@ class _ResultScreenState extends State<ResultScreen> {
   // Fonction pour l'ajustement (Prompt 2.1)
   void _refineAnalysis() {
     // Remplacer la virgule par un point pour le parsing
-    final double? displayWeight = double.tryParse(_weightController.text.replaceAll(',', '.'));
+    final double? displayWeight = double.tryParse(
+      _weightController.text.replaceAll(',', '.'),
+    );
 
     if (displayWeight != null && displayWeight > 0) {
       // 1. Conversion de la valeur saisie (Impérial/oz) vers le STOCKAGE (Métrique/g)
       double newWeightInGrams;
       if (!_isMetric) {
         // Conversion onces (oz) -> grammes (g)
-        newWeightInGrams = displayWeight / _gToOz; 
+        newWeightInGrams = displayWeight / _gToOz;
       } else {
         newWeightInGrams = displayWeight; // Reste en grammes
       }
 
       // 2. Application de la mise à l'échelle sur le modèle (qui utilise des grammes)
-      final updatedFacts = widget.initialFacts.copyWithRefinedWeight(newWeightInGrams);
+      final updatedFacts = widget.initialFacts.copyWithRefinedWeight(
+        newWeightInGrams,
+      );
 
       setState(() {
         _currentFacts = updatedFacts;
@@ -100,7 +103,7 @@ class _ResultScreenState extends State<ResultScreen> {
           updatedFacts.portionInGrams,
         ).toStringAsFixed(0);
       });
-      
+
       final String portionUnit = _isMetric ? 'g' : 'oz';
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -112,9 +115,7 @@ class _ResultScreenState extends State<ResultScreen> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Veuillez entrer un poids valide.'),
-        ),
+        const SnackBar(content: Text('Veuillez entrer un poids valide.')),
       );
     }
   }
@@ -139,11 +140,15 @@ class _ResultScreenState extends State<ResultScreen> {
         children: [
           Text(
             label,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: Theme.of(context,).textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Text(
             '${_formatNumber(value, fractionDigits: fractionDigits)} $unit',
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: Theme.of(context,).textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -159,10 +164,13 @@ class _ResultScreenState extends State<ResultScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontSize: 14)),
+          Text(
+            label,
+            style: Theme.of(context,).textTheme.labelLarge,
+          ),
           Text(
             '${_formatNumber(value, fractionDigits: fractionDigits)} $unit',
-            style: const TextStyle(fontSize: 14),
+            style: Theme.of(context,).textTheme.labelLarge,
           ),
         ],
       ),
@@ -197,19 +205,22 @@ class _ResultScreenState extends State<ResultScreen> {
           energyValue = caloriesInKcal;
           switchLabel = 'Afficher en kJ';
         }
-        
+
         // NOUVEAU: Déterminer l'unité et le label pour la portion
         final String portionUnit = _isMetric ? 'g' : 'oz';
-        final String portionLabel = _isMetric ? 'Poids réel ($portionUnit)' : 'Poids réel ($portionUnit)';
-        final double initialDisplayPortion = _getDisplayPortion(widget.initialFacts.portionInGrams);
-        final double currentDisplayPortion = _getDisplayPortion(_currentFacts.portionInGrams);
-
+        final String portionLabel = _isMetric
+            ? 'Poids réel ($portionUnit)'
+            : 'Poids réel ($portionUnit)';
+        final double initialDisplayPortion = _getDisplayPortion(
+          widget.initialFacts.portionInGrams,
+        );
+        final double currentDisplayPortion = _getDisplayPortion(
+          _currentFacts.portionInGrams,
+        );
 
         return Scaffold(
           appBar: AppBar(
-            title: Text(
-              _currentFacts.foodName,  // TODO : Ajuster pour toujours afficher le nom correct
-            ), 
+            title: Text('Résultats de l\'Analyse'),
             backgroundColor: Theme.of(context).colorScheme.primary,
           ),
           body: SingleChildScrollView(
@@ -229,6 +240,14 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 const SizedBox(height: 16),
 
+                Text(
+                  _currentFacts.foodName,
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+
                 // --- AJUSTEMENT DE LA PORTION (avec unité dynamique) ---
                 Text(
                   'Portion estimée par l\'IA: ${_formatNumber(initialDisplayPortion, fractionDigits: 0)}$portionUnit',
@@ -243,11 +262,18 @@ class _ResultScreenState extends State<ResultScreen> {
                     Expanded(
                       child: TextFormField(
                         controller: _weightController,
-                        decoration: InputDecoration( 
+                        decoration: InputDecoration(
                           labelText: portionLabel, // Label dynamique
                           border: const OutlineInputBorder(),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
                         ),
-                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
                         inputFormatters: [
                           // Permet les décimales (point ou virgule)
                           FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
@@ -309,7 +335,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         // --- Titre (avec unité dynamique) ---
                         Text(
                           'Analyse Nutritionnelle pour ${_formatNumber(currentDisplayPortion, fractionDigits: 0)}$portionUnit',
-                          style: Theme.of(context).textTheme.headlineSmall
+                          style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const Divider(),
@@ -326,10 +352,6 @@ class _ResultScreenState extends State<ResultScreen> {
                         ),
 
                         // --- Détails des Macronutriments ---
-                        Text(
-                          'Macronutriments',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
                         _buildFactRow(
                           'Matières grasses totales',
                           _currentFacts.totalFat,
