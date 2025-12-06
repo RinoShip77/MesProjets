@@ -323,12 +323,15 @@ class _ResultScreenState extends State<ResultScreen> {
 
                 // --- Carte des Faits Nutritifs ---
                 Card(
-                  elevation: 4,
+                  elevation: 5,
+                  shadowColor: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).cardColor.withAlpha(25),
+                  
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(25),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
