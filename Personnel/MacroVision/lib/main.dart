@@ -261,7 +261,11 @@ class _CameraScreenState extends State<CameraScreen> {
 
   // 2. Gère la sélection d'une image depuis la galerie
   Future<void> _selectFromGallery() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+      maxWidth: 1024,
+    );
 
     if (image != null) {
       await _analyseImage(image.path);
@@ -289,9 +293,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
     try {
       // 1. Appeler le service Gemini
-      final NutritionalFacts initialFacts = await _geminiService.analyzeImage(
-        File(imagePath), // TODO: Change to pass only the string
-      );
+      final NutritionalFacts initialFacts = await _geminiService.analyzeImage(imagePath);
 
       // 2. FeedBack de succès
       await _audioPlayer.play(AssetSource('audio/success.mp3'));
@@ -386,7 +388,7 @@ class _CameraScreenState extends State<CameraScreen> {
                   child: Align(
                     alignment: const Alignment(
                       0.0,
-                      1.0,
+                      0.5,
                     ),
                     child: CameraPreview(_controller),
                   ),
@@ -413,7 +415,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
                 // 3. Guide de Cadrage Visuel (texte centré en bas ou en haut)
                 Positioned(
-                  top: 25,
+                  top: 20,
                   left: 20,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -526,7 +528,7 @@ class _CameraScreenState extends State<CameraScreen> {
               heroTag: 'galleryBtn',
               backgroundColor: Theme.of(context).colorScheme.primary,
               onPressed: _isAnalyzing ? null : _selectFromGallery,
-              child: const Icon(Icons.photo_library),
+              child: const Icon(Icons.photo_library_rounded),
             ),
 
             // 2. Bouton de CAPTURE PRINCIPAL
@@ -537,9 +539,7 @@ class _CameraScreenState extends State<CameraScreen> {
                   : _takePhoto, // Déclenche _takePhoto
               backgroundColor: Theme.of(context).colorScheme.primary,
               shape: const CircleBorder(),
-              child: _isAnalyzing
-                  ? const CircularProgressIndicator(color: Colors.white)
-                  : const Icon(Icons.camera_alt, size: 30),
+              child: const Icon(Icons.camera_enhance_rounded),
             ),
           ],
         ),
