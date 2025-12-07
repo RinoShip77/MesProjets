@@ -10,111 +10,84 @@ class SettingsScreen extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Réglages de l\'Application'),
-      ),
+      appBar: AppBar(title: const Text('Réglages')),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Thèmes & Apparence',
-              style: Theme.of(context).textTheme.headlineSmall,
+              'Luminosité de l\'application',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
+
             const Divider(),
 
             // Section 1: Mode Clair / Sombre / Système
             _buildThemeOption(
               context,
               title: 'Défaut du système',
-              mode: ThemeModeOption.system,
-              currentMode: themeProvider.themeModeOption,
+              target: ThemeModeOption.system,
+              current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
             ),
             _buildThemeOption(
               context,
-              title: 'Clair (Light)',
-              mode: ThemeModeOption.light,
-              currentMode: themeProvider.themeModeOption,
+              title: 'Mode clair',
+              target: ThemeModeOption.light,
+              current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
             ),
             _buildThemeOption(
               context,
-              title: 'Sombre (Dark)',
-              mode: ThemeModeOption.dark,
-              currentMode: themeProvider.themeModeOption,
+              title: 'Mode sombre',
+              target: ThemeModeOption.dark,
+              current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
             ),
 
             const SizedBox(height: 30),
             Text(
-              'Thèmes Personnalisés',
-              style: Theme.of(context).textTheme.headlineSmall,
+              'Couleurs personnalisées',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
+
             const Divider(),
-            
+
             // Section 2: Choix du thème personnalisé
-            ...customThemes.map((theme) => 
-              _buildCustomThemeOption(
+            ...customThemes.map(
+              (customTheme) => _buildThemeOption(
                 context,
-                theme: theme,
-                currentTheme: themeProvider.customTheme,
+                title: customTheme.name,
+                target: customTheme,
+                current: themeProvider.customTheme,
                 onChanged: themeProvider.setCustomTheme,
-              )
+              ),
             ),
           ],
         ),
       ),
     );
   }
-  
+
+// TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // Widget utilitaire pour les options de mode de base
   Widget _buildThemeOption(
     BuildContext context, {
     required String title,
-    required ThemeModeOption mode,
-    required ThemeModeOption currentMode,
-    required Function(ThemeModeOption) onChanged,
+    required target,
+    required current,
+    required onChanged,
   }) {
-    return RadioListTile<ThemeModeOption>(
+    return RadioListTile<dynamic>(
       title: Text(title),
-      value: mode,
-      groupValue: currentMode,
-      onChanged: (ThemeModeOption? value) {
+      value: target,
+      groupValue: current,
+      onChanged: (value) {
         if (value != null) {
           onChanged(value);
         }
       },
-      activeColor: Theme.of(context).colorScheme.primary,
-    );
-  }
-
-  // Widget utilitaire pour les options de thèmes personnalisés
-  Widget _buildCustomThemeOption(
-    BuildContext context, {
-    required CustomTheme theme,
-    required CustomTheme currentTheme,
-    required Function(CustomTheme) onChanged,
-  }) {
-    return RadioListTile<CustomTheme>(
-      title: Text(theme.name),
-      secondary: Container(
-        width: 24,
-        height: 24,
-        decoration: BoxDecoration(
-          color: theme.color,
-          shape: BoxShape.circle,
-        ),
-      ),
-      value: theme,
-      groupValue: currentTheme,
-      onChanged: (CustomTheme? value) {
-        if (value != null) {
-          onChanged(value);
-        }
-      },
-      activeColor: Theme.of(context).colorScheme.primary,
     );
   }
 }

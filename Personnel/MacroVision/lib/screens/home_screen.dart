@@ -14,19 +14,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
   // Fonction pour naviguer vers les réglages et attendre le retour
-  void _navigateToSettings(BuildContext context) async {
+  void _navigate(BuildContext context, screen) async {
+    // TODO: Envoyer cette fonction de un fichier "helpers.dart"
     // Naviguer et attendre que l'écran SettingsScreen soit "popped" (fermé)
     await Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const SettingsScreen()),
+      MaterialPageRoute(
+        builder: (context) => screen,
+      ),
     );
-    
-    // Une fois revenu, force la reconstruction de l'HomeScreen. 
+
+    // Une fois revenu, force la reconstruction de l'HomeScreen.
     // Ceci est crucial pour rafraîchir le contexte de l'application.
     setState(() {});
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,18 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
           // Bouton 1 : Réglages
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () => _navigateToSettings(context), // Appel de la fonction asynchrone
+            onPressed: () =>
+                _navigate(context, const SettingsScreen()),
             tooltip: 'Réglages',
           ),
           // Bouton 2 : Connexion (Placeholder)
           IconButton(
             icon: const Icon(Icons.person),
-            onPressed: () {
-              // Navigation vers le nouvel écran de profil
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const UserProfileScreen()),
-              );
-            },
+            onPressed: () =>
+                _navigate(context, const UserProfileScreen()),
             tooltip: 'Profil',
           ),
         ],
@@ -58,59 +57,45 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Logo ou titre stylisé
-            Icon(Icons.fitness_center, size: 100, color: Theme.of(context).colorScheme.primary),
+            Icon(
+              Icons.fitness_center,
+              size: 150,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            // Image(
+            //   image: AssetImage(
+            //     Theme.of(context).brightness == Brightness.light
+            //         ? 'assets/images/macrovision_logo_light.png'
+            //         : 'assets/images/macrovision_logo_dark.png',
+            //   ),
+            // ),
             const SizedBox(height: 20),
             Text(
               'Bienvenue sur MacroVision',
-              selectionColor: Theme.of(context).colorScheme.primary,
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.bold
               ),
             ),
             const SizedBox(height: 50),
 
-            // NOUVEAU: Bouton vers le Tableau de Bord
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: OutlinedButton.icon(
-                icon: const Icon(Icons.show_chart),
-                label: const Text('Voir le Tableau de Bord', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15)),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                  side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
-                  backgroundColor: Theme.of(context).colorScheme.onPrimary.withAlpha(80),
-                  foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const DashboardScreen()),
-                  );
-                },
-              ),
+            // Bouton vers le Tableau de Bord
+            OutlinedButton.icon(
+              icon: const Icon(Icons.bar_chart_rounded),
+              label: const Text('Voir le Tableau de Bord'),
+              onPressed: () =>
+                _navigate(context, const DashboardScreen()),
             ),
-            
+
+            const SizedBox(height: 15),
+
             // Bouton principal pour la caméra
             ElevatedButton.icon(
               icon: const Icon(Icons.camera_alt),
-              label: const Text('Commencer l\'analyse', style: TextStyle(fontSize: 18)),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                // Utilisation de la couleur primaire dynamique
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
+              label: const Text(
+                'Commencer l\'analyse',
               ),
-              onPressed: () {
-                // Navigue vers l'écran de la caméra (qui utilisera le contexte rafraîchi)
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => widget.cameraScreen),
-                );
-              },
+               onPressed: () =>
+                _navigate(context, widget.cameraScreen),
             ),
           ],
         ),

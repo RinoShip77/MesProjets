@@ -25,6 +25,9 @@ import 'package:flutter/services.dart';
 import 'package:macro_vision/services/database_service.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 
+// Thème de l'application
+import 'package:macro_vision/config/app_theme.dart';
+
 // Variable globale pour stocker la liste des caméras disponibles
 List<CameraDescription>? cameras;
 
@@ -76,43 +79,17 @@ class MacroVisionApp extends StatelessWidget {
           }
 
           // 3. Déterminer la couleur primaire (personnalisée si mode custom)
-          final MaterialColor primaryColor =
-              themeProvider.themeModeOption == ThemeModeOption.custom
-              ? themeProvider.customTheme.color
-              : Colors.green;
+          final MaterialColor selectedSeedColor =
+            themeProvider.themeModeOption == ThemeModeOption.custom
+            ? themeProvider.customTheme.color // Récupère la MaterialColor custom
+            : appPrimaryColor; // Couleur par défaut (verte dans notre AppPrimaryColor)
 
           return MaterialApp(
-            title: 'MacroVision AI',
+            title: 'MacroVision',
             debugShowCheckedModeBanner: false,
+            theme: getLightTheme(selectedSeedColor),
+            darkTheme: getDarkTheme(selectedSeedColor),
             themeMode: themeProvider.themeMode,
-            theme: ThemeData(
-              // Thème Clair (pour Light mode)
-              primarySwatch: primaryColor,
-              brightness: Brightness.light,
-              appBarTheme: AppBarTheme(
-                backgroundColor: primaryColor,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-              ),
-              colorScheme: ColorScheme.fromSwatch(
-                primarySwatch: primaryColor,
-                brightness: Brightness.light,
-              ),
-            ),
-
-            darkTheme: ThemeData(
-              // Thème Sombre (pour Dark mode)
-              primarySwatch: primaryColor,
-              brightness: Brightness.dark,
-              appBarTheme: AppBarTheme(
-                backgroundColor: primaryColor,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-              ),
-              colorScheme: ColorScheme.fromSwatch(
-                backgroundColor: Colors.black,
-                primarySwatch: primaryColor,
-                brightness: Brightness.dark,
-              ),
-            ),
 
             // L'application commence sur le nouvel HomeScreen
             home: HomeScreen(cameraScreen: cameraOrErrorScreen),
@@ -372,8 +349,6 @@ class _CameraScreenState extends State<CameraScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Analyse Alimentaire'),
-        // Utilisez la couleur primaire, mais assurez-vous qu'elle soit transparente pour la vue caméra
-        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
@@ -405,10 +380,10 @@ class _CameraScreenState extends State<CameraScreen> {
                         ? Theme.of(context).colorScheme.primary
                         : Theme.of(context).primaryColorDark,
                     child: Icon(
-                      _isFlashOn ? Icons.flash_on : Icons.flash_off,
+                      _isFlashOn ? Icons.flash_on_sharp : Icons.flash_off_sharp,
                       color: _isFlashOn
                           ? Theme.of(context).primaryColorDark
-                          : Theme.of(context).primaryColorLight,
+                          : Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ),
@@ -429,7 +404,6 @@ class _CameraScreenState extends State<CameraScreen> {
                     child: const Text(
                       "Conseil : Ciblez un aliment à la fois, avec une bonne lumière.",
                       style: TextStyle(
-                        color: Colors.white,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
@@ -447,7 +421,7 @@ class _CameraScreenState extends State<CameraScreen> {
                         MediaQuery.of(context).size.width * 0.8, // Cadre carré
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.white70, // Couleur du cadre
+                        color: Colors.yellowAccent, // Couleur du cadre
                         width: 2,
                       ),
                     ),
@@ -457,18 +431,15 @@ class _CameraScreenState extends State<CameraScreen> {
                 // 5. Overlay d'analyse (si _isAnalyzing est true)
                 if (_isAnalyzing)
                   Container(
-                    color: Colors.black54,
+                    color: Colors.grey.withAlpha(50),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircularProgressIndicator(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          CircularProgressIndicator(),
                           const SizedBox(height: 20),
                           const Text(
                             'Analyse en cours par l\'IA...',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
                         ],
                       ),
@@ -485,10 +456,6 @@ class _CameraScreenState extends State<CameraScreen> {
                         scale: scale,
                         child: Icon(
                           Icons.check_circle,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.primary, // Utilise la couleur du thème
-                          size: 150,
                           shadows: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.5),
@@ -508,9 +475,7 @@ class _CameraScreenState extends State<CameraScreen> {
           } else {
             // Afficher un indicateur de chargement
             return Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              child: CircularProgressIndicator(),
             );
           }
         },
@@ -526,7 +491,6 @@ class _CameraScreenState extends State<CameraScreen> {
             // 1. Bouton de SÉLECTION/GALERIE
             FloatingActionButton(
               heroTag: 'galleryBtn',
-              backgroundColor: Theme.of(context).colorScheme.primary,
               onPressed: _isAnalyzing ? null : _selectFromGallery,
               child: const Icon(Icons.photo_library_rounded),
             ),
@@ -537,8 +501,6 @@ class _CameraScreenState extends State<CameraScreen> {
               onPressed: _isAnalyzing
                   ? null
                   : _takePhoto, // Déclenche _takePhoto
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              shape: const CircleBorder(),
               child: const Icon(Icons.camera_enhance_rounded),
             ),
           ],

@@ -1,5 +1,3 @@
-// lib/screens/history_screen.dart
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Nécessite l'importation du package 'intl'
@@ -24,7 +22,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
     super.initState();
     _historyFuture = DatabaseService().getHistory();
   }
-  
+
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // Recharge la liste après une suppression ou une mise à jour
   void _refreshHistory() {
     setState(() {
@@ -40,7 +39,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         // Ajoutez un bouton de rafraîchissement si nécessaire
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh_outlined),
             onPressed: _refreshHistory,
           ),
         ],
@@ -51,15 +50,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Erreur de chargement : ${snapshot.error}'));
+            return Center(
+              child: Text('Erreur de chargement : ${snapshot.error}'),
+            );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('Aucun historique d\'analyse trouvé.'));
+            return const Center(
+              child: Text('Aucun historique d\'analyse trouvé.'),
+            );
           } else {
             final history = snapshot.data!;
+
             return ListView.builder(
               itemCount: history.length,
               itemBuilder: (context, index) {
                 final entry = history[index];
+
                 return _buildHistoryTile(context, entry);
               },
             );
@@ -69,19 +74,28 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   Widget _buildHistoryTile(BuildContext context, NutritionalFactsEntry entry) {
     // Formatte la date
     final date = DateTime.fromMillisecondsSinceEpoch(entry.timestamp);
     final formattedDate = DateFormat('dd/MM/yyyy HH:mm').format(date);
-    
+
     return Dismissible(
-      key: Key(entry.id.toString()), // Clé unique pour la suppression par glissement
-      direction: DismissDirection.endToStart,
+      key: Key(
+        entry.id.toString(),
+      ), // Clé unique pour la suppression par glissement
+      direction: DismissDirection.horizontal,
       background: Container(
         color: Colors.red,
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20.0),
-        child: const Icon(Icons.delete, color: Colors.white),
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+        child: Row(
+          children: [
+            const Icon(Icons.delete_rounded, color: Colors.white),
+            Spacer(),
+            const Icon(Icons.delete_rounded, color: Colors.white),
+          ],
+        ),
       ),
       onDismissed: (direction) async {
         // Suppression de l'entrée dans la BDD et de la photo locale
@@ -91,11 +105,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
           try {
             await File(entry.imagePath).delete();
           } catch (_) {}
-          
+
           _refreshHistory(); // Rafraîchir l'interface
         }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${entry.foodName} supprimé de l\'historique.')),
+          SnackBar(
+            content: Text(
+              'L\'entrée du ${DateFormat.yMd().format(date)} a été supprimée de l\'historique.',
+            ),
+          ),
         );
       },
       child: ListTile(
@@ -107,18 +125,24 @@ class _HistoryScreenState extends State<HistoryScreen> {
               : const Icon(Icons.image_not_supported),
         ),
         title: Text(entry.foodName),
-        subtitle: Text('Cal: ${entry.calories.toStringAsFixed(1)} | $formattedDate'),
+        subtitle: Text(
+          'Cal: ${entry.calories.toStringAsFixed(1)} | $formattedDate',
+        ),
         trailing: const Icon(Icons.chevron_right),
+        // TODO: Prendre la méthode de navigation qui sera dans "helpers.dart"
         onTap: () {
           // Naviguer vers l'écran de détail (ResultScreen)
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ResultScreen(
-                initialFacts: entry, // L'entrée est un type NutritionalFacts
-                imagePath: entry.imagePath,
-              ),
-            ),
-          ).then((_) => _refreshHistory()); // Rafraîchir si on revient
+          Navigator.of(context)
+              .push(
+                MaterialPageRoute(
+                  builder: (context) => ResultScreen(
+                    initialFacts:
+                        entry, // L'entrée est un type NutritionalFacts
+                    imagePath: entry.imagePath,
+                  ),
+                ),
+              )
+              .then((_) => _refreshHistory()); // Rafraîchir si on revient
         },
       ),
     );

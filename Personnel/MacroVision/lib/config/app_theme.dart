@@ -1,0 +1,140 @@
+import 'package:flutter/material.dart';
+
+// =========================================================================
+// CONSTANTES DE COULEURS ACCESSIBLES GLOBALEMENT
+// =========================================================================
+
+// Couleur primaire par défaut si le mode 'Custom' n'est pas sélectionné
+const MaterialColor appPrimaryColor = Colors.lightGreen;
+
+// =========================================================================
+// FONCTION DE BASE POUR CRÉER LES THÈMES
+// =========================================================================
+
+ThemeData _buildThemeData({
+  required Brightness brightness,
+  required MaterialColor seedColor, // Accepte la MaterialColor custom
+}) {
+  // 1. Générer un ColorScheme cohérent à partir de la couleur passée
+  final ColorScheme colorScheme = ColorScheme.fromSeed(
+    seedColor: seedColor,
+    brightness: brightness,
+  );
+
+  return ThemeData(
+    useMaterial3: true,
+    brightness: brightness,
+    colorScheme: colorScheme,
+    // Couleur de fond par défaut (Scaffold)
+    scaffoldBackgroundColor: brightness == Brightness.light
+        ? Colors.white
+        : colorScheme.surface,
+
+    // --- Personnalisation générale pour l'application entière ---
+    appBarTheme: AppBarTheme(
+      titleTextStyle: TextStyle(
+        fontSize: 25,
+        fontWeight: FontWeight.bold,
+        color: colorScheme.onPrimary,
+      ),
+      backgroundColor: colorScheme.primary,
+      centerTitle: true,
+    ),
+
+    iconButtonTheme: IconButtonThemeData(
+      style: IconButton.styleFrom(foregroundColor: colorScheme.onPrimary),
+    ),
+
+    dividerTheme: DividerThemeData(
+      space: 40,
+      color: colorScheme.primary.withAlpha(50),
+      thickness: 2,
+    ),
+
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: colorScheme.primary,
+      contentTextStyle: TextStyle(color: colorScheme.onPrimary),
+      actionTextColor: colorScheme.secondaryContainer,
+    ),
+
+    // --- HomeScreen ---
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+        textStyle: TextStyle(fontWeight: FontWeight.w900, fontSize: 15),
+        backgroundColor: colorScheme.inversePrimary,
+        foregroundColor: colorScheme.inverseSurface,
+        side: BorderSide(color: colorScheme.primary, width: 2),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      ),
+    ),
+
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+        textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      ),
+    ),
+
+    // --- UserScreen ---
+    inputDecorationTheme: InputDecorationTheme(
+      border: const OutlineInputBorder(),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: colorScheme.primary),
+      ),
+    ),
+
+    switchTheme: SwitchThemeData(
+      thumbColor: WidgetStateProperty.all(colorScheme.primary),
+      trackColor: WidgetStateProperty.all(colorScheme.primary.withAlpha(90)),
+      trackOutlineColor: WidgetStateProperty.all(colorScheme.primary),
+    ),
+
+    // --- DashboardScreen ---
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: colorScheme.primary,
+    ),
+
+    cardTheme: CardThemeData(
+      color: colorScheme.onPrimary,
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    ),
+
+    toggleButtonsTheme: ToggleButtonsThemeData(
+      fillColor: colorScheme.primary.withAlpha(80),
+      color: colorScheme.onSurface,
+      borderRadius: BorderRadius.circular(10),
+      textStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+    ),
+
+    //TODO: BarChart ET LineChart
+
+    // --- MainScreen ---
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: colorScheme.primary,
+      foregroundColor: colorScheme.onPrimary,
+      shape: const CircleBorder(),
+      elevation: 15,
+    ),
+
+    // --- ResultScreen ---
+  );
+}
+
+// =========================================================================
+// THÈMES GLOBAUX (Exposés)
+// =========================================================================
+
+// Thème CLAIR (utilise la couleur seed passée)
+ThemeData getLightTheme(MaterialColor seedColor) {
+  return _buildThemeData(brightness: Brightness.light, seedColor: seedColor);
+}
+
+// Thème SOMBRE (utilise la couleur seed passée)
+ThemeData getDarkTheme(MaterialColor seedColor) {
+  return _buildThemeData(brightness: Brightness.dark, seedColor: seedColor);
+}

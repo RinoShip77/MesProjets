@@ -163,7 +163,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     // Détermination des unités pour les labels
     final String weightUnit = _profile.isMetric ? 'kg' : 'lbs';
     final String heightUnit = _profile.isMetric ? 'cm' : 'pouces';
-    final Color primaryColor = Theme.of(context).colorScheme.primary;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Mon Profil')),
@@ -172,10 +171,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[
-            // --- NOUVEAU: CHOIX DU SYSTÈME D'UNITÉ (Impérial vs Métrique) ---
+            // Système d'Unités (Switch)
             SwitchListTile(
               title: const Text(
-                'Système d\'Unités',
+                'Système d\'unités',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
@@ -188,15 +187,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 setState(() {
                   // Appel de la nouvelle fonction de mise à jour/conversion dans le setState
                   _updateUnitSystem(newValue);
-                  // CORRECTION: Sauvegarde immédiate de la préférence d'unité sans navigation
                   _saveUserProfile(shouldPop: false);
                 });
               },
-              secondary: Icon(Icons.straighten, color: primaryColor),
-              activeThumbColor: primaryColor,
-              thumbColor: WidgetStateProperty.all(primaryColor),
-              trackOutlineColor: WidgetStateProperty.all(primaryColor),
+              secondary: Icon(
+                Icons.straighten,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
+
             const Divider(),
 
             // Nom
@@ -211,11 +210,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             _buildTextField(
               controller: _weightController,
               label: 'Poids ($weightUnit)',
-              // Pour les décimales, on utilise numberWithOptions(decimal: true)
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              // CORRECTION: Formateur pour accepter les décimales (virgules et points)
               formatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
               ],
@@ -233,7 +230,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              // CORRECTION: Formateur pour accepter les décimales
               formatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
               ],
@@ -249,7 +245,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               controller: _ageController,
               label: 'Âge',
               keyboardType: TextInputType.number,
-              // CORRECTION: Formateur pour accepter uniquement les chiffres
               formatters: [FilteringTextInputFormatter.digitsOnly],
               validator: (val) => val == null || int.tryParse(val) == null
                   ? 'Entrez un âge valide.'
@@ -258,15 +253,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             // Genre (Dropdown)
             DropdownButtonFormField<Gender>(
-              decoration: InputDecoration(
-                labelText: 'Sexe',
-                border: const OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
+              decoration: InputDecoration(labelText: 'Sexe'),
               initialValue: _profile.gender,
               items: Gender.values.map((Gender gender) {
                 return DropdownMenuItem<Gender>(
@@ -289,12 +276,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             DropdownButtonFormField<ActivityLevel>(
               decoration: InputDecoration(
                 labelText: 'Niveau d\'Activité Physique',
-                border: const OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
               ),
               initialValue: _profile.activityLevel,
               items: ActivityLevel.values.map((ActivityLevel level) {
@@ -313,19 +294,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               },
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
 
             // Objectif (Dropdown)
             DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: 'Objectif Principal',
-                border: const OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
+              decoration: InputDecoration(labelText: 'Objectif Principal'),
               initialValue: _profile.goal,
               items: _goals.map((String goal) {
                 return DropdownMenuItem<String>(value: goal, child: Text(goal));
@@ -339,18 +312,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               },
             ),
 
-            Divider(
-              height: 45,
-              thickness: 2,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-            ),
+            Divider(),
 
             // Accès à l'Historique
-            ListTile(
-              leading: Icon(Icons.history, color: primaryColor),
-              title: const Text('Voir l\'Historique des Analyses'),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
+            OutlinedButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const Icon(Icons.history),
+                  SizedBox(width: 8),
+                  const Text('Voir l\'Historique des Analyses'),
+                  Spacer(),
+                  const Icon(Icons.arrow_forward_ios_rounded),
+                ],
+              ),
+              // TODO: Prendre la méthode de navigation qui sera dans "helpers.dart"
+              onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const HistoryScreen(),
@@ -363,16 +340,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             // Bouton de Sauvegarde
             ElevatedButton(
+              child: const Text('Sauvegarder le Profil'),
               onPressed: () => _saveUserProfile(shouldPop: true),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                backgroundColor: primaryColor,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text(
-                'Sauvegarder le Profil',
-                style: TextStyle(fontSize: 18),
-              ),
             ),
           ],
         ),
@@ -380,6 +349,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // Fonction utilitaire mise à jour pour accepter les formatters
   Widget _buildTextField({
     required TextEditingController controller,
@@ -395,15 +365,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         // Utilisation du paramètre formatters
         inputFormatters: formatters,
         keyboardType: keyboardType,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ),
+        decoration: InputDecoration(labelText: label),
         validator:
             validator ??
             (value) {

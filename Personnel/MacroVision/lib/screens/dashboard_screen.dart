@@ -1,5 +1,3 @@
-// lib/screens/dashboard_screen.dart
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -96,10 +94,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           _selectedChartType = ChartType.values[index];
         });
       },
-      borderRadius: BorderRadius.circular(8.0),
-      selectedColor: Colors.white,
-      fillColor: Theme.of(context).colorScheme.primary,
-      color: Theme.of(context).colorScheme.primary,
       constraints: const BoxConstraints(minHeight: 36.0, minWidth: 80.0),
       children: const [
         Text('Barres'),
@@ -138,9 +132,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 Text(
                   'Objectifs du Jour',
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
+
                 const SizedBox(height: 10),
+
                 _buildMacroGoalCard(
                   context,
                   title: 'Calories',
@@ -148,7 +144,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   goal: _goalMacros['calories'] ?? 0,
                   unit: 'kcal',
                 ),
-                const SizedBox(height: 20),
+
+                const SizedBox(height: 10),
 
                 Row(
                   children: [
@@ -160,7 +157,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       unit: 'g',
                       flex: 1,
                     ),
+
                     const SizedBox(width: 10),
+                    
                     _buildMacroGoalCard(
                       context,
                       title: 'Lipides',
@@ -171,7 +170,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ],
                 ),
+
                 const SizedBox(height: 10),
+
                 _buildMacroGoalCard(
                   context,
                   title: 'Glucides',
@@ -179,17 +180,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   goal: _goalMacros['totalCarbohydrates'] ?? 0,
                   unit: 'g',
                 ),
-                const Divider(height: 40),
+
+                Divider(),
 
                 Text(
                   'Suivi Hebdomadaire (Calories)',
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
+
                 const SizedBox(height: 10),
                 
                 // UTILISATION DU SÉLECTEUR
                 _buildChartTypeSelector(),
-                const SizedBox(height: 16),
+
+                const SizedBox(height: 10),
 
                 // PASSAGE DE LA SÉLECTION AU GRAPHIQUE
                 WeeklyChart(chartType: _selectedChartType), 
@@ -201,6 +205,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+// TODO: Envoyer cette fonction de un fichier "helpers.dart"
   Widget _buildMacroGoalCard(
     BuildContext context, {
     required String title,
@@ -221,16 +226,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
               title,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+
+            const SizedBox(height: 5),
+
             Text(
               '${consumed.toStringAsFixed(1)} / ${goal.toStringAsFixed(0)} $unit',
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
+
             const SizedBox(height: 8),
+            
             LinearProgressIndicator(
               value: progress,
-              backgroundColor: Colors.grey[300],
-              color: Theme.of(context).colorScheme.primary,
             ),
           ],
         ),
@@ -287,6 +294,7 @@ class WeeklyChart extends StatelessWidget {
     );
   }
 
+// TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // --- GRAPHIQUE EN LIGNES ---
   Widget _buildLineChart(
     BuildContext context,
@@ -356,7 +364,7 @@ class WeeklyChart extends StatelessWidget {
     );
   }
 
-
+// TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // --- GRAPHIQUE À BARRES ---
   Widget _buildBarChart(
     BuildContext context,
