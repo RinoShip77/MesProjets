@@ -111,17 +111,29 @@ class _ResultScreenState extends State<ResultScreen> {
 
       final String portionUnit = _isMetric ? 'g' : 'lbs';
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Analyse ajustée pour ${_weightController.text} $portionUnit.',
+      if (mounted) {
+        // TODO: Envoyer cette fonction de un fichier "helpers.dart"
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Analyse ajustée pour ${_weightController.text} $portionUnit.',
+            ),
           ),
-        ),
-      );
+        );
+      }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veuillez entrer un poids valide.')),
-      );
+      if (mounted) {
+        // TODO: Envoyer cette fonction de un fichier "helpers.dart"
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Veuillez entrer un poids valide.',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 

@@ -98,17 +98,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Future<void> _saveUserProfile() async {
     // Assurez-vous que l'objet _profile a les bonnes valeurs de stockage métrique
     if (!_formKey.currentState!.validate()) {
-      // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Erreur dans le formulaire. Veuillez vérifier vos entrées.',
-            style: TextStyle(color: Colors.white),
+      if (mounted) {
+        // TODO: Envoyer cette fonction de un fichier "helpers.dart"
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Erreur dans le formulaire. Veuillez vérifier vos entrées.',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.red,
           ),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+        );
+      }
     } else {
       // 1. Récupérer les valeurs affichées (en unités courantes)
       // Remplacer la virgule par un point pour le parsing
@@ -144,6 +145,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       // await NutritionCalculator().updateGoals(_profile);
 
       if (mounted) {
+        // TODO: Envoyer cette fonction de un fichier "helpers.dart"
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profil mis à jour avec succès!')),
         );

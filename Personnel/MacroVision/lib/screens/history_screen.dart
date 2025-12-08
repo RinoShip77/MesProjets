@@ -25,10 +25,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // Recharge la liste après une suppression ou une mise à jour
-  void _refreshHistory() {
+  void _refresh() {
     setState(() {
       _historyFuture = DatabaseService().getHistory();
     });
+
+    if (mounted) {
+      // TODO: Envoyer cette fonction de un fichier "helpers.dart"
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Historique mis à jour.')));
+    }
   }
 
   @override
@@ -40,7 +47,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_outlined),
-            onPressed: _refreshHistory,
+            onPressed: _refresh,
           ),
         ],
       ),
@@ -50,6 +57,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
+            if (mounted) {
+              // TODO: Envoyer cette fonction de un fichier "helpers.dart"
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Erreur de chargement : ${snapshot.error}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+
             return Center(
               child: Text('Erreur de chargement : ${snapshot.error}'),
             );
@@ -104,17 +124,34 @@ class _HistoryScreenState extends State<HistoryScreen> {
           // Optionnel : Supprimer le fichier image local
           try {
             await File(entry.imagePath).delete();
-          } catch (_) {}
+          } catch (e) {
+            if (mounted) {
+              // TODO: Envoyer cette fonction de un fichier "helpers.dart"
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Erreur de chargement : ${e.toString()}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          }
 
-          _refreshHistory(); // Rafraîchir l'interface
+          _refresh(); // Rafraîchir l'interface
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'L\'entrée du ${DateFormat.yMd().format(date)} a été supprimée de l\'historique.',
+
+        if (mounted) {
+          // TODO: Envoyer cette fonction de un fichier "helpers.dart"
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'L\'entrée du ${DateFormat.yMd().format(date)} a été supprimée de l\'historique.',
+              ),
             ),
-          ),
-        );
+          );
+        }
       },
       child: ListTile(
         leading: SizedBox(
@@ -128,7 +165,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         subtitle: Text(
           'Cal: ${entry.calories.toStringAsFixed(1)} | $formattedDate',
         ),
-        trailing: const Icon(Icons.chevron_right),
+        trailing: const Icon(Icons.chevron_right_rounded),
         // TODO: Prendre la méthode de navigation qui sera dans "helpers.dart"
         onTap: () {
           // Naviguer vers l'écran de détail (ResultScreen)
@@ -143,7 +180,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   ),
                 ),
               )
-              .then((_) => _refreshHistory()); // Rafraîchir si on revient
+              .then((_) => _refresh()); // Rafraîchir si on revient
         },
       ),
     );

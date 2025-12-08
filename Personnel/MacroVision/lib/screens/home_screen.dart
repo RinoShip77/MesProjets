@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:macro_vision/screens/camera_screen.dart';
 import 'package:macro_vision/screens/dashboard_screen.dart';
 import 'package:macro_vision/screens/settings_screen.dart';
 import 'package:macro_vision/screens/user_profile_screen.dart';
 
 // Convertir en StatefulWidget
 class HomeScreen extends StatefulWidget {
-  final Widget cameraScreen;
-
-  const HomeScreen({super.key, required this.cameraScreen});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -85,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton.icon(
               icon: const Icon(Icons.camera_alt),
               label: const Text('Commencer l\'analyse'),
-              onPressed: () => _navigate(context, widget.cameraScreen),
+              onPressed: () => _navigate(context, const CameraScreen()),
             ),
           ],
         ),
