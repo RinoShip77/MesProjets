@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 // =========================================================================
 
 // Couleur primaire par défaut si le mode 'Custom' n'est pas sélectionné
-const MaterialColor appPrimaryColor = Colors.lightGreen;
+final MaterialColor appPrimaryColor = Colors.purple;
 
 // =========================================================================
 // FONCTION DE BASE POUR CRÉER LES THÈMES
@@ -62,7 +62,7 @@ ThemeData _buildThemeData({
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
         textStyle: TextStyle(fontWeight: FontWeight.w900, fontSize: 15),
-        backgroundColor: colorScheme.inversePrimary,
+        backgroundColor: colorScheme.inversePrimary.withAlpha(70),
         foregroundColor: colorScheme.inverseSurface,
         side: BorderSide(color: colorScheme.primary, width: 2),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -96,22 +96,38 @@ ThemeData _buildThemeData({
     // --- DashboardScreen ---
     progressIndicatorTheme: ProgressIndicatorThemeData(
       color: colorScheme.primary,
+      linearMinHeight: 10,
+      borderRadius: BorderRadius.circular(10),
     ),
 
     cardTheme: CardThemeData(
-      color: colorScheme.onPrimary,
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      color: brightness == Brightness.light
+          // ? Colors.white
+          ? colorScheme.onInverseSurface
+          : colorScheme.onInverseSurface,
+      elevation: 2,
+      shadowColor: colorScheme.primary,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: colorScheme.primary.withAlpha(90)),
+        borderRadius: BorderRadius.circular(15),
+      ),
     ),
 
     toggleButtonsTheme: ToggleButtonsThemeData(
-      fillColor: colorScheme.primary.withAlpha(80),
-      color: colorScheme.onSurface,
+      fillColor: colorScheme.primary.withAlpha(250),
+      selectedColor: colorScheme.onPrimary,
       borderRadius: BorderRadius.circular(10),
       textStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
     ),
 
-    //TODO: BarChart ET LineChart
+    // --- ResultScreen ---
+    
+
+
+
+
+
+    
 
     // --- MainScreen ---
     floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -120,8 +136,6 @@ ThemeData _buildThemeData({
       shape: const CircleBorder(),
       elevation: 15,
     ),
-
-    // --- ResultScreen ---
   );
 }
 

@@ -70,8 +70,8 @@ class NutritionCalculator {
     return {
       'calories': goalCals,
       'protein': (proteinCals / 4).roundToDouble(),
-      'carbohydrates': (carbCals / 4).roundToDouble(),
-      'fat': (fatCals / 9).roundToDouble(),
+      'totalCarbohydrates': (carbCals / 4).roundToDouble(),
+      'totalFat': (fatCals / 9).roundToDouble(),
     };
   }
 

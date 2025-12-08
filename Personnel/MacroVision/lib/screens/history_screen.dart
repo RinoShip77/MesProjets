@@ -35,7 +35,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Historique des Analyses'),
+        title: const Text('Historique des analyses'),
         // Ajoutez un bouton de rafraîchissement si nécessaire
         actions: [
           IconButton(
@@ -139,6 +139,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     initialFacts:
                         entry, // L'entrée est un type NutritionalFacts
                     imagePath: entry.imagePath,
+                    origin: runtimeType.toString(),
                   ),
                 ),
               )

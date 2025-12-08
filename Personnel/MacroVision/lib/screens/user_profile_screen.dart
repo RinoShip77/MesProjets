@@ -39,8 +39,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _loadUserProfile();
   }
 
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // --- LOGIQUE DE PERSISTANCE ET CONVERSION ---
-
   Future<void> _loadUserProfile() async {
     final prefs = await SharedPreferences.getInstance();
     final userJson = prefs.getString('userProfile');
@@ -66,6 +66,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     });
   }
 
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // NOUVEAU: Fonction pour mettre à jour l'état et l'affichage des unités
   void _updateUnitSystem(bool newIsMetric) {
     // 1. Mettre à jour la préférence d'unité.
@@ -93,50 +94,60 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  Future<void> _saveUserProfile({bool shouldPop = true}) async {
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
+  Future<void> _saveUserProfile() async {
     // Assurez-vous que l'objet _profile a les bonnes valeurs de stockage métrique
     if (!_formKey.currentState!.validate()) {
-      if (shouldPop) return;
-    }
-
-    // 1. Récupérer les valeurs affichées (en unités courantes)
-    // Remplacer la virgule par un point pour le parsing
-    final double displayWeight =
-        double.tryParse(_weightController.text.replaceAll(',', '.')) ?? 0.0;
-    final double displayHeight =
-        double.tryParse(_heightController.text.replaceAll(',', '.')) ?? 0.0;
-    final int age = int.tryParse(_ageController.text) ?? 0;
-
-    // 2. Conversion des valeurs d'affichage vers le STOCKAGE (Métrique)
-    double storageWeight = displayWeight;
-    double storageHeight = displayHeight;
-
-    if (!_profile.isMetric) {
-      // Conversion LBS -> KG
-      storageWeight = displayWeight / _kgToLbs;
-      // Conversion INCHES -> CM
-      storageHeight = displayHeight / _cmToInches;
-    }
-
-    // 3. Mettre à jour l'objet UserProfile avec les valeurs STOCKÉES (Métrique) et le choix d'unité
-    _profile.name = _nameController.text;
-    _profile.weight = storageWeight; // Stocké en KG
-    _profile.height = storageHeight; // Stocké en CM
-    _profile.age = age;
-    // Les autres champs (gender, activityLevel, goal) sont mis à jour directement via les Dropdowns
-    // _profile.isMetric est mis à jour dans le SwitchListTile
-
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userProfile', jsonEncode(_profile.toJson()));
-
-    // NOTE: C'est ici que le NutritionCalculator mettrait à jour les objectifs
-    // await NutritionCalculator().updateGoals(_profile);
-
-    if (mounted && shouldPop) {
+      // TODO: Envoyer cette fonction de un fichier "helpers.dart"
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profil mis à jour avec succès!')),
+        const SnackBar(
+          content: Text(
+            'Erreur dans le formulaire. Veuillez vérifier vos entrées.',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
       );
-      Navigator.pop(context); // Retour à l'écran précédent
+    } else {
+      // 1. Récupérer les valeurs affichées (en unités courantes)
+      // Remplacer la virgule par un point pour le parsing
+      final double displayWeight =
+          double.tryParse(_weightController.text.replaceAll(',', '.')) ?? 0.0;
+      final double displayHeight =
+          double.tryParse(_heightController.text.replaceAll(',', '.')) ?? 0.0;
+      final int age = int.tryParse(_ageController.text) ?? 0;
+
+      // 2. Conversion des valeurs d'affichage vers le STOCKAGE (Métrique)
+      double storageWeight = displayWeight;
+      double storageHeight = displayHeight;
+
+      if (!_profile.isMetric) {
+        // Conversion LBS -> KG
+        storageWeight = displayWeight / _kgToLbs;
+        // Conversion INCHES -> CM
+        storageHeight = displayHeight / _cmToInches;
+      }
+
+      // 3. Mettre à jour l'objet UserProfile avec les valeurs STOCKÉES (Métrique) et le choix d'unité
+      _profile.name = _nameController.text;
+      _profile.weight = storageWeight; // Stocké en KG
+      _profile.height = storageHeight; // Stocké en CM
+      _profile.age = age;
+      // Les autres champs (gender, activityLevel, goal) sont mis à jour directement via les Dropdowns
+      // _profile.isMetric est mis à jour dans le SwitchListTile
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userProfile', jsonEncode(_profile.toJson()));
+
+      // NOTE: C'est ici que le NutritionCalculator mettrait à jour les objectifs
+      // await NutritionCalculator().updateGoals(_profile);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profil mis à jour avec succès!')),
+        );
+      }
     }
   }
 
@@ -187,7 +198,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 setState(() {
                   // Appel de la nouvelle fonction de mise à jour/conversion dans le setState
                   _updateUnitSystem(newValue);
-                  _saveUserProfile(shouldPop: false);
+                  _saveUserProfile();
                 });
               },
               secondary: Icon(
@@ -251,6 +262,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   : null,
             ),
 
+            // TODO: Faire une méthode pour créer le DropDown
+            // TODO: Envoyer cette fonction de un fichier "helpers.dart"
             // Genre (Dropdown)
             DropdownButtonFormField<Gender>(
               decoration: InputDecoration(labelText: 'Sexe'),
@@ -314,34 +327,40 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             Divider(),
 
-            // Accès à l'Historique
-            OutlinedButton(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  const Icon(Icons.history),
-                  SizedBox(width: 8),
-                  const Text('Voir l\'Historique des Analyses'),
-                  Spacer(),
-                  const Icon(Icons.arrow_forward_ios_rounded),
-                ],
-              ),
-              // TODO: Prendre la méthode de navigation qui sera dans "helpers.dart"
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const HistoryScreen(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                // Accès à l'Historique
+                OutlinedButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const Icon(Icons.history_rounded),
+                      SizedBox(width: 8),
+                      const Text('Voir l\'historique des analyses'),
+                      Spacer(),
+                      const Icon(Icons.arrow_forward_ios_rounded),
+                    ],
                   ),
-                );
-              },
-            ),
+                  // TODO: Prendre la méthode de navigation qui sera dans "helpers.dart"
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const HistoryScreen(),
+                      ),
+                    );
+                  },
+                ),
 
-            const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-            // Bouton de Sauvegarde
-            ElevatedButton(
-              child: const Text('Sauvegarder le Profil'),
-              onPressed: () => _saveUserProfile(shouldPop: true),
+                // Bouton de Sauvegarde
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.save_alt_rounded),
+                  label: const Text('Sauvegarder le profil'),
+                  onPressed: () => _saveUserProfile(),
+                ),
+              ],
             ),
           ],
         ),

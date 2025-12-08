@@ -41,6 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _loadingFuture = _loadData();
   }
 
+// TODO: Envoyer cette fonction de un fichier "helpers.dart"
   Future<void> _loadData() async {
     final prefs = await SharedPreferences.getInstance();
     final userJson = prefs.getString('userProfile');
@@ -79,12 +80,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+// TODO: Envoyer cette fonction de un fichier "helpers.dart"
   Future<void> _refreshData() async {
     setState(() {
       _loadingFuture = _loadData();
     });
   }
 
+// TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // 3. WIDGET DU SÉLECTEUR DE GRAPHIQUE
   Widget _buildChartTypeSelector() {
     return ToggleButtons(
@@ -142,7 +145,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   title: 'Calories',
                   consumed: _consumedMacros['calories'] ?? 0,
                   goal: _goalMacros['calories'] ?? 0,
-                  unit: 'kcal',
+                  unit: 'cal',
                 ),
 
                 const SizedBox(height: 10),
@@ -193,7 +196,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 // UTILISATION DU SÉLECTEUR
                 _buildChartTypeSelector(),
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
 
                 // PASSAGE DE LA SÉLECTION AU GRAPHIQUE
                 WeeklyChart(chartType: _selectedChartType), 
@@ -306,6 +309,39 @@ class WeeklyChart extends StatelessWidget {
       LineChartData(
         minY: 0,
         maxY: maxY,
+        lineTouchData: LineTouchData(
+          handleBuiltInTouches: true,
+          touchTooltipData: LineTouchTooltipData(
+            getTooltipColor: (spot) => primaryColor,
+            tooltipBorderRadius: BorderRadius.all(Radius.circular(8.0)),
+            tooltipPadding: EdgeInsets.all(8.0),
+            tooltipMargin: 10,
+            getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
+              return lineBarsSpot.map((spot) {
+                final day = data[spot.x.toInt()].dayName;
+                final calories = spot.y;
+                return LineTooltipItem(
+                  '$day\n',
+                  TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '${calories.toStringAsFixed(0)} cal',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                );
+              }).toList();
+            },
+          ),
+        ),
         titlesData: FlTitlesData(
           show: true,
           bottomTitles: AxisTitles(
@@ -332,7 +368,9 @@ class WeeklyChart extends StatelessWidget {
                   space: 4,
                   child: Text(
                     '${value.toInt()}',
-                    style: const TextStyle(fontSize: 10, color: Colors.grey),
+                    style: const TextStyle(
+                      fontSize: 10,
+                    ),
                   ),
                 );
               },
@@ -344,7 +382,16 @@ class WeeklyChart extends StatelessWidget {
         gridData: const FlGridData(show: true, drawVerticalLine: false),
         borderData: FlBorderData(
           show: true,
-          border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
+          border: Border(
+            bottom: BorderSide(
+              color: primaryColor.withAlpha(75),
+              width: 1,
+            ),
+            left: BorderSide(
+              color: primaryColor.withAlpha(75),
+              width: 1,
+            ),
+          ),
         ),
         lineBarsData: [
           LineChartBarData(
@@ -354,10 +401,9 @@ class WeeklyChart extends StatelessWidget {
               return FlSpot(index.toDouble(), summary.calories);
             }).toList(),
             isCurved: true,
-            color: primaryColor.withOpacity(0.8),
-            // CORRECTION: 'barAreaSuddenly' a été supprimé car il n'est pas supporté par votre version de fl_chart.
+            color: primaryColor, // Couleur de la ligne
             dotData: const FlDotData(show: true), // Afficher les points sur la ligne
-            belowBarData: BarAreaData(show: true, color: primaryColor.withOpacity(0.3)),
+            belowBarData: BarAreaData(show: true, color: primaryColor.withAlpha(70)),
           ),
         ],
       ),
@@ -376,7 +422,37 @@ class WeeklyChart extends StatelessWidget {
       BarChartData(
         alignment: BarChartAlignment.spaceAround,
         maxY: maxY,
-        barTouchData: BarTouchData(enabled: false),
+        barTouchData: BarTouchData(
+          handleBuiltInTouches: true,
+          touchTooltipData: BarTouchTooltipData(
+            getTooltipColor: (spot) => primaryColor,
+            tooltipBorderRadius: BorderRadius.all(Radius.circular(8.0)),
+            tooltipPadding: EdgeInsets.all(8.0),
+            tooltipMargin: 10,
+            getTooltipItem: (group, groupIndex, rod, rodIndex) {
+              final day = data[group.x.toInt()].dayName;
+              final calories = rod.toY;
+              return BarTooltipItem(
+                '$day\n',
+                TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '${calories.toStringAsFixed(0)} cal',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
         titlesData: FlTitlesData(
           show: true,
           bottomTitles: AxisTitles(
@@ -409,7 +485,6 @@ class WeeklyChart extends StatelessWidget {
                     '${value.toInt()}',
                     style: const TextStyle(
                       fontSize: 10,
-                      color: Colors.grey,
                     ),
                   ),
                 );
@@ -428,11 +503,11 @@ class WeeklyChart extends StatelessWidget {
           show: true,
           border: Border(
             bottom: BorderSide(
-              color: Colors.grey.withOpacity(0.5),
+              color: primaryColor.withAlpha(75),
               width: 1,
             ),
             left: BorderSide(
-              color: Colors.grey.withOpacity(0.5),
+              color: primaryColor.withAlpha(75),
               width: 1,
             ),
           ),
@@ -445,16 +520,16 @@ class WeeklyChart extends StatelessWidget {
             barRods: [
               BarChartRodData(
                 toY: summary.calories,
-                color: primaryColor.withOpacity(0.8),
+                color: primaryColor,
                 width: 18,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(6),
-                  topRight: Radius.circular(6),
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
                 ),
                 backDrawRodData: BackgroundBarChartRodData(
                   show: true,
                   toY: maxY,
-                  color: Colors.grey[200],
+                  color: primaryColor.withAlpha(50),
                 ),
               ),
             ],

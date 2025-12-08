@@ -296,6 +296,7 @@ class _CameraScreenState extends State<CameraScreen> {
             builder: (context) => ResultScreen(
               initialFacts: initialFacts, // Passage de l'objet initial de l'IA
               imagePath: savedPath,
+              origin: runtimeType.toString(),
             ),
           ),
         );
