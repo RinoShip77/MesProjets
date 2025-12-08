@@ -120,16 +120,7 @@ ThemeData _buildThemeData({
       textStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
     ),
 
-    // --- ResultScreen ---
-    
-
-
-
-
-
-    
-
-    // --- MainScreen ---
+    // --- CameraScreen ---
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: colorScheme.primary,
       foregroundColor: colorScheme.onPrimary,

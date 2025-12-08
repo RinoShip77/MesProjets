@@ -333,7 +333,6 @@ class _CameraScreenState extends State<CameraScreen> {
             ),
           ),
 
-//TODO: Adjust color and position
           // 2. Bouton Flash/Lampe de poche (en haut à droite)
           Positioned(
             top: 60,
@@ -341,14 +340,14 @@ class _CameraScreenState extends State<CameraScreen> {
             child: FloatingActionButton(
               heroTag: 'flashBtn',
               onPressed: _isAnalyzing ? null : _toggleFlash,
-              backgroundColor: _isFlashOn
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).primaryColorDark,
+              // backgroundColor: _isFlashOn
+              //     ? Theme.of(context).colorScheme.primary
+              //     : Colors.black87,
               child: Icon(
                 _isFlashOn ? Icons.flash_on_sharp : Icons.flash_off_sharp,
-                color: _isFlashOn
-                    ? Theme.of(context).primaryColorDark
-                    : Theme.of(context).colorScheme.primary,
+                // color: _isFlashOn
+                //     ? Colors.black87
+                //     : Theme.of(context).colorScheme.primary,
               ),
             ),
           ),
@@ -359,12 +358,16 @@ class _CameraScreenState extends State<CameraScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
-                color: Colors.black54, // Fond sombre semi-transparent
+                color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text(
+              child: Text(
                 "Conseil : Ciblez un aliment à la fois, avec une bonne lumière.",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
             ),
           ),
@@ -425,7 +428,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
       // Boutons de Galerie et de Capture (Horizontal)
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 40.0),
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
