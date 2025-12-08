@@ -5,22 +5,62 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:macro_vision/models/nutritional_facts.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart'; // Pour charger les variables d'environnement
 
-class GeminiService {
-  late final GenerativeModel _model;
+// =========================================================================
+// ERREUR PERSONNALISÉE
+// =========================================================================
+class NotInitializedError implements Exception {
+  final String message =
+      "Le service Gemini n'a pas été initialisé. Assurez-vous d'appeler initialize() dans main.dart.";
 
-  GeminiService() {
+  @override
+  String toString() => 'NotInitializedError: $message';
+}
+
+class GeminiService {
+  // Rendre _model nullable et private
+  GenerativeModel? _model;
+  // late final GenerativeModel _model;
+
+  // Implémentation du pattern Singleton
+  GeminiService._internal();
+  static final GeminiService _instance = GeminiService._internal();
+
+  // Point d'accès unique
+  factory GeminiService() {
+    return _instance;
+  }
+  // GeminiService() {
+  //   // Récupérer la clé depuis le fichier .env
+  //   final String apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
+
+  //   // Vérification simple (optionnel mais recommandé)
+  //   if (apiKey.isEmpty) {
+  //     throw Exception("Clé API GEMINI non trouvée dans le fichier .env.");
+  //   }
+
+  //   // Le constructeur GenerativeModel est correct
+  //   _model = GenerativeModel(
+  //     model: 'gemini-2.5-flash',
+  //     apiKey: apiKey, // Utilisation de la clé API chargée depuis .env
+  //   );
+  // }
+
+  // Nouvelle méthode d'initialisation à appeler DANS main.dart
+  void initialize() {
+    if (_model != null) return; // Déjà initialisé
+
     // Récupérer la clé depuis le fichier .env
     final String apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
 
-    // Vérification simple (optionnel mais recommandé)
     if (apiKey.isEmpty) {
       throw Exception("Clé API GEMINI non trouvée dans le fichier .env.");
     }
 
-    // Le constructeur GenerativeModel est correct
+    // Initialisation du modèle
     _model = GenerativeModel(
       model: 'gemini-2.5-flash',
-      apiKey: apiKey, // Utilisation de la clé API chargée depuis .env
+      // *'systemInstruction' est maintenant supporté via GenerationConfig
+      apiKey: apiKey,
     );
   }
 
@@ -49,12 +89,50 @@ class GeminiService {
   ''';
 
   Future<NutritionalFacts> analyzeImage(String imagePath) async {
+    // Vérification de sécurité (essentielle)
+    if (_model == null) {
+      throw NotInitializedError();
+    }
+
     // Contenu pour l'API Gemini
-    final imageBytes = await compute(_readFileBytes, imagePath);
-    final response = await _model.generateContent(
-      [Content('user', [TextPart(_systemInstruction), DataPart('image/jpeg', imageBytes)])],
-      generationConfig: GenerationConfig(responseMimeType: 'application/json'),
+    // 1. Lire le fichier image en tant que bytes
+    final imageFile = File(imagePath);
+    if (!await imageFile.exists()) {
+      throw Exception("Le fichier image n'existe pas : $imagePath");
+    }
+    final imageBytes = await imageFile.readAsBytes();
+
+    // 2. Préparer les contenus de la requête
+    final imagePart = DataPart('image/jpeg', imageBytes);
+
+    // Ajout d'une requête utilisateur générique pour une analyse alimentaire
+    final userPrompt = TextPart(
+      '$_systemInstruction \n\nAnalyse l\'image ci-jointe pour estimer les valeurs nutritionnelles du plat visible.',
     );
+
+    final contents = [Content('user', [imagePart, userPrompt])];
+
+    // 3. Configurer la génération (GenerationConfig) pour un JSON strict
+    final generationConfig = GenerationConfig(
+      responseMimeType: 'application/json',
+    );
+
+    // // Créer un Content pour l'instruction système
+    // final systemContent = Content.system(_systemInstruction);
+    
+    // // Ajouter l'instruction système au début des contenus de la requête
+    // final fullContents = [systemContent, ...content];
+    
+    // 4. Exécuter la requête
+    final response = await _model!.generateContent(
+      contents, // Utiliser la liste complète incluant l'instruction système
+      generationConfig: generationConfig,
+  );
+    // final imageBytes = await compute(_readFileBytes, imagePath);
+    // final response = await _model.generateContent(
+    //   [Content('user', [TextPart(_systemInstruction), DataPart('image/jpeg', imageBytes)])],
+    //   generationConfig: GenerationConfig(responseMimeType: 'application/json'),
+    // );
 
     final jsonString = response.text?.trim() ?? '';
 
@@ -85,9 +163,14 @@ class GeminiService {
     }
     cleanedJson = cleanedJson.trim();
 
+    if (kDebugMode) {
+      print("Réponse nettoyée de l'IA : $cleanedJson");
+    }
+
     try {
+      // Tenter de décoder le JSON et de le convertir en objet Dart
       final jsonMap = jsonDecode(cleanedJson) as Map<String, dynamic>;
-      
+
       return NutritionalFacts.fromJson(jsonMap);
     } catch (e) {
       if (kDebugMode) {

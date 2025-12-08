@@ -1,19 +1,33 @@
-// import 'package:fluttertoast/fluttertoast.dart';
-// import 'package:flutter/material.dart';
+// lib/helpers/helpers.dart
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart'; // N'oubliez pas l'importation du package
 
-// // Helper function to show a toast
-// void showToastMessage(String message) {
-//   Fluttertoast.showToast(
-//     msg: message,
-//     toastLength: Toast.LENGTH_SHORT, // Duration: SHORT (approx 1 second) or LONG (approx 3 seconds)
-//     gravity: ToastGravity.BOTTOM,    // Position: BOTTOM, CENTER, TOP
-//     timeInSecForIosWeb: 1,           // Duration for iOS and web platforms
-//     backgroundColor: Colors.black54,  // Optional background color
-//     textColor: Colors.white,         // Optional text color
-//     fontSize: 16.0                   // Optional font size
-//   );
-// }
+/// Fonction utilitaire pour afficher des toasts de manière uniforme dans toute l'application.
+/// 
+/// @param message Le texte à afficher dans le toast.
+/// @param isError Indique si le toast est un message d'erreur (fond rouge) ou un message standard (fond gris/noir).
+void showAppToast(String message, {bool isError = false}) {
+  
+  // Définit la couleur de fond en fonction du type de message
+  final Color backgroundColor = isError 
+      ? Colors.red.shade700.withOpacity(0.9) // Rouge pour les erreurs
+      : Colors.grey.shade700.withOpacity(0.9); // Gris foncé pour le succès/info
+  
+  // Définit la durée (ici, nous utilisons Toast.LENGTH_LONG pour les messages importants)
+  const Toast toastLength = Toast.LENGTH_LONG;
+  
+  // Définit la position
+  const ToastGravity gravity = ToastGravity.BOTTOM;
 
-// =========================================================================
-// Section
-// =========================================================================
+  // Lancement du toast
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: toastLength,
+    gravity: gravity,
+    backgroundColor: backgroundColor,
+    textColor: Colors.white,
+    fontSize: 14.0, // Taille de police personnalisée
+  );
+}
+
+// Vous pouvez ajouter d'autres fonctions utilitaires ici si nécessaire.

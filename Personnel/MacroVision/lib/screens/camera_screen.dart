@@ -372,22 +372,7 @@ class _CameraScreenState extends State<CameraScreen> {
             ),
           ),
 
-          // 4. Cadre Visuel pour le Cadrage
-          Center(
-            child: Container(
-              width:
-                  MediaQuery.of(context).size.width * 0.8, // 80% de la largeur
-              height: MediaQuery.of(context).size.width * 0.8, // Cadre carré
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.yellowAccent, // Couleur du cadre
-                  width: 2,
-                ),
-              ),
-            ),
-          ),
-
-          // 5. Overlay d'analyse (si _isAnalyzing est true)
+          // 4. Overlay d'analyse (si _isAnalyzing est true)
           if (_isAnalyzing)
             Container(
               color: Colors.black54,
@@ -397,13 +382,18 @@ class _CameraScreenState extends State<CameraScreen> {
                   children: [
                     CircularProgressIndicator(),
                     const SizedBox(height: 20),
-                    const Text('Analyse en cours par l\'IA...'),
+                    Text(
+                      'Analyse en cours par l\'IA...',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
 
-          // 6. Surcouche d'Animation de Succès
+          // 5. Surcouche d'Animation de Succès
           if (_showSuccessAnimation)
             TweenAnimationBuilder<double>(
               tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -413,9 +403,11 @@ class _CameraScreenState extends State<CameraScreen> {
                   scale: scale,
                   child: Icon(
                     Icons.check_circle,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 150,
                     shadows: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.5),
+                        color: Colors.black.withAlpha(50),
                         blurRadius: 10,
                       ),
                     ],
@@ -446,9 +438,7 @@ class _CameraScreenState extends State<CameraScreen> {
               onPressed: _isAnalyzing
                   ? null
                   : _takePhoto, // Déclenche _takePhoto
-              child: _isAnalyzing
-                  ? const CircularProgressIndicator()
-                  : const Icon(Icons.camera_enhance_rounded),
+              child: const Icon(Icons.camera_enhance_rounded),
             ),
           ],
         ),

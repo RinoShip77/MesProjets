@@ -1,26 +1,99 @@
+import 'dart:io';
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Packages Externes
-import 'package:macro_vision/config/app_theme.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:macro_vision/screens/error_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 // Services et Modèles
 import 'package:macro_vision/services/theme_provider.dart';
+import 'package:macro_vision/services/database_service.dart';
+import 'package:macro_vision/services/gemini_service.dart';
+import 'package:macro_vision/config/app_theme.dart';
 
 // Écrans de l'application
 import 'package:macro_vision/screens/home_screen.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // =======================================================================
+  // 💡 GESTION GLOBALE DES ERREURS PAR DART ZONE
+  // =======================================================================
+  runZonedGuarded<Future<void>>(
+    () async {
+      // Ensure the Flutter engine is initialized
+      WidgetsFlutterBinding.ensureInitialized();
 
-  // Lancement de l'application
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
-      ],
-      child: const MacroVisionApp(), 
-    ),
+      // ADDED: Force the app to only run in portrait mode (up or down)
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+
+      // =======================================================
+      // 💡 TEST 1 : ERREUR SYNCHRONE CRITIQUE
+      // Décommentez la ligne ci-dessous pour forcer une panne
+      // =======================================================
+      // throw Exception("SIMULATION: Erreur critique synchrone lors du chargement initial.");
+      // =======================================================
+
+      // --- LOGIQUE D'INITIALISATION ---
+      try {
+        // 1. CHARGEMENT DES VARIABLES D'ENVIRONNEMENT
+        await dotenv.load(fileName: ".env");
+        // 4. Initialisation de la Base de Données
+        DatabaseService().database;
+        GeminiService().initialize();
+        // AudioCache(
+        //   prefix: 'assets/audio/',
+        // ).loadAll(['shutter.mp3', 'success.mp3', 'error.mp3']);
+      } catch (e) {
+        // Une erreur ici sera capturée par le runZonedGuarded
+        rethrow; // Rejeter l'erreur pour qu'elle soit capturée par la Zone
+      }
+
+      // 2. INITIALISATION DU SERVICE GEMINI
+      // try {
+      //   GeminiService().initialize();
+      // } catch (e) {
+      //   // Une erreur ici sera capturée par le runZonedGuarded
+      //   rethrow; // Rejeter l'erreur pour qu'elle soit capturée par la Zone
+      // }
+
+      // 3. Pré-chargement des assets audio
+
+      // await audioCache.loadAll(['shutter.mp3', 'success.mp3', 'error.mp3']);
+
+      // Lancement de l'application
+      runApp(
+        MultiProvider(
+          providers: [ChangeNotifierProvider(create: (_) => ThemeProvider())],
+          child: const MacroVisionApp(),
+        ),
+      );
+    },
+    (Object error, StackTrace stack) {
+      // Cette fonction est appelée lorsqu'une erreur non gérée se produit.
+      // Afficher l'écran d'erreur personnalisé
+      runApp(
+        MaterialApp(
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+            useMaterial3: true,
+          ),
+          home: ErrorScreen(
+            message: "Une erreur critique s'est produite lors du lancement.",
+            details: kDebugMode
+                ? error.toString()
+                : null, // Détails uniquement en mode débogage
+          ),
+        ),
+      );
+    },
   );
 }
 
@@ -31,20 +104,19 @@ class MacroVisionApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        
-        // CORRECTION DE L'ERREUR AppPrimaryColor: utiliser l'alias app_theme.
-        final MaterialColor selectedSeedColor = 
+        // Utiliser le thème de 'app_theme.dart'
+        final MaterialColor selectedSeedColor =
             themeProvider.themeModeOption == ThemeModeOption.custom
             ? themeProvider.customTheme.color
-            : appPrimaryColor; 
+            : appPrimaryColor;
 
         return MaterialApp(
           title: 'MacroVision',
           debugShowCheckedModeBanner: false,
           themeMode: themeProvider.themeMode,
-          theme: getLightTheme(selectedSeedColor), 
-          darkTheme: getDarkTheme(selectedSeedColor), 
-          
+          theme: getLightTheme(selectedSeedColor),
+          darkTheme: getDarkTheme(selectedSeedColor),
+
           home: const HomeScreen(),
         );
       },

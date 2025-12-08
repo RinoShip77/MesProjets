@@ -1,20 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart'; // Pour kDebugMode
+import 'package:macro_vision/screens/feedback_screen.dart'; // Pour pouvoir relancer MacroVisionApp
+
+// =========================================================================
+// WIDGET D'ERREUR CRITIQUE (ErrorScreen)
+// =========================================================================
 
 class ErrorScreen extends StatelessWidget {
   final String message;
-  const ErrorScreen({super.key, required this.message});
+  final String? details;
+
+  const ErrorScreen({super.key, required this.message, this.details});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Erreur')),
+      appBar: AppBar(
+        title: const Text(
+          'Erreur Critique',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.red.shade700,
+      ),
       body: Center(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(32.0),
-          child: Text(
-            message,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 18, color: Colors.red),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 80, color: Colors.red),
+              const SizedBox(height: 20),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (details != null) ...[
+                const SizedBox(height: 20),
+                const Text(
+                  "Détails (visible en mode Débogage) :",
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  details!,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+              ],
+              const SizedBox(height: 40),
+              // Bouton pour soumettre un commentaire
+              ElevatedButton.icon(
+                icon: const Icon(Icons.feedback_rounded),
+                label: const Text('Soumettre un commentaire'),
+                onPressed: () {
+                  // Relance l'application en naviguant vers la racine
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const FeedbackScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
