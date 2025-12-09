@@ -113,7 +113,11 @@ class _ResultScreenState extends State<ResultScreen> {
       final String portionUnit = _isMetric ? 'g' : 'lbs';
 
       if (mounted) {
-        showSnackBar(context, 'Analyse ajustée pour ${_weightController.text} $portionUnit.', false);
+        showSnackBar(
+          context,
+          'Analyse ajustée pour ${_weightController.text} $portionUnit.',
+          false,
+        );
       }
     } else {
       if (mounted) {
@@ -121,8 +125,6 @@ class _ResultScreenState extends State<ResultScreen> {
       }
     }
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -161,196 +163,225 @@ class _ResultScreenState extends State<ResultScreen> {
 
         return Scaffold(
           appBar: AppBar(title: Text('Résultats de l\'analyse')),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // --- AFFICHAGE DE L'IMAGE CAPTURÉE ---
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.file(
-                    File(widget.imagePath),
-                    height: 200,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                Text(
-                  _currentFacts.foodName,
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                if (!origin.contains('History')) ...{
-                  // --- AJUSTEMENT DE LA PORTION (avec unité dynamique) ---
-                  Text(
-                    'Portion estimée par l\'IA: ${formatNumber(initialDisplayPortion, fractionDigits: 0)} $portionUnit',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontStyle: FontStyle.italic,
+          body: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // --- AFFICHAGE DE L'IMAGE CAPTURÉE ---
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.file(
+                        File(widget.imagePath),
+                        height: 200,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 10),
+                    const SizedBox(height: 16),
 
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: _weightController,
-                          decoration: InputDecoration(labelText: portionLabel),
-                          keyboardType: TextInputType.numberWithOptions(
-                            decimal: true,
+                    Text(
+                      _currentFacts.foodName,
+                      style: Theme.of(context).textTheme.headlineLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    if (!origin.contains('History')) ...{
+                      // --- AJUSTEMENT DE LA PORTION (avec unité dynamique) ---
+                      Text(
+                        'Portion estimée par l\'IA: ${formatNumber(initialDisplayPortion, fractionDigits: 0)} $portionUnit',
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontStyle: FontStyle.italic),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _weightController,
+                              decoration: InputDecoration(
+                                labelText: portionLabel,
+                              ),
+                              keyboardType: TextInputType.numberWithOptions(
+                                decimal: true,
+                              ),
+                              inputFormatters: [
+                                // Permet les décimales (point ou virgule)
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'[\d.,]'),
+                                ),
+                              ],
+                            ),
                           ),
-                          inputFormatters: [
-                            // Permet les décimales (point ou virgule)
-                            FilteringTextInputFormatter.allow(
-                              RegExp(r'[\d.,]'),
+
+                          const SizedBox(width: 20),
+
+                          ElevatedButton(
+                            onPressed: _refineAnalysis,
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 15,
+                              ),
+                            ),
+                            child: const Text('Ajuster l\'analyse'),
+                          ),
+                        ],
+                      ),
+
+                      Divider(),
+
+                      // --- SWITCH POUR SÉLECTIONNER L'UNITÉ D'ÉNERGIE ---
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(switchLabel, style: TextStyle(fontSize: 14)),
+                          Switch(
+                            value: _useKilojoules,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _useKilojoules = newValue;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    },
+
+                    const SizedBox(height: 5),
+
+                    // --- Carte des Faits Nutritifs ---
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(25),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // --- Titre (avec unité dynamique) ---
+                            Text(
+                              'Analyse Nutritionnelle pour ${formatNumber(currentDisplayPortion, fractionDigits: 0)}$portionUnit',
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+
+                            Divider(),
+
+                            // Affichage de l'Énergie avec la valeur et l'unité dynamique
+                            buildFactRow(
+                              context,
+                              'Énergie',
+                              energyValue,
+                              energyUnit,
+                            ),
+
+                            // Séparateur avec couleur primaire éclaircie via l'opacité
+                            Divider(),
+
+                            // --- Détails des Macronutriments ---
+                            buildFactRow(
+                              context,
+                              'Matières grasses totales',
+                              _currentFacts.totalFat,
+                              'g',
+                            ),
+
+                            buildSubFactRow(
+                              context,
+                              'Graisses saturées',
+                              _currentFacts.saturatedFat,
+                              'g',
+                            ),
+
+                            buildSubFactRow(
+                              context,
+                              'Graisses trans',
+                              _currentFacts.transFat,
+                              'g',
+                            ),
+
+                            buildFactRow(
+                              context,
+                              'Cholestérol',
+                              _currentFacts.cholesterol,
+                              'mg',
+                            ),
+
+                            buildFactRow(
+                              context,
+                              'Sodium',
+                              _currentFacts.sodium,
+                              'mg',
+                            ),
+
+                            buildFactRow(
+                              context,
+                              'Potassium',
+                              _currentFacts.potassium,
+                              'mg',
+                            ),
+
+                            buildFactRow(
+                              context,
+                              'Glucides totaux',
+                              _currentFacts.totalCarbohydrates,
+                              'g',
+                            ),
+
+                            buildSubFactRow(
+                              context,
+                              'Fibres alimentaires',
+                              _currentFacts.dietaryFiber,
+                              'g',
+                            ),
+
+                            buildSubFactRow(
+                              context,
+                              'Sucres',
+                              _currentFacts.sugar,
+                              'g',
+                            ),
+
+                            buildFactRow(
+                              context,
+                              'Protéines',
+                              _currentFacts.protein,
+                              'g',
                             ),
                           ],
                         ),
                       ),
-
-                      const SizedBox(width: 20),
-
-                      ElevatedButton(
-                        onPressed: _refineAnalysis,
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 15,
-                          ),
-                        ),
-                        child: const Text('Ajuster l\'analyse'),
-                      ),
-                    ],
-                  ),
-
-                  Divider(),
-
-                  // --- SWITCH POUR SÉLECTIONNER L'UNITÉ D'ÉNERGIE ---
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(switchLabel, style: TextStyle(fontSize: 14)),
-                      Switch(
-                        value: _useKilojoules,
-                        onChanged: (bool newValue) {
-                          setState(() {
-                            _useKilojoules = newValue;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                },
-
-                const SizedBox(height: 5),
-
-                // --- Carte des Faits Nutritifs ---
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // --- Titre (avec unité dynamique) ---
-                        Text(
-                          'Analyse Nutritionnelle pour ${formatNumber(currentDisplayPortion, fractionDigits: 0)}$portionUnit',
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-
-                        Divider(),
-
-                        // Affichage de l'Énergie avec la valeur et l'unité dynamique
-                        buildFactRow(context, 'Énergie', energyValue, energyUnit),
-
-                        // Séparateur avec couleur primaire éclaircie via l'opacité
-                        Divider(),
-
-                        // --- Détails des Macronutriments ---
-                        buildFactRow(
-                          context,
-                          'Matières grasses totales',
-                          _currentFacts.totalFat,
-                          'g',
-                        ),
-
-                        buildSubFactRow(
-                          context,
-                          'Graisses saturées',
-                          _currentFacts.saturatedFat,
-                          'g',
-                        ),
-
-                        buildSubFactRow(
-                          context,
-                          'Graisses trans',
-                          _currentFacts.transFat,
-                          'g',
-                        ),
-
-                        buildFactRow(
-                          context,
-                          'Cholestérol',
-                          _currentFacts.cholesterol,
-                          'mg',
-                        ),
-
-                        buildFactRow(context, 'Sodium', _currentFacts.sodium, 'mg'),
-                        
-                        buildFactRow(
-                          context,
-                          'Potassium',
-                          _currentFacts.potassium,
-                          'mg',
-                        ),
-
-                        buildFactRow(
-                          context,
-                          'Glucides totaux',
-                          _currentFacts.totalCarbohydrates,
-                          'g',
-                        ),
-
-                        buildSubFactRow(
-                          context,
-                          'Fibres alimentaires',
-                          _currentFacts.dietaryFiber,
-                          'g',
-                        ),
-
-                        buildSubFactRow(context, 'Sucres', _currentFacts.sugar, 'g'),
-                        
-                        buildFactRow(context, 'Protéines', _currentFacts.protein, 'g'),
-                      ],
                     ),
-                  ),
-                ),
 
-                const SizedBox(height: 15),
+                    if (!origin.contains('History')) ...[
+                      const SizedBox(height: 15),
 
-                if (!origin.contains('History'))
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // --- BOUTON D'ACTION (Ajouter à l'Historique / Nouvelle analyse) ---
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.add_a_photo_rounded),
-                        label: const Text('Analyser une nouvelle photo'),
-                        onPressed: () => saveAndReturn(context, _currentFacts),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // --- BOUTON D'ACTION (Ajouter à l'Historique / Nouvelle analyse) ---
+                          Tooltip(
+                            message: '',
+                            child: ElevatedButton.icon(
+                              icon: const Icon(Icons.add_a_photo_rounded),
+                              label: const Text('Analyser une nouvelle photo'),
+                              onPressed: () =>
+                                  saveAndReturn(context, _currentFacts),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-              ],
-            ),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },

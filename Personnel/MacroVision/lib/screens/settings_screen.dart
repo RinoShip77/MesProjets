@@ -26,7 +26,6 @@ class SettingsScreen extends StatelessWidget {
 
             // Section 1: Mode Clair / Sombre / Système
             buildThemeOption(
-              context,
               title: 'Défaut du système',
               target: ThemeModeOption.system,
               current: themeProvider.themeModeOption,
@@ -34,15 +33,13 @@ class SettingsScreen extends StatelessWidget {
             ),
 
             buildThemeOption(
-              context,
               title: 'Mode clair',
               target: ThemeModeOption.light,
               current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
             ),
-            
+
             buildThemeOption(
-              context,
               title: 'Mode sombre',
               target: ThemeModeOption.dark,
               current: themeProvider.themeModeOption,
@@ -61,7 +58,6 @@ class SettingsScreen extends StatelessWidget {
             // Section 2: Choix du thème personnalisé
             ...customThemes.map(
               (customTheme) => buildThemeOption(
-                context,
                 title: customTheme.name,
                 target: customTheme,
                 current: themeProvider.customTheme,
@@ -72,5 +68,70 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
     );
+
+    // return universalScaffold(
+    //   // appBar: AppBar(title: const Text('Réglages')),
+    //   context: context,
+    //   title: 'Réglages',
+    //   body: Stack(
+    //     children: <Widget>[
+    //       SingleChildScrollView(
+    //         padding: const EdgeInsets.all(20.0),
+    //         child: Column(
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           children: [
+    //             Text(
+    //               'Luminosité de l\'application',
+    //               style: Theme.of(context).textTheme.titleLarge,
+    //             ),
+
+    //             const Divider(),
+
+    //             // Section 1: Mode Clair / Sombre / Système
+    //             buildThemeOption(
+    //               title: 'Défaut du système',
+    //               target: ThemeModeOption.system,
+    //               current: themeProvider.themeModeOption,
+    //               onChanged: themeProvider.setThemeMode,
+    //             ),
+
+    //             buildThemeOption(
+    //               title: 'Mode clair',
+    //               target: ThemeModeOption.light,
+    //               current: themeProvider.themeModeOption,
+    //               onChanged: themeProvider.setThemeMode,
+    //             ),
+
+    //             buildThemeOption(
+    //               title: 'Mode sombre',
+    //               target: ThemeModeOption.dark,
+    //               current: themeProvider.themeModeOption,
+    //               onChanged: themeProvider.setThemeMode,
+    //             ),
+
+    //             const SizedBox(height: 30),
+
+    //             Text(
+    //               'Couleurs personnalisées',
+    //               style: Theme.of(context).textTheme.titleLarge,
+    //             ),
+
+    //             const Divider(),
+
+    //             // Section 2: Choix du thème personnalisé
+    //             ...customThemes.map(
+    //               (customTheme) => buildThemeOption(
+    //                 title: customTheme.name,
+    //                 target: customTheme,
+    //                 current: themeProvider.customTheme,
+    //                 onChanged: themeProvider.setCustomTheme,
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }

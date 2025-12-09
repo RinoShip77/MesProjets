@@ -41,11 +41,11 @@ ThemeData _buildThemeData({
       backgroundColor: colorScheme.primary,
       centerTitle: true,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            // Apply a 30-pixel radius to both bottom corners
-            bottom: Radius.circular(20), 
-          ),
+        borderRadius: BorderRadius.vertical(
+          // Apply a 30-pixel radius to both bottom corners
+          bottom: Radius.circular(20),
         ),
+      ),
     ),
 
     iconButtonTheme: IconButtonThemeData(
