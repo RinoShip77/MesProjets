@@ -22,7 +22,7 @@ void navigate(BuildContext context, nextScreen) {
 }
 
 // Call with showSnackBar(context, $messsage, true/false);
-void showSnackBar(BuildContext context, String message, isError) {
+void showSnackBar(BuildContext context, String message, isError, {int duration = 500}) {
   final snackbar = SnackBar(
     content: Text(
       message,
@@ -35,7 +35,7 @@ void showSnackBar(BuildContext context, String message, isError) {
         ? Colors.red
         : Theme.of(context).colorScheme.primary,
     behavior: SnackBarBehavior.floating,
-    duration: const Duration(milliseconds: 500),
+    duration: Duration(milliseconds: duration),
     margin: EdgeInsets.all(20),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
   );

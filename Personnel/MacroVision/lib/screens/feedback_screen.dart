@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Pour obtenir l'info sur la plateforme
 import 'package:macro_vision/main.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:macro_vision/helpers/helpers.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Import de la fonction Toast si vous l'avez centralisée
-// import 'package:macro_vision/helpers/helpers.dart'; 
+// import 'package:macro_vision/helpers/helpers.dart';
 
 class FeedbackScreen extends StatefulWidget {
   const FeedbackScreen({super.key});
@@ -13,8 +17,10 @@ class FeedbackScreen extends StatefulWidget {
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
   final TextEditingController _feedbackController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isSending = false;
+  bool _emailApp = true;
 
   @override
   void dispose() {
@@ -32,55 +38,124 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       _isSending = true;
     });
 
-    final String feedbackMessage = _feedbackController.text.trim();
-    
-    // ==========================================================
-    // 💡 LOGIQUE D'ENVOI (Exemple : Intégration d'un service)
-    // ==========================================================
-    try {
-      // 1. Envoyer le message via une API, un service d'email, ou une base de données.
-      // Par exemple : await FeedbackService().send(feedbackMessage);
-      
-      // Simulation d'une attente d'envoi
-      await Future.delayed(const Duration(seconds: 2));
+    // 1. Récupération de l'email depuis .env
+    final String recipientEmail = dotenv.env['FEEDBACK_EMAIL'] ?? '';
 
-      // 2. Afficher la confirmation
+    if (recipientEmail.isEmpty) {
       if (mounted) {
-        // Utilisation du Toast si vous avez centralisé la fonction
-        // showAppToast('Merci pour votre feedback !', isError: false);
-        
-        // Utilisation d'une SnackBar simple si le Toast n'est pas utilisé partout
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Merci pour votre feedback !')),
+        showSnackBar(
+          context,
+          'L\'adresse e-mail de feedback est manquante.',
+          true,
+          duration: 5000,
         );
-        
-        // 3. Fermer l'écran
-        Navigator.of(context).pop();
       }
+      setState(() {
+        _isSending = false;
+        _emailApp = false;
+      });
+      return;
+    }
 
+    // final String feedbackMessage = _feedbackController.text.trim();
+
+    // --- NOUVELLE LOGIQUE D'ENVOI PAR EMAIL ---
+    try {
+      // Déterminer la plateforme (utile pour le débogage)
+      // final String platform = (Theme.of(context).platform == TargetPlatform.iOS)
+      //     ? 'iOS'
+      //     : 'Android/Autre';
+
+      final String subject =
+          'Feedback MacroVision: ${DateTime.now().toIso8601String().substring(0, 10)}';
+
+      // print(Theme.of(context).platform.package_info_plus);
+      // Corps de l'e-mail avec le message du testeur et les informations d'aide
+      // final String body =
+      //     '''
+      //     Version App: 1.0.0 (à remplacer par la vraie version si vous utilisez package_info_plus)
+      //     Plateforme: $platform
+      //     --- Message de l'utilisateur ---
+
+      //     ${_feedbackController.text.trim()}
+      //     ''';
+
+      // Encodage des chaînes pour l'URL
+      final Uri emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: recipientEmail,
+        query: encodeQueryParameters(<String, String>{
+          'subject': subject,
+          'body': ?formatFeedback(context, _feedbackController.text.trim()),
+        }),
+      );
+
+      // Lancement de l'application de messagerie
+      // if (await canLaunchUrl(emailLaunchUri)) {
+      try {
+        await launchUrl(emailLaunchUri);
+
+        if (mounted) {
+          // Toast de succès (si la fonction est importée)
+          showSnackBar(
+            context,
+            'Ouverture de l\'application de messagerie.',
+            false,
+          );
+        }
+
+        _feedbackController.clear(); // Vider le champ après l'ouverture
+      } catch (e) {
+        // } else {
+        if (mounted) {
+          // Le cas où l'appareil n'a pas de client email configuré
+          showSnackBar(
+            context,
+            'Impossible d\'ouvrir l\'application d\'e-mail.',
+            true,
+            duration: 5000,
+          );
+        }
+
+        setState(() {
+          _emailApp = false;
+        });
+        // }
+      }
     } catch (e) {
-      debugPrint("Erreur lors de l'envoi du feedback: $e");
       if (mounted) {
-         // showAppToast('Échec de l\'envoi. Veuillez réessayer.', isError: true);
-         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Échec de l\'envoi. Veuillez réessayer.')),
-        );
+        showSnackBar(context, 'Erreur lors de l\'envoi du feedback : $e', true);
       }
     } finally {
-      if (mounted) {
-        setState(() {
-          _isSending = false;
-        });
-      }
+      setState(() {
+        _isSending = false;
+      });
     }
+  }
+
+  String? formatFeedback(BuildContext context, feedback) {
+    final String platform = (Theme.of(context).platform == TargetPlatform.iOS)
+          ? 'iOS'
+          : 'Android/Autre';
+          
+    return '''Version : 1.0.0\nPlateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
+  }
+
+  // Fonction utilitaire pour encoder les paramètres d'URL (à ajouter dans helpers.dart si non présent)
+  // Mieux : la laisser ici si c'est la seule fois qu'elle est utilisée.
+  String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map(
+          (MapEntry<String, String> e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
+        )
+        .join('&');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Vos Commentaires'),
-      ),
+      appBar: AppBar(title: const Text('Vos Commentaires')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -89,70 +164,131 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
-                "Nous apprécions vos retours ! Aidez-nous à améliorer MacroVision.",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                "J'apprécie vos retours ! Aidez-moi à améliorer MacroVision.",
+                style: TextStyle(fontSize: 16),
               ),
+
+              const SizedBox(height: 20),
+
+              // Nom
+              buildTextField(
+                controller: _nameController,
+                label: 'Nom',
+                keyboardType: TextInputType.name,
+                formatters: null, // Pas de formatage spécifique pour le texte
+              ),
+
               const SizedBox(height: 20),
 
               TextFormField(
                 controller: _feedbackController,
                 maxLines: 8,
+                keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
-                  labelText: 'Votre message',
-                  hintText: 'Décrivez votre expérience, signalez un bug ou proposez une idée...',
+                  labelText: 'Votre message ...',
+                  hintText:
+                      'Décrivez votre expérience, signalez un bug ou proposez une idée...',
                   alignLabelWithHint: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
+                  if (value == null || value.isEmpty) {
                     return 'Veuillez saisir votre commentaire.';
                   }
+
                   return null;
                 },
               ),
-              const SizedBox(height: 30),
 
-              ElevatedButton.icon(
-                icon: _isSending 
-                    ? const SizedBox(
-                        width: 20, 
-                        height: 20, 
-                        child: CircularProgressIndicator(strokeWidth: 3, color: Colors.white)
-                      )
-                    : const Icon(Icons.send),
-                label: Text(
-                  _isSending ? 'Envoi en cours...' : 'Envoyer le Feedback',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                onPressed: _isSending ? null : _submitFeedback,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              const SizedBox(height: 20),
+
+              Tooltip(
+                message: 'Envoyer la rétroaction.',
+                child: ElevatedButton.icon(
+                  icon: _isSending
+                      ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        )
+                      : const Icon(Icons.send_rounded),
+                  label: Text(
+                    _isSending ? 'Envoi en cours...' : 'Envoyer la rétroaction',
+                    style: const TextStyle(fontSize: 16),
                   ),
+                  onPressed: _isSending ? null : _submitFeedback,
                 ),
               ),
 
-              const SizedBox(height: 40),
-              
-              // Bouton pour relancer l'application
-              ElevatedButton.icon(
-                icon: const Icon(Icons.refresh_rounded),
-                label: const Text('Relancer l\'application'),
-                onPressed: () {
-                  // Relance l'application en naviguant vers la racine
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => const MacroVisionApp(),
-                    ),
-                    (Route<dynamic> route) => false,
-                  );
-                },
-              ),
+              if (!_emailApp && dotenv.env['FEEDBACK_EMAIL'] != null) ...[
+                const SizedBox(height: 20),
+                Text(
+                  'Ou copiez l\'adresse e-mail ci-dessous pour l\'utiliser manuellement :',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                const SizedBox(height: 10),
+                // Bouton de copie
+                OutlinedButton.icon(
+                  icon: const Icon(Icons.copy_rounded),
+                  label: Text(dotenv.env['FEEDBACK_EMAIL']!),
+                  onPressed: () {
+                    Clipboard.setData(
+                      ClipboardData(text: dotenv.env['FEEDBACK_EMAIL']!),
+                    ).then((_) {
+                      if (mounted) {
+                        showSnackBar(context, 'Adresse e-mail copiée !', false);
+                      }
+                    });
+                  },
+                ),
+              ],
+
+              // if (!_emailApp) ...[
+              //   const SizedBox(height: 30),
+
+              //   Tooltip(
+              //     message: 'Envoyer mon message vers le presse-papiers.',
+              //     child: OutlinedButton.icon(
+              //       icon: const Icon(Icons.assignment_outlined),
+              //       label: const Text(
+              //         'Envoyer mon message vers le presse-papiers',
+              //         textAlign: TextAlign.center,
+              //       ),
+              //       onPressed: () async {
+              //         await Clipboard.setData(
+              //           ClipboardData(
+              //             text:
+              //                 formatFeedback(
+              //                   context,
+              //                   _feedbackController.text.trim(),
+              //                 ) ??
+              //                 '',
+              //           ),
+              //         );
+
+              //         if (mounted) {
+              //           showSnackBar(
+              //             context,
+              //             'Text envoyé dans le presse-papiers.',
+              //             false,
+              //           );
+              //         }
+              //       },
+              //     ),
+              //   ),
+              // ],
+
+              // if (dotenv.env['FEEDBACK_EMAIL'] != null) ...[
+              //   const SizedBox(height: 10),
+
+              //   Text(
+              //     dotenv.env['FEEDBACK_EMAIL']!,
+              //     textAlign: TextAlign.center,
+              //   ),
+              // ],
             ],
           ),
         ),

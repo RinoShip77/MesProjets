@@ -57,7 +57,7 @@ class GeminiService {
     Tu DOIS retourner UNIQUEMENT un objet JSON strictement formaté selon le schéma ci-dessous. 
     Les valeurs doivent être des nombres (double) SAUF la première. L'objet JSONS doit contenir les clés suivantes :
     {
-      "foodName": [chaîne de caractères]
+      "foodName": [chaîne de caractères EN FRANÇAIS]
       "portionInGrams": [nombre]
       "calories": [nombre]
       "totalFat": [nombre]

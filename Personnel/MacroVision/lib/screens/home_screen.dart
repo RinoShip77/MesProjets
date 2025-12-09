@@ -62,10 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Tooltip(
               message: 'Voir le tableau de bord.',
               child: OutlinedButton.icon(
-              icon: const Icon(Icons.bar_chart_rounded),
-              label: const Text('Voir le tableau de bord'),
-              onPressed: () => navigate(context, DashboardScreen()),
-            ),
+                icon: const Icon(Icons.bar_chart_rounded),
+                label: const Text('Voir le tableau de bord'),
+                onPressed: () => navigate(context, DashboardScreen()),
+              ),
             ),
 
             const SizedBox(height: 15),
