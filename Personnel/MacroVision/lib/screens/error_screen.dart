@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart'; // Pour kDebugMode
+// Pour kDebugMode
 import 'package:macro_vision/screens/feedback_screen.dart'; // Pour pouvoir relancer MacroVisionApp
 
 // =========================================================================

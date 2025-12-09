@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:macro_vision/helpers/helpers.dart';
 import 'package:provider/provider.dart';
 import 'package:macro_vision/services/theme_provider.dart';
 
@@ -24,21 +25,23 @@ class SettingsScreen extends StatelessWidget {
             const Divider(),
 
             // Section 1: Mode Clair / Sombre / Système
-            _buildThemeOption(
+            buildThemeOption(
               context,
               title: 'Défaut du système',
               target: ThemeModeOption.system,
               current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
             ),
-            _buildThemeOption(
+
+            buildThemeOption(
               context,
               title: 'Mode clair',
               target: ThemeModeOption.light,
               current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
             ),
-            _buildThemeOption(
+            
+            buildThemeOption(
               context,
               title: 'Mode sombre',
               target: ThemeModeOption.dark,
@@ -47,6 +50,7 @@ class SettingsScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 30),
+
             Text(
               'Couleurs personnalisées',
               style: Theme.of(context).textTheme.titleLarge,
@@ -56,7 +60,7 @@ class SettingsScreen extends StatelessWidget {
 
             // Section 2: Choix du thème personnalisé
             ...customThemes.map(
-              (customTheme) => _buildThemeOption(
+              (customTheme) => buildThemeOption(
                 context,
                 title: customTheme.name,
                 target: customTheme,
@@ -67,27 +71,6 @@ class SettingsScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-// TODO: Envoyer cette fonction de un fichier "helpers.dart"
-  // Widget utilitaire pour les options de mode de base
-  Widget _buildThemeOption(
-    BuildContext context, {
-    required String title,
-    required target,
-    required current,
-    required onChanged,
-  }) {
-    return RadioListTile<dynamic>(
-      title: Text(title),
-      value: target,
-      groupValue: current,
-      onChanged: (value) {
-        if (value != null) {
-          onChanged(value);
-        }
-      },
     );
   }
 }

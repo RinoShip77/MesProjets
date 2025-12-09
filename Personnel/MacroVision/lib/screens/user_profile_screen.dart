@@ -1,8 +1,7 @@
-// lib/screens/user_profile_screen.dart
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Import ajouté pour FilteringTextInputFormatter
+import 'package:flutter/services.dart';
+import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/screens/history_screen.dart';
 import 'package:macro_vision/services/nutrition_calculator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,15 +98,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     // Assurez-vous que l'objet _profile a les bonnes valeurs de stockage métrique
     if (!_formKey.currentState!.validate()) {
       if (mounted) {
-        // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Erreur dans le formulaire. Veuillez vérifier vos entrées.',
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Colors.red,
-          ),
+        showSnackBar(
+          context,
+          'Erreur dans le formulaire. Veuillez vérifier vos entrées.',
+          true,
         );
       }
     } else {
@@ -145,10 +139,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       // await NutritionCalculator().updateGoals(_profile);
 
       if (mounted) {
-        // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profil mis à jour avec succès!')),
-        );
+        showSnackBar(context, 'Profil mis à jour avec succès.', false);
       }
     }
   }
@@ -185,34 +176,39 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[
             // Système d'Unités (Switch)
-            SwitchListTile(
-              title: const Text(
-                'Système d\'unités',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(
-                _profile.isMetric
-                    ? 'Métrique (kg, cm)'
-                    : 'Impérial (lbs, pouces)',
-              ),
-              value: _profile.isMetric,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Appel de la nouvelle fonction de mise à jour/conversion dans le setState
-                  _updateUnitSystem(newValue);
-                  _saveUserProfile();
-                });
-              },
-              secondary: Icon(
-                Icons.straighten,
-                color: Theme.of(context).colorScheme.primary,
+            Tooltip(
+              // Wrap the entire tile with a Tooltip
+              message:
+                  'Métrique (kg, cm)\nou\nImpérial (lbs, pouces).', // The help message
+              child: SwitchListTile(
+                title: const Text(
+                  'Système d\'unités',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  _profile.isMetric
+                      ? 'Métrique (kg, cm)'
+                      : 'Impérial (lbs, pouces)',
+                ),
+                value: _profile.isMetric,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    // Appel de la nouvelle fonction de mise à jour/conversion dans le setState
+                    _updateUnitSystem(newValue);
+                    _saveUserProfile();
+                  });
+                },
+                secondary: Icon(
+                  Icons.straighten,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             ),
 
             const Divider(),
 
             // Nom
-            _buildTextField(
+            buildTextField(
               controller: _nameController,
               label: 'Nom d\'utilisateur',
               keyboardType: TextInputType.name,
@@ -220,7 +216,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
 
             // Poids (kg / lbs) - Utilise l'unité dynamique
-            _buildTextField(
+            buildTextField(
               controller: _weightController,
               label: 'Poids ($weightUnit)',
               keyboardType: const TextInputType.numberWithOptions(
@@ -237,7 +233,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
 
             // Grandeur (cm / pouces) - Utilise l'unité dynamique
-            _buildTextField(
+            buildTextField(
               controller: _heightController,
               label: 'Grandeur ($heightUnit)',
               keyboardType: const TextInputType.numberWithOptions(
@@ -254,7 +250,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
 
             // Âge
-            _buildTextField(
+            buildTextField(
               controller: _ageController,
               label: 'Âge',
               keyboardType: TextInputType.number,
@@ -290,7 +286,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             // Niveau d'Activité (Dropdown)
             DropdownButtonFormField<ActivityLevel>(
               decoration: InputDecoration(
-                labelText: 'Niveau d\'Activité Physique',
+                labelText: 'Niveau d\'activité physique',
               ),
               initialValue: _profile.activityLevel,
               items: ActivityLevel.values.map((ActivityLevel level) {
@@ -333,68 +329,40 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 // Accès à l'Historique
-                OutlinedButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Icon(Icons.history_rounded),
-                      SizedBox(width: 8),
-                      const Text('Voir l\'historique des analyses'),
-                      Spacer(),
-                      const Icon(Icons.arrow_forward_ios_rounded),
-                    ],
+                Tooltip(
+                  // Wrap the entire tile with a Tooltip
+                  message:
+                      'Voir l\'historique des analyses.', // The help message
+                  child: OutlinedButton(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        const Icon(Icons.history_rounded),
+                        SizedBox(width: 8),
+                        const Text('Voir l\'historique des analyses'),
+                        Spacer(),
+                        const Icon(Icons.arrow_forward_ios_rounded),
+                      ],
+                    ),
+                    onPressed: () => navigate(context, HistoryScreen()),
                   ),
-                  // TODO: Prendre la méthode de navigation qui sera dans "helpers.dart"
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const HistoryScreen(),
-                      ),
-                    );
-                  },
                 ),
 
                 const SizedBox(height: 10),
 
                 // Bouton de Sauvegarde
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.save_alt_rounded),
-                  label: const Text('Sauvegarder le profil'),
-                  onPressed: () => _saveUserProfile(),
+                Tooltip(
+                  message: 'Sauvegarder le profil.',
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.save_alt_rounded),
+                    label: const Text('Sauvegarder le profil'),
+                    onPressed: () => _saveUserProfile(),
+                  ),
                 ),
               ],
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-  // Fonction utilitaire mise à jour pour accepter les formatters
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required TextInputType keyboardType,
-    List<TextInputFormatter>? formatters, // NOUVEAU: Paramètre optionnel
-    String? Function(String?)? validator,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15.0),
-      child: TextFormField(
-        controller: controller,
-        // Utilisation du paramètre formatters
-        inputFormatters: formatters,
-        keyboardType: keyboardType,
-        decoration: InputDecoration(labelText: label),
-        validator:
-            validator ??
-            (value) {
-              if (value == null || value.isEmpty) {
-                return 'Ce champ est requis.';
-              }
-              return null;
-            },
       ),
     );
   }

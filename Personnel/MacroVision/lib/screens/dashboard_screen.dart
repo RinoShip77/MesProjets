@@ -8,10 +8,7 @@ import 'package:macro_vision/services/database_service.dart';
 import 'package:macro_vision/services/nutrition_calculator.dart';
 
 // 1. DÉFINITION DE L'ÉNUMÉRATION
-enum ChartType {
-  bar,
-  line,
-}
+enum ChartType { bar, line }
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -31,9 +28,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   };
 
   late Future<void> _loadingFuture;
-  
+
   // 2. VARIABLE D'ÉTAT POUR LE TYPE DE GRAPHIQUE
-  ChartType _selectedChartType = ChartType.bar; 
+  ChartType _selectedChartType = ChartType.bar;
 
   @override
   void initState() {
@@ -41,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _loadingFuture = _loadData();
   }
 
-// TODO: Envoyer cette fonction de un fichier "helpers.dart"
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   Future<void> _loadData() async {
     final prefs = await SharedPreferences.getInstance();
     final userJson = prefs.getString('userProfile');
@@ -80,28 +77,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-// TODO: Envoyer cette fonction de un fichier "helpers.dart"
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   Future<void> _refreshData() async {
     setState(() {
       _loadingFuture = _loadData();
     });
   }
 
-// TODO: Envoyer cette fonction de un fichier "helpers.dart"
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // 3. WIDGET DU SÉLECTEUR DE GRAPHIQUE
   Widget _buildChartTypeSelector() {
-    return ToggleButtons(
-      isSelected: ChartType.values.map((type) => type == _selectedChartType).toList(),
-      onPressed: (int index) {
-        setState(() {
-          _selectedChartType = ChartType.values[index];
-        });
-      },
-      constraints: const BoxConstraints(minHeight: 36.0, minWidth: 80.0),
-      children: const [
-        Text('Barres'),
-        Text('Lignes'),
-      ],
+    return Tooltip(
+      message: 'Afficher les données dans un graphiques à barres ou à lignes.',
+      child: ToggleButtons(
+        isSelected: ChartType.values
+            .map((type) => type == _selectedChartType)
+            .toList(),
+        onPressed: (int index) {
+          setState(() {
+            _selectedChartType = ChartType.values[index];
+          });
+        },
+        constraints: const BoxConstraints(minHeight: 36.0, minWidth: 80.0),
+        children: const [Text('Barres'), Text('Lignes')],
+      ),
     );
   }
 
@@ -162,7 +161,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
 
                     const SizedBox(width: 10),
-                    
+
                     _buildMacroGoalCard(
                       context,
                       title: 'Lipides',
@@ -192,14 +191,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
 
                 const SizedBox(height: 10),
-                
+
                 // UTILISATION DU SÉLECTEUR
                 _buildChartTypeSelector(),
 
                 const SizedBox(height: 20),
 
                 // PASSAGE DE LA SÉLECTION AU GRAPHIQUE
-                WeeklyChart(chartType: _selectedChartType), 
+                WeeklyChart(chartType: _selectedChartType),
               ],
             ),
           );
@@ -208,7 +207,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-// TODO: Envoyer cette fonction de un fichier "helpers.dart"
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   Widget _buildMacroGoalCard(
     BuildContext context, {
     required String title,
@@ -227,7 +226,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             Text(
               title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 5),
@@ -238,10 +239,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
 
             const SizedBox(height: 8),
-            
-            LinearProgressIndicator(
-              value: progress,
-            ),
+
+            LinearProgressIndicator(value: progress),
           ],
         ),
       ),
@@ -283,21 +282,29 @@ class WeeklyChart extends StatelessWidget {
         double maxCalories = data
             .map((e) => e.calories)
             .reduce((a, b) => a > b ? a : b);
-        final double maxY = maxCalories > 0
-            ? (maxCalories + 500)
-            : 2500;
+        final double maxY = maxCalories > 0 ? (maxCalories + 500) : 2500;
 
         return SizedBox(
           height: 250,
           child: chartType == ChartType.bar
-              ? _buildBarChart(context, data, maxY, Theme.of(context).colorScheme.primary)
-              : _buildLineChart(context, data, maxY, Theme.of(context).colorScheme.primary),
+              ? _buildBarChart(
+                  context,
+                  data,
+                  maxY,
+                  Theme.of(context).colorScheme.primary,
+                )
+              : _buildLineChart(
+                  context,
+                  data,
+                  maxY,
+                  Theme.of(context).colorScheme.primary,
+                ),
         );
       },
     );
   }
 
-// TODO: Envoyer cette fonction de un fichier "helpers.dart"
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // --- GRAPHIQUE EN LIGNES ---
   Widget _buildLineChart(
     BuildContext context,
@@ -361,36 +368,32 @@ class WeeklyChart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 40,
-              interval: maxY / 4, 
+              interval: maxY / 4,
               getTitlesWidget: (value, meta) {
                 return SideTitleWidget(
                   meta: meta,
                   space: 4,
                   child: Text(
                     '${value.toInt()}',
-                    style: const TextStyle(
-                      fontSize: 10,
-                    ),
+                    style: const TextStyle(fontSize: 10),
                   ),
                 );
               },
             ),
           ),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
         gridData: const FlGridData(show: true, drawVerticalLine: false),
         borderData: FlBorderData(
           show: true,
           border: Border(
-            bottom: BorderSide(
-              color: primaryColor.withAlpha(75),
-              width: 1,
-            ),
-            left: BorderSide(
-              color: primaryColor.withAlpha(75),
-              width: 1,
-            ),
+            bottom: BorderSide(color: primaryColor.withAlpha(75), width: 1),
+            left: BorderSide(color: primaryColor.withAlpha(75), width: 1),
           ),
         ),
         lineBarsData: [
@@ -402,15 +405,20 @@ class WeeklyChart extends StatelessWidget {
             }).toList(),
             isCurved: true,
             color: primaryColor, // Couleur de la ligne
-            dotData: const FlDotData(show: true), // Afficher les points sur la ligne
-            belowBarData: BarAreaData(show: true, color: primaryColor.withAlpha(70)),
+            dotData: const FlDotData(
+              show: true,
+            ), // Afficher les points sur la ligne
+            belowBarData: BarAreaData(
+              show: true,
+              color: primaryColor.withAlpha(70),
+            ),
           ),
         ],
       ),
     );
   }
 
-// TODO: Envoyer cette fonction de un fichier "helpers.dart"
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // --- GRAPHIQUE À BARRES ---
   Widget _buildBarChart(
     BuildContext context,
@@ -483,9 +491,7 @@ class WeeklyChart extends StatelessWidget {
                   space: 4,
                   child: Text(
                     '${value.toInt()}',
-                    style: const TextStyle(
-                      fontSize: 10,
-                    ),
+                    style: const TextStyle(fontSize: 10),
                   ),
                 );
               },
@@ -502,14 +508,8 @@ class WeeklyChart extends StatelessWidget {
         borderData: FlBorderData(
           show: true,
           border: Border(
-            bottom: BorderSide(
-              color: primaryColor.withAlpha(75),
-              width: 1,
-            ),
-            left: BorderSide(
-              color: primaryColor.withAlpha(75),
-              width: 1,
-            ),
+            bottom: BorderSide(color: primaryColor.withAlpha(75), width: 1),
+            left: BorderSide(color: primaryColor.withAlpha(75), width: 1),
           ),
         ),
         barGroups: data.asMap().entries.map((entry) {

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:macro_vision/helpers/helpers.dart';
 import 'package:provider/provider.dart';
 import 'package:macro_vision/models/nutritional_facts.dart';
 import 'package:macro_vision/services/theme_provider.dart';
@@ -112,94 +113,16 @@ class _ResultScreenState extends State<ResultScreen> {
       final String portionUnit = _isMetric ? 'g' : 'lbs';
 
       if (mounted) {
-        // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Analyse ajustée pour ${_weightController.text} $portionUnit.',
-            ),
-          ),
-        );
+        showSnackBar(context, 'Analyse ajustée pour ${_weightController.text} $portionUnit.', false);
       }
     } else {
       if (mounted) {
-        // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Veuillez entrer un poids valide.',
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Colors.red,
-          ),
-        );
+        showSnackBar(context, 'Veuillez entrer un poids valide.', true);
       }
     }
   }
 
-  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-  // Fonction pour formater les nombres au format français (point -> virgule)
-  String _formatNumber(double value, {int fractionDigits = 1}) {
-    // Formate la valeur avec la précision souhaitée (ex: "12.3")
-    String formatted = value.toStringAsFixed(fractionDigits);
-    // Remplace le point décimal par une virgule
-    return formatted.replaceAll('.', ',');
-  }
-
-  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-  // Widget utilitaire pour afficher une ligne principale
-  Widget _buildFactRow(String label, double value, String unit) {
-    // Utilise 0 chiffre après la virgule pour les mg (Cholestérol, Sodium, Potassium)
-    final int fractionDigits = unit == 'mg' ? 0 : 1;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            '${_formatNumber(value, fractionDigits: fractionDigits)} $unit',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-  // Widget utilitaire pour afficher une sous-ligne
-  Widget _buildSubFactRow(String label, double value, String unit) {
-    final int fractionDigits = unit == 'mg' ? 0 : 1;
-
-    return Padding(
-      padding: const EdgeInsets.only(left: 16.0, top: 4.0, bottom: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label, style: Theme.of(context).textTheme.labelLarge),
-          Text(
-            '${_formatNumber(value, fractionDigits: fractionDigits)} $unit',
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-        ],
-      ),
-    );
-  }
-
-  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-  // Bouton pour sauvegarder et revenir (Prompt 2.1)
-  void _saveAndReturn() {
-    // Renvoie les faits ajustés (ou non ajustés) à l'écran précédent.
-    Navigator.of(context).pop(_currentFacts);
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -253,6 +176,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     fit: BoxFit.cover,
                   ),
                 ),
+
                 const SizedBox(height: 16),
 
                 Text(
@@ -261,12 +185,13 @@ class _ResultScreenState extends State<ResultScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 10),
 
                 if (!origin.contains('History')) ...{
                   // --- AJUSTEMENT DE LA PORTION (avec unité dynamique) ---
                   Text(
-                    'Portion estimée par l\'IA: ${_formatNumber(initialDisplayPortion, fractionDigits: 0)} $portionUnit',
+                    'Portion estimée par l\'IA: ${formatNumber(initialDisplayPortion, fractionDigits: 0)} $portionUnit',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontStyle: FontStyle.italic,
                     ),
@@ -337,7 +262,7 @@ class _ResultScreenState extends State<ResultScreen> {
                       children: [
                         // --- Titre (avec unité dynamique) ---
                         Text(
-                          'Analyse Nutritionnelle pour ${_formatNumber(currentDisplayPortion, fractionDigits: 0)}$portionUnit',
+                          'Analyse Nutritionnelle pour ${formatNumber(currentDisplayPortion, fractionDigits: 0)}$portionUnit',
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
@@ -345,50 +270,66 @@ class _ResultScreenState extends State<ResultScreen> {
                         Divider(),
 
                         // Affichage de l'Énergie avec la valeur et l'unité dynamique
-                        _buildFactRow('Énergie', energyValue, energyUnit),
+                        buildFactRow(context, 'Énergie', energyValue, energyUnit),
 
                         // Séparateur avec couleur primaire éclaircie via l'opacité
                         Divider(),
 
                         // --- Détails des Macronutriments ---
-                        _buildFactRow(
+                        buildFactRow(
+                          context,
                           'Matières grasses totales',
                           _currentFacts.totalFat,
                           'g',
                         ),
-                        _buildSubFactRow(
+
+                        buildSubFactRow(
+                          context,
                           'Graisses saturées',
                           _currentFacts.saturatedFat,
                           'g',
                         ),
-                        _buildSubFactRow(
+
+                        buildSubFactRow(
+                          context,
                           'Graisses trans',
                           _currentFacts.transFat,
                           'g',
                         ),
-                        _buildFactRow(
+
+                        buildFactRow(
+                          context,
                           'Cholestérol',
                           _currentFacts.cholesterol,
                           'mg',
                         ),
-                        _buildFactRow('Sodium', _currentFacts.sodium, 'mg'),
-                        _buildFactRow(
+
+                        buildFactRow(context, 'Sodium', _currentFacts.sodium, 'mg'),
+                        
+                        buildFactRow(
+                          context,
                           'Potassium',
                           _currentFacts.potassium,
                           'mg',
                         ),
-                        _buildFactRow(
+
+                        buildFactRow(
+                          context,
                           'Glucides totaux',
                           _currentFacts.totalCarbohydrates,
                           'g',
                         ),
-                        _buildSubFactRow(
+
+                        buildSubFactRow(
+                          context,
                           'Fibres alimentaires',
                           _currentFacts.dietaryFiber,
                           'g',
                         ),
-                        _buildSubFactRow('Sucres', _currentFacts.sugar, 'g'),
-                        _buildFactRow('Protéines', _currentFacts.protein, 'g'),
+
+                        buildSubFactRow(context, 'Sucres', _currentFacts.sugar, 'g'),
+                        
+                        buildFactRow(context, 'Protéines', _currentFacts.protein, 'g'),
                       ],
                     ),
                   ),
@@ -404,7 +345,7 @@ class _ResultScreenState extends State<ResultScreen> {
                       ElevatedButton.icon(
                         icon: const Icon(Icons.add_a_photo_rounded),
                         label: const Text('Analyser une nouvelle photo'),
-                        onPressed: _saveAndReturn,
+                        onPressed: () => saveAndReturn(context, _currentFacts),
                       ),
                     ],
                   ),

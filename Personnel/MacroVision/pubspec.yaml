@@ -72,9 +72,6 @@ dependencies:
   # Pour les graphiques et visualisations de données
   fl_chart: ^1.1.1
 
-  # Pour les Toasts
-  fluttertoast: ^9.0.0
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

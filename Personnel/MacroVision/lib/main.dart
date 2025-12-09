@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:macro_vision/screens/error_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 // Services et Modèles
 import 'package:macro_vision/services/theme_provider.dart';
@@ -48,25 +46,10 @@ Future<void> main() async {
         // 4. Initialisation de la Base de Données
         DatabaseService().database;
         GeminiService().initialize();
-        // AudioCache(
-        //   prefix: 'assets/audio/',
-        // ).loadAll(['shutter.mp3', 'success.mp3', 'error.mp3']);
       } catch (e) {
         // Une erreur ici sera capturée par le runZonedGuarded
         rethrow; // Rejeter l'erreur pour qu'elle soit capturée par la Zone
       }
-
-      // 2. INITIALISATION DU SERVICE GEMINI
-      // try {
-      //   GeminiService().initialize();
-      // } catch (e) {
-      //   // Une erreur ici sera capturée par le runZonedGuarded
-      //   rethrow; // Rejeter l'erreur pour qu'elle soit capturée par la Zone
-      // }
-
-      // 3. Pré-chargement des assets audio
-
-      // await audioCache.loadAll(['shutter.mp3', 'success.mp3', 'error.mp3']);
 
       // Lancement de l'application
       runApp(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Packages Externes
 import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/services/database_service.dart';
 
@@ -16,10 +17,6 @@ import 'package:macro_vision/screens/result_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-
-// =========================================================================
-// WIDGET D'AFFICHAGE DE LA CAMÉRA (CameraScreen)
-// =========================================================================
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -68,18 +65,8 @@ class _CameraScreenState extends State<CameraScreen> {
     } on CameraException catch (e) {
       _hasCamera = false;
       if (mounted) {
-        // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Erreur lors du basculement du flash : ${e.toString()}',
-              style: const TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Colors.red,
-          ),
-        );
+        showSnackBar(context, 'Erreur d\'initialisation de la caméra.', true);
       }
-      debugPrint("Erreur d'initialisation de la caméra: $e");
     } finally {
       if (mounted) {
         setState(() {
@@ -112,16 +99,7 @@ class _CameraScreenState extends State<CameraScreen> {
         });
       } on CameraException catch (e) {
         if (mounted) {
-          // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Erreur lors du basculement du flash : ${e.toString()}',
-                style: const TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.red,
-            ),
-          );
+          showSnackBar(context, 'Erreur lors du basculement du flash.', true);
         }
       }
     }
@@ -146,16 +124,7 @@ class _CameraScreenState extends State<CameraScreen> {
         await _analyseImage(file.path, origin: runtimeType.toString());
       } catch (e) {
         if (mounted) {
-          // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Erreur de capture : ${e.toString()}',
-                style: const TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.red,
-            ),
-          );
+          showSnackBar(context, 'Erreur de capture.', true);
         }
       } finally {
         // Remettre l'état d'analyse à false (sauf si une navigation a eu lieu)
@@ -262,16 +231,7 @@ class _CameraScreenState extends State<CameraScreen> {
         await HapticFeedback.heavyImpact();
 
         if (mounted) {
-          // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Erreur d\'analyse : ${e.toString()}',
-                style: const TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.red,
-            ),
-          );
+          showSnackBar(context, 'Erreur d\'analyse.', true);
         }
       }
     } finally {
@@ -339,6 +299,7 @@ class _CameraScreenState extends State<CameraScreen> {
             right: 20,
             child: FloatingActionButton(
               heroTag: 'flashBtn',
+              tooltip: 'Basculement du flash.',
               onPressed: _isAnalyzing ? null : _toggleFlash,
               // backgroundColor: _isFlashOn
               //     ? Theme.of(context).colorScheme.primary
@@ -428,6 +389,7 @@ class _CameraScreenState extends State<CameraScreen> {
             // 1. Bouton de SÉLECTION/GALERIE
             FloatingActionButton(
               heroTag: 'galleryBtn',
+              tooltip: 'Sélectionner une image depuis la galerie.',
               onPressed: _isAnalyzing ? null : _selectFromGallery,
               child: const Icon(Icons.photo_library_rounded),
             ),
@@ -435,10 +397,11 @@ class _CameraScreenState extends State<CameraScreen> {
             // 2. Bouton de CAPTURE PRINCIPAL
             FloatingActionButton(
               heroTag: 'captureBtn',
+              tooltip: 'Capturer une image.',
               onPressed: _isAnalyzing
                   ? null
                   : _takePhoto, // Déclenche _takePhoto
-              child: const Icon(Icons.camera_enhance_rounded),
+              child: const Icon(Icons.camera_alt_rounded),
             ),
           ],
         ),

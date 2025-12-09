@@ -29,21 +29,6 @@ class GeminiService {
   factory GeminiService() {
     return _instance;
   }
-  // GeminiService() {
-  //   // Récupérer la clé depuis le fichier .env
-  //   final String apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
-
-  //   // Vérification simple (optionnel mais recommandé)
-  //   if (apiKey.isEmpty) {
-  //     throw Exception("Clé API GEMINI non trouvée dans le fichier .env.");
-  //   }
-
-  //   // Le constructeur GenerativeModel est correct
-  //   _model = GenerativeModel(
-  //     model: 'gemini-2.5-flash',
-  //     apiKey: apiKey, // Utilisation de la clé API chargée depuis .env
-  //   );
-  // }
 
   // Nouvelle méthode d'initialisation à appeler DANS main.dart
   void initialize() {
