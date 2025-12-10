@@ -15,7 +15,7 @@ import 'package:macro_vision/services/gemini_service.dart';
 import 'package:macro_vision/config/app_theme.dart';
 
 // Écrans de l'application
-import 'package:macro_vision/screens/home_screen.dart';
+import 'package:macro_vision/screens/initialization_screen.dart';
 
 Future<void> main() async {
   // =======================================================================
@@ -100,7 +100,7 @@ class MacroVisionApp extends StatelessWidget {
           theme: getLightTheme(selectedSeedColor),
           darkTheme: getDarkTheme(selectedSeedColor),
 
-          home: const HomeScreen(),
+          home: const InitializationScreen(),
         );
       },
     );

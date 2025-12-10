@@ -5,7 +5,6 @@ import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:macro_vision/screens/settings_screen.dart';
 import 'package:macro_vision/screens/user_profile_screen.dart';
 import 'package:macro_vision/helpers/helpers.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 // Import du parseur markdown. Nécessaire si vous voulez manipuler les nœuds
 
 // Convertir en StatefulWidget
@@ -17,62 +16,52 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static const String _guideSeenKey = 'hasSeenUserGuide';
-  String _guideText = 'Chargement des instructions...';
+  // static const String _guideSeenKey = 'hasSeenUserGuide';
+  // String _guideText = 'Chargement des instructions...';
+  String _guideText = '';
 
   @override
   void initState() {
     super.initState();
-    _loadGuide();
+    // loadGuideText();
   }
 
   // =========================================================================
   // LOGIQUE DU GUIDE UTILISATEUR
   // =========================================================================
 
-  Future<void> _loadGuide() async {
+  Future<String> getGuideText() async {
+  // Future<void> loadGuideText() async {
+    if (_guideText.isNotEmpty) {
+      return _guideText;
+    }
     try {
       final String text = await DefaultAssetBundle.of(
         context,
-      ).loadString('assets/userGuide.md', cache: false);
+      ).loadString('assets/user_guide.md', cache: false);
 
       if (mounted) {
         setState(() {
+          // Met en cache le texte pour les clics suivants
           _guideText = text;
         });
       }
+      return text;
     } catch (e) {
-      if (mounted) {
-        setState(() {
-          _guideText = 'Erreur lors du chargement des instructions.';
-        });
+      // if (mounted) {
+      //   setState(() {
+      //     _guideText = 'Erreur lors du chargement des instructions.';
+      //   });
         if (context.mounted) {
           showSnackBar(
             context,
-            "Erreur: Impossible de lire le guide utilisateur.",
+            'Erreur: Impossible de lire le guide utilisateur.',
             true,
           );
         }
-      }
+        return 'Erreur lors du chargement des instructions.';
+      // }
     }
-  }
-
-  // Vérifie si le guide a déjà été affiché (logique restaurée)
-  Future<void> _checkIfFirstLaunch() async {
-    final prefs = await SharedPreferences.getInstance();
-    // Lecture de la préférence utilisateur
-    final hasSeen = prefs.getBool(_guideSeenKey) ?? false;
-
-    // Afficher seulement si c'est le premier lancement ET si le texte est chargé
-    if (!hasSeen && mounted && _guideText.length > 50) {
-      showUserGuide(context, _guideText);
-      saveHasSeenUserGuide(); // Sauvegarde seulement si l'ouverture est automatique
-    }
-  }
-
-  Future<void> saveHasSeenUserGuide() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_guideSeenKey, true);
   }
 
   // =========================================================================
@@ -170,11 +159,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 FloatingActionButton(
                   heroTag: 'guideBtn', // Must be unique
                   tooltip: 'Guide d\'utilisation.',
-                  onPressed: () =>
-                      showUserGuide(context, _guideText), // Navigate to a different screen
-                  child: const Icon(
-                    Icons.info_outline_rounded,
-                  ), // A different icon
+                  onPressed: () async =>
+                      // showUserGuide(context),
+                      await openDialog(context, 'Guide d\'utilisation', await getGuideText()), // Navigate to a different screen
+                  child: const Icon(Icons.info_outline_rounded), // A different icon
                 ),
               ],
             ),

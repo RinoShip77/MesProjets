@@ -175,17 +175,21 @@ Widget feedbackButton(BuildContext context) {
 // HomeScreen
 // =======================================================================
 // Fonction pour afficher la boîte de dialogue du guide utilisateur
-void showUserGuide(BuildContext context, String guide) {
+Future<void> openDialog(BuildContext context, String title, String text) async {
+// void openDialog(BuildContext context, String title, String text) {
   // Utilisation de la fonction builder pour gérer le contenu long.
-  final children = MarkdownGenerator().buildWidgets(guide);
+  final children = MarkdownGenerator().buildWidgets(text);
 
-  showDialog(
+  return showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
+        icon: title.toLowerCase().contains('guide')
+        ? Icon(Icons.auto_stories_rounded, color: Colors.blue, size: 40)
+        : Icon(Icons.warning_rounded, color: Colors.orange, size: 40),
         title: Center(
           child: Text(
-            'GUIDE D\'UTILISATION',
+            title,
             style: TextStyle(
               fontSize: 30.0, // Set your desired font size
               fontWeight: FontWeight.bold,
@@ -361,8 +365,6 @@ String? formatEmailSubject(BuildContext context, name) {
   if (name.isNotEmpty) {
     subject += ' de ${name.trim()}';
   }
-
-  subject += ': ${DateTime.now().toIso8601String().substring(0, 10)}';
 
   return subject;
 }
