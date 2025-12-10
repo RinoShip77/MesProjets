@@ -72,7 +72,11 @@ dependencies:
   # Pour les graphiques et visualisations de données
   fl_chart: ^1.1.1
 
+  #Pour ouvrir les liens mailto:
   url_launcher: ^6.3.0
+
+  # Pour afficher le guide utilisateur
+  markdown_widget: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +94,7 @@ dev_dependencies:
 
   # Pour générer des écrans de démarrage natifs
   flutter_native_splash: ^2.4.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -110,6 +115,7 @@ flutter:
     - .env
     - assets/images/
     - assets/audio/
+    - assets/userGuide.md
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

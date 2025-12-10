@@ -62,7 +62,7 @@ class _CameraScreenState extends State<CameraScreen> {
         await _controller!.setFlashMode(FlashMode.off);
         _hasCamera = true;
       }
-    } on CameraException catch (e) {
+    } on CameraException {
       _hasCamera = false;
       if (mounted) {
         showSnackBar(context, 'Erreur d\'initialisation de la caméra.', true);
@@ -97,7 +97,7 @@ class _CameraScreenState extends State<CameraScreen> {
         setState(() {
           _isFlashOn = !_isFlashOn;
         });
-      } on CameraException catch (e) {
+      } on CameraException {
         if (mounted) {
           showSnackBar(context, 'Erreur lors du basculement du flash.', true);
         }

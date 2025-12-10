@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Pour obtenir l'info sur la plateforme
-import 'package:macro_vision/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -61,32 +60,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
     // --- NOUVELLE LOGIQUE D'ENVOI PAR EMAIL ---
     try {
-      // Déterminer la plateforme (utile pour le débogage)
-      // final String platform = (Theme.of(context).platform == TargetPlatform.iOS)
-      //     ? 'iOS'
-      //     : 'Android/Autre';
-
-      final String subject =
-          'Feedback MacroVision: ${DateTime.now().toIso8601String().substring(0, 10)}';
-
-      // print(Theme.of(context).platform.package_info_plus);
-      // Corps de l'e-mail avec le message du testeur et les informations d'aide
-      // final String body =
-      //     '''
-      //     Version App: 1.0.0 (à remplacer par la vraie version si vous utilisez package_info_plus)
-      //     Plateforme: $platform
-      //     --- Message de l'utilisateur ---
-
-      //     ${_feedbackController.text.trim()}
-      //     ''';
-
       // Encodage des chaînes pour l'URL
       final Uri emailLaunchUri = Uri(
         scheme: 'mailto',
         path: recipientEmail,
         query: encodeQueryParameters(<String, String>{
-          'subject': subject,
-          'body': ?formatFeedback(context, _feedbackController.text.trim()),
+          'subject': ?formatEmailSubject(context, _nameController.text.trim()),
+          // Corps de l'e-mail avec le message du testeur et les informations d'aide
+          'body': ?formatEmailBody(context, _feedbackController.text.trim()),
         }),
       );
 
@@ -131,14 +112,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         _isSending = false;
       });
     }
-  }
-
-  String? formatFeedback(BuildContext context, feedback) {
-    final String platform = (Theme.of(context).platform == TargetPlatform.iOS)
-          ? 'iOS'
-          : 'Android/Autre';
-          
-    return '''Version : 1.0.0\nPlateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
   }
 
   // Fonction utilitaire pour encoder les paramètres d'URL (à ajouter dans helpers.dart si non présent)

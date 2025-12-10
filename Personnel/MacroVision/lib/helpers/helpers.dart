@@ -3,10 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:macro_vision/screens/feedback_screen.dart';
-import 'package:macro_vision/screens/settings_screen.dart';
-import 'package:macro_vision/screens/user_profile_screen.dart';
-import 'package:macro_vision/services/theme_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:markdown_widget/config/markdown_generator.dart';
 
 /// Helper functions and utilities for the MacroVision application.
 ///
@@ -28,12 +25,12 @@ void navigate(BuildContext context, nextScreen) {
   ).push(MaterialPageRoute(builder: (context) => nextScreen));
 }
 
-// Call with showSnackBar(context, $messsage, true/false);
+// Call with showSnackBar($context, $messsage, $true/false, $duration);
 void showSnackBar(
   BuildContext context,
   String message,
   isError, {
-  int duration = 500,
+  int duration = 1500,
 }) {
   final snackbar = SnackBar(
     content: Text(
@@ -175,6 +172,50 @@ Widget feedbackButton(BuildContext context) {
 }
 
 // =======================================================================
+// HomeScreen
+// =======================================================================
+// Fonction pour afficher la boîte de dialogue du guide utilisateur
+void showUserGuide(BuildContext context, String guide) {
+  // Utilisation de la fonction builder pour gérer le contenu long.
+  final children = MarkdownGenerator().buildWidgets(guide);
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Center(
+          child: Text(
+            'GUIDE D\'UTILISATION',
+            style: TextStyle(
+              fontSize: 30.0, // Set your desired font size
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+        ),
+        content: SizedBox(
+          child: SingleChildScrollView(
+            // REMPLACEMENT : Utilisation du widget Column pour contenir les widgets générés par MarkdownGenerator
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children, // Les widgets générés par MarkdownWidget
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Compris!'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+// =======================================================================
 // SettingsScreen
 // =======================================================================
 Widget buildThemeOption({
@@ -309,4 +350,28 @@ Widget buildSubFactRow(
 void saveAndReturn(BuildContext context, facts) {
   // Renvoie les faits ajustés (ou non ajustés) à l'écran précédent.
   Navigator.of(context).pop(facts);
+}
+
+// =======================================================================
+// FeedbackScreen
+// =======================================================================
+String? formatEmailSubject(BuildContext context, name) {
+  String subject = 'Feedback MacroVision';
+
+  if (name.isNotEmpty) {
+    subject += ' de ${name.trim()}';
+  }
+
+  subject += ': ${DateTime.now().toIso8601String().substring(0, 10)}';
+
+  return subject;
+}
+
+String? formatEmailBody(BuildContext context, feedback) {
+  // Déterminer la plateforme (utile pour le débogage)
+  final String platform = (Theme.of(context).platform == TargetPlatform.iOS)
+      ? 'iOS'
+      : 'Android/Autre';
+
+  return '''Version : 1.0.0\nPlateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
 }

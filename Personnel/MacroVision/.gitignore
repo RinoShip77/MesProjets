@@ -12,6 +12,7 @@
 .swiftpm/
 migrate_working_dir/
 .env
+/android/app/key.jks
 
 # IntelliJ related
 *.iml
