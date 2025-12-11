@@ -317,17 +317,20 @@ class _CameraScreenState extends State<CameraScreen> {
           Positioned(
             top: 10,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Text(
-                "Conseil : Ciblez un aliment à la fois, avec une bonne lumière.",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.onPrimary,
+              child: Expanded(
+                child: Text(
+                  "Conseil : Ciblez un aliment à la fois, avec une bonne lumière.",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
