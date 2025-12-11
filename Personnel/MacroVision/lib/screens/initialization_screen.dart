@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:markdown_widget/markdown_widget.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/screens/home_screen.dart';
 
@@ -24,14 +23,14 @@ class _InitializationScreenState extends State<InitializationScreen> {
 
     // Exécute l'initialisation après que le widget ait été monté
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      initializeData();
+      _initializeData();
     });
   }
 
   // Fonction principale pour charger les données et gérer les dialogues
-  Future<void> initializeData() async {
+  Future<void> _initializeData() async {
     // 1. CHARGEMENT ASYNCHRONE DES DONNÉES
-    await loadAssets();
+    await _loadAssets();
 
     final prefs = await SharedPreferences.getInstance();
     // Utilise un booléen simple pour cet exemple, mais la logique est dans _initializeData
@@ -51,7 +50,7 @@ class _InitializationScreenState extends State<InitializationScreen> {
       await openDialog(context, 'Guide d\'utilisation', _guideText);
       // showUserGuide(context); /////////
 
-      await saveHasSeenGuide();
+      await _saveHasSeenGuide();
     }
 
     // 3. NAVIGATION VERS L'ÉCRAN D'ACCUEIL
@@ -63,7 +62,7 @@ class _InitializationScreenState extends State<InitializationScreen> {
   }
 
   // Nouvelle fonction pour charger les deux assets simultanément
-  Future<void> loadAssets() async {
+  Future<void> _loadAssets() async {
     try {
       // Chargement du guide
       final guideFuture = DefaultAssetBundle.of(
@@ -101,7 +100,7 @@ class _InitializationScreenState extends State<InitializationScreen> {
     }
   }
 
-  Future<void> saveHasSeenGuide() async {
+  Future<void> _saveHasSeenGuide() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_guideSeenKey, true);
   }
