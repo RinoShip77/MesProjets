@@ -31,6 +31,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Pour la gestion de la localisation et des formats de date/heure
+  flutter_localizations:
+    sdk: flutter
+
   # --- Outils requis pour l'IA et la Caméra ---
   # L'API Gemini de Google pour la vision
   google_generative_ai: ^0.4.7 # Mettre à jour à une version récente (ou utiliser la plus récente disponible)

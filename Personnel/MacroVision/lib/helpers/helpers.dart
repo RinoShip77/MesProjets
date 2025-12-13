@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:markdown_widget/config/markdown_generator.dart';
 
@@ -376,4 +377,46 @@ String? formatEmailBody(BuildContext context, feedback) {
       : 'Android/Autre';
 
   return '''Version : 1.0.0\nPlateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
+}
+
+// =======================================================================
+// DatabaseService
+// =======================================================================
+// Obtient le timestamp de début de journée pour une date donnée (minuit)
+int getStartOfDayTimestamp(DateTime date) {
+  final startOfDay = DateTime(date.year, date.month, date.day);
+  return startOfDay.millisecondsSinceEpoch;
+}
+
+// Obtient le DateTime du début de la semaine (lundi à 00:00:00)
+DateTime getStartOfCurrentWeek() {
+  final now = DateTime.now();
+  // 1 = Lundi, 7 = Dimanche
+  int weekday = now.weekday; 
+
+  // Calcule le décalage pour revenir à Lundi.
+  // Si aujourd'hui est Lundi (1), daysToSubtract sera 0.
+  // Si aujourd'hui est Jeudi (4), daysToSubtract sera 3.
+  final startOfWeek = now.subtract(Duration(days: weekday - 1));
+  
+  return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
+}
+
+// Formate une date en nom de jour (Lun, Mar, etc.) pour les graphiques
+String formatDateForSummary(DateTime dateTime) {
+  // 'E' donne le nom abrégé du jour (Lun, Mar, ...)
+  // Le paramètre locale: 'fr_CA' force l'utilisation des noms français.
+  return (DateFormat('E', 'fr_CA').format(dateTime)).substring(0, (DateFormat('E', 'fr_CA').format(dateTime)).length - 1).capitalize(); 
+}
+
+// Fonction utilitaire pour formater la date comme "dd-MM-yyyy"
+String formatDate(DateTime dateTime) {
+  // Utilise le format 'dd-MM-yyyy' et force la locale pour les formats de date numériques
+  return DateFormat('dd-MM-yyyy', 'fr_CA').format(dateTime);
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
 }

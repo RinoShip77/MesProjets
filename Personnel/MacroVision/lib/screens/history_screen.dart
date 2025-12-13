@@ -83,7 +83,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget _buildHistoryTile(BuildContext context, NutritionalFactsEntry entry) {
     // Formatte la date
     final date = DateTime.fromMillisecondsSinceEpoch(entry.timestamp);
-    final formattedDate = DateFormat('dd/MM/yyyy HH:mm').format(date);
+    final formattedDate = '${formatDate(date)} ${DateFormat.Hm().format(date)}';
+    // final formattedDate = DateFormat('dd/MM/yyyy HH:mm').format(date);
 
     return Tooltip(
       message: formattedDate,
@@ -123,7 +124,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           if (mounted) {
             showSnackBar(
               context,
-              'L\'entrée du ${DateFormat.yMd().format(date)} a été supprimée de l\'historique.',
+              'L\'entrée du ${formatDate(date)} a été supprimée de l\'historique.',
               false,
             );
           }

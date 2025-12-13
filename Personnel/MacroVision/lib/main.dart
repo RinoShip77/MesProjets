@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 // Packages Externes
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:macro_vision/screens/error_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -95,11 +96,28 @@ class MacroVisionApp extends StatelessWidget {
 
         return MaterialApp(
           title: 'MacroVision',
-          debugShowCheckedModeBanner: false,
+          // Affiche que l'app est en mode DEBUG
+          debugShowCheckedModeBanner: true,
           themeMode: themeProvider.themeMode,
           theme: getLightTheme(selectedSeedColor),
           darkTheme: getDarkTheme(selectedSeedColor),
 
+          // =========================================================
+          // 💡 INTERNATIONALISATION : AJOUTER CES LIGNES
+          // =========================================================
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('fr', 'CA'), // Français (Canada)
+            Locale('en', 'CA'), // Anglais (Canada)
+          ],
+          
+          locale: const Locale('fr', 'CA'), // <-- FORCER LA LOCALE PAR DÉFAUT
+          // =========================================================
+          
           home: const InitializationScreen(),
         );
       },

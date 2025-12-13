@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:macro_vision/helpers/helpers.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:async';
@@ -72,38 +73,45 @@ class DatabaseService {
       try {
         await oldFile.rename(newPath);
         if (kDebugMode) {
-          print("DB_MIGRATION: Succès du renommage (de $oldFile vers $newPath).");
+          print(
+            "DB_MIGRATION: Succès du renommage (de $oldFile vers $newPath).",
+          );
         }
-      } 
+      }
       // Si le renommage échoue, nous passons à la logique de copie de sécurité
       catch (e) {
         if (kDebugMode) {
-          print("DB_MIGRATION: ERREUR de renommage. Tentative de copie de sécurité... $e");
+          print(
+            "DB_MIGRATION: ERREUR de renommage. Tentative de copie de sécurité... $e",
+          );
         }
-        
+
         try {
           // Utiliser copy() à la place de rename()
           await oldFile.copy(newPath);
-          
-          // Si la copie réussit, on supprime l'ancienne pour éviter la duplication
-          await oldFile.delete(); 
-          if (kDebugMode) {
-            print("DB_MIGRATION: Succès de la copie de sécurité et suppression de l'ancienne DB.");
-          }
 
+          // Si la copie réussit, on supprime l'ancienne pour éviter la duplication
+          await oldFile.delete();
+          if (kDebugMode) {
+            print(
+              "DB_MIGRATION: Succès de la copie de sécurité et suppression de l'ancienne DB.",
+            );
+          }
         } catch (eCopy) {
           // Si la copie/suppression échoue, c'est une erreur critique.
           // Pour la robustesse, on peut décider d'ouvrir l'ancienne DB
           // et laisser l'utilisateur utiliser la V1.
 
           if (kDebugMode) {
-            print("DB_MIGRATION: ÉCHEC CRITIQUE de la copie. Ouverture de l'ancienne DB.");
+            print(
+              "DB_MIGRATION: ÉCHEC CRITIQUE de la copie. Ouverture de l'ancienne DB.",
+            );
           }
-          
+
           // On ouvre l'ancienne DB, et l'application fonctionnera
           // mais utilisera l'ancien nom de fichier.
           return openDatabase(
-            oldPath, 
+            oldPath,
             onCreate: _onCreate,
             onUpgrade: _onUpgrade,
             version: 2,
@@ -178,12 +186,9 @@ class DatabaseService {
 
   Future<List<DailySummary>> getWeeklySummary() async {
     return _withDatabase((db) async {
-      final sevenDaysAgo = DateTime.now().subtract(const Duration(days: 7));
-      final startTimestamp = DateTime(
-        sevenDaysAgo.year,
-        sevenDaysAgo.month,
-        sevenDaysAgo.day,
-      ).millisecondsSinceEpoch;
+      // 1. CALCULER LE DÉBUT DE LA SEMAINE (LUNDI à 00:00:00)
+      final startOfWeek = getStartOfCurrentWeek();
+      final startTimestamp = getStartOfDayTimestamp(startOfWeek);
 
       final List<Map<String, dynamic>> result = await db.rawQuery(
         '''
@@ -207,13 +212,16 @@ class DatabaseService {
       }
 
       List<DailySummary> weeklySummary = [];
-      final now = DateTime.now();
 
-      for (int i = 6; i >= 0; i--) {
-        final date = now.subtract(Duration(days: i));
+      // 2. GÉNÉRER LES 7 JOURS À PARTIR DU DÉBUT DE LA SEMAINE
+      // La boucle commence à 0 (Lundi) et va jusqu'à 6 (Dimanche).
+      for (int i = 0; i < 7; i++) {
+        // Ajoute i jours au début de la semaine (startOfWeek)
+        final date = startOfWeek.add(Duration(days: i));
         final dateString = DateFormat('yyyy-MM-dd').format(date);
-        // Utilisation du format par défaut pour éviter le plantage de la locale 'fr'
-        final dayName = DateFormat('E').format(date);
+        
+        // final dayName = DateFormat('E').format(date);
+        final dayName = formatDateForSummary(date);
 
         weeklySummary.add(
           DailySummary(
