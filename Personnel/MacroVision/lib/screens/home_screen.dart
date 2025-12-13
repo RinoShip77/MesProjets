@@ -1,5 +1,4 @@
 import 'dart:convert'; // Nécessaire pour décoder le UserProfile
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:macro_vision/screens/camera_screen.dart';
 import 'package:macro_vision/screens/dashboard_screen.dart';
@@ -161,9 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
     required Color color,
     required IconData icon,
   }) {
-    Random random = Random();
-    final double progress = random.nextDouble();
-    // final double progress = max > 0 ? (value / max).clamp(0.0, 1.0) : 0.0;
+    final double progress = max > 0 ? (value / max).clamp(0.0, 1.0) : 0.0;
 
     return Expanded(
       child: Container(
@@ -200,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
 
-            Text('sur ${max.toInt()}g', style: TextStyle(fontSize: 10)),
+            Text('sur ${max.toInt()} g', style: TextStyle(fontSize: 10)),
 
             const SizedBox(height: 8),
 
@@ -217,9 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 2. Widget de la Roue des Calories
   Widget _buildCalorieWheel(double consumed, double goal, Color primaryColor) {
-    Random random = Random();
-    final double progress = random.nextDouble();
-    // final double progress = goal > 0 ? (consumed / goal).clamp(0.0, 1.0) : 0.0;
+    final double progress = goal > 0 ? (consumed / goal).clamp(0.0, 1.0) : 0.0;
 
     return Column(
       children: [

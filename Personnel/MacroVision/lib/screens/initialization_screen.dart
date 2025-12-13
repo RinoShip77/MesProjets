@@ -1,6 +1,5 @@
-// Fichier : lib/screens/initialization_screen.dart
-
 import 'package:flutter/material.dart';
+import 'package:macro_vision/services/database_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/screens/home_screen.dart';
@@ -31,6 +30,11 @@ class _InitializationScreenState extends State<InitializationScreen> {
   Future<void> _initializeData() async {
     // 1. CHARGEMENT ASYNCHRONE DES DONNÉES
     await _loadAssets();
+
+    // =======================================================
+    // INITIALISATION DE LA BASE DE DONNÉES DE TEST (SEULEMENT SI VIDE)
+    // await DatabaseService().seedDatabaseForTesting();
+    // =======================================================
 
     final prefs = await SharedPreferences.getInstance();
     // Utilise un booléen simple pour cet exemple, mais la logique est dans _initializeData
