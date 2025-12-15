@@ -6,6 +6,7 @@ import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:macro_vision/screens/settings_screen.dart';
 import 'package:macro_vision/screens/user_profile_screen.dart';
 import 'package:macro_vision/helpers/helpers.dart';
+import 'package:macro_vision/widgets/today_analysis.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Imports nécessaires pour le calcul des données
@@ -481,6 +482,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   _buildDailySummaryCard(),
 
                   const SizedBox(height: 20),
+
+                  TodayAnalysis(),
 
                   const SizedBox(height: 30),
 
