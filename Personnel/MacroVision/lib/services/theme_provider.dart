@@ -37,6 +37,7 @@ class PrefKeys {
 
 // 3. Le Provider (gestionnaire d'état)
 class ThemeProvider with ChangeNotifier {
+  static const String themeModeKey = 'themeMode'; // Rendre public
   ThemeModeOption _themeModeOption = ThemeModeOption.system;
   CustomTheme _customTheme = customThemes.first;
 

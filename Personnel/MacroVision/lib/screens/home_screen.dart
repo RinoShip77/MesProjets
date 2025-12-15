@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // =========================================================================
   // LOGIQUE DU GUIDE UTILISATEUR
   // =========================================================================
-  Future<String> _getGuideText() async {
+  Future<String> _getGuideText(BuildContext context) async {
     // Future<void> loadGuideText() async {
     if (_guideText.isNotEmpty) {
       return _guideText;
@@ -143,6 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
           true,
         );
       }
+
       return 'Erreur lors du chargement des instructions.';
       // }
     }
@@ -348,16 +349,67 @@ class _HomeScreenState extends State<HomeScreen> {
             MenuItemButton(
               leadingIcon: const Icon(Icons.feedback_rounded),
               child: const Text('Commentaire'),
-              onPressed: () => _navigateAndRefresh(context, FeedbackScreen()),
+              onPressed: () async {
+                // 💡 Le rendre ASYNC pour un meilleur contrôle
+                try {
+                  // Supposons que _navigateAndRefresh est une fonction normale (non async)
+                  // Si elle est async, utilisez await.
+                  _navigateAndRefresh(context, const FeedbackScreen());
+                } catch (e, stack) {
+                  print(
+                    "Erreur lors de l'ouverture de l'écran de commentaires : $e",
+                  );
+                  print(stack);
+
+                  // Afficher une Snackbar pour informer l'utilisateur sans crasher
+                  if (context.mounted) {
+                    showSnackBar(
+                      context,
+                      "Impossible d'ouvrir l'écran de commentaires.",
+                      true,
+                    );
+                  }
+                }
+              },
+              // onPressed: () => _navigateAndRefresh(context, FeedbackScreen()),
             ),
             MenuItemButton(
               leadingIcon: const Icon(Icons.info_outline_rounded),
               child: const Text('Guide'),
-              onPressed: () async => await openDialog(
-                context,
-                'Guide d\'utilisation',
-                await _getGuideText(),
-              ),
+              onPressed: () async {
+                try {
+                  // 1. Charger le texte du guide de manière sûre
+                  final String guideContent = await _getGuideText(context);
+
+                  // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
+                  if (context.mounted) {
+                    await openDialog(
+                      context: context,
+                      title: 'Guide d\'utilisation',
+                      content: guideContent, // Utilisez le contenu chargé
+                    );
+                  }
+                } catch (e, stack) {
+                  // 3. En cas d'erreur de chargement ou d'ouverture du dialogue :
+                  print("Erreur lors de l'ouverture du dialogue Guide : $e");
+                  print(stack);
+
+                  // Afficher une simple Snackbar à l'utilisateur au lieu de crasher
+                  if (context.mounted) {
+                    // Assurez-vous que showSnackBar est importé de helpers.dart
+                    showSnackBar(
+                      context,
+                      "Erreur: Impossible de charger le guide d'utilisation.",
+                      true,
+                    );
+                  }
+                }
+              },
+              // onPressed: () async => await openDialog(
+              //   context: context,
+              //   title: 'Guide d\'utilisation',
+              //   content: await _getGuideText(),
+              // ),
             ),
           ],
           // Define the actual button widget that the user taps

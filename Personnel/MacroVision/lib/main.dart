@@ -60,7 +60,7 @@ Future<void> main() async {
         ),
       );
     },
-    (Object error, StackTrace stack) {
+    (Object e, StackTrace stack) {
       // Cette fonction est appelée lorsqu'une erreur non gérée se produit.
       // Afficher l'écran d'erreur personnalisé
       runApp(
@@ -70,9 +70,9 @@ Future<void> main() async {
             useMaterial3: true,
           ),
           home: ErrorScreen(
-            message: "Une erreur critique s'est produite lors du lancement.",
+            message: "Une erreur critique s'est produite",
             details: kDebugMode
-                ? error.toString()
+                ? e.toString()
                 : null, // Détails uniquement en mode débogage
           ),
         ),

@@ -8,7 +8,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:macro_vision/helpers/helpers.dart';
 
 class FeedbackScreen extends StatefulWidget {
-  const FeedbackScreen({super.key});
+  final String? message;
+
+  const FeedbackScreen({super.key, this.message});
 
   @override
   State<FeedbackScreen> createState() => _FeedbackScreenState();
@@ -158,7 +160,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 maxLines: 8,
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
-                  labelText: 'Votre message ...',
+                  labelText: widget.message == null || widget.message!.isEmpty
+                      ? 'Votre message ...'
+                      : widget.message,
                   hintText:
                       'Décrivez votre expérience, signalez un bug ou proposez une idée...',
                   alignLabelWithHint: true,

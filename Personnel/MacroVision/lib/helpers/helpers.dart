@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:macro_vision/screens/feedback_screen.dart';
+import 'package:macro_vision/screens/home_screen.dart';
 import 'package:markdown_widget/config/markdown_generator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Helper functions and utilities for the MacroVision application.
 ///
@@ -20,10 +22,18 @@ import 'package:markdown_widget/config/markdown_generator.dart';
 // Genral functions
 // =======================================================================
 // Call with navigate(context, const $nextScreen()),
-void navigate(BuildContext context, nextScreen) {
-  Navigator.of(
-    context,
-  ).push(MaterialPageRoute(builder: (context) => nextScreen));
+void navigate(BuildContext context, nextScreen, {bool replace = false}) {
+  if (replace) {
+    // 💡 pushReplacement : Retire la page actuelle de la pile (pour l'initialisation)
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (context) => nextScreen));
+  } else {
+    // push : Laisse la page actuelle dans la pile (pour les navigations normales)
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => nextScreen));
+  }
 }
 
 // Call with showSnackBar($context, $messsage, $true/false, $duration);
@@ -176,18 +186,25 @@ Widget feedbackButton(BuildContext context) {
 // HomeScreen
 // =======================================================================
 // Fonction pour afficher la boîte de dialogue du guide utilisateur
-Future<void> openDialog(BuildContext context, String title, String text) async {
-// void openDialog(BuildContext context, String title, String text) {
+Future<void> openDialog({
+  required BuildContext context,
+  required String title,
+  required String content,
+  String? warningContent,
+  String? key,
+  dynamic onDismiss,
+}) async {
+  // void openDialog(BuildContext context, String title, String text) {
   // Utilisation de la fonction builder pour gérer le contenu long.
-  final children = MarkdownGenerator().buildWidgets(text);
+  final children = MarkdownGenerator().buildWidgets(content);
 
   return showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         icon: title.toLowerCase().contains('guide')
-        ? Icon(Icons.auto_stories_rounded, color: Colors.blue, size: 40)
-        : Icon(Icons.warning_rounded, color: Colors.orange, size: 40),
+            ? Icon(Icons.auto_stories_rounded, color: Colors.blue, size: 40)
+            : Icon(Icons.warning_rounded, color: Colors.orange, size: 40),
         title: Center(
           child: Text(
             title,
@@ -209,15 +226,68 @@ Future<void> openDialog(BuildContext context, String title, String text) async {
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('Compris!'),
-            onPressed: () {
-              Navigator.of(context).pop();
+            child: title.toLowerCase().contains('guide')
+                ? Text('Compris!')
+                : Text('Continuer'),
+            onPressed: () async {
+              try {
+                if (onDismiss != null) {
+                  // Cas 1 : Dialogue Général ou Avertissement Légal (onDismiss est défini)
+                  // On exécute l'action de fermeture (navigate)
+                  if (context.mounted) {
+                    onDismiss(); // Exécute la fonction de fermeture (qui navigue vers HomeScreen)
+                    Navigator.of(context).pop(); // Ferme le dialogue
+                  }
+                } else {
+                  if (key != null) {
+                    // Nous sommes en phase d'initialisation. On sauvegarde et on enchaîne.
+                    await saveHasSeenGuide(key!);
+
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+
+                      openDialog(
+                        context: context,
+                        title: 'Avertissement légal',
+                        content: warningContent ?? '',
+                        onDismiss: () => navigate(
+                          context,
+                          const HomeScreen(),
+                          replace: true,
+                        ),
+                      );
+                    }
+                  } else {
+                    // Nous sommes sur l'HomeScreen (Menu > Guide). On ferme simplement.
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  }
+                }
+              } catch (e, stack) {
+                // Gère l'erreur localement (si le contexte est encore valide)
+                print("Erreur critique dans openDialog: $e");
+                print(stack);
+                if (context.mounted) {
+                  // Optionnel : Afficher un message d'erreur moins fatal à l'utilisateur
+                  showSnackBar(
+                    context,
+                    "Une erreur est survenue lors de la sauvegarde ou de la navigation.",
+                    true,
+                  );
+                }
+              }
             },
           ),
         ],
       );
     },
   );
+}
+
+Future<void> saveHasSeenGuide(String key) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool(key, true);
 }
 
 // =======================================================================
@@ -392,13 +462,13 @@ int getStartOfDayTimestamp(DateTime date) {
 DateTime getStartOfCurrentWeek() {
   final now = DateTime.now();
   // 1 = Lundi, 7 = Dimanche
-  int weekday = now.weekday; 
+  int weekday = now.weekday;
 
   // Calcule le décalage pour revenir à Lundi.
   // Si aujourd'hui est Lundi (1), daysToSubtract sera 0.
   // Si aujourd'hui est Jeudi (4), daysToSubtract sera 3.
   final startOfWeek = now.subtract(Duration(days: weekday - 1));
-  
+
   return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
 }
 
@@ -406,7 +476,9 @@ DateTime getStartOfCurrentWeek() {
 String formatDateForSummary(DateTime dateTime) {
   // 'E' donne le nom abrégé du jour (Lun, Mar, ...)
   // Le paramètre locale: 'fr_CA' force l'utilisation des noms français.
-  return (DateFormat('E', 'fr_CA').format(dateTime)).substring(0, (DateFormat('E', 'fr_CA').format(dateTime)).length - 1).capitalize(); 
+  return (DateFormat('E', 'fr_CA').format(dateTime))
+      .substring(0, (DateFormat('E', 'fr_CA').format(dateTime)).length - 1)
+      .capitalize();
 }
 
 // Fonction utilitaire pour formater la date comme "dd-MM-yyyy"
@@ -417,6 +489,6 @@ String formatDate(DateTime dateTime) {
 
 extension StringExtension on String {
   String capitalize() {
-    return "${this[0].toUpperCase()}${this.substring(1)}";
+    return "${this[0].toUpperCase()}${substring(1)}";
   }
 }

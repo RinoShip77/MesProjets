@@ -59,7 +59,7 @@ class ErrorScreen extends StatelessWidget {
                   // Relance l'application en naviguant vers la racine
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const FeedbackScreen(),
+                      builder: (context) => FeedbackScreen(message: '$message :\n$details'),
                     ),
                   );
                 },

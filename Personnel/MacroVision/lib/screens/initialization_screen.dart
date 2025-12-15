@@ -1,6 +1,8 @@
 // Fichier : lib/screens/initialization_screen.dart
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:macro_vision/services/database_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/screens/home_screen.dart';
@@ -13,7 +15,9 @@ class InitializationScreen extends StatefulWidget {
 }
 
 class _InitializationScreenState extends State<InitializationScreen> {
+  // Clé et état de l'écran
   static const String _guideSeenKey = 'hasSeenUserGuide';
+  static const String _dbSeededKey = 'hasSeededDatabase';
   String _guideText = 'Chargement des instructions...';
   String _warningText = 'Chargement de l\'avertissement légal...';
 
@@ -27,42 +31,65 @@ class _InitializationScreenState extends State<InitializationScreen> {
     });
   }
 
+  // =======================================================================
   // Fonction principale pour charger les données et gérer les dialogues
+  // =======================================================================
   Future<void> _initializeData() async {
-    // 1. CHARGEMENT ASYNCHRONE DES DONNÉES
-    await _loadAssets();
+    // Délai minimal pour éviter le "flash" sur les appareils rapides
+    const Duration minDuration = Duration(milliseconds: 3000);
 
+    // FUTURE A : Le travail réel de l'initialisation
+    final Future<void> initializationWork = () async {
+      await _loadAssets();
+
+      final prefs = await SharedPreferences.getInstance();
+      final hasSeeded = prefs.getBool(_dbSeededKey) ?? false;
+
+      // Logique de peuplement unique de la base de données de test
+      if (kDebugMode && !hasSeeded) {
+        print("[DB] Début du peuplement de la base de données de test.");
+        await DatabaseService().seedDatabaseForTesting();
+        await prefs.setBool(_dbSeededKey, true);
+        print("[DB] Peuplement terminé et drapeau levé.");
+      } else if (kDebugMode) {
+        print(
+          "[DB] Le peuplement de la DB est ignoré car le drapeau est levé.",
+        );
+      }
+    }();
+
+    // FUTURE B : Le délai minimal.
+    final Future<void> minTimeDelay = Future.delayed(minDuration);
+
+    // Attendre que les DEUX Futures soient complétés.
+    await Future.wait([initializationWork, minTimeDelay]);
+
+    // 3. GESTION DE LA NAVIGATION
     final prefs = await SharedPreferences.getInstance();
-    // Utilise un booléen simple pour cet exemple, mais la logique est dans _initializeData
-    final hasSeen = prefs.getBool(_guideSeenKey) ?? false;
+    final hasSeenGuide = prefs.getBool(_guideSeenKey) ?? false;
 
-    // 2. GESTION DE L'AFFICHAGE (si première utilisation)
-    // Vérifie que les deux textes sont chargés pour éviter des dialogues vides.
-    if (!hasSeen &&
-        mounted &&
-        _guideText.length > 50 &&
-        _warningText.length > 50) {
-      // ÉTAPE 1: Afficher l'avertissement légal (maintenant avec le contenu du fichier)
-      await openDialog(context, 'Avertissement légal', _warningText);
-      // await showLegalWarning(context);
-
-      // ÉTAPE 2: Puis afficher le guide
-      await openDialog(context, 'Guide d\'utilisation', _guideText);
-      // showUserGuide(context); /////////
-
-      await _saveHasSeenGuide();
-    }
-
-    // 3. NAVIGATION VERS L'ÉCRAN D'ACCUEIL
-    if (mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+    if (context.mounted) {
+      if (hasSeenGuide) {
+        // Naviguer vers l'écran principal
+        navigate(context, const HomeScreen());
+      } else {
+        // Afficher le guide suivi de l'avertissement légal
+        openDialog(
+          context: context,
+          title: 'Guide d\'utilisation',
+          content: _guideText,
+          warningContent: _warningText,
+          key: _guideSeenKey,
+        );
+      }
     }
   }
 
-  // Nouvelle fonction pour charger les deux assets simultanément
+  // ========================================================================
+  // Charger les deux assets simultanément
+  // =======================================================================
   Future<void> _loadAssets() async {
+    // Logique de chargement des fichiers .md
     try {
       // Chargement du guide
       final guideFuture = DefaultAssetBundle.of(
@@ -100,22 +127,43 @@ class _InitializationScreenState extends State<InitializationScreen> {
     }
   }
 
-  Future<void> _saveHasSeenGuide() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_guideSeenKey, true);
-  }
-
   // Affiche l'écran de chargement pendant l'initialisation
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 20),
-            Text("Préparation de l'application..."),
+            // 1. Image (Logo ou élément visuel central)
+            // Si votre image est le cœur, vous pouvez garder le Icon,
+            // sinon utilisez Image.asset. Utilisons Image.asset pour plus de généralité.
+            Image(
+              // 🚨 Mettre le chemin correct de votre logo ici !
+              image: AssetImage('assets/images/home_logo.png'),
+              fit: BoxFit.contain,
+            ),
+
+            const SizedBox(), // Grand espace entre l'image et la barre
+            // 2. Linear Progress Indicator
+            SizedBox(
+              width:
+                  MediaQuery.sizeOf(context).width *
+                  0.75, // Largeur de la barre
+              child: LinearProgressIndicator(
+                // value: null = Indéterminé (pour un écran de chargement)
+                value: null,
+                minHeight: 10,
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
+            // 3. Texte de chargement
+            const Text(
+              'Initialisation...',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            ),
           ],
         ),
       ),
