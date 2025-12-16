@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Pour obtenir l'info sur la plateforme
+import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -130,7 +131,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Vos Commentaires')),
+      appBar: CustomAppBar(title: 'Vos Commentaires'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Form(

@@ -1,12 +1,14 @@
 import 'dart:convert'; // Nécessaire pour décoder le UserProfile
 import 'package:flutter/material.dart';
+import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/screens/camera_screen.dart';
 import 'package:macro_vision/screens/dashboard_screen.dart';
 import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:macro_vision/screens/settings_screen.dart';
 import 'package:macro_vision/screens/user_profile_screen.dart';
 import 'package:macro_vision/helpers/helpers.dart';
-import 'package:macro_vision/widgets/today_analysis.dart';
+import 'package:macro_vision/widgets/analysis_list.dart';
+import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Imports nécessaires pour le calcul des données
@@ -24,8 +26,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _guideText = '';
-
   // --- VARIABLES POUR LE RÉSUMÉ QUOTIDIEN ---
   bool _isLoadingStats = true;
   UserProfile _profile = UserProfile();
@@ -112,43 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadDailyStats();
   }
 
-  // =========================================================================
-  // LOGIQUE DU GUIDE UTILISATEUR
-  // =========================================================================
-  Future<String> _getGuideText(BuildContext context) async {
-    // Future<void> loadGuideText() async {
-    if (_guideText.isNotEmpty) {
-      return _guideText;
-    }
-    try {
-      final String text = await DefaultAssetBundle.of(
-        context,
-      ).loadString('assets/user_guide.md', cache: false);
-
-      if (mounted) {
-        setState(() {
-          // Met en cache le texte pour les clics suivants
-          _guideText = text;
-        });
-      }
-      return text;
-    } catch (e) {
-      // if (mounted) {
-      //   setState(() {
-      //     _guideText = 'Erreur lors du chargement des instructions.';
-      //   });
-      if (context.mounted) {
-        showSnackBar(
-          context,
-          'Erreur: Impossible de lire le guide utilisateur.',
-          true,
-        );
-      }
-
-      return 'Erreur lors du chargement des instructions.';
-      // }
-    }
-  }
+  
 
   // =========================================================================
   // WIDGETS UI POUR LE RÉSUMÉ (ROUE + CARTES)
@@ -337,116 +301,45 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Nouvelle méthode pour le filtrage
+  Future<List<NutritionalFactsEntry>> _getTodayHistory() async {
+    // 1. Récupérer l'historique complet
+    final allHistory = await DatabaseService().getHistory();
+
+    // 2. Filtrer les résultats pour 'aujourd'hui'
+    final now = DateTime.now();
+
+    return allHistory.where((entry) {
+      final entryDate = DateTime.fromMillisecondsSinceEpoch(entry.timestamp);
+      return entryDate.year == now.year &&
+          entryDate.month == now.month &&
+          entryDate.day == now.day;
+    }).toList();
+  }
+
   // =========================================================================
   // WIDGET BUILD
   // =========================================================================
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: MenuAnchor(
-          // Define the list of actions for the dropdown menu
-          menuChildren: [
-            MenuItemButton(
-              leadingIcon: const Icon(Icons.feedback_rounded),
-              child: const Text('Commentaire'),
-              onPressed: () async {
-                // 💡 Le rendre ASYNC pour un meilleur contrôle
-                try {
-                  // Supposons que _navigateAndRefresh est une fonction normale (non async)
-                  // Si elle est async, utilisez await.
-                  _navigateAndRefresh(context, const FeedbackScreen());
-                } catch (e, stack) {
-                  print(
-                    "Erreur lors de l'ouverture de l'écran de commentaires : $e",
-                  );
-                  print(stack);
-
-                  // Afficher une Snackbar pour informer l'utilisateur sans crasher
-                  if (context.mounted) {
-                    showSnackBar(
-                      context,
-                      "Impossible d'ouvrir l'écran de commentaires.",
-                      true,
-                    );
-                  }
-                }
-              },
-              // onPressed: () => _navigateAndRefresh(context, FeedbackScreen()),
-            ),
-            MenuItemButton(
-              leadingIcon: const Icon(Icons.info_outline_rounded),
-              child: const Text('Guide'),
-              onPressed: () async {
-                try {
-                  // 1. Charger le texte du guide de manière sûre
-                  final String guideContent = await _getGuideText(context);
-
-                  // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
-                  if (context.mounted) {
-                    await openDialog(
-                      context: context,
-                      title: 'Guide d\'utilisation',
-                      content: guideContent, // Utilisez le contenu chargé
-                    );
-                  }
-                } catch (e, stack) {
-                  // 3. En cas d'erreur de chargement ou d'ouverture du dialogue :
-                  print("Erreur lors de l'ouverture du dialogue Guide : $e");
-                  print(stack);
-
-                  // Afficher une simple Snackbar à l'utilisateur au lieu de crasher
-                  if (context.mounted) {
-                    // Assurez-vous que showSnackBar est importé de helpers.dart
-                    showSnackBar(
-                      context,
-                      "Erreur: Impossible de charger le guide d'utilisation.",
-                      true,
-                    );
-                  }
-                }
-              },
-              // onPressed: () async => await openDialog(
-              //   context: context,
-              //   title: 'Guide d\'utilisation',
-              //   content: await _getGuideText(),
-              // ),
-            ),
-          ],
-          // Define the actual button widget that the user taps
-          builder:
-              (BuildContext context, MenuController controller, Widget? child) {
-                return IconButton(
-                  onPressed: () {
-                    // Toggle the menu visibility when the button is pressed
-                    if (controller.isOpen) {
-                      controller.close();
-                    } else {
-                      controller.open();
-                    }
-                  },
-                  icon: const Icon(
-                    Icons.menu_rounded,
-                  ), // The "menu" button icon
-                  tooltip: 'Ouvrir le menu',
-                );
-              },
-        ),
-        title: const Text('MacroVision'),
+      appBar: CustomAppBar(
+        title: 'MacroVision',
         actions: [
           // Bouton 1 : Réglages
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () => _navigateAndRefresh(context, SettingsScreen()),
+            onPressed: () => navigate(context, SettingsScreen()),
             tooltip: 'Réglages',
           ),
           // Bouton 2 : Connexion
           IconButton(
             icon: const Icon(Icons.person),
-            onPressed: () => _navigateAndRefresh(context, UserProfileScreen()),
+            onPressed: () => navigate(context, UserProfileScreen()),
             tooltip: 'Profil',
           ),
         ],
+        home: false,
       ),
       body: Stack(
         children: [
@@ -482,8 +375,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   _buildDailySummaryCard(),
 
                   const SizedBox(height: 20),
-
-                  TodayAnalysis(),
+          
+          // TodayAnalysis(),
+          AnalysisList( // Appel direct
+            historyFuture: _getTodayHistory(), // Le Future filtré
+            compactMode: true, // Active le mode compact et le scroll interne
+            maxHeight: 225, // Limite la hauteur de l'aperçu
+          ),
 
                   const SizedBox(height: 30),
 

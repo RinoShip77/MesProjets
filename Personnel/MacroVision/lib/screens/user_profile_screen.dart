@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/screens/history_screen.dart';
 import 'package:macro_vision/services/nutrition_calculator.dart';
+import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/models/user_profile.dart';
 
@@ -159,7 +160,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Mon Profil')),
+        appBar: CustomAppBar(title: 'Mon Profil'),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -169,7 +170,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final String heightUnit = _profile.isMetric ? 'cm' : 'pouces';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Mon Profil')),
+      appBar: CustomAppBar(title: 'Mon Profil'),
       body: Form(
         key: _formKey,
         child: ListView(

@@ -16,6 +16,7 @@ import 'package:macro_vision/screens/result_screen.dart';
 // Feedback Utilisateur
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
+import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -252,7 +253,7 @@ class _CameraScreenState extends State<CameraScreen> {
     // 1. Affichage de l'état de chargement
     if (_isLoading) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Caméra')),
+        appBar: CustomAppBar(title: 'Caméra'),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -262,7 +263,7 @@ class _CameraScreenState extends State<CameraScreen> {
         _controller == null ||
         !_controller!.value.isInitialized) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Caméra')),
+        appBar: CustomAppBar(title: 'Caméra'),
         body: const Center(
           child: Padding(
             padding: EdgeInsets.all(32.0),
@@ -277,7 +278,7 @@ class _CameraScreenState extends State<CameraScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Analyse alimentaire')),
+      appBar: CustomAppBar(title: 'Analyse alimentaire'),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Stack(
         alignment: Alignment.center,

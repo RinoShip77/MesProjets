@@ -4,7 +4,9 @@ import 'package:intl/intl.dart'; // Nécessite l'importation du package 'intl'
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/services/database_service.dart';
-import 'package:macro_vision/screens/result_screen.dart'; // Pour réutiliser l'écran de résultat
+import 'package:macro_vision/screens/result_screen.dart';
+import 'package:macro_vision/widgets/analysis_list.dart';
+import 'package:macro_vision/widgets/custom_app_bar.dart'; // Pour réutiliser l'écran de résultat
 
 // N'oubliez pas d'ajouter 'intl' dans pubspec.yaml si ce n'est pas déjà fait!
 
@@ -36,11 +38,41 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
+  // 💡 NOUVELLE MÉTHODE : Handler pour la suppression
+  Future<void> _handleDismissed(NutritionalFactsEntry entry) async {
+    final date = DateTime.fromMillisecondsSinceEpoch(entry.timestamp);
+
+    // Logique de suppression de l'entrée et du fichier
+    if (entry.id != null) {
+      await DatabaseService().deleteEntry(entry.id!);
+      try {
+        await File(entry.imagePath).delete();
+      } catch (e) {
+        if (mounted) {
+          showSnackBar(
+            context,
+            'Erreur de suppression du fichier local.',
+            true,
+          );
+        }
+      }
+      _refresh(); // Rafraîchir l'interface
+    }
+
+    if (mounted) {
+      showSnackBar(
+        context,
+        'L\'entrée du ${formatDate(date)} a été supprimée de l\'historique.',
+        false,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Historique des analyses'),
+      appBar: CustomAppBar(
+        title: 'Historique des analyses',
         // Ajoutez un bouton de rafraîchissement si nécessaire
         actions: [
           IconButton(
@@ -49,111 +81,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
           ),
         ],
       ),
-      body: FutureBuilder<List<NutritionalFactsEntry>>(
-        future: _historyFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Erreur de chargement de l\'historique.'),
-            );
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text('Aucun historique d\'analyse trouvé.'),
-            );
-          } else {
-            final history = snapshot.data!;
-
-            return ListView.builder(
-              itemCount: history.length,
-              itemBuilder: (context, index) {
-                final entry = history[index];
-
-                return _buildHistoryTile(context, entry);
-              },
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-  Widget _buildHistoryTile(BuildContext context, NutritionalFactsEntry entry) {
-    // Formatte la date
-    final date = DateTime.fromMillisecondsSinceEpoch(entry.timestamp);
-    final formattedDate = '${formatDate(date)} ${DateFormat.Hm().format(date)}';
-    // final formattedDate = DateFormat('dd/MM/yyyy HH:mm').format(date);
-
-    return Tooltip(
-      message: formattedDate,
-      child: Dismissible(
-        key: Key(
-          entry.id.toString(),
-        ), // Clé unique pour la suppression par glissement
-        direction: DismissDirection.horizontal,
-        background: Container(
-          color: Colors.red,
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-          child: Row(
-            children: [
-              const Icon(Icons.delete_rounded, color: Colors.white),
-              Spacer(),
-              const Icon(Icons.delete_rounded, color: Colors.white),
-            ],
-          ),
-        ),
-        onDismissed: (direction) async {
-          // Suppression de l'entrée dans la BDD et de la photo locale
-          if (entry.id != null) {
-            await DatabaseService().deleteEntry(entry.id!);
-            // Optionnel : Supprimer le fichier image local
-            try {
-              await File(entry.imagePath).delete();
-            } catch (e) {
-              if (mounted) {
-                showSnackBar(context, 'Erreur de suppression.', true);
-              }
-            }
-
-            _refresh(); // Rafraîchir l'interface
-          }
-
-          if (mounted) {
-            showSnackBar(
-              context,
-              'L\'entrée du ${formatDate(date)} a été supprimée de l\'historique.',
-              false,
-            );
-          }
-        },
-        child: ListTile(
-          leading: SizedBox(
-            width: 56,
-            height: 56,
-            child: entry.imagePath.isNotEmpty
-                ? Image.file(File(entry.imagePath), fit: BoxFit.cover)
-                : const Icon(Icons.image_not_supported),
-          ),
-          title: Text(entry.foodName),
-          subtitle: Text(
-            'Cal: ${entry.calories.toStringAsFixed(1)} | $formattedDate',
-          ),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () {
-            // Naviguer vers l'écran de détail (ResultScreen)
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ResultScreen(
-                  initialFacts: entry, // L'entrée est un type NutritionalFacts
-                  imagePath: entry.imagePath,
-                  origin: runtimeType.toString(),
-                ),
-              ),
-            );
-          },
+      body: Padding(
+        padding: EdgeInsetsGeometry.only(top: 10),
+        child: AnalysisList(
+          // 💡 UTILISATION DU WIDGET UNIVERSEL
+          historyFuture: _historyFuture, // Le Future de l'historique complet
+          compactMode: false, // Mode normal
+          onDismissed:
+              _handleDismissed, // Passe le callback pour la suppression
         ),
       ),
     );

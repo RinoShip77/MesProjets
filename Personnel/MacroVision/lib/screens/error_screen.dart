@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 // Pour kDebugMode
-import 'package:macro_vision/screens/feedback_screen.dart'; // Pour pouvoir relancer MacroVisionApp
+import 'package:macro_vision/screens/feedback_screen.dart';
+import 'package:macro_vision/screens/home_screen.dart';
+import 'package:macro_vision/widgets/custom_app_bar.dart'; // Pour pouvoir relancer MacroVisionApp
 
 // =========================================================================
 // WIDGET D'ERREUR CRITIQUE (ErrorScreen)
@@ -15,12 +17,10 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Erreur Critique',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.red.shade700,
+      appBar: CustomAppBar(
+        title: 'Erreur critique',
+        foreground: Colors.white,
+        background: Colors.red.shade700,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -29,7 +29,9 @@ class ErrorScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.error_outline, size: 80, color: Colors.red),
+
               const SizedBox(height: 20),
+
               Text(
                 message,
                 textAlign: TextAlign.center,
@@ -38,6 +40,7 @@ class ErrorScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
               if (details != null) ...[
                 const SizedBox(height: 20),
                 const Text(
@@ -50,7 +53,9 @@ class ErrorScreen extends StatelessWidget {
                   style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
               ],
+
               const SizedBox(height: 40),
+              
               // Bouton pour soumettre un commentaire
               ElevatedButton.icon(
                 icon: const Icon(Icons.feedback_rounded),
@@ -60,6 +65,19 @@ class ErrorScreen extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => FeedbackScreen(message: '$message :\n$details'),
+                    ),
+                  );
+                },
+              ),
+              
+              ElevatedButton.icon(
+                icon: const Icon(Icons.restart_alt_rounded),
+                label: const Text('Revenir à l\'accueil'),
+                onPressed: () {
+                  // Relance l'application en naviguant vers la racine
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(),
                     ),
                   );
                 },

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:macro_vision/helpers/helpers.dart';
+import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:macro_vision/models/nutritional_facts.dart';
 import 'package:macro_vision/services/theme_provider.dart';
@@ -162,7 +163,7 @@ class _ResultScreenState extends State<ResultScreen> {
         );
 
         return Scaffold(
-          appBar: AppBar(title: Text('Résultats de l\'analyse')),
+          appBar: CustomAppBar(title: 'Résultats de l\'analyse'),
           body: Stack(
             children: <Widget>[
               SingleChildScrollView(
