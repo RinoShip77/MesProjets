@@ -87,10 +87,10 @@ class AnalysisList extends StatelessWidget {
         if (compactMode) {
           // Si compact, on contraint la hauteur à maxHeight pour l'aperçu scrollable.
           return Card(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 10.0,
-            ),
+            // margin: const EdgeInsets.symmetric(
+            //   horizontal: 16.0,
+            //   vertical: 10.0,
+            // ),
             elevation: 4,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
@@ -124,7 +124,10 @@ class AnalysisList extends StatelessWidget {
                   SizedBox(
                     // Limite la hauteur de l'aperçu à 2 éléments maximum
                     // Ajustez cette valeur si la hauteur des éléments est différente.
-                    height: 40 * snapshot.data!.take(2).length.toDouble(),
+                    height: snapshot.data!.length >= 1
+                        ? 75
+                        : 1
+                        * snapshot.data!.take(2).length.toDouble(),
                     child: ListView.builder(
                       shrinkWrap:
                           true, // IMPORTANT : pour ne prendre que l'espace nécessaire
@@ -174,7 +177,6 @@ class AnalysisList extends StatelessWidget {
               ],
             ),
           );
-
         }
 
         return listView;

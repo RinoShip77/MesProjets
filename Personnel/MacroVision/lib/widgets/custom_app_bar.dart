@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:macro_vision/helpers/helpers.dart';
-import 'package:macro_vision/screens/feedback_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

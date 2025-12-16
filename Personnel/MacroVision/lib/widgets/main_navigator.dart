@@ -15,6 +15,8 @@ class MainNavigator extends StatefulWidget {
 }
 
 class _MainNavigatorState extends State<MainNavigator> {
+  final Duration animationDuration = Duration(milliseconds: 400);
+
   // 1. Liste des Widgets (écrans) à afficher
   final List<Widget> _screens = [
     const SettingsScreen(),
@@ -35,8 +37,98 @@ class _MainNavigatorState extends State<MainNavigator> {
     });
   }
 
+  // La largeur moyenne d'un élément dans la Row de 5 éléments
+  double _getNavItemWidth(BuildContext context) {
+    return MediaQuery.of(context).size.width / _screens.length;
+  }
+
+  // Position X de l'élément sélectionné (centre de l'icône)
+  double _getFabPosition(BuildContext context, int index) {
+    final itemWidth = _getNavItemWidth(context);
+    // Centre de l'icône : (index + 0.5) * itemWidth
+    return (index + 0.5) * itemWidth;
+  }
+
+  // Fichier : lib/screens/main_navigator.dart
+
+  Widget _buildNavItem(
+    BuildContext context, {
+    required int index,
+    required IconData? selectedIcon,
+    required IconData? unselectedIcon,
+    required String label,
+    required int selectedIndex,
+    required ValueChanged<int> onTap,
+  }) {
+    final isSelected = index == selectedIndex;
+    final double iconSize = isSelected ? 40.0 : 25.0;
+    final IconData? iconData = isSelected ? selectedIcon : unselectedIcon;
+    final Color iconColor = isSelected
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.onSurfaceVariant;
+
+    return Expanded(
+      child: InkWell(
+        onTap: () => onTap(index),
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // 💡 1. RÉINTRODUIRE L'ANIMATEDCONTAINER POUR LE FOND ET LA FORME
+              AnimatedContainer(
+                duration: animationDuration, // Utiliser votre durée d'animation
+                curve: Curves.fastEaseInToSlowEaseOut,
+
+                // 💡 Propriétés à animer pour le fond
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0), // Forme arrondie
+                ),
+
+                // 💡 2. LE WIDGET ENFANT (VOTRE CONTENU D'ICÔNE) EST MAINTENANT LE TOOLTIP
+                child: Tooltip(
+                  message: label,
+                  child: AnimatedSwitcher(
+                    duration: animationDuration,
+                    child: Icon(
+                      // La clé est essentielle pour que AnimatedSwitcher détecte le changement
+                      iconData,
+                      key: ValueKey<int>(selectedIndex),
+                      color: iconColor, // Couleur définie ici
+                      size: iconSize, // Taille définie ici
+                    ),
+                  ),
+                ),
+              ),
+
+              // Tooltip(
+              //   message: label,
+              //   child:
+              //       // L'icône change de couleur, mais n'a plus de fond animé ici
+              //       Icon(
+              //         isSelected ? selectedIcon : unselectedIcon,
+              //         color: isSelected
+              //             ? Theme.of(context)
+              //                   .colorScheme
+              //                   .primary // Couleur active
+              //             : Theme.of(context).colorScheme.onSurfaceVariant,
+              //         size: isSelected ? 40 : 20,
+              //       ),
+              // ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final itemWidth = _getNavItemWidth(context);
+
     return Scaffold(
       // L'AppBar sera maintenant dans chaque écran si nécessaire,
       // ou vous pouvez l'intégrer ici si elle est vraiment universelle.
@@ -46,7 +138,7 @@ class _MainNavigatorState extends State<MainNavigator> {
       // 4. Afficher l'écran correspondant à l'index
       body: AnimatedSwitcher(
         // 1. La durée de la transition (doit être similaire à celle de la barre de navigation)
-        duration: const Duration(milliseconds: 350),
+        duration: animationDuration,
 
         // 2. La courbe d'animation (pour la sensation)
         switchInCurve: Curves.easeIn,
@@ -79,121 +171,79 @@ class _MainNavigatorState extends State<MainNavigator> {
       // 5. La barre de navigation inférieure
       bottomNavigationBar: SafeArea(
         top: false,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(
-              context,
-            ).colorScheme.surface, // Couleur de fond de la barre
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                offset: const Offset(0, -2),
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // 💡 Élément 1 : Settings
-              _buildCustomNavItem(
-                context: context,
-                index: 0,
-                unselectedIcon: Icons.settings_applications_outlined,
-                selectedIcon: Icons.settings,
-                label: 'Paramètres',
-                selectedIndex: _selectedIndex,
-                onTap: _onItemTapped,
-              ),
-              // 💡 Élément 2 : Dashboard
-              _buildCustomNavItem(
-                context: context,
-                index: 1,
-                unselectedIcon: Icons.insert_chart_outlined_outlined,
-                selectedIcon: Icons.bar_chart_rounded,
-                label: 'Tableau de bord',
-                selectedIndex: _selectedIndex,
-                onTap: _onItemTapped,
-              ),
-              // 💡 Élément 3 : Home
-              _buildCustomNavItem(
-                context: context,
-                index: 2,
-                unselectedIcon: Icons.home_outlined,
-                selectedIcon: Icons.home_rounded,
-                label: 'Historique',
-                selectedIndex: _selectedIndex,
-                onTap: _onItemTapped,
-              ),
-              // 💡 Élément 4 : Profile
-              _buildCustomNavItem(
-                context: context,
-                index: 3,
-                unselectedIcon: Icons.person_outline_rounded,
-                selectedIcon: Icons.person,
-                label: 'Profil',
-                selectedIndex: _selectedIndex,
-                onTap: _onItemTapped,
-              ),
-              // 💡 Élément 5 : Feedback
-              _buildCustomNavItem(
-                context: context,
-                index: 4,
-                unselectedIcon: Icons.feedback_outlined,
-                selectedIcon: Icons.feedback,
-                label: 'Commentaire',
-                selectedIndex: _selectedIndex,
-                onTap: _onItemTapped,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Dans un nouveau fichier ou dans main_navigator.dart
-
-  Widget _buildCustomNavItem({
-    required int index,
-    required IconData unselectedIcon,
-    required IconData selectedIcon,
-    required String label,
-    required int selectedIndex,
-    required ValueChanged<int> onTap,
-    required BuildContext context,
-  }) {
-    final isSelected = index == selectedIndex;
-    final theme = Theme.of(context);
-
-    return Expanded(
-      child: InkWell(
-        onTap: () => onTap(index),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          padding: EdgeInsetsGeometry.only(top: 10),
+          child: Stack(
             children: [
-              AnimatedContainer(
-                // 💡 LE CONTENEUR ANIMÉ POUR LE BACKGROUND
-                duration: const Duration(milliseconds: 350),
-                curve: Curves.fastOutSlowIn,
-                padding: const EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? theme
-                            .colorScheme
-                            .primaryContainer // 💡 COULEUR DE FOND QUAND SÉLECTIONNÉ
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(25), // Forme arrondie
+              // ----------------------------------------------------
+              // A) L'Animation du Fond Coloré (La Goutte d'Eau)
+              // ----------------------------------------------------
+              AnimatedPositioned(
+                duration: animationDuration,
+                curve:
+                    Curves.easeInOut, // Pour le déplacement horizontal fluide
+                // Position X : Centre de l'icône sélectionnée - rayon de la bulle
+                left:
+                    _getFabPosition(context, _selectedIndex) -
+                    (itemWidth * 0.4),
+                top: 0,
+                bottom: 0,
+                child: AnimatedOpacity(
+                  // Animation de transparence
+                  opacity: 1.0, // On le garde opaque pour l'instant
+                  duration: animationDuration,
+
+                  child: Container(
+                    width:
+                        itemWidth *
+                        0.8, // Largeur de la bulle (80% de la largeur d'un item)
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
                 ),
-                child: Icon(
-                  isSelected ? selectedIcon : unselectedIcon,
-                  color: isSelected
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.onSurfaceVariant,
-                  size: isSelected ? 35 : 20,
-                ),
+              ),
+
+              // ----------------------------------------------------
+              // B) Les Icônes et Libellés (Superposés)
+              // ----------------------------------------------------
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: _screens.asMap().entries.map((entry) {
+                  final index = entry.key;
+
+                  return _buildNavItem(
+                    context,
+                    index: index,
+                    selectedIcon: switch (index) {
+                      0 => Icons.settings,
+                      1 => Icons.bar_chart_rounded,
+                      2 => Icons.home_rounded,
+                      3 => Icons.person,
+                      4 => Icons.feedback,
+                      _ => Icons.not_interested_rounded,
+                    },
+                    unselectedIcon: switch (index) {
+                      0 => Icons.settings_applications_outlined,
+                      1 => Icons.insert_chart_outlined_rounded,
+                      2 => Icons.home_outlined,
+                      3 => Icons.person_outline_rounded,
+                      4 => Icons.feedback_outlined,
+                      _ => Icons.not_interested_rounded,
+                    },
+                    label: switch (index) {
+                      0 => 'Paramètres',
+                      1 => 'Tableau de bord',
+                      2 => 'Accueil',
+                      3 => 'Profil',
+                      4 => 'Commentaire',
+                      _ => 'Item $index',
+                    },
+                    selectedIndex: _selectedIndex,
+                    onTap: _onItemTapped,
+                  );
+                }).toList(),
               ),
             ],
           ),

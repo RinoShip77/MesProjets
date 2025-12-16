@@ -280,107 +280,111 @@ class _CameraScreenState extends State<CameraScreen> {
     return Scaffold(
       appBar: CustomAppBar(title: 'Analyse alimentaire'),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          // 1. Vue de la Caméra
-          Positioned.fill(
-            child: Align(
-              alignment: const Alignment(0.0, -1.0),
-              child: Padding(
-                padding: EdgeInsetsGeometry.only(top: 50.0),
-                child: CameraPreview(_controller!),
-              ),
-            ),
-          ),
-
-          // 2. Bouton Flash/Lampe de poche (en haut à droite)
-          Positioned(
-            top: 60,
-            right: 20,
-            child: FloatingActionButton(
-              heroTag: 'flashBtn',
-              tooltip: 'Basculement du flash.',
-              onPressed: _isAnalyzing ? null : _toggleFlash,
-              // backgroundColor: _isFlashOn
-              //     ? Theme.of(context).colorScheme.primary
-              //     : Colors.black87,
-              child: Icon(
-                _isFlashOn ? Icons.flash_on_sharp : Icons.flash_off_sharp,
-                // color: _isFlashOn
-                //     ? Colors.black87
-                //     : Theme.of(context).colorScheme.primary,
-              ),
-            ),
-          ),
-
-          // 3. Guide de Cadrage Visuel (texte centré en bas ou en haut)
-          Positioned(
-            top: 10,
-            child: Container(
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Expanded(
-                child: Text(
-                  "Conseil : Ciblez un aliment à la fois, avec une bonne lumière.",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+      extendBodyBehindAppBar: _isAnalyzing ? true : false,
+      body: Padding(
+        padding: EdgeInsets.only(top: _isAnalyzing ? kToolbarHeight : 0),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // 1. Vue de la Caméra
+            Positioned.fill(
+              child: Align(
+                alignment: const Alignment(0.0, -1.0),
+                child: Padding(
+                  padding: EdgeInsetsGeometry.only(top: 50.0),
+                  child: CameraPreview(_controller!),
                 ),
               ),
             ),
-          ),
 
-          // 4. Overlay d'analyse (si _isAnalyzing est true)
-          if (_isAnalyzing)
-            Container(
-              color: Colors.black54,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Analyse en cours par l\'IA...',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+            // 2. Bouton Flash/Lampe de poche (en haut à droite)
+            Positioned(
+              top: 60,
+              right: 20,
+              child: FloatingActionButton(
+                heroTag: 'flashBtn',
+                tooltip: 'Basculement du flash.',
+                onPressed: _isAnalyzing ? null : _toggleFlash,
+                // backgroundColor: _isFlashOn
+                //     ? Theme.of(context).colorScheme.primary
+                //     : Colors.black87,
+                child: Icon(
+                  _isFlashOn ? Icons.flash_on_sharp : Icons.flash_off_sharp,
+                  // color: _isFlashOn
+                  //     ? Colors.black87
+                  //     : Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+
+            // 3. Guide de Cadrage Visuel (texte centré en bas ou en haut)
+            Positioned(
+              top: 10,
+              child: Container(
+                padding: const EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Expanded(
+                  child: Text(
+                    "Conseil : Ciblez un aliment à la fois, avec une bonne lumière.",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.onPrimary,
                     ),
-                  ],
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ),
 
-          // 5. Surcouche d'Animation de Succès
-          if (_showSuccessAnimation)
-            TweenAnimationBuilder<double>(
-              tween: Tween<double>(begin: 0.0, end: 1.0),
-              duration: const Duration(milliseconds: 300),
-              builder: (context, scale, child) {
-                return Transform.scale(
-                  scale: scale,
-                  child: Icon(
-                    Icons.check_circle,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 150,
-                    shadows: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha(50),
-                        blurRadius: 10,
+            // 4. Overlay d'analyse (si _isAnalyzing est true)
+            if (_isAnalyzing)
+              Container(
+                color: Colors.black54,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      const SizedBox(height: 20),
+                      Text(
+                        'Analyse en cours par l\'IA...',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
                     ],
                   ),
-                );
-              },
-            ),
-        ],
+                ),
+              ),
+
+            // 5. Surcouche d'Animation de Succès
+            if (_showSuccessAnimation)
+              TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 300),
+                builder: (context, scale, child) {
+                  return Transform.scale(
+                    scale: scale,
+                    child: Icon(
+                      Icons.check_circle,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 150,
+                      shadows: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(50),
+                          blurRadius: 10,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+          ],
+        ),
       ),
 
       // Boutons de Galerie et de Capture (Horizontal)

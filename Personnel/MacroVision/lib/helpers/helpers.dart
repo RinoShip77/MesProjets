@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:macro_vision/screens/feedback_screen.dart';
-import 'package:macro_vision/screens/home_screen.dart';
 import 'package:macro_vision/widgets/main_navigator.dart';
 import 'package:markdown_widget/config/markdown_generator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -242,7 +241,7 @@ Future<void> openDialog({
                 } else {
                   if (key != null) {
                     // Nous sommes en phase d'initialisation. On sauvegarde et on enchaîne.
-                    await saveHasSeenGuide(key!);
+                    await saveHasSeenGuide(key);
 
                     if (context.mounted) {
                       Navigator.of(context).pop();

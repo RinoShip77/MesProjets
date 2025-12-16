@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Nécessite l'importation du package 'intl'
+// Nécessite l'importation du package 'intl'
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/services/database_service.dart';
-import 'package:macro_vision/screens/result_screen.dart';
 import 'package:macro_vision/widgets/analysis_list.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart'; // Pour réutiliser l'écran de résultat
 

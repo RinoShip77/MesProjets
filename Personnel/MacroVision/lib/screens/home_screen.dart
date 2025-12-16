@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/screens/camera_screen.dart';
 import 'package:macro_vision/screens/dashboard_screen.dart';
-import 'package:macro_vision/screens/feedback_screen.dart';
-import 'package:macro_vision/screens/settings_screen.dart';
-import 'package:macro_vision/screens/user_profile_screen.dart';
-import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/widgets/analysis_list.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -246,7 +242,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Theme.of(context).colorScheme.onInverseSurface.withAlpha(10)
           : null,
       elevation: 4,
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -321,20 +316,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'MacroVision',
-        backButton: false,
-      ),
+      appBar: CustomAppBar(title: 'MacroVision', backButton: false),
       body: Stack(
         children: [
           // Utilisation de SingleChildScrollView pour éviter l'overflow si l'écran est petit
           SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 20),
-
                   Text(
                     'Bienvenue sur MacroVision',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -342,22 +332,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Column(
+                      children: [
+                        // NOUVELLE CARTE DE PROGRESSION ---
+                        _buildDailySummaryCard(),
 
-                  // --- NOUVELLE CARTE DE PROGRESSION ---
-                  _buildDailySummaryCard(),
+                        const SizedBox(height: 10),
 
-                  const SizedBox(height: 20),
-
-                  AnalysisList(
-                    // Appel direct
-                    historyFuture: _getTodayHistory(), // Le Future filtré
-                    compactMode:
-                        true, // Active le mode compact et le scroll interne
-                    maxHeight: 200, // Limite la hauteur de l'aperçu
+                        AnalysisList(
+                          // Appel direct
+                          historyFuture: _getTodayHistory(), // Le Future filtré
+                          compactMode:
+                              true, // Active le mode compact et le scroll interne
+                        ),
+                      ],
+                    ),
                   ),
-
-                  const SizedBox(height: 30),
 
                   // Bouton vers le Tableau de Bord
                   Tooltip(
