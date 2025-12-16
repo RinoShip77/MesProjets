@@ -112,8 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadDailyStats();
   }
 
-  
-
   // =========================================================================
   // WIDGETS UI POUR LE RÉSUMÉ (ROUE + CARTES)
   // =========================================================================
@@ -325,21 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'MacroVision',
-        actions: [
-          // Bouton 1 : Réglages
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () => navigate(context, SettingsScreen()),
-            tooltip: 'Réglages',
-          ),
-          // Bouton 2 : Connexion
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () => navigate(context, UserProfileScreen()),
-            tooltip: 'Profil',
-          ),
-        ],
-        home: false,
+        backButton: false,
       ),
       body: Stack(
         children: [
@@ -349,7 +333,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
 
                   Text(
                     'Bienvenue sur MacroVision',
@@ -358,30 +342,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-                  // Logo ou titre stylisé
-                  // Icon(
-                  //   Icons.fitness_center,
-                  //   size: 150,
-                  //   color: Theme.of(context).colorScheme.primary,
-                  // ),
-                  // Image(
-                  //   image: AssetImage('assets/images/home_logo.png'),
-                  //   height: 80,
-                  //   // width: MediaQuery.sizeOf(context).width * 0.5,
-                  // ),
                   const SizedBox(height: 20),
 
                   // --- NOUVELLE CARTE DE PROGRESSION ---
                   _buildDailySummaryCard(),
 
                   const SizedBox(height: 20),
-          
-          // TodayAnalysis(),
-          AnalysisList( // Appel direct
-            historyFuture: _getTodayHistory(), // Le Future filtré
-            compactMode: true, // Active le mode compact et le scroll interne
-            maxHeight: 225, // Limite la hauteur de l'aperçu
-          ),
+
+                  AnalysisList(
+                    // Appel direct
+                    historyFuture: _getTodayHistory(), // Le Future filtré
+                    compactMode:
+                        true, // Active le mode compact et le scroll interne
+                    maxHeight: 200, // Limite la hauteur de l'aperçu
+                  ),
 
                   const SizedBox(height: 30),
 

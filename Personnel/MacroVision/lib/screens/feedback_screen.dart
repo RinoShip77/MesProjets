@@ -131,7 +131,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Vos Commentaires'),
+      appBar: CustomAppBar(title: 'Vos Commentaires', backButton: false),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Form(

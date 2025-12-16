@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:macro_vision/services/database_service.dart';
+import 'package:macro_vision/widgets/main_navigator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/screens/home_screen.dart';
@@ -71,7 +72,7 @@ class _InitializationScreenState extends State<InitializationScreen> {
     if (context.mounted) {
       if (hasSeenGuide) {
         // Naviguer vers l'écran principal
-        navigate(context, const HomeScreen());
+        navigate(context, const MainNavigator());
       } else {
         // Afficher le guide suivi de l'avertissement légal
         openDialog(

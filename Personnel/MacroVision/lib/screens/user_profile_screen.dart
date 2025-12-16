@@ -170,7 +170,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final String heightUnit = _profile.isMetric ? 'cm' : 'pouces';
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Mon Profil'),
+      appBar: CustomAppBar(title: 'Mon Profil', backButton: false),
       body: Form(
         key: _formKey,
         child: ListView(

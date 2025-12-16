@@ -12,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Réglages'),
+      appBar: CustomAppBar(title: 'Réglages', backButton: false),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(

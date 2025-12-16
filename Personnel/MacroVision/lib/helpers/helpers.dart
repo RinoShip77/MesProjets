@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:macro_vision/screens/home_screen.dart';
+import 'package:macro_vision/widgets/main_navigator.dart';
 import 'package:markdown_widget/config/markdown_generator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -252,7 +253,7 @@ Future<void> openDialog({
                         content: warningContent ?? '',
                         onDismiss: () => navigate(
                           context,
-                          const HomeScreen(),
+                          const MainNavigator(),
                           replace: true,
                         ),
                       );

@@ -9,7 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? foreground;
   final Color? background;
   final List<Widget>? actions;
-  final bool home;
+  final bool backButton;
 
   // Hauteur standard d'une AppBar Material
   @override
@@ -20,7 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.foreground,
     this.background,
     this.actions,
-    this.home = true,
+    this.backButton = true,
     super.key,
   }) : preferredSize = const Size.fromHeight(
          kToolbarHeight,
@@ -49,43 +49,102 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget? leading;
+    // Widget? leading;
 
-    if (!home) {
-      leading = MenuAnchor(
-        // Define the list of actions for the dropdown menu
-        menuChildren: [
-          MenuItemButton(
-            leadingIcon: const Icon(Icons.feedback_rounded),
-            child: const Text('Commentaire'),
-            onPressed: () async {
-              // 💡 Le rendre ASYNC pour un meilleur contrôle
-              try {
-                // Supposons que _navigateAndRefresh est une fonction normale (non async)
-                // Si elle est async, utilisez await.
-                navigate(context, const FeedbackScreen());
-              } catch (e, stack) {
-                print(
-                  "Erreur lors de l'ouverture de l'écran de commentaires : $e",
-                );
-                print(stack);
+    // if (!home) {
+    //   leading = MenuAnchor(
+    //     // Define the list of actions for the dropdown menu
+    //     menuChildren: [
+    //       MenuItemButton(
+    //         leadingIcon: const Icon(Icons.feedback_rounded),
+    //         child: const Text('Commentaire'),
+    //         onPressed: () async {
+    //           // 💡 Le rendre ASYNC pour un meilleur contrôle
+    //           try {
+    //             // Supposons que _navigateAndRefresh est une fonction normale (non async)
+    //             // Si elle est async, utilisez await.
+    //             navigate(context, const FeedbackScreen());
+    //           } catch (e, stack) {
+    //             print(
+    //               "Erreur lors de l'ouverture de l'écran de commentaires : $e",
+    //             );
+    //             print(stack);
 
-                // Afficher une Snackbar pour informer l'utilisateur sans crasher
-                if (context.mounted) {
-                  showSnackBar(
-                    context,
-                    "Impossible d'ouvrir l'écran de commentaires.",
-                    true,
-                  );
-                }
-              }
-            },
-            // onPressed: () => _navigateAndRefresh(context, FeedbackScreen()),
-          ),
-          MenuItemButton(
-            leadingIcon: const Icon(Icons.info_outline_rounded),
-            child: const Text('Guide'),
-            onPressed: () async {
+    //             // Afficher une Snackbar pour informer l'utilisateur sans crasher
+    //             if (context.mounted) {
+    //               showSnackBar(
+    //                 context,
+    //                 "Impossible d'ouvrir l'écran de commentaires.",
+    //                 true,
+    //               );
+    //             }
+    //           }
+    //         },
+    //         // onPressed: () => _navigateAndRefresh(context, FeedbackScreen()),
+    //       ),
+    //       MenuItemButton(
+    //         leadingIcon: const Icon(Icons.info_outline_rounded),
+    //         child: const Text('Guide'),
+    //         onPressed: () async {
+    //           try {
+    //             // 1. Charger le texte du guide de manière sûre
+    //             final String guideContent = await _getGuideText(context);
+
+    //             // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
+    //             if (context.mounted) {
+    //               await openDialog(
+    //                 context: context,
+    //                 title: 'Guide d\'utilisation',
+    //                 content: guideContent, // Utilisez le contenu chargé
+    //               );
+    //             }
+    //           } catch (e, stack) {
+    //             // 3. En cas d'erreur de chargement ou d'ouverture du dialogue :
+    //             print("Erreur lors de l'ouverture du dialogue Guide : $e");
+    //             print(stack);
+
+    //             // Afficher une simple Snackbar à l'utilisateur au lieu de crasher
+    //             if (context.mounted) {
+    //               // Assurez-vous que showSnackBar est importé de helpers.dart
+    //               showSnackBar(
+    //                 context,
+    //                 "Erreur: Impossible de charger le guide d'utilisation.",
+    //                 true,
+    //               );
+    //             }
+    //           }
+    //         },
+    //       ),
+    //     ],
+    //     // Define the actual button widget that the user taps
+    //     builder:
+    //         (BuildContext context, MenuController controller, Widget? child) {
+    //           return IconButton(
+    //             onPressed: () {
+    //               // Toggle the menu visibility when the button is pressed
+    //               if (controller.isOpen) {
+    //                 controller.close();
+    //               } else {
+    //                 controller.open();
+    //               }
+    //             },
+    //             icon: const Icon(Icons.menu_rounded), // The "menu" button icon
+    //             tooltip: 'Ouvrir le menu',
+    //           );
+    //         },
+    //   );
+    // }
+
+    return AppBar(
+      title: Text(title),
+      centerTitle: true,
+      actions: [
+        ...?actions,
+        // Guide
+        IconButton(
+          icon: const Icon(Icons.info_outline_rounded),
+          tooltip: 'Guide utilisateur',
+          onPressed: () async {
               try {
                 // 1. Charger le texte du guide de manière sûre
                 final String guideContent = await _getGuideText(context);
@@ -114,36 +173,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 }
               }
             },
-          ),
-        ],
-        // Define the actual button widget that the user taps
-        builder:
-            (BuildContext context, MenuController controller, Widget? child) {
-              return IconButton(
-                onPressed: () {
-                  // Toggle the menu visibility when the button is pressed
-                  if (controller.isOpen) {
-                    controller.close();
-                  } else {
-                    controller.open();
-                  }
-                },
-                icon: const Icon(Icons.menu_rounded), // The "menu" button icon
-                tooltip: 'Ouvrir le menu',
-              );
-            },
-      );
-    }
-
-    return AppBar(
-      leading: leading,
-      toolbarHeight: kToolbarHeight + 20,
-      title: Text(title),
-      centerTitle: true,
-      actions: actions,
+        ),
+      ],
       foregroundColor: foreground,
       backgroundColor: background,
-      automaticallyImplyLeading: home,
+      automaticallyImplyLeading: backButton,
     );
   }
 }
