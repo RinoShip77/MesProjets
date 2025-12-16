@@ -61,64 +61,68 @@ class _MainNavigatorState extends State<MainNavigator> {
     required ValueChanged<int> onTap,
   }) {
     final isSelected = index == selectedIndex;
-    final double iconSize = isSelected ? 40.0 : 25.0;
+    final double iconSize = isSelected ? 35.0 : 25.0;
     final IconData? iconData = isSelected ? selectedIcon : unselectedIcon;
     final Color iconColor = isSelected
         ? Theme.of(context).colorScheme.primary
         : Theme.of(context).colorScheme.onSurfaceVariant;
 
-    return Expanded(
-      child: InkWell(
-        onTap: () => onTap(index),
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // 💡 1. RÉINTRODUIRE L'ANIMATEDCONTAINER POUR LE FOND ET LA FORME
-              AnimatedContainer(
-                duration: animationDuration, // Utiliser votre durée d'animation
-                curve: Curves.fastEaseInToSlowEaseOut,
+    return PopScope(
+      canPop: false,
+      child: Expanded(
+        child: InkWell(
+          onTap: () => onTap(index),
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // 💡 1. RÉINTRODUIRE L'ANIMATEDCONTAINER POUR LE FOND ET LA FORME
+                AnimatedContainer(
+                  duration:
+                      animationDuration, // Utiliser votre durée d'animation
+                  curve: Curves.fastEaseInToSlowEaseOut,
 
-                // 💡 Propriétés à animer pour le fond
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0), // Forme arrondie
-                ),
+                  // 💡 Propriétés à animer pour le fond
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0), // Forme arrondie
+                  ),
 
-                // 💡 2. LE WIDGET ENFANT (VOTRE CONTENU D'ICÔNE) EST MAINTENANT LE TOOLTIP
-                child: Tooltip(
-                  message: label,
-                  child: AnimatedSwitcher(
-                    duration: animationDuration,
-                    child: Icon(
-                      // La clé est essentielle pour que AnimatedSwitcher détecte le changement
-                      iconData,
-                      key: ValueKey<int>(selectedIndex),
-                      color: iconColor, // Couleur définie ici
-                      size: iconSize, // Taille définie ici
+                  // 💡 2. LE WIDGET ENFANT (VOTRE CONTENU D'ICÔNE) EST MAINTENANT LE TOOLTIP
+                  child: Tooltip(
+                    message: label,
+                    child: AnimatedSwitcher(
+                      duration: animationDuration,
+                      child: Icon(
+                        // La clé est essentielle pour que AnimatedSwitcher détecte le changement
+                        iconData,
+                        key: ValueKey<int>(selectedIndex),
+                        color: iconColor, // Couleur définie ici
+                        size: iconSize, // Taille définie ici
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              // Tooltip(
-              //   message: label,
-              //   child:
-              //       // L'icône change de couleur, mais n'a plus de fond animé ici
-              //       Icon(
-              //         isSelected ? selectedIcon : unselectedIcon,
-              //         color: isSelected
-              //             ? Theme.of(context)
-              //                   .colorScheme
-              //                   .primary // Couleur active
-              //             : Theme.of(context).colorScheme.onSurfaceVariant,
-              //         size: isSelected ? 40 : 20,
-              //       ),
-              // ),
-            ],
+                // Tooltip(
+                //   message: label,
+                //   child:
+                //       // L'icône change de couleur, mais n'a plus de fond animé ici
+                //       Icon(
+                //         isSelected ? selectedIcon : unselectedIcon,
+                //         color: isSelected
+                //             ? Theme.of(context)
+                //                   .colorScheme
+                //                   .primary // Couleur active
+                //             : Theme.of(context).colorScheme.onSurfaceVariant,
+                //         size: isSelected ? 40 : 20,
+                //       ),
+                // ),
+              ],
+            ),
           ),
         ),
       ),

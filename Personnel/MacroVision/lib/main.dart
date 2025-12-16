@@ -97,7 +97,7 @@ class MacroVisionApp extends StatelessWidget {
         return MaterialApp(
           title: 'MacroVision',
           // Affiche que l'app est en mode DEBUG
-          debugShowCheckedModeBanner: true,
+          debugShowCheckedModeBanner: (kDebugMode && !kReleaseMode) ? true : false,
           themeMode: themeProvider.themeMode,
           theme: getLightTheme(selectedSeedColor),
           darkTheme: getDarkTheme(selectedSeedColor),
@@ -114,10 +114,9 @@ class MacroVisionApp extends StatelessWidget {
             Locale('fr', 'CA'), // Français (Canada)
             Locale('en', 'CA'), // Anglais (Canada)
           ],
-          
+
           locale: const Locale('fr', 'CA'), // <-- FORCER LA LOCALE PAR DÉFAUT
           // =========================================================
-          
           home: const InitializationScreen(),
         );
       },

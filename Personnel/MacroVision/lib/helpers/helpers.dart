@@ -446,7 +446,8 @@ String? formatEmailBody(BuildContext context, feedback) {
       ? 'iOS'
       : 'Android/Autre';
 
-  return '''Version : 1.0.0\nPlateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
+  return '''Plateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
+  // return '''Version : 1.0.0\nPlateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
 }
 
 // =======================================================================

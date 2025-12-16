@@ -1,5 +1,7 @@
 import 'dart:convert'; // Nécessaire pour décoder le UserProfile
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/screens/camera_screen.dart';
 import 'package:macro_vision/screens/dashboard_screen.dart';
@@ -238,9 +240,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final Color primaryColor = Theme.of(context).colorScheme.primary;
 
     return Card(
-      color: Theme.of(context).brightness == Brightness.dark
-          ? Theme.of(context).colorScheme.onInverseSurface.withAlpha(10)
-          : null,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(

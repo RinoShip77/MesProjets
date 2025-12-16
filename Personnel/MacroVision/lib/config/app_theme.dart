@@ -108,14 +108,9 @@ ThemeData _buildThemeData({
     ),
 
     cardTheme: CardThemeData(
-      color: brightness == Brightness.light
-          // ? Colors.white
-          ? colorScheme.onInverseSurface
-          : colorScheme.onInverseSurface,
       elevation: 2,
       shadowColor: colorScheme.primary,
       shape: RoundedRectangleBorder(
-        side: BorderSide(color: colorScheme.primary.withAlpha(90)),
         borderRadius: BorderRadius.circular(15),
       ),
     ),
