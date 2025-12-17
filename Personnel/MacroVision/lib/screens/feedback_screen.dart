@@ -4,6 +4,7 @@ import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:macro_vision/helpers/l10n_extension.dart';
 
 // Import de la fonction Toast si vous l'avez centralisée
 // import 'package:macro_vision/helpers/helpers.dart';

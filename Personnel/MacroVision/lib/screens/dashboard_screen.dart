@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
-
 import 'package:macro_vision/models/user_profile.dart';
 import 'package:macro_vision/services/database_service.dart';
 import 'package:macro_vision/services/nutrition_calculator.dart';
+import 'package:macro_vision/helpers/l10n_extension.dart';
 
 // 1. DÉFINITION DE L'ÉNUMÉRATION
 enum ChartType { bar, line }

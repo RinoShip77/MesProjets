@@ -6,6 +6,7 @@ import 'package:macro_vision/services/database_service.dart';
 import 'package:macro_vision/widgets/main_navigator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/helpers/helpers.dart';
+import 'package:macro_vision/helpers/l10n_extension.dart';
 
 class InitializationScreen extends StatefulWidget {
   const InitializationScreen({super.key});

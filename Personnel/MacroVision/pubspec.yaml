@@ -121,6 +121,8 @@ flutter:
     - assets/images/
     - assets/audio/
 
+  generate: true # Active la génération de code pour l'i18n
+  
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

@@ -1,7 +1,6 @@
-// Fichier : lib/widgets/custom_app_bar.dart
-
 import 'package:flutter/material.dart';
 import 'package:macro_vision/helpers/helpers.dart';
+import 'package:macro_vision/config/l10n/app_localizations.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

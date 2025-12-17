@@ -9,6 +9,7 @@ import 'package:macro_vision/services/theme_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/models/user_profile.dart'; // Import pour UserProfile
+import 'package:macro_vision/helpers/l10n_extension.dart';
 
 class ResultScreen extends StatefulWidget {
   final NutritionalFacts initialFacts;

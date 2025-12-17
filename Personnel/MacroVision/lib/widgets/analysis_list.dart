@@ -7,6 +7,7 @@ import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/screens/history_screen.dart';
 import 'package:macro_vision/screens/result_screen.dart';
 import 'package:macro_vision/helpers/helpers.dart'; // Pour formatDate
+import 'package:macro_vision/helpers/l10n_extension.dart';
 
 class AnalysisList extends StatelessWidget {
   final Future<List<NutritionalFactsEntry>> historyFuture;
@@ -124,7 +125,7 @@ class AnalysisList extends StatelessWidget {
                   SizedBox(
                     // Limite la hauteur de l'aperçu à 2 éléments maximum
                     // Ajustez cette valeur si la hauteur des éléments est différente.
-                    height: snapshot.data!.length >= 1
+                    height: snapshot.data!.isNotEmpty
                         ? 75
                         : 1
                         * snapshot.data!.take(2).length.toDouble(),

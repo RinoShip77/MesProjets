@@ -1,0 +1,5 @@
+# Fichier de configuration pour le générateur de localisation de Flutter
+arb-dir: lib/config/l10n
+template-arb-file: app_fr.arb  # Le fichier qui définit toutes les clés
+output-localization-file: app_localizations.dart
+nullable-getter: false

@@ -6,6 +6,7 @@ import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/services/database_service.dart';
 import 'package:macro_vision/widgets/analysis_list.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart'; // Pour réutiliser l'écran de résultat
+import 'package:macro_vision/helpers/l10n_extension.dart';
 
 // N'oubliez pas d'ajouter 'intl' dans pubspec.yaml si ce n'est pas déjà fait!
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:macro_vision/helpers/l10n_extension.dart';
 import 'package:macro_vision/screens/dashboard_screen.dart';
 import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:macro_vision/screens/home_screen.dart';
@@ -237,12 +238,12 @@ class _MainNavigatorState extends State<MainNavigator> {
                       _ => Icons.not_interested_rounded,
                     },
                     label: switch (index) {
-                      0 => 'Paramètres',
-                      1 => 'Tableau de bord',
-                      2 => 'Accueil',
-                      3 => 'Profil',
-                      4 => 'Commentaire',
-                      _ => 'Item $index',
+                      0 => context.l10n.settings, //'Paramètres',
+                      1 => context.l10n.dashboard, //'Tableau de bord',
+                      2 => context.l10n.home, //'Accueil',
+                      3 => context.l10n.profile, //'Profil',
+                      4 => context.l10n.feedback, //'Commentaire',
+                      _ => context.l10n.error, //'Item $index',
                     },
                     selectedIndex: _selectedIndex,
                     onTap: _onItemTapped,

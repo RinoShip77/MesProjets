@@ -1,0 +1,12 @@
+{
+    "@@locale": "fr",
+    "appTitle": "Macro Vision",
+    
+    "settings": "Paramètres",
+    "dashboard": "Tableau de bord",
+    "home": "Accueil",
+    "profile": "Profil",
+    "feedback": "Commentaire",
+    "error": "Erreur",
+    "languageSettingTitle": "Langue"
+}

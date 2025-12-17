@@ -1,7 +1,5 @@
 import 'dart:convert'; // Nécessaire pour décoder le UserProfile
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/screens/camera_screen.dart';
 import 'package:macro_vision/screens/dashboard_screen.dart';
@@ -13,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/models/user_profile.dart';
 import 'package:macro_vision/services/database_service.dart';
 import 'package:macro_vision/services/nutrition_calculator.dart';
+import 'package:macro_vision/helpers/l10n_extension.dart';
 // Pour le guide
 
 // Convertir en StatefulWidget

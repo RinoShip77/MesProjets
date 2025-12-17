@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/services.dart';
 // Packages Externes
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:macro_vision/config/l10n/app_localizations.dart';
 import 'package:macro_vision/screens/error_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +19,41 @@ import 'package:macro_vision/config/app_theme.dart';
 
 // Écrans de l'application
 import 'package:macro_vision/screens/initialization_screen.dart';
+
+// Définition de la locale par défaut (français canadien)
+final Locale defaultLocale = Locale(
+  WidgetsBinding.instance.platformDispatcher.locales.first.languageCode,
+);
+
+// ==========================================================
+// 💡 NOUVEAU WIDGET : Gère l'état de la Locale pour toute l'application
+// ==========================================================
+class AppSetup extends StatefulWidget {
+  const AppSetup({super.key});
+
+  // Méthode statique pour accéder à l'état depuis n'importe où
+  static _AppSetupState of(BuildContext context) =>
+      context.findAncestorStateOfType<_AppSetupState>()!;
+
+  @override
+  State<AppSetup> createState() => _AppSetupState();
+}
+
+class _AppSetupState extends State<AppSetup> {
+  Locale _currentLocale = defaultLocale;
+
+  // 💡 Fonction pour changer la locale
+  void setLocale(Locale newLocale) {
+    setState(() {
+      _currentLocale = newLocale;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MacroVisionApp(locale: _currentLocale);
+  }
+}
 
 Future<void> main() async {
   // =======================================================================
@@ -56,7 +93,7 @@ Future<void> main() async {
       runApp(
         MultiProvider(
           providers: [ChangeNotifierProvider(create: (_) => ThemeProvider())],
-          child: const MacroVisionApp(),
+          child: const AppSetup(),
         ),
       );
     },
@@ -70,7 +107,16 @@ Future<void> main() async {
             useMaterial3: true,
           ),
           home: ErrorScreen(
-            message: "Une erreur critique s'est produite",
+            message:
+                WidgetsBinding
+                        .instance
+                        .platformDispatcher
+                        .locales
+                        .first
+                        .languageCode ==
+                    'fr'
+                ? "Une erreur critique s'est produite"
+                : "A critical error has occurred",
             details: kDebugMode
                 ? e.toString()
                 : null, // Détails uniquement en mode débogage
@@ -82,7 +128,8 @@ Future<void> main() async {
 }
 
 class MacroVisionApp extends StatelessWidget {
-  const MacroVisionApp({super.key});
+  final Locale locale;
+  const MacroVisionApp({super.key, required this.locale});
 
   @override
   Widget build(BuildContext context) {
@@ -95,28 +142,31 @@ class MacroVisionApp extends StatelessWidget {
             : appPrimaryColor;
 
         return MaterialApp(
-          title: 'MacroVision',
-          // Affiche que l'app est en mode DEBUG
-          debugShowCheckedModeBanner: (kDebugMode && !kReleaseMode) ? true : false,
-          themeMode: themeProvider.themeMode,
-          theme: getLightTheme(selectedSeedColor),
-          darkTheme: getDarkTheme(selectedSeedColor),
-
           // =========================================================
           // 💡 INTERNATIONALISATION : AJOUTER CES LIGNES
           // =========================================================
           localizationsDelegates: const [
+            AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('fr', 'CA'), // Français (Canada)
-            Locale('en', 'CA'), // Anglais (Canada)
+            Locale('fr'), // Français (Canada)
+            Locale('en'), // Anglais (Canada)
           ],
 
-          locale: const Locale('fr', 'CA'), // <-- FORCER LA LOCALE PAR DÉFAUT
+          locale:
+              locale, // <-- FORCER LA LOCALE PAR DÉFAUT SELON LA LANGUE DE L'APPAREIL
           // =========================================================
+          title: 'MacroVision',
+          // Affiche que l'app est en mode DEBUG
+          debugShowCheckedModeBanner: (kDebugMode && !kReleaseMode)
+              ? true
+              : false,
+          themeMode: themeProvider.themeMode,
+          theme: getLightTheme(selectedSeedColor),
+          darkTheme: getDarkTheme(selectedSeedColor),
           home: const InitializationScreen(),
         );
       },

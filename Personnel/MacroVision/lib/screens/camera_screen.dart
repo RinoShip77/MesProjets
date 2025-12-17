@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/services/database_service.dart';
+import 'package:macro_vision/helpers/l10n_extension.dart';
 
 // Services et Modèles
 import 'package:macro_vision/services/gemini_service.dart';
