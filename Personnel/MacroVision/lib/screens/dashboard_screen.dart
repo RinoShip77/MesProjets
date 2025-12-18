@@ -117,7 +117,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             tooltip: 'Rafraîchir les données',
           ),
         ],
-        backButton: false,
       ),
       body: FutureBuilder(
         future: _loadingFuture,

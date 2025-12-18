@@ -27,8 +27,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   late TextEditingController _heightController;
   late TextEditingController _ageController;
 
+  //TODO: Send this to the model and make it an enum
   // Liste des objectifs pour le Dropdown
-  final List<String> _goals = ['Perte de poids', 'Gain musculaire', 'Maintien'];
+  final List<String> _goals = ['weightLoss', 'muscleGain', 'maintain'];
 
   // Constantes de Conversion
   static const double _kgToLbs = 2.20462;
@@ -100,11 +101,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     // Assurez-vous que l'objet _profile a les bonnes valeurs de stockage métrique
     if (!_formKey.currentState!.validate()) {
       if (mounted) {
-        showSnackBar(
-          context,
-          'Erreur dans le formulaire. Veuillez vérifier vos entrées.',
-          true,
-        );
+        showSnackBar(context, context.l10n.errorForm, true);
       }
     } else {
       // 1. Récupérer les valeurs affichées (en unités courantes)
@@ -141,7 +138,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       // await NutritionCalculator().updateGoals(_profile);
 
       if (mounted) {
-        showSnackBar(context, 'Profil mis à jour avec succès.', false);
+        showSnackBar(context, context.l10n.successUpdate('profile'), false);
       }
     }
   }
@@ -161,17 +158,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return Scaffold(
-        appBar: CustomAppBar(title: 'Mon Profil'),
+        appBar: CustomAppBar(title: context.l10n.titleProfile),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
 
     // Détermination des unités pour les labels
-    final String weightUnit = _profile.isMetric ? 'kg' : 'lbs';
-    final String heightUnit = _profile.isMetric ? 'cm' : 'pouces';
+    final String weightUnit = _profile.isMetric ? 'kg' : 'lb';
+    final String heightUnit = _profile.isMetric ? 'cm' : 'in';
+    _goals.map((String goal) {
+      print(context.l10n.titleProfileGoal(goal));
+      print(Text(context.l10n.titleProfileGoal(goal)));
+    }).toList();
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Mon Profil', backButton: false),
+      appBar: CustomAppBar(title: context.l10n.titleProfile),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -180,8 +181,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             // Système d'Unités (Switch)
             Tooltip(
               // Wrap the entire tile with a Tooltip
-              message:
-                  'Métrique (kg, cm)\nou\nImpérial (lbs, pouces).', // The help message
+              message: context.l10n.tooltipSwitch(
+                'Métrique (kg, cm)',
+                'Impérial (lbs, pouces)',
+              ),
               child: SwitchListTile(
                 title: const Text(
                   'Système d\'unités',
@@ -313,6 +316,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             DropdownButtonFormField<String>(
               decoration: InputDecoration(labelText: 'Objectif Principal'),
               initialValue: _profile.goal,
+              // items: _goals.map((String goal) {
+              //   return DropdownMenuItem<String>(
+              //     value: context.l10n.titleProfileGoal(goal),
+              //     child: Text(context.l10n.titleProfileGoal(goal)),
+              //   );
+              // }).toList(),
               items: _goals.map((String goal) {
                 return DropdownMenuItem<String>(value: goal, child: Text(goal));
               }).toList(),
@@ -333,15 +342,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 // Accès à l'Historique
                 Tooltip(
                   // Wrap the entire tile with a Tooltip
-                  message:
-                      'Voir l\'historique des analyses.', // The help message
+                  message: context.l10n.titleBtnSeeHistory, // The help message
                   child: OutlinedButton(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         const Icon(Icons.history_rounded),
                         SizedBox(width: 8),
-                        const Text('Voir l\'historique des analyses'),
+                        Text(context.l10n.titleBtnSeeHistory),
                         Spacer(),
                         const Icon(Icons.arrow_forward_ios_rounded),
                       ],
@@ -354,10 +362,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
                 // Bouton de Sauvegarde
                 Tooltip(
-                  message: 'Sauvegarder le profil.',
+                  message: context.l10n.titleBtnSave('le profil'),
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.save_alt_rounded),
-                    label: const Text('Sauvegarder le profil'),
+                    label: Text(context.l10n.titleBtnSave('le profil')),
                     onPressed: () => _saveUserProfile(),
                   ),
                 ),

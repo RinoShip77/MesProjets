@@ -1,12 +1,158 @@
 {
     "@@locale": "en",
-    "appTitle": "Macro Vision",
-    
-    "settings": "Settings",
-    "dashboard": "Dashboard",
-    "home": "Home",
-    "profile": "Profile",
-    "feedback": "Feedback",
-    "error": "Error",
-    "languageSettingTitle": "Language"
+    "nameLanguage": "English",
+    "@nameLanguage": {
+        "description": "The complete name of the language"
+    },
+    "titleLanguageSelect": "Language",
+    "@titleLanguageSelect": {
+        "description": "The title to select the language"
+    },
+    "titleUserGuide": "User Guide",
+    "@titleUserGuide": {
+        "description": "The title for the user guide"
+    },
+    "successUpdate": "{context} has been successfully updated",
+    "@successUpdate": {
+        "description": "Success message after updating a specific element",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "warningEmptyData": "No data available",
+    "@warningEmptyData": {
+        "description": "A warning for empty data"
+    },
+    "errorGlobal": "An error occurred",
+    "@errorGlobal": {
+        "description": "A global error message"
+    },
+    "errorReadUserGuide": "Error: Unable to read user guide",
+    "@errorReadUserGuide": {
+        "description": "An error message for the user guide"
+    },
+    "errorLoadingAssets": "Error: Unable to load file",
+    "@errorLoadingAssets": {
+        "description": "An error message for the loading of an asset"
+    },
+    "errorForm": "Form error. Please check your entries",
+    "@errorForm": {
+        "description": "Message displayed when a form validation fails"
+    },
+    "errorLoadingContent": "Error loading data",
+    "@errorLoadingContent": {
+        "description": "An error message for the loading of the data"
+    },
+    "titleSettingsSections": "{target, select, language{App Language} luminosity{App Brightness} color{Custom Colors} other{Settings}}",
+    "@titleSettingsSections": {
+        "description": "The title to display regarding the context",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "titleDailyAnalisis": "{count, plural, zero{No analysis} one{Analysis (1)} other{Analyses ({count})}}",
+    "@titleDailyAnalisis": {
+        "description": "Title showing the number of daily analyses",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "titleSettings": "Settings",
+    "@titleSettings": {
+        "description": "Title for the settings screen"
+    },
+    "titleHistory": "History",
+    "@titleHistory": {
+        "description": "Title for the history screen"
+    },
+    "titleDashboard": "Dashboard",
+    "@titleDashboard": {
+        "description": "Title for the main dashboard"
+    },
+    "titleHome": "Home",
+    "@titleHome": {
+        "description": "Title for the home screen"
+    },
+    "titleCamera": "Camera",
+    "@titleCamera": {
+        "description": "Title for the camera section"
+    },
+    "titleFeedback": "Feedback",
+    "@titleFeedback": {
+        "description": "Title for the feedback section"
+    },
+    "titleDailySummary": "Daily Summary",
+    "@titleDailySummary": {
+        "description": "Title for the daily summary section"
+    },
+    "titleBtnSeeHistory": "View History",
+    "@titleBtnSeeHistory": {
+        "description": "Label for the button to see history"
+    },
+    "statsCalorie": "{count, plural, zero{Calorie: 0} one{Calorie: 1} other{Calories: {count}}}",
+    "@statsCalorie": {
+        "description": "Display for calorie count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "titleProfile": "Profile",
+    "@titleProfile": {
+        "description": "Title for the profile screen"
+    },
+    "titleProfileUnitSystem": "Unit System",
+    "@titleProfileUnitSystem": {
+        "description": "Title for the unit system preference"
+    },
+    "tooltipSwitch": "{option1} or {option2}",
+    "@tooltipSwitch": {
+        "description": "Tooltip showing the two options of a switch",
+        "placeholders": {
+            "option1": {
+                "type": "String"
+            },
+            "option2": {
+                "type": "String"
+            }
+        }
+    },
+    "titleBtnSave": "Save {context}",
+    "@titleBtnSave": {
+        "description": "Label for the save button with context",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "titleSettingsLuminosity": "{target, select, default{System Default} light{Light Mode} dark{Dark Mode} other{None}}",
+    "@titleSettingsLuminosity": {
+        "description": "Selection of the app brightness mode",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "titleProfileName": "Name",
+    "@titleProfileName": {
+        "description": "Label for the user's name in profile"
+    },
+    "titleProfileGoal": "{target, select, weightLoss{Weight Loss} muscleGain{Muscle Gain} maintain{Maintenance} other{None}}",
+    "@titleProfileGoal": {
+        "description": "Selection of the user's fitness goal",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    }
 }

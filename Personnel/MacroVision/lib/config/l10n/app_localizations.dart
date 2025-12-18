@@ -98,53 +98,173 @@ abstract class AppLocalizations {
     Locale('fr'),
   ];
 
-  /// No description provided for @appTitle.
+  /// Le nom complet de la langue
   ///
   /// In fr, this message translates to:
-  /// **'Macro Vision'**
-  String get appTitle;
+  /// **'Français'**
+  String get nameLanguage;
 
-  /// No description provided for @settings.
-  ///
-  /// In fr, this message translates to:
-  /// **'Paramètres'**
-  String get settings;
-
-  /// No description provided for @dashboard.
-  ///
-  /// In fr, this message translates to:
-  /// **'Tableau de bord'**
-  String get dashboard;
-
-  /// No description provided for @home.
-  ///
-  /// In fr, this message translates to:
-  /// **'Accueil'**
-  String get home;
-
-  /// No description provided for @profile.
-  ///
-  /// In fr, this message translates to:
-  /// **'Profil'**
-  String get profile;
-
-  /// No description provided for @feedback.
-  ///
-  /// In fr, this message translates to:
-  /// **'Commentaire'**
-  String get feedback;
-
-  /// No description provided for @error.
-  ///
-  /// In fr, this message translates to:
-  /// **'Erreur'**
-  String get error;
-
-  /// No description provided for @languageSettingTitle.
+  /// Le titre pour la sélection de la langue
   ///
   /// In fr, this message translates to:
   /// **'Langue'**
-  String get languageSettingTitle;
+  String get titleLanguageSelect;
+
+  /// Le titre pour le guide d'utilisation
+  ///
+  /// In fr, this message translates to:
+  /// **'Guide d\'utilisation'**
+  String get titleUserGuide;
+
+  /// Message de succès après la mise à jour d'un élément spécifique
+  ///
+  /// In fr, this message translates to:
+  /// **'Le {context} a été mis à jour avec succès'**
+  String successUpdate(String context);
+
+  /// Un avertissement lorsqu'aucune donnée n'est disponible
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune données'**
+  String get warningEmptyData;
+
+  /// Un message d'erreur global
+  ///
+  /// In fr, this message translates to:
+  /// **'Une erreur s\'est produite'**
+  String get errorGlobal;
+
+  /// Message d'erreur pour le guide utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur: Impossible de lire le guide utilisateur'**
+  String get errorReadUserGuide;
+
+  /// Message d'erreur lors du chargement d'une ressource
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur: Impossible de charger le fichier'**
+  String get errorLoadingAssets;
+
+  /// Message affiché lorsqu'une validation de formulaire échoue
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur dans le formulaire. Veuillez vérifier vos entrées'**
+  String get errorForm;
+
+  /// Message d'erreur lors du chargement des données
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur de chargement des données'**
+  String get errorLoadingContent;
+
+  /// Le titre à afficher selon le contexte des paramètres
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, language{Langue de l\'application} luminosity{Luminosité de l\'application} color{Couleurs personnalisées} other{Paramètres}}'**
+  String titleSettingsSections(String target);
+
+  /// Titre affichant le nombre d'analyses quotidiennes
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, zero{Aucune analyse} one{Analyse (1)} other{Analyses ({count})}}'**
+  String titleDailyAnalisis(int count);
+
+  /// Titre pour l'écran des paramètres
+  ///
+  /// In fr, this message translates to:
+  /// **'Paramètres'**
+  String get titleSettings;
+
+  /// Titre pour l'écran d'historique
+  ///
+  /// In fr, this message translates to:
+  /// **'Historique'**
+  String get titleHistory;
+
+  /// Titre pour le tableau de bord principal
+  ///
+  /// In fr, this message translates to:
+  /// **'Tableau de bord'**
+  String get titleDashboard;
+
+  /// Titre pour l'écran d'accueil
+  ///
+  /// In fr, this message translates to:
+  /// **'Accueil'**
+  String get titleHome;
+
+  /// Titre pour la section caméra
+  ///
+  /// In fr, this message translates to:
+  /// **'Caméra'**
+  String get titleCamera;
+
+  /// Titre pour la section de commentaires
+  ///
+  /// In fr, this message translates to:
+  /// **'Commentaire'**
+  String get titleFeedback;
+
+  /// Titre pour la section du résumé quotidien
+  ///
+  /// In fr, this message translates to:
+  /// **'Résumé quotidien'**
+  String get titleDailySummary;
+
+  /// Libellé du bouton pour consulter l'historique
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir l\'historique'**
+  String get titleBtnSeeHistory;
+
+  /// Affichage du compte de calories
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, zero{Calorie : 0} one{Calorie : 1} other{Calories : {count}}}'**
+  String statsCalorie(int count);
+
+  /// Titre pour l'écran de profil
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil'**
+  String get titleProfile;
+
+  /// Titre pour la préférence du système d'unité
+  ///
+  /// In fr, this message translates to:
+  /// **'Système d\'unité'**
+  String get titleProfileUnitSystem;
+
+  /// Infobulle montrant les deux options d'un interrupteur
+  ///
+  /// In fr, this message translates to:
+  /// **'{option1} ou {option2}'**
+  String tooltipSwitch(String option1, String option2);
+
+  /// Libellé du bouton de sauvegarde avec contexte
+  ///
+  /// In fr, this message translates to:
+  /// **'Sauvegarder {context}'**
+  String titleBtnSave(String context);
+
+  /// Sélection du mode de luminosité de l'application
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, default{Défaut du système} light{Mode clair} dark{Mode sombre} other{Aucun}}'**
+  String titleSettingsLuminosity(String target);
+
+  /// Libellé pour le nom de l'utilisateur dans le profil
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom'**
+  String get titleProfileName;
+
+  /// Sélection de l'objectif de forme physique de l'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, weightLoss{Perte de poids} muscleGain{Gain musculaire} maintain{Maintien} other{Maintien}}'**
+  String titleProfileGoal(String target);
 }
 
 class _AppLocalizationsDelegate

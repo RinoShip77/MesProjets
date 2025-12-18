@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/config/l10n/app_localizations.dart';
+import 'package:macro_vision/helpers/l10n_extension.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -18,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.foreground,
     this.background,
     this.actions,
-    this.backButton = true,
+    this.backButton = false,
     super.key,
   }) : preferredSize = const Size.fromHeight(
          kToolbarHeight,
@@ -36,103 +37,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       if (context.mounted) {
         showSnackBar(
           context,
-          'Erreur: Impossible de lire le guide utilisateur.',
+          context.l10n.errorReadUserGuide,
           true,
         );
       }
 
-      return 'Erreur lors du chargement des instructions.';
+      return context.l10n.errorLoadingAssets;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Widget? leading;
-
-    // if (!home) {
-    //   leading = MenuAnchor(
-    //     // Define the list of actions for the dropdown menu
-    //     menuChildren: [
-    //       MenuItemButton(
-    //         leadingIcon: const Icon(Icons.feedback_rounded),
-    //         child: const Text('Commentaire'),
-    //         onPressed: () async {
-    //           // 💡 Le rendre ASYNC pour un meilleur contrôle
-    //           try {
-    //             // Supposons que _navigateAndRefresh est une fonction normale (non async)
-    //             // Si elle est async, utilisez await.
-    //             navigate(context, const FeedbackScreen());
-    //           } catch (e, stack) {
-    //             print(
-    //               "Erreur lors de l'ouverture de l'écran de commentaires : $e",
-    //             );
-    //             print(stack);
-
-    //             // Afficher une Snackbar pour informer l'utilisateur sans crasher
-    //             if (context.mounted) {
-    //               showSnackBar(
-    //                 context,
-    //                 "Impossible d'ouvrir l'écran de commentaires.",
-    //                 true,
-    //               );
-    //             }
-    //           }
-    //         },
-    //         // onPressed: () => _navigateAndRefresh(context, FeedbackScreen()),
-    //       ),
-    //       MenuItemButton(
-    //         leadingIcon: const Icon(Icons.info_outline_rounded),
-    //         child: const Text('Guide'),
-    //         onPressed: () async {
-    //           try {
-    //             // 1. Charger le texte du guide de manière sûre
-    //             final String guideContent = await _getGuideText(context);
-
-    //             // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
-    //             if (context.mounted) {
-    //               await openDialog(
-    //                 context: context,
-    //                 title: 'Guide d\'utilisation',
-    //                 content: guideContent, // Utilisez le contenu chargé
-    //               );
-    //             }
-    //           } catch (e, stack) {
-    //             // 3. En cas d'erreur de chargement ou d'ouverture du dialogue :
-    //             print("Erreur lors de l'ouverture du dialogue Guide : $e");
-    //             print(stack);
-
-    //             // Afficher une simple Snackbar à l'utilisateur au lieu de crasher
-    //             if (context.mounted) {
-    //               // Assurez-vous que showSnackBar est importé de helpers.dart
-    //               showSnackBar(
-    //                 context,
-    //                 "Erreur: Impossible de charger le guide d'utilisation.",
-    //                 true,
-    //               );
-    //             }
-    //           }
-    //         },
-    //       ),
-    //     ],
-    //     // Define the actual button widget that the user taps
-    //     builder:
-    //         (BuildContext context, MenuController controller, Widget? child) {
-    //           return IconButton(
-    //             onPressed: () {
-    //               // Toggle the menu visibility when the button is pressed
-    //               if (controller.isOpen) {
-    //                 controller.close();
-    //               } else {
-    //                 controller.open();
-    //               }
-    //             },
-    //             icon: const Icon(Icons.menu_rounded), // The "menu" button icon
-    //             tooltip: 'Ouvrir le menu',
-    //           );
-    //         },
-    //   );
-    // }
-
     return AppBar(
       title: Text(title),
       centerTitle: true,
@@ -141,7 +56,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         // Guide
         IconButton(
           icon: const Icon(Icons.info_outline_rounded),
-          tooltip: 'Guide utilisateur',
+          tooltip: context.l10n.titleUserGuide,
           onPressed: () async {
               try {
                 // 1. Charger le texte du guide de manière sûre
@@ -151,21 +66,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 if (context.mounted) {
                   await openDialog(
                     context: context,
-                    title: 'Guide d\'utilisation',
+                    title: context.l10n.titleUserGuide,
                     content: guideContent, // Utilisez le contenu chargé
                   );
                 }
               } catch (e, stack) {
                 // 3. En cas d'erreur de chargement ou d'ouverture du dialogue :
-                print("Erreur lors de l'ouverture du dialogue Guide : $e");
-                print(stack);
-
                 // Afficher une simple Snackbar à l'utilisateur au lieu de crasher
                 if (context.mounted) {
                   // Assurez-vous que showSnackBar est importé de helpers.dart
                   showSnackBar(
                     context,
-                    "Erreur: Impossible de charger le guide d'utilisation.",
+                    context.l10n.errorLoadingAssets,
                     true,
                   );
                 }

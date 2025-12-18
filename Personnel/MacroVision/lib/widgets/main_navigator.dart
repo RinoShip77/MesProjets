@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/screens/camera_screen.dart';
 import 'package:macro_vision/screens/dashboard_screen.dart';
 import 'package:macro_vision/screens/feedback_screen.dart';
+import 'package:macro_vision/screens/history_screen.dart';
 import 'package:macro_vision/screens/home_screen.dart';
 import 'package:macro_vision/screens/settings_screen.dart';
 import 'package:macro_vision/screens/user_profile_screen.dart';
@@ -24,7 +26,7 @@ class _MainNavigatorState extends State<MainNavigator> {
     const DashboardScreen(),
     const HomeScreen(),
     const UserProfileScreen(),
-    const FeedbackScreen(),
+    const FeedbackScreen()
     // Ajoutez d'autres écrans principaux ici:
   ];
 
@@ -107,21 +109,6 @@ class _MainNavigatorState extends State<MainNavigator> {
                     ),
                   ),
                 ),
-
-                // Tooltip(
-                //   message: label,
-                //   child:
-                //       // L'icône change de couleur, mais n'a plus de fond animé ici
-                //       Icon(
-                //         isSelected ? selectedIcon : unselectedIcon,
-                //         color: isSelected
-                //             ? Theme.of(context)
-                //                   .colorScheme
-                //                   .primary // Couleur active
-                //             : Theme.of(context).colorScheme.onSurfaceVariant,
-                //         size: isSelected ? 40 : 20,
-                //       ),
-                // ),
               ],
             ),
           ),
@@ -238,12 +225,12 @@ class _MainNavigatorState extends State<MainNavigator> {
                       _ => Icons.not_interested_rounded,
                     },
                     label: switch (index) {
-                      0 => context.l10n.settings, //'Paramètres',
-                      1 => context.l10n.dashboard, //'Tableau de bord',
-                      2 => context.l10n.home, //'Accueil',
-                      3 => context.l10n.profile, //'Profil',
-                      4 => context.l10n.feedback, //'Commentaire',
-                      _ => context.l10n.error, //'Item $index',
+                      0 => context.l10n.titleSettings, //'Paramètres',
+                      1 => context.l10n.titleDashboard, //'Tableau de bord',
+                      2 => context.l10n.titleHome, //'Accueil',
+                      3 => context.l10n.titleProfile, //'Profil',
+                      4 => context.l10n.titleFeedback, //'Commentaire',
+                      _ => context.l10n.errorGlobal,
                     },
                     selectedIndex: _selectedIndex,
                     onTap: _onItemTapped,

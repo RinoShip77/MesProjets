@@ -314,12 +314,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'MacroVision', backButton: false),
+      appBar: CustomAppBar(title: 'MacroVision'),
       body: Stack(
         children: [
           // Utilisation de SingleChildScrollView pour éviter l'overflow si l'écran est petit
           SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
             child: Center(
               child: Column(
                 children: [
@@ -332,35 +332,59 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      children: [
-                        // NOUVELLE CARTE DE PROGRESSION ---
-                        _buildDailySummaryCard(),
+                    child: Card(
+                      child: Column(
+                        children: [
+                          // --- En-tête de la carte ---
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 16.0,
+                              left: 16.0,
+                              right: 16.0,
+                            ),
+                            child: Text(
+                              context.l10n.titleDailySummary,
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
+                            ),
+                          ),
 
-                        const SizedBox(height: 10),
+                          const Divider(height: 16),
 
-                        AnalysisList(
-                          // Appel direct
-                          historyFuture: _getTodayHistory(), // Le Future filtré
-                          compactMode:
-                              true, // Active le mode compact et le scroll interne
-                        ),
-                      ],
+                          // NOUVELLE CARTE DE PROGRESSION ---
+                          _buildDailySummaryCard(),
+
+                          const SizedBox(height: 10),
+
+                          AnalysisList(
+                            // Appel direct
+                            historyFuture:
+                                _getTodayHistory(), // Le Future filtré
+                            compactMode:
+                                true, // Active le mode compact et le scroll interne
+                          ),
+                        ],
+                      ),
                     ),
                   ),
 
                   // Bouton vers le Tableau de Bord
-                  Tooltip(
-                    message: 'Voir le tableau de bord.',
-                    child: OutlinedButton.icon(
-                      icon: const Icon(Icons.bar_chart_rounded),
-                      label: const Text('Détails complets'),
-                      onPressed: () =>
-                          _navigateAndRefresh(context, DashboardScreen()),
-                    ),
-                  ),
+                  // Tooltip(
+                  //   message: 'Voir le tableau de bord.',
+                  //   child: OutlinedButton.icon(
+                  //     icon: const Icon(Icons.bar_chart_rounded),
+                  //     label: const Text('Détails complets'),
+                  //     onPressed: () =>
+                  //         _navigateAndRefresh(context, DashboardScreen()),
+                  //   ),
+                  // ),
 
-                  const SizedBox(height: 15),
+                  // const SizedBox(height: 15),
 
                   // Bouton principal pour la caméra
                   Tooltip(

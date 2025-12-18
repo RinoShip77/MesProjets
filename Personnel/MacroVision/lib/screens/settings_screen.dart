@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:macro_vision/config/l10n/app_localizations.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/main.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
@@ -18,58 +19,68 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    // Accès à la locale courante du MaterialApp
-    final currentLocale = Localizations.localeOf(context);
+    // 1. Récupérer les locales supportées par l'app (définies dans MaterialApp)
+    final List<Locale> supportedLocales = AppLocalizations.supportedLocales;
 
-    // Fonction pour obtenir le nom affiché de la locale actuelle (pour le Dropdown)
-    String getDropdownValue() {
-      // Cherche si la locale actuelle correspond à une option
-      for (var entry in availableLocales.entries) {
-        if (entry.value == currentLocale) {
-          return entry.key;
-        }
+    // 2. Récupérer la locale actuellement utilisée
+    final Locale currentLocale = Localizations.localeOf(context);
+
+    // Petite fonction utilitaire pour l'affichage dans le dropdown
+    String getLanguageLabel(Locale locale) {
+      // Si tu as ajouté "languageName" dans tes fichiers ARB,
+      // l'idéal serait d'afficher le nom de la langue.
+      // Sinon, on affiche le code pays ou langue.
+      if (locale.languageCode == context.l10n.localeName) {
+        return context.l10n.nameLanguage;
       }
-      // Solution de repli, retourne le nom de la première option
-      return availableLocales.keys.first;
+      if (locale.languageCode == context.l10n.localeName) {
+        return context.l10n.nameLanguage;
+      }
+      return locale.languageCode.toUpperCase();
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: context.l10n.settings, backButton: false),
+      appBar: CustomAppBar(title: context.l10n.titleSettings),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Luminosité de l\'application',
+              context.l10n.titleSettingsSections('language'),
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            
+
             const Divider(),
-            
+
             ListTile(
-            title: Text(context.l10n.languageSettingTitle), // Nouvelle clé ARB : "languageSettingTitle"
-            trailing: DropdownButton<String>(
-              value: getDropdownValue(),
-              onChanged: (String? newValue) {
-                if (newValue != null) {
-                  // 💡 APPEL DE LA FONCTION setLocale DANS AppSetup
-                  AppSetup.of(context).setLocale(availableLocales[newValue]!);
-                }
-              },
-              items: availableLocales.keys.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+              title: Text(
+                context.l10n.titleLanguageSelect,
+              ), // Nouvelle clé ARB : "languageSettingTitle"
+              trailing: DropdownButton<Locale>(
+                value:
+                    currentLocale, // La valeur est maintenant directement un objet Locale
+                onChanged: (Locale? newLocale) {
+                  if (newLocale != null) {
+                    // Appelle ta fonction pour changer la langue
+                    AppSetup.of(context).setLocale(newLocale);
+                  }
+                },
+                items: supportedLocales.map((Locale locale) {
+                  return DropdownMenuItem<Locale>(
+                    value: locale,
+                    child: Text(
+                      getLanguageLabel(locale),
+                    ), // Fonction pour afficher le nom lisible
+                  );
+                }).toList(),
+              ),
             ),
-          ),
 
             const Divider(),
 
             Text(
-              'Luminosité de l\'application',
+              context.l10n.titleSettingsSections('luminosity'),
               style: Theme.of(context).textTheme.titleLarge,
             ),
 
@@ -77,21 +88,21 @@ class SettingsScreen extends StatelessWidget {
 
             // Section 1: Mode Clair / Sombre / Système
             buildThemeOption(
-              title: 'Défaut du système',
+              title: context.l10n.titleSettingsLuminosity('default'),
               target: ThemeModeOption.system,
               current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
             ),
 
             buildThemeOption(
-              title: 'Mode clair',
+              title: context.l10n.titleSettingsLuminosity('light'),
               target: ThemeModeOption.light,
               current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
             ),
 
             buildThemeOption(
-              title: 'Mode sombre',
+              title: context.l10n.titleSettingsLuminosity('dark'),
               target: ThemeModeOption.dark,
               current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
@@ -100,7 +111,7 @@ class SettingsScreen extends StatelessWidget {
             const SizedBox(height: 30),
 
             Text(
-              'Couleurs personnalisées',
+              context.l10n.titleSettingsSections('color'),
               style: Theme.of(context).textTheme.titleLarge,
             ),
 

@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart'; // Pour charger les variabl
 // =========================================================================
 // ERREUR PERSONNALISÉE
 // =========================================================================
+//TODO: Find a way to don't write plain text in the code
 class NotInitializedError implements Exception {
   final String message =
       "Le service Gemini n'a pas été initialisé. Assurez-vous d'appeler initialize() dans main.dart.";

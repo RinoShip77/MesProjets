@@ -80,6 +80,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             onPressed: _refresh,
           ),
         ],
+        backButton: true,
       ),
       body: Padding(
         padding: EdgeInsetsGeometry.only(top: 10),

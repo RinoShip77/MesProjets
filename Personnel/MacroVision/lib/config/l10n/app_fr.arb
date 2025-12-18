@@ -1,12 +1,158 @@
 {
     "@@locale": "fr",
-    "appTitle": "Macro Vision",
-    
-    "settings": "Paramètres",
-    "dashboard": "Tableau de bord",
-    "home": "Accueil",
-    "profile": "Profil",
-    "feedback": "Commentaire",
-    "error": "Erreur",
-    "languageSettingTitle": "Langue"
+    "nameLanguage": "Français",
+    "@nameLanguage": {
+        "description": "Le nom complet de la langue"
+    },
+    "titleLanguageSelect": "Langue",
+    "@titleLanguageSelect": {
+        "description": "Le titre pour la sélection de la langue"
+    },
+    "titleUserGuide": "Guide d'utilisation",
+    "@titleUserGuide": {
+        "description": "Le titre pour le guide d'utilisation"
+    },
+    "successUpdate": "Le {context} a été mis à jour avec succès",
+    "@successUpdate": {
+        "description": "Message de succès après la mise à jour d'un élément spécifique",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "warningEmptyData": "Aucune données",
+    "@warningEmptyData": {
+        "description": "Un avertissement lorsqu'aucune donnée n'est disponible"
+    },
+    "errorGlobal": "Une erreur s'est produite",
+    "@errorGlobal": {
+        "description": "Un message d'erreur global"
+    },
+    "errorReadUserGuide": "Erreur: Impossible de lire le guide utilisateur",
+    "@errorReadUserGuide": {
+        "description": "Message d'erreur pour le guide utilisateur"
+    },
+    "errorLoadingAssets": "Erreur: Impossible de charger le fichier",
+    "@errorLoadingAssets": {
+        "description": "Message d'erreur lors du chargement d'une ressource"
+    },
+    "errorForm": "Erreur dans le formulaire. Veuillez vérifier vos entrées",
+    "@errorForm": {
+        "description": "Message affiché lorsqu'une validation de formulaire échoue"
+    },
+    "errorLoadingContent": "Erreur de chargement des données",
+    "@errorLoadingContent": {
+        "description": "Message d'erreur lors du chargement des données"
+    },
+    "titleSettingsSections": "{target, select, language{Langue de l'application} luminosity{Luminosité de l'application} color{Couleurs personnalisées} other{Paramètres}}",
+    "@titleSettingsSections": {
+        "description": "Le titre à afficher selon le contexte des paramètres",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "titleDailyAnalisis": "{count, plural, zero{Aucune analyse} one{Analyse (1)} other{Analyses ({count})}}",
+    "@titleDailyAnalisis": {
+        "description": "Titre affichant le nombre d'analyses quotidiennes",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "titleSettings": "Paramètres",
+    "@titleSettings": {
+        "description": "Titre pour l'écran des paramètres"
+    },
+    "titleHistory": "Historique",
+    "@titleHistory": {
+        "description": "Titre pour l'écran d'historique"
+    },
+    "titleDashboard": "Tableau de bord",
+    "@titleDashboard": {
+        "description": "Titre pour le tableau de bord principal"
+    },
+    "titleHome": "Accueil",
+    "@titleHome": {
+        "description": "Titre pour l'écran d'accueil"
+    },
+    "titleCamera": "Caméra",
+    "@titleCamera": {
+        "description": "Titre pour la section caméra"
+    },
+    "titleFeedback": "Commentaire",
+    "@titleFeedback": {
+        "description": "Titre pour la section de commentaires"
+    },
+    "titleDailySummary": "Résumé quotidien",
+    "@titleDailySummary": {
+        "description": "Titre pour la section du résumé quotidien"
+    },
+    "titleBtnSeeHistory": "Voir l'historique",
+    "@titleBtnSeeHistory": {
+        "description": "Libellé du bouton pour consulter l'historique"
+    },
+    "statsCalorie": "{count, plural, zero{Calorie : 0} one{Calorie : 1} other{Calories : {count}}}",
+    "@statsCalorie": {
+        "description": "Affichage du compte de calories",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "titleProfile": "Profil",
+    "@titleProfile": {
+        "description": "Titre pour l'écran de profil"
+    },
+    "titleProfileUnitSystem": "Système d'unité",
+    "@titleProfileUnitSystem": {
+        "description": "Titre pour la préférence du système d'unité"
+    },
+    "tooltipSwitch": "{option1} ou {option2}",
+    "@tooltipSwitch": {
+        "description": "Infobulle montrant les deux options d'un interrupteur",
+        "placeholders": {
+            "option1": {
+                "type": "String"
+            },
+            "option2": {
+                "type": "String"
+            }
+        }
+    },
+    "titleBtnSave": "Sauvegarder {context}",
+    "@titleBtnSave": {
+        "description": "Libellé du bouton de sauvegarde avec contexte",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "titleSettingsLuminosity": "{target, select, default{Défaut du système} light{Mode clair} dark{Mode sombre} other{Aucun}}",
+    "@titleSettingsLuminosity": {
+        "description": "Sélection du mode de luminosité de l'application",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "titleProfileName": "Nom",
+    "@titleProfileName": {
+        "description": "Libellé pour le nom de l'utilisateur dans le profil"
+    },
+    "titleProfileGoal": "{target, select, weightLoss{Perte de poids} muscleGain{Gain musculaire} maintain{Maintien} other{Maintien}}",
+    "@titleProfileGoal": {
+        "description": "Sélection de l'objectif de forme physique de l'utilisateur",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    }
 }

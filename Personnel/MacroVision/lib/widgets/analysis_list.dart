@@ -33,19 +33,15 @@ class AnalysisList extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return const Center(
-            child: Text('Erreur de chargement des analyses.'),
+          return Center(
+            child: Text(context.l10n.errorLoadingContent),
           );
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          final message = compactMode
-              ? 'Aucune analyse effectuée aujourd\'hui.'
-              : 'Aucun historique d\'analyse trouvé.';
-
+        } else if ((!snapshot.hasData || snapshot.data!.isEmpty) && !compactMode) {
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Text(
-                message,
+                context.l10n.warningEmptyData,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
@@ -107,17 +103,15 @@ class AnalysisList extends StatelessWidget {
                     right: 16.0,
                   ),
                   child: Text(
-                    snapshot.data!.isNotEmpty
-                        ? "Dernières analyses (${snapshot.data!.length})"
-                        : "Analyses d'aujourd'hui",
+                        context.l10n.titleDailyAnalisis(snapshot.data!.length),
+                    // snapshot.data!.isNotEmpty
+                    //     ? '${context.l10n.titleDailySummary} (${snapshot.data!.length})'
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ),
-
-                const Divider(height: 16),
 
                 // --- Contenu des résultats ou message vide ---
                 if (snapshot.data!.isNotEmpty)
@@ -143,13 +137,10 @@ class AnalysisList extends StatelessWidget {
                   )
                 else
                   Container(
-                    padding: const EdgeInsets.only(
-                      bottom: 16.0,
-                      left: 16.0,
-                      right: 16.0,
-                    ),
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Text(
-                      "Aucune analyse effectuée aujourd'hui.",
+                      context.l10n.warningEmptyData,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontStyle: FontStyle.italic,
                       ),
@@ -157,7 +148,7 @@ class AnalysisList extends StatelessWidget {
                   ),
 
                 // --- Bouton "Voir tout" ---
-                if (snapshot.data!.length > 1)
+                if (snapshot.data!.isNotEmpty)
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton.icon(
@@ -165,14 +156,8 @@ class AnalysisList extends StatelessWidget {
                         Icons.arrow_forward_ios_rounded,
                         size: 16,
                       ),
-                      label: const Text("Voir l'historique complet"),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const HistoryScreen(),
-                          ),
-                        );
-                      },
+                      label: Text(context.l10n.titleBtnSeeHistory),
+                      onPressed: () => navigate(context, HistoryScreen()),
                     ),
                   ),
               ],
@@ -193,7 +178,6 @@ class AnalysisList extends StatelessWidget {
   ) {
     final date = DateTime.fromMillisecondsSinceEpoch(entry.timestamp);
     final formattedTime = DateFormat.Hm().format(date);
-    final theme = Theme.of(context);
 
     return InkWell(
       onTap: () {
@@ -221,7 +205,7 @@ class AnalysisList extends StatelessWidget {
                     : Icon(
                         Icons.image_not_supported,
                         size: 40,
-                        color: theme.colorScheme.onSurface.withOpacity(0.6),
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                       ),
               ),
             ),
@@ -234,13 +218,11 @@ class AnalysisList extends StatelessWidget {
                     entry.foodName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
-                    isCompact
-                        ? '${entry.calories.toStringAsFixed(0)} cal à $formattedTime'
-                        : 'Cal: ${entry.calories.toStringAsFixed(1)} | ${formatDate(date)} $formattedTime', // Réutilise formatDate
-                    style: theme.textTheme.bodySmall,
+                    '${context.l10n.statsCalorie(entry.calories.round())} | ${formatDate(date)} $formattedTime', // Réutilise formatDate
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),
