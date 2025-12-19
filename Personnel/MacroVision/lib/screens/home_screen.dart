@@ -2,7 +2,6 @@ import 'dart:convert'; // Nécessaire pour décoder le UserProfile
 import 'package:flutter/material.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/screens/camera_screen.dart';
-import 'package:macro_vision/screens/dashboard_screen.dart';
 import 'package:macro_vision/widgets/analysis_list.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/models/user_profile.dart';
 import 'package:macro_vision/services/database_service.dart';
 import 'package:macro_vision/services/nutrition_calculator.dart';
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 // Pour le guide
 
 // Convertir en StatefulWidget
@@ -154,12 +153,16 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 8),
 
             Text(
-              '${value.toInt()}g',
+              '${value.toInt()} g',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
 
-            Text('sur ${max.toInt()} g', style: TextStyle(fontSize: 10)),
+            Text(
+              context.l10n.homeScreenDailySummaryStatLbl(max.toInt()),
+              style: TextStyle(fontSize: 10),
+            ),
 
+            // Text('sur ${max.toInt()} g', style: TextStyle(fontSize: 10)),
             const SizedBox(height: 8),
 
             LinearProgressIndicator(
@@ -211,7 +214,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontSize: 28,
                     ),
                   ),
-                  Text("sur ${goal.toInt()}", style: TextStyle(fontSize: 12)),
+                  Text(context.l10n.homeScreenDailySummaryStatLbl(goal.toInt()), style: TextStyle(fontSize: 12)),
+                  // Text("sur ${goal.toInt()}", style: TextStyle(fontSize: 12)),
                   const Text(
                     "Cal",
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
@@ -256,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 _buildMacroCardInfo(
                   context,
-                  label: "Glu",
+                  label: context.l10n.homeScreenDailySummaryMacroCardLbl('carbohydrates'),
                   value: _consumedMacros['totalCarbohydrates'] ?? 0,
                   max: _goalMacros['totalCarbohydrates'] ?? 0,
                   color: Colors.orange,
@@ -267,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 _buildMacroCardInfo(
                   context,
-                  label: "Pro",
+                  label: context.l10n.homeScreenDailySummaryMacroCardLbl('protein'),
                   value: _consumedMacros['protein'] ?? 0,
                   max: _goalMacros['protein'] ?? 0,
                   color: Colors.green, // Ou utilisez Theme colors
@@ -278,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 _buildMacroCardInfo(
                   context,
-                  label: "Lip",
+                  label: context.l10n.homeScreenDailySummaryMacroCardLbl('fat'),
                   value: _consumedMacros['totalFat'] ?? 0,
                   max: _goalMacros['totalFat'] ?? 0,
                   color: Colors.redAccent,
@@ -324,7 +328,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   Text(
-                    'Bienvenue sur MacroVision',
+                    context.l10n.homeScreenWelcomeLbl,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -343,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               right: 16.0,
                             ),
                             child: Text(
-                              context.l10n.titleDailySummary,
+                              context.l10n.homeScreenDailySummaryLbl,
                               style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(
                                     fontWeight: FontWeight.bold,
@@ -388,10 +392,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   // Bouton principal pour la caméra
                   Tooltip(
-                    message: 'Commencer l\'analyse.',
+                    message: context.l10n.homeScreenStartAnalysisBtn,
                     child: ElevatedButton.icon(
                       icon: const Icon(Icons.camera_enhance_rounded),
-                      label: const Text('Analyser un repas'),
+                      label: Text(context.l10n.homeScreenStartAnalysisBtn),
                       onPressed: () =>
                           _navigateAndRefresh(context, CameraScreen()),
                     ),

@@ -6,7 +6,7 @@ import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/services/database_service.dart';
 import 'package:macro_vision/widgets/analysis_list.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart'; // Pour réutiliser l'écran de résultat
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 // N'oubliez pas d'ajouter 'intl' dans pubspec.yaml si ce n'est pas déjà fait!
 
@@ -34,7 +34,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     });
 
     if (mounted) {
-      showSnackBar(context, 'Historique mis à jour.', false);
+      showSnackBar(context, context.l10n.successUpdate('history'), false);
     }
   }
 
@@ -49,11 +49,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         await File(entry.imagePath).delete();
       } catch (e) {
         if (mounted) {
-          showSnackBar(
-            context,
-            'Erreur de suppression du fichier local.',
-            true,
-          );
+          showSnackBar(context, context.l10n.errorDelete, true);
         }
       }
       _refresh(); // Rafraîchir l'interface
@@ -62,7 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     if (mounted) {
       showSnackBar(
         context,
-        'L\'entrée du ${formatDate(date)} a été supprimée de l\'historique.',
+        context.l10n.historyScreenDeleteSuccessLbl(formatDate(date)),
         false,
       );
     }
@@ -72,7 +68,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Historique des analyses',
+        title: context.l10n.historyScreenTitle,
         // Ajoutez un bouton de rafraîchissement si nécessaire
         actions: [
           IconButton(

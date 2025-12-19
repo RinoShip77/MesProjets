@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:macro_vision/utils/global_key.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Pour la persistance locale
 
 // 1. Définition des modes de thème possibles pour la sélection utilisateur
@@ -6,28 +7,57 @@ enum ThemeModeOption { system, light, dark, custom }
 
 // 2. Définition de la structure d'un thème personnalisé
 class CustomTheme {
-  final String name;
+  final String name; // On utilise un ID technique au lieu du nom affiché
   final MaterialColor color;
 
   const CustomTheme(this.name, this.color);
+
+  // 💡 NOUVEAU : Méthode pour obtenir le nom traduit SANS BuildContext
+  // String get name {
+  //   try {
+  //     final l10n = globalL10n;
+      
+  //     return l10n.appCustomThemeOption(id);
+  //     // // On mappe l'ID vers la clé ARB correspondante
+  //     // return switch (id) {
+  //     //   "mint" => l10n.themeColorMint,
+  //     //   "ocean" => l10n.themeColorOcean,
+  //     //   "passion" => l10n.themeColorPassion,
+  //     //   "neon" => l10n.themeColorNeon,
+  //     //   "platine" => l10n.themeColorPlatine,
+  //     //   "merlot" => l10n.themeColorNeon,
+  //     //   "citron" => l10n.themeColorNeon,
+  //     //   "lime" => l10n.themeColorNeon,
+  //     //   "paon" => l10n.themeColorNeon,
+  //     //   "azur" => l10n.themeColorNeon,
+  //     //   "bonbon" => l10n.themeColorNeon,
+  //     //   "citrouille" => l10n.themeColorNeon,
+  //     //   "lapis" => l10n.themeColorNeon,
+  //     //   "ecarlate" => l10n.themeColorNeon,
+  //     //   _ => id, // Fallback sur l'ID si pas de traduction
+  //     // };
+  //   } catch (e) {
+  //     return id; // Si globalL10n n'est pas prêt, on affiche l'ID
+  //   }
+  // }
 }
 
 // Liste des thèmes personnalisés disponibles
 const List<CustomTheme> customThemes = [
-  CustomTheme("Menthe", Colors.green),
-  CustomTheme("Océan", Colors.blue),
-  CustomTheme("Passion", Colors.red),
-  CustomTheme("Néon", Colors.purple),
-  CustomTheme("Platine", Colors.grey),
-  CustomTheme("Merlot", Colors.brown),
-  CustomTheme("Citron", Colors.yellow),
-  CustomTheme("Platine", Colors.lime),
-  CustomTheme("Paon", Colors.cyan),
-  CustomTheme("Azur", Colors.teal),
-  CustomTheme("Bonbon", Colors.pink),
-  CustomTheme("Citrouille", Colors.orange),
-  CustomTheme("Lapis", Colors.indigo),
-  CustomTheme("Écarlate", Colors.deepOrange),
+  CustomTheme("mint", Colors.green),
+  CustomTheme("ocean", Colors.blue),
+  CustomTheme("passion", Colors.red),
+  CustomTheme("neon", Colors.purple),
+  CustomTheme("platinum", Colors.grey),
+  CustomTheme("merlot", Colors.brown),
+  CustomTheme("lemon", Colors.yellow),
+  CustomTheme("lime", Colors.lime),
+  CustomTheme("peacock", Colors.cyan),
+  CustomTheme("azure", Colors.teal),
+  CustomTheme("candy", Colors.pink),
+  CustomTheme("pumpkin", Colors.orange),
+  CustomTheme("lapis", Colors.indigo),
+  CustomTheme("scarlet", Colors.deepOrange),
 ];
 
 class PrefKeys {

@@ -7,7 +7,7 @@ import 'package:macro_vision/services/nutrition_calculator.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/models/user_profile.dart';
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -29,7 +29,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   //TODO: Send this to the model and make it an enum
   // Liste des objectifs pour le Dropdown
-  final List<String> _goals = ['weightLoss', 'muscleGain', 'maintain'];
+  final List<String> _goals = ['Perte de poids', 'Gain musculaire', 'Maintien'];
+  // final List<String> _goals = ['weightLoss', 'muscleGain', 'maintain'];
 
   // Constantes de Conversion
   static const double _kgToLbs = 2.20462;
@@ -158,7 +159,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return Scaffold(
-        appBar: CustomAppBar(title: context.l10n.titleProfile),
+        appBar: CustomAppBar(title: context.l10n.profileScreenTitle),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -166,13 +167,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     // Détermination des unités pour les labels
     final String weightUnit = _profile.isMetric ? 'kg' : 'lb';
     final String heightUnit = _profile.isMetric ? 'cm' : 'in';
-    _goals.map((String goal) {
-      print(context.l10n.titleProfileGoal(goal));
-      print(Text(context.l10n.titleProfileGoal(goal)));
-    }).toList();
 
     return Scaffold(
-      appBar: CustomAppBar(title: context.l10n.titleProfile),
+      appBar: CustomAppBar(title: context.l10n.profileScreenTitle),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -186,14 +183,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 'Impérial (lbs, pouces)',
               ),
               child: SwitchListTile(
-                title: const Text(
-                  'Système d\'unités',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                title: Text(
+                  context.l10n.profileScreenUnitSystemLbl,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
                   _profile.isMetric
-                      ? 'Métrique (kg, cm)'
-                      : 'Impérial (lbs, pouces)',
+                      ? context.l10n.profileScreenUnitOption('metric')
+                      : context.l10n.profileScreenUnitOption('imperial'),
                 ),
                 value: _profile.isMetric,
                 onChanged: (bool newValue) {
@@ -215,7 +212,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             // Nom
             buildTextField(
               controller: _nameController,
-              label: 'Nom d\'utilisateur',
+              label: context.l10n.profileScreenNameLbl,
               keyboardType: TextInputType.name,
               formatters: null, // Pas de formatage spécifique pour le texte
             ),
@@ -223,7 +220,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             // Poids (kg / lbs) - Utilise l'unité dynamique
             buildTextField(
               controller: _weightController,
-              label: 'Poids ($weightUnit)',
+              label: context.l10n.profileScreenWeightLbl(weightUnit),
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
@@ -233,7 +230,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               validator: (val) =>
                   val == null ||
                       double.tryParse(val.replaceAll(',', '.')) == null
-                  ? 'Entrez un poids valide.'
+                  ? context.l10n.warningFormValidation('weight')
                   : null,
             ),
 
@@ -250,7 +247,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               validator: (val) =>
                   val == null ||
                       double.tryParse(val.replaceAll(',', '.')) == null
-                  ? 'Entrez une grandeur valide.'
+                  ? context.l10n.warningFormValidation('height')
                   : null,
             ),
 
@@ -261,7 +258,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               keyboardType: TextInputType.number,
               formatters: [FilteringTextInputFormatter.digitsOnly],
               validator: (val) => val == null || int.tryParse(val) == null
-                  ? 'Entrez un âge valide.'
+                  ? context.l10n.warningFormValidation('age')
                   : null,
             ),
 
@@ -269,12 +266,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             // TODO: Envoyer cette fonction de un fichier "helpers.dart"
             // Genre (Dropdown)
             DropdownButtonFormField<Gender>(
-              decoration: InputDecoration(labelText: 'Sexe'),
+              decoration: InputDecoration(labelText: context.l10n.profileScreenGenderLbl),
               initialValue: _profile.gender,
               items: Gender.values.map((Gender gender) {
                 return DropdownMenuItem<Gender>(
                   value: gender,
-                  child: Text(gender == Gender.male ? 'Homme' : 'Femme'),
+                  child: Text(gender == Gender.male ? context.l10n.profileScreenGenderOption('male') : context.l10n.profileScreenGenderOption('female')),
                 );
               }).toList(),
               onChanged: (Gender? newValue) {
@@ -291,14 +288,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             // Niveau d'Activité (Dropdown)
             DropdownButtonFormField<ActivityLevel>(
               decoration: InputDecoration(
-                labelText: 'Niveau d\'activité physique',
+                labelText: context.l10n.profileScreenActivityLevelLbl,
               ),
               initialValue: _profile.activityLevel,
               items: ActivityLevel.values.map((ActivityLevel level) {
                 return DropdownMenuItem<ActivityLevel>(
                   value: level,
                   // Utilise le service pour afficher les noms clairs
-                  child: Text(NutritionCalculator.getActivityName(level)),
+                  child: Text(context.l10n.profileScreenActivityLevelOption(level.name)),
                 );
               }).toList(),
               onChanged: (ActivityLevel? newValue) {
@@ -313,19 +310,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             const SizedBox(height: 15),
 
             // Objectif (Dropdown)
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(labelText: 'Objectif Principal'),
+            DropdownButtonFormField<Goal>(
+              decoration: InputDecoration(
+                labelText: context.l10n.profileScreenGoalLbl,
+              ),
               initialValue: _profile.goal,
-              // items: _goals.map((String goal) {
-              //   return DropdownMenuItem<String>(
-              //     value: context.l10n.titleProfileGoal(goal),
-              //     child: Text(context.l10n.titleProfileGoal(goal)),
-              //   );
-              // }).toList(),
-              items: _goals.map((String goal) {
-                return DropdownMenuItem<String>(value: goal, child: Text(goal));
+              items: Goal.values.map((Goal level) {
+                return DropdownMenuItem<Goal>(
+                  value: level,
+                  // Utilise le service pour afficher les noms clairs
+                  child: Text(context.l10n.profileScreenGoalOption(level.name)),
+                );
               }).toList(),
-              onChanged: (String? newValue) {
+              onChanged: (Goal? newValue) {
                 if (newValue != null) {
                   setState(() {
                     _profile.goal = newValue;
@@ -333,6 +330,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 }
               },
             ),
+            
+            // // Objectif (Dropdown)
+            // DropdownButtonFormField<String>(
+            //   decoration: InputDecoration(labelText: context.l10n.profileScreenGoalLbl),
+            //   initialValue: _profile.goal,
+            //   // items: _goals.map((String goal) {
+            //   //   return DropdownMenuItem<String>(
+            //   //     value: context.l10n.titleProfileGoal(goal),
+            //   //     child: Text(context.l10n.titleProfileGoal(goal)),
+            //   //   );
+            //   // }).toList(),
+            //   items: _goals.map((String goal) {
+            //     return DropdownMenuItem<String>(value: goal, child: Text(goal));
+            //   }).toList(),
+            //   onChanged: (String? newValue) {
+            //     if (newValue != null) {
+            //       setState(() {
+            //         _profile.goal = newValue;
+            //       });
+            //     }
+            //   },
+            // ),
 
             Divider(),
 
@@ -342,14 +361,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 // Accès à l'Historique
                 Tooltip(
                   // Wrap the entire tile with a Tooltip
-                  message: context.l10n.titleBtnSeeHistory, // The help message
+                  message: context.l10n.appSeeHistoryBtn, // The help message
                   child: OutlinedButton(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         const Icon(Icons.history_rounded),
                         SizedBox(width: 8),
-                        Text(context.l10n.titleBtnSeeHistory),
+                        Text(context.l10n.appSeeHistoryBtn),
                         Spacer(),
                         const Icon(Icons.arrow_forward_ios_rounded),
                       ],
@@ -362,10 +381,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
                 // Bouton de Sauvegarde
                 Tooltip(
-                  message: context.l10n.titleBtnSave('le profil'),
+                  message: context.l10n.appSaveBtn('le profil'),
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.save_alt_rounded),
-                    label: Text(context.l10n.titleBtnSave('le profil')),
+                    label: Text(context.l10n.appSaveBtn('le profil')),
                     onPressed: () => _saveUserProfile(),
                   ),
                 ),

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:macro_vision/helpers/helpers.dart';
+import 'package:macro_vision/services/gemini_service.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:macro_vision/models/nutritional_facts.dart';
@@ -9,7 +10,7 @@ import 'package:macro_vision/services/theme_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/models/user_profile.dart'; // Import pour UserProfile
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 class ResultScreen extends StatefulWidget {
   final NutritionalFacts initialFacts;
@@ -112,23 +113,25 @@ class _ResultScreenState extends State<ResultScreen> {
         ).toStringAsFixed(0);
       });
 
-      // *********************************************************
-      // ?????????????????????????????????????????????????????????
-      //!: I'm here in the translation
-      // ?????????????????????????????????????????????????????????
-      // *********************************************************
-      final String portionUnit = _isMetric ? 'g' : 'lbs';
+      final String portionUnit = _isMetric ? 'g' : 'lb';
 
       if (mounted) {
         showSnackBar(
           context,
-          'Analyse ajustée pour ${_weightController.text} $portionUnit.',
+          context.l10n.resultScreenRefineAnalysisLbl(
+            _weightController.text,
+            portionUnit,
+          ),
           false,
         );
       }
     } else {
       if (mounted) {
-        showSnackBar(context, 'Veuillez entrer un poids valide.', true);
+        showSnackBar(
+          context,
+          context.l10n.warningFormValidation('weight'),
+          true,
+        );
       }
     }
   }
@@ -148,19 +151,21 @@ class _ResultScreenState extends State<ResultScreen> {
           // Affichage en Kilojoules (kJ)
           energyUnit = 'kJ';
           energyValue = caloriesInKcal * _kJConversionFactor;
-          switchLabel = 'Afficher en kcal/cal';
+          switchLabel = context.l10n.resultScreenSwitchLbl(energyUnit);
+          // switchLabel = 'Afficher en kcal/cal';
         } else {
           // Affichage en Kilocalories (kcal)
           energyUnit = 'cal';
           energyValue = caloriesInKcal;
-          switchLabel = 'Afficher en kJ';
+          switchLabel = context.l10n.resultScreenSwitchLbl(energyUnit);
+          // switchLabel = 'Afficher en kJ';
         }
 
         // NOUVEAU: Déterminer l'unité et le label pour la portion
         final String portionUnit = _isMetric ? 'g' : 'lbs';
-        final String portionLabel = _isMetric
-            ? 'Poids réel ($portionUnit)'
-            : 'Poids réel ($portionUnit)';
+        final String portionLabel = context.l10n.resultScreenPortionLbl(
+          portionUnit,
+        );
         final double initialDisplayPortion = _getDisplayPortion(
           widget.initialFacts.portionInGrams,
         );
@@ -170,7 +175,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
         return Scaffold(
           appBar: CustomAppBar(
-            title: 'Résultats de l\'analyse',
+            title: context.l10n.resultScreenTitle,
             backButton: true,
           ),
           body: Stack(
@@ -204,7 +209,14 @@ class _ResultScreenState extends State<ResultScreen> {
                     if (!origin.contains('History')) ...{
                       // --- AJUSTEMENT DE LA PORTION (avec unité dynamique) ---
                       Text(
-                        'Portion estimée par l\'IA: ${formatNumber(initialDisplayPortion, fractionDigits: 0)} $portionUnit',
+                        context.l10n.resultScreenEstimatedWeightLbl(
+                          formatNumber(
+                            initialDisplayPortion,
+                            fractionDigits: 0,
+                          ),
+                          portionUnit,
+                        ),
+                        // 'Portion estimée par l\'IA: ${formatNumber(initialDisplayPortion, fractionDigits: 0)} $portionUnit',
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(fontStyle: FontStyle.italic),
                       ),
@@ -241,7 +253,9 @@ class _ResultScreenState extends State<ResultScreen> {
                                 vertical: 15,
                               ),
                             ),
-                            child: const Text('Ajuster l\'analyse'),
+                            child: Text(
+                              context.l10n.resultScreenRefineAnalysisBtn,
+                            ),
                           ),
                         ],
                       ),
@@ -276,7 +290,7 @@ class _ResultScreenState extends State<ResultScreen> {
                           children: [
                             // --- Titre (avec unité dynamique) ---
                             Text(
-                              'Analyse Nutritionnelle pour ${formatNumber(currentDisplayPortion, fractionDigits: 0)}$portionUnit',
+                              'Analyse nutritionnelle pour ${formatNumber(currentDisplayPortion, fractionDigits: 0)} $portionUnit',
                               style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
@@ -284,9 +298,17 @@ class _ResultScreenState extends State<ResultScreen> {
                             Divider(),
 
                             // Affichage de l'Énergie avec la valeur et l'unité dynamique
+                            if(_useKilojoules)
                             buildFactRow(
                               context,
-                              'Énergie',
+                              context.l10n.resultScreenAnalysisOutputLbl('energy'),
+                              energyValue,
+                              energyUnit,
+                            ),
+                            if(!_useKilojoules)
+                            buildFactRow(
+                              context,
+                              context.l10n.resultScreenAnalysisOutputLbl('calories'),
                               energyValue,
                               energyUnit,
                             ),
@@ -297,70 +319,70 @@ class _ResultScreenState extends State<ResultScreen> {
                             // --- Détails des Macronutriments ---
                             buildFactRow(
                               context,
-                              'Matières grasses totales',
+                              context.l10n.resultScreenAnalysisOutputLbl('totalFat'),
                               _currentFacts.totalFat,
                               'g',
                             ),
 
                             buildSubFactRow(
                               context,
-                              'Graisses saturées',
+                              context.l10n.resultScreenAnalysisOutputLbl('saturatedFat'),
                               _currentFacts.saturatedFat,
                               'g',
                             ),
 
                             buildSubFactRow(
                               context,
-                              'Graisses trans',
+                              context.l10n.resultScreenAnalysisOutputLbl('transFat'),
                               _currentFacts.transFat,
                               'g',
                             ),
 
                             buildFactRow(
                               context,
-                              'Cholestérol',
+                              context.l10n.resultScreenAnalysisOutputLbl('cholesterol'),
                               _currentFacts.cholesterol,
                               'mg',
                             ),
 
                             buildFactRow(
                               context,
-                              'Sodium',
+                              context.l10n.resultScreenAnalysisOutputLbl('sodium'),
                               _currentFacts.sodium,
                               'mg',
                             ),
 
                             buildFactRow(
                               context,
-                              'Potassium',
+                              context.l10n.resultScreenAnalysisOutputLbl('potassium'),
                               _currentFacts.potassium,
                               'mg',
                             ),
 
                             buildFactRow(
                               context,
-                              'Glucides totaux',
+                              context.l10n.resultScreenAnalysisOutputLbl('totalCarbohydrate'),
                               _currentFacts.totalCarbohydrates,
                               'g',
                             ),
 
                             buildSubFactRow(
                               context,
-                              'Fibres alimentaires',
+                              context.l10n.resultScreenAnalysisOutputLbl('dietaryFiber'),
                               _currentFacts.dietaryFiber,
                               'g',
                             ),
 
                             buildSubFactRow(
                               context,
-                              'Sucres',
+                              context.l10n.resultScreenAnalysisOutputLbl('sugar'),
                               _currentFacts.sugar,
                               'g',
                             ),
 
                             buildFactRow(
                               context,
-                              'Protéines',
+                              context.l10n.resultScreenAnalysisOutputLbl('protein'),
                               _currentFacts.protein,
                               'g',
                             ),
@@ -380,7 +402,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             message: '',
                             child: ElevatedButton.icon(
                               icon: const Icon(Icons.add_a_photo_rounded),
-                              label: const Text('Analyser une nouvelle photo'),
+                              label: Text(context.l10n.resultScreenNewAnalysisBtn),
                               onPressed: () =>
                                   saveAndReturn(context, _currentFacts),
                             ),

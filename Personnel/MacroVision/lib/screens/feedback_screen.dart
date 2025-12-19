@@ -4,7 +4,7 @@ import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 // Import de la fonction Toast si vous l'avez centralisée
 // import 'package:macro_vision/helpers/helpers.dart';
@@ -48,7 +48,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       if (mounted) {
         showSnackBar(
           context,
-          'L\'adresse e-mail de feedback est manquante.',
+          context.l10n.errorNoRecipientEmailLbl,
           true,
           duration: 5000,
         );
@@ -84,7 +84,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           // Toast de succès (si la fonction est importée)
           showSnackBar(
             context,
-            'Ouverture de l\'application de messagerie.',
+            context.l10n.feedbackScreenOpeningEmailLbl,
             false,
           );
         }
@@ -96,7 +96,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           // Le cas où l'appareil n'a pas de client email configuré
           showSnackBar(
             context,
-            'Impossible d\'ouvrir l\'application d\'e-mail.',
+            context.l10n.errorNoEmailClientLbl,
             true,
             duration: 5000,
           );
@@ -109,7 +109,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       }
     } catch (e) {
       if (mounted) {
-        showSnackBar(context, 'Erreur lors de l\'envoi du feedback : $e', true);
+        showSnackBar(context, context.l10n.errorSend, true);
       }
     } finally {
       setState(() {
@@ -132,7 +132,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Vos Commentaires'),
+      appBar: CustomAppBar(title: context.l10n.feedbackScreenTitle),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -140,6 +140,11 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              //*************************************************/
+              //??????????????????????????????????????????????????
+              //!!!!!!!!!!I'm here for the translation!!!!!!!!!!!!
+              //??????????????????????????????????????????????????
+              //*************************************************/
               const Text(
                 "J'apprécie vos retours ! Aidez-moi à améliorer MacroVision.",
                 style: TextStyle(fontSize: 16),

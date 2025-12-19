@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:macro_vision/screens/home_screen.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart'; // Pour pouvoir relancer MacroVisionApp
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 // =========================================================================
 // WIDGET D'ERREUR CRITIQUE (ErrorScreen)

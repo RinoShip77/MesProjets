@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:macro_vision/config/l10n/app_localizations.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/main.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:macro_vision/services/theme_provider.dart';
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
-
-  // Liste des options de langue disponibles
-  final Map<String, Locale> availableLocales = const {
-    'Français (Canada)': Locale('fr'),
-    'English (Canada)': Locale('en'),
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +25,24 @@ class SettingsScreen extends StatelessWidget {
       // Si tu as ajouté "languageName" dans tes fichiers ARB,
       // l'idéal serait d'afficher le nom de la langue.
       // Sinon, on affiche le code pays ou langue.
-      if (locale.languageCode == context.l10n.localeName) {
-        return context.l10n.nameLanguage;
+      if (locale.languageCode == 'fr') {
+        return context.l10n.appLanguageName('fr');
       }
-      if (locale.languageCode == context.l10n.localeName) {
-        return context.l10n.nameLanguage;
+      if (locale.languageCode == 'en') {
+        return context.l10n.appLanguageName('en');
       }
       return locale.languageCode.toUpperCase();
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: context.l10n.titleSettings),
+      appBar: CustomAppBar(title: context.l10n.settingsScreenTitle),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              context.l10n.titleSettingsSections('language'),
+              context.l10n.settingsScreenSectionLbl('language'),
               style: Theme.of(context).textTheme.titleLarge,
             ),
 
@@ -55,7 +50,7 @@ class SettingsScreen extends StatelessWidget {
 
             ListTile(
               title: Text(
-                context.l10n.titleLanguageSelect,
+                context.l10n.settingsScreenLanguageSelectLbl,
               ), // Nouvelle clé ARB : "languageSettingTitle"
               trailing: DropdownButton<Locale>(
                 value:
@@ -80,7 +75,7 @@ class SettingsScreen extends StatelessWidget {
             const Divider(),
 
             Text(
-              context.l10n.titleSettingsSections('luminosity'),
+              context.l10n.settingsScreenSectionLbl('luminosity'),
               style: Theme.of(context).textTheme.titleLarge,
             ),
 
@@ -88,21 +83,21 @@ class SettingsScreen extends StatelessWidget {
 
             // Section 1: Mode Clair / Sombre / Système
             buildThemeOption(
-              title: context.l10n.titleSettingsLuminosity('default'),
+              title: context.l10n.settingsScreenLuminosityOption('default'),
               target: ThemeModeOption.system,
               current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
             ),
 
             buildThemeOption(
-              title: context.l10n.titleSettingsLuminosity('light'),
+              title: context.l10n.settingsScreenLuminosityOption('light'),
               target: ThemeModeOption.light,
               current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
             ),
 
             buildThemeOption(
-              title: context.l10n.titleSettingsLuminosity('dark'),
+              title: context.l10n.settingsScreenLuminosityOption('dark'),
               target: ThemeModeOption.dark,
               current: themeProvider.themeModeOption,
               onChanged: themeProvider.setThemeMode,
@@ -111,7 +106,7 @@ class SettingsScreen extends StatelessWidget {
             const SizedBox(height: 30),
 
             Text(
-              context.l10n.titleSettingsSections('color'),
+              context.l10n.settingsScreenSectionLbl('color'),
               style: Theme.of(context).textTheme.titleLarge,
             ),
 
@@ -120,7 +115,7 @@ class SettingsScreen extends StatelessWidget {
             // Section 2: Choix du thème personnalisé
             ...customThemes.map(
               (customTheme) => buildThemeOption(
-                title: customTheme.name,
+                title: context.l10n.settingsScreenCustomThemeOption(customTheme.name),
                 target: customTheme,
                 current: themeProvider.customTheme,
                 onChanged: themeProvider.setCustomTheme,

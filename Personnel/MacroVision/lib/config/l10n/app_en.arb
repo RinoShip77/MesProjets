@@ -1,61 +1,62 @@
 {
     "@@locale": "en",
-    "nameLanguage": "English",
-    "@nameLanguage": {
-        "description": "The complete name of the language"
-    },
-    "titleLanguageSelect": "Language",
-    "@titleLanguageSelect": {
-        "description": "The title to select the language"
-    },
-    "titleUserGuide": "User Guide",
-    "@titleUserGuide": {
-        "description": "The title for the user guide"
-    },
-    "successUpdate": "{context} has been successfully updated",
-    "@successUpdate": {
-        "description": "Success message after updating a specific element",
-        "placeholders": {
-            "context": {
-                "type": "String"
-            }
-        }
-    },
-    "warningEmptyData": "No data available",
-    "@warningEmptyData": {
-        "description": "A warning for empty data"
-    },
-    "errorGlobal": "An error occurred",
-    "@errorGlobal": {
-        "description": "A global error message"
-    },
-    "errorReadUserGuide": "Error: Unable to read user guide",
-    "@errorReadUserGuide": {
-        "description": "An error message for the user guide"
-    },
-    "errorLoadingAssets": "Error: Unable to load file",
-    "@errorLoadingAssets": {
-        "description": "An error message for the loading of an asset"
-    },
-    "errorForm": "Form error. Please check your entries",
-    "@errorForm": {
-        "description": "Message displayed when a form validation fails"
-    },
-    "errorLoadingContent": "Error loading data",
-    "@errorLoadingContent": {
-        "description": "An error message for the loading of the data"
-    },
-    "titleSettingsSections": "{target, select, language{App Language} luminosity{App Brightness} color{Custom Colors} other{Settings}}",
-    "@titleSettingsSections": {
-        "description": "The title to display regarding the context",
+    "@@comment": "This file contains the set of constants for the EN translation",
+    "appLanguageName": "{target, select, fr{French} en{English} other{Unsupported language}}",
+    "@appLanguageName": {
+        "description": "The name of the application language",
         "placeholders": {
             "target": {
                 "type": "String"
             }
         }
     },
-    "titleDailyAnalisis": "{count, plural, zero{No analysis} one{Analysis (1)} other{Analyses ({count})}}",
-    "@titleDailyAnalisis": {
+    "appUserGuideLbl": "User Guide",
+    "@appUserGuideLbl": {
+        "description": "The title for the user guide"
+    },
+    "btnSaveLbl": "Save {context}",
+    "@btnSaveLbl": {
+        "description": "Label for the save button with context",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSeeHistoryLbl": "View History",
+    "@btnSeeHistoryLbl": {
+        "description": "Label for the button to view history"
+    },
+    "dashboardScreenTitle": "Dashboard",
+    "@dashboardScreenTitle": {
+        "description": "Title for the main dashboard"
+    },
+    "errorForm": "Form error. Please check your entries",
+    "@errorForm": {
+        "description": "Message displayed when a form validation fails"
+    },
+    "errorGlobal": "An error occurred",
+    "@errorGlobal": {
+        "description": "A global error message"
+    },
+    "errorLoadingAssets": "Error: Unable to load file",
+    "@errorLoadingAssets": {
+        "description": "An error message for the loading of an asset"
+    },
+    "errorLoadingContent": "Error loading data",
+    "@errorLoadingContent": {
+        "description": "An error message for the loading of the data"
+    },
+    "errorReadUserGuide": "Error: Unable to read user guide",
+    "@errorReadUserGuide": {
+        "description": "An error message for the user guide"
+    },
+    "feedbackScreenTitle": "Feedback",
+    "@feedbackScreenTitle": {
+        "description": "Title for the feedback section"
+    },
+    "homeScreenDailyAnalisisLbl": "{count, plural, zero{No analysis} one{Analysis (1)} other{Analyses ({count})}}",
+    "@homeScreenDailyAnalisisLbl": {
         "description": "Title showing the number of daily analyses",
         "placeholders": {
             "count": {
@@ -63,37 +64,117 @@
             }
         }
     },
-    "titleSettings": "Settings",
-    "@titleSettings": {
-        "description": "Title for the settings screen"
-    },
-    "titleHistory": "History",
-    "@titleHistory": {
-        "description": "Title for the history screen"
-    },
-    "titleDashboard": "Dashboard",
-    "@titleDashboard": {
-        "description": "Title for the main dashboard"
-    },
-    "titleHome": "Home",
-    "@titleHome": {
-        "description": "Title for the home screen"
-    },
-    "titleCamera": "Camera",
-    "@titleCamera": {
-        "description": "Title for the camera section"
-    },
-    "titleFeedback": "Feedback",
-    "@titleFeedback": {
-        "description": "Title for the feedback section"
-    },
-    "titleDailySummary": "Daily Summary",
-    "@titleDailySummary": {
+    "homeScreenDailySummaryLbl": "Daily Summary",
+    "@homeScreenDailySummaryLbl": {
         "description": "Title for the daily summary section"
     },
-    "titleBtnSeeHistory": "View History",
-    "@titleBtnSeeHistory": {
-        "description": "Label for the button to see history"
+    "homeScreenTitle": "Home",
+    "@homeScreenTitle": {
+        "description": "Title for the home screen"
+    },
+    "profileScreenGenderOption": "{target, select, male{Homme} female{Femme} other{Autre}}",
+    "@profileScreenGenderOption": {
+        "description": "Selection of the user's gender",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGoalOption": "{target, select, weightLoss{Weight Loss} muscleGain{Muscle Gain} maintain{Maintenance} other{None}}",
+    "@profileScreenGoalOption": {
+        "description": "Selection of the user's fitness goal",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenHeightLbl": "Height ({unit})",
+    "@profileScreenHeightLbl": {
+        "description": "Label for the height input with unit",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenInpLbl": "{target, select, weight{Weight ({unit})} height{Height ({unit})} other{{unit}}}",
+    "@profileScreenInpLbl": {
+        "description": "Dynamic label for profile inputs",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenNameLbl": "Username",
+    "@profileScreenNameLbl": {
+        "description": "Label for the user's name in the profile"
+    },
+    "profileScreenTitle": "Profile",
+    "@profileScreenTitle": {
+        "description": "Title for the profile screen"
+    },
+    "profileScreenUnitOption": "{unit, select, metric{Metric} imperial{Imperial} other{None}}",
+    "@profileScreenUnitOption": {
+        "description": "Options for the unit system",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenUnitSystemLbl": "Unit System",
+    "@profileScreenUnitSystemLbl": {
+        "description": "Title for the unit system preference"
+    },
+    "profileScreenWeightLbl": "Weight ({unit})",
+    "@profileScreenWeightLbl": {
+        "description": "Label for the weight input with unit",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenCustomThemeOption": "{color, select, mint{Mint} ocean{Ocean} passion{Passion} neon{Neon} platinum{Platinum} merlot{Merlot} lemon{Lemon} lime{Lime} peacock{Peacock} azure{Azure} candy{Candy} pumpkin{Pumpkin} lapis{Lapis} scarlet{Scarlet} other{Color}}",
+    "@settingsScreenCustomThemeOption": {
+        "description": "Selection of the custom theme for the app",
+        "placeholders": {
+            "color": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenLanguageSelectLbl": "Language",
+    "@settingsScreenLanguageSelectLbl": {
+        "description": "The label to select the language"
+    },
+    "settingsScreenLuminosityOption": "{target, select, default{System Default} light{Light Mode} dark{Dark Mode} other{None}}",
+    "@settingsScreenLuminosityOption": {
+        "description": "Selection of the app brightness mode",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenSectionLbl": "{target, select, language{App Language} luminosity{App Brightness} color{Custom Colors} other{Settings}}",
+    "@settingsScreenSectionLbl": {
+        "description": "The title to display regarding the settings section",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenTitle": "Settings",
+    "@settingsScreenTitle": {
+        "description": "Title for the settings screen"
     },
     "statsCalorie": "{count, plural, zero{Calorie: 0} one{Calorie: 1} other{Calories: {count}}}",
     "@statsCalorie": {
@@ -104,13 +185,14 @@
             }
         }
     },
-    "titleProfile": "Profile",
-    "@titleProfile": {
-        "description": "Title for the profile screen"
-    },
-    "titleProfileUnitSystem": "Unit System",
-    "@titleProfileUnitSystem": {
-        "description": "Title for the unit system preference"
+    "successUpdate": "{context} has been successfully updated",
+    "@successUpdate": {
+        "description": "Success message after updating a specific element",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
     },
     "tooltipSwitch": "{option1} or {option2}",
     "@tooltipSwitch": {
@@ -124,31 +206,13 @@
             }
         }
     },
-    "titleBtnSave": "Save {context}",
-    "@titleBtnSave": {
-        "description": "Label for the save button with context",
-        "placeholders": {
-            "context": {
-                "type": "String"
-            }
-        }
+    "warningEmptyData": "No data",
+    "@warningEmptyData": {
+        "description": "A warning when no data is available"
     },
-    "titleSettingsLuminosity": "{target, select, default{System Default} light{Light Mode} dark{Dark Mode} other{None}}",
-    "@titleSettingsLuminosity": {
-        "description": "Selection of the app brightness mode",
-        "placeholders": {
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "titleProfileName": "Name",
-    "@titleProfileName": {
-        "description": "Label for the user's name in profile"
-    },
-    "titleProfileGoal": "{target, select, weightLoss{Weight Loss} muscleGain{Muscle Gain} maintain{Maintenance} other{None}}",
-    "@titleProfileGoal": {
-        "description": "Selection of the user's fitness goal",
+    "warningFormValidation": "{target, select, weight{Enter a valid weight} height{Enter a valid height} age{Enter a valid age} other{Invalid input}}",
+    "@warningFormValidation": {
+        "description": "Validation messages for form fields",
         "placeholders": {
             "target": {
                 "type": "String"

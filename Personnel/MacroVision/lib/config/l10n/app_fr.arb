@@ -1,61 +1,93 @@
 {
     "@@locale": "fr",
-    "nameLanguage": "Français",
-    "@nameLanguage": {
-        "description": "Le nom complet de la langue"
-    },
-    "titleLanguageSelect": "Langue",
-    "@titleLanguageSelect": {
-        "description": "Le titre pour la sélection de la langue"
-    },
-    "titleUserGuide": "Guide d'utilisation",
-    "@titleUserGuide": {
-        "description": "Le titre pour le guide d'utilisation"
-    },
-    "successUpdate": "Le {context} a été mis à jour avec succès",
-    "@successUpdate": {
-        "description": "Message de succès après la mise à jour d'un élément spécifique",
-        "placeholders": {
-            "context": {
-                "type": "String"
-            }
-        }
-    },
-    "warningEmptyData": "Aucune données",
-    "@warningEmptyData": {
-        "description": "Un avertissement lorsqu'aucune donnée n'est disponible"
-    },
-    "errorGlobal": "Une erreur s'est produite",
-    "@errorGlobal": {
-        "description": "Un message d'erreur global"
-    },
-    "errorReadUserGuide": "Erreur: Impossible de lire le guide utilisateur",
-    "@errorReadUserGuide": {
-        "description": "Message d'erreur pour le guide utilisateur"
-    },
-    "errorLoadingAssets": "Erreur: Impossible de charger le fichier",
-    "@errorLoadingAssets": {
-        "description": "Message d'erreur lors du chargement d'une ressource"
-    },
-    "errorForm": "Erreur dans le formulaire. Veuillez vérifier vos entrées",
-    "@errorForm": {
-        "description": "Message affiché lorsqu'une validation de formulaire échoue"
-    },
-    "errorLoadingContent": "Erreur de chargement des données",
-    "@errorLoadingContent": {
-        "description": "Message d'erreur lors du chargement des données"
-    },
-    "titleSettingsSections": "{target, select, language{Langue de l'application} luminosity{Luminosité de l'application} color{Couleurs personnalisées} other{Paramètres}}",
-    "@titleSettingsSections": {
-        "description": "Le titre à afficher selon le contexte des paramètres",
+    "@@comment": "Ce fichier contient l'ensemble des constantes pour la traduction en FR",
+    "appDialogTitle": "{target, select, legalWarning{Avertissement légale} userGuide{Guide de l'utilisateur} other{Langue non supportée}}",
+    "@appDialogTitle": {
+        "description": "Le titre pour les boîte de dialogue",
         "placeholders": {
             "target": {
                 "type": "String"
             }
         }
     },
-    "titleDailyAnalisis": "{count, plural, zero{Aucune analyse} one{Analyse (1)} other{Analyses ({count})}}",
-    "@titleDailyAnalisis": {
+    "appLanguageName": "{target, select, fr{Français} en{Anglais} other{Langue non supportée}}",
+    "@appLanguageName": {
+        "description": "Le nom de la langue de l'application",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "appLoadingLbl": "Initialisation...",
+    "appSaveBtn": "Sauvegarder {context}",
+    "@appSaveBtn": {
+        "description": "Libellé du bouton de sauvegarde avec contexte",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "appSeeHistoryBtn": "Voir l'historique",
+    "@appSeeHistoryBtn": {
+        "description": "Libellé du bouton pour consulter l'historique"
+    },
+    "dashboardScreenTitle": "Tableau de bord",
+    "@dashboardScreenTitle": {
+        "description": "Titre pour le tableau de bord principal"
+    },
+    "errorDelete": "Erreur de suppression",
+    "@errorDelete": {
+        "description": "Message d'erreur lors de la suppression"
+    },
+    "errorForm": "Erreur dans le formulaire. Veuillez vérifier vos entrées",
+    "@errorForm": {
+        "description": "Message affiché lorsqu'une validation de formulaire échoue"
+    },
+    "errorGlobal": "Une erreur s'est produite",
+    "@errorGlobal": {
+        "description": "Un message d'erreur global"
+    },
+    "errorLoadingAssets": "Erreur: Impossible de charger le fichier",
+    "@errorLoadingAssets": {
+        "description": "Message d'erreur lors du chargement d'une ressource"
+    },
+    "errorLoadingContent": "Erreur de chargement des données",
+    "@errorLoadingContent": {
+        "description": "Message d'erreur lors du chargement des données"
+    },
+    "errorNoRecipientEmailLbl": "L'adresse e-mail de feedback est manquante",
+    "@errorNoRecipientEmailLbl": {
+        "description": "Message d'erreur lors de la lecture de l'adresse email"
+    },
+    "errorNoEmailClientLbl": "Impossible d'ouvrir l'application d'e-mail",
+    "@errorNoEmailClientLbl": {
+        "description": "Message d'erreur lors de l'ouverture de l'application de messagerie"
+    },
+    "errorReadFile": "{context, select, legalWarning{Erreur: Impossible de lire l'avertissement légale} userGuide{Erreur: Impossible de lire le guide utilisateur} other{Erreur: Impossible de lire le fichier}}",
+    "@errorReadFile": {
+        "description": "Message d'erreur pour la lecture d'un fichier",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "errorSend": "Erreur lors de l'envoi du feedback",
+    "@errorSend": {
+        "description": "Message d'erreur lors de l'envoi de commentaire"
+    },
+    "feedbackScreenOpeningEmailLbl": "Ouverture de l'application de messagerie",
+    "@feedbackScreenOpeningEmailLbl": {
+        "description": "Message d'information"
+    },
+    "feedbackScreenTitle": "Commentaire",
+    "@feedbackScreenTitle": {
+        "description": "Titre pour la section de commentaires"
+    },
+    "homeScreenDailyAnalisisLbl": "{count, plural, zero{Aucune analyse} one{Analyse (1)} other{Analyses ({count})}}",
+    "@homeScreenDailyAnalisisLbl": {
         "description": "Titre affichant le nombre d'analyses quotidiennes",
         "placeholders": {
             "count": {
@@ -63,37 +95,237 @@
             }
         }
     },
-    "titleSettings": "Paramètres",
-    "@titleSettings": {
-        "description": "Titre pour l'écran des paramètres"
+    "historyScreenDeleteSuccessLbl": "L'entrée du {date} a été supprimée de l'historique",
+    "@historyScreenDeleteSuccessLbl": {
+        "description": "Texte pour la suppression d'un élément",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
     },
-    "titleHistory": "Historique",
-    "@titleHistory": {
-        "description": "Titre pour l'écran d'historique"
+    "historyScreenTitle": "Historique",
+    "@historyScreenTitle": {
+        "description": "Titre pour la page de l'historique"
     },
-    "titleDashboard": "Tableau de bord",
-    "@titleDashboard": {
-        "description": "Titre pour le tableau de bord principal"
-    },
-    "titleHome": "Accueil",
-    "@titleHome": {
-        "description": "Titre pour l'écran d'accueil"
-    },
-    "titleCamera": "Caméra",
-    "@titleCamera": {
-        "description": "Titre pour la section caméra"
-    },
-    "titleFeedback": "Commentaire",
-    "@titleFeedback": {
-        "description": "Titre pour la section de commentaires"
-    },
-    "titleDailySummary": "Résumé quotidien",
-    "@titleDailySummary": {
+    "homeScreenDailySummaryLbl": "Résumé quotidien",
+    "@homeScreenDailySummaryLbl": {
         "description": "Titre pour la section du résumé quotidien"
     },
-    "titleBtnSeeHistory": "Voir l'historique",
-    "@titleBtnSeeHistory": {
-        "description": "Libellé du bouton pour consulter l'historique"
+    "homeScreenDailySummaryStatLbl": "sur {stat} g",
+    "@homeScreenDailySummaryStatLbl": {
+        "description": "Texte pour les statistiques du résumé quotidien",
+        "placeholders": {
+            "stat": {
+                "type": "int"
+            }
+        }
+    },
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Glu} protein{Pro} fat{Lip} other{Stat}}",
+    "@homeScreenDailySummaryMacroCardLbl": {
+        "description": "Texte pour les cartes du résumé quotidien",
+        "placeholders": {
+            "field": {
+                "type": "String"
+            }
+        }
+    },
+    "homeScreenStartAnalysisBtn": "Analyser un repas",
+    "@homeScreenStartAnalysisBtn": {
+        "description": "Text pour commencer une analyse"
+    },
+    "homeScreenTitle": "Accueil",
+    "@homeScreenTitle": {
+        "description": "Titre pour l'écran d'accueil"
+    },
+    "homeScreenWelcomeLbl": "Bienvenue sur MacroVision",
+    "@homeScreenWelcomeLbl": {
+        "description": "Message de bienvenue"
+    },
+    "initializationScreenDialogDefaultLbl": "{target, select, legalWarning{Chargement de l'avertissement légale...} userGuide{Chargement des instructions...} other{Chargement du contenu...}}",
+    "@initializationScreenDialogDefaultLbl": {
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenActivityLevelLbl": "Niveau d'activité physique",
+    "profileScreenActivityLevelOption": "{target, select, sedentary{Sédentaire (peu ou pas d'exercice)} lightly{Légèrement actif (1-3 jours/semaine)} moderate{Modérément actif (3-5 jours/semaine)} very{Très actif (6-7 jours/semaine)} extra{Extrêmement actif (2x/jour)} other{Aucun}}",
+    "@profileScreenActivityLevelOption": {
+        "description": "Sélection du genre de l'utilisateur",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGenderLbl": "Sexe",
+    "profileScreenGenderOption": "{target, select, male{Homme} female{Femme} other{Autre}}",
+    "@profileScreenGenderOption": {
+        "description": "Sélection du genre de l'utilisateur",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGoalLbl": "Objectif principal",
+    "profileScreenGoalOption": "{target, select, weightLoss{Perte de poids} muscleGain{Gain musculaire} maintain{Maintien} other{Aucun}}",
+    "@profileScreenGoalOption": {
+        "description": "Sélection de l'objectif de forme physique de l'utilisateur",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenHeightLbl": "Grandeur ({unit})",
+    "@profileScreenHeightLbl": {
+        "description": "Libellé pour la saisie de la taille avec unité",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenInpLbl": "{target, select, weight{Poids ({unit})} height{Grandeur ({unit})} other{{unit}}}",
+    "@profileScreenInpLbl": {
+        "description": "Libellé dynamique pour les entrées du profil",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenNameLbl": "Nom d'utilisateur",
+    "@profileScreenNameLbl": {
+        "description": "Libellé pour le nom de l'utilisateur dans le profil"
+    },
+    "profileScreenTitle": "Profil",
+    "@profileScreenTitle": {
+        "description": "Titre pour l'écran de profil"
+    },
+    "profileScreenUnitOption": "{unit, select, metric{Métrique} imperial{Impérial} other{Aucun}}",
+    "@profileScreenUnitOption": {
+        "description": "Options pour le système d'unité",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenUnitSystemLbl": "Système d'unité",
+    "@profileScreenUnitSystemLbl": {
+        "description": "Titre pour la préférence du système d'unité"
+    },
+    "profileScreenWeightLbl": "Poids ({unit})",
+    "@profileScreenWeightLbl": {
+        "description": "Libellé pour la saisie du poids avec unité",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenEstimatedWeightLbl": "Portion estimé par l'IA : {weight} {unit}",
+    "@resultScreenEstimatedWeightLbl": {
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenAnalysisOutputLbl": "{context, select, energy{Énergie} calories{Calories} totalFat{Lipides} saturatedFat{Saturés} transFat{Trans} cholesterol{Cholestérol} sodium{Sodium} potassium{Potassium} totalCarbohydrate{Glucides} dietaryFiber{Fibres} sugar{Sucres} protein{Protéines} other{Nutriments}}",
+    "@resultScreenAnalysisOutputLbl": {
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenAnalysisSummaryLbl": "Analyse nutrionnelle pour {weight} {unit}",
+    "@resultScreenAnalysisSummaryLbl": {
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenNewAnalysisBtn": "Analyser une nouvelle photo",
+    "resultScreenPortionLbl": "Poid réel ({unit})",
+    "@resultScreenPortionLbl": {
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenRefineAnalysisBtn": "Ajuster l'analyse",
+    "resultScreenRefineAnalysisLbl": "Analyse ajustée pour {weight} ({unit})",
+    "@resultScreenRefineAnalysisLbl": {
+        "description": "Libellé pour corrigé l'analyse avec le poids et son unité",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenSwitchLbl": "{unit, select, kJ{Afficher en kcal/cal} cal{Afficher en kJ} other{changer d'unitée}}",
+    "@resultScreenSwitchLbl": {
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenTitle": "Résultat",
+    "settingsScreenCustomThemeOption": "{color, select, mint{Menthe} ocean{Océan} passion{Passion} neon{Néon} platinum{Platine} merlot{Merlot} lemon{Citron} lime{Lime} peacock{Paon} azure{Azure} candy{Bonbon} pumpkin{Citrouille} lapis{Lapis} scarlet{Écarlate} other{Couleur}}",
+    "@settingsScreenCustomThemeOption": {
+        "description": "Sélection du thème personnalisé pour l'application",
+        "placeholders": {
+            "color": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenLanguageSelectLbl": "Langue",
+    "@settingsScreenLanguageSelectLbl": {
+        "description": "Le titre pour la sélection de la langue"
+    },
+    "settingsScreenLuminosityOption": "{target, select, default{Défaut du système} light{Mode clair} dark{Mode sombre} other{Aucun}}",
+    "@settingsScreenLuminosityOption": {
+        "description": "Sélection du mode de luminosité de l'application",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenSectionLbl": "{target, select, language{Langue de l'application} luminosity{Luminosité de l'application} color{Couleurs personnalisées} other{Paramètres}}",
+    "@settingsScreenSectionLbl": {
+        "description": "Le titre à afficher selon le contexte des paramètres",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenTitle": "Paramètres",
+    "@settingsScreenTitle": {
+        "description": "Titre pour l'écran des paramètres"
     },
     "statsCalorie": "{count, plural, zero{Calorie : 0} one{Calorie : 1} other{Calories : {count}}}",
     "@statsCalorie": {
@@ -104,13 +336,14 @@
             }
         }
     },
-    "titleProfile": "Profil",
-    "@titleProfile": {
-        "description": "Titre pour l'écran de profil"
-    },
-    "titleProfileUnitSystem": "Système d'unité",
-    "@titleProfileUnitSystem": {
-        "description": "Titre pour la préférence du système d'unité"
+    "successUpdate": "{context, select, profile{Le profile a été mis à jour avec succès} history{L'historique a été mis à jour avec succès} other{Mise à jour réussie}}",
+    "@successUpdate": {
+        "description": "Message de succès après la mise à jour d'un élément spécifique",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
     },
     "tooltipSwitch": "{option1} ou {option2}",
     "@tooltipSwitch": {
@@ -124,31 +357,13 @@
             }
         }
     },
-    "titleBtnSave": "Sauvegarder {context}",
-    "@titleBtnSave": {
-        "description": "Libellé du bouton de sauvegarde avec contexte",
-        "placeholders": {
-            "context": {
-                "type": "String"
-            }
-        }
+    "warningEmptyData": "Aucune données",
+    "@warningEmptyData": {
+        "description": "Un avertissement lorsqu'aucune donnée n'est disponible"
     },
-    "titleSettingsLuminosity": "{target, select, default{Défaut du système} light{Mode clair} dark{Mode sombre} other{Aucun}}",
-    "@titleSettingsLuminosity": {
-        "description": "Sélection du mode de luminosité de l'application",
-        "placeholders": {
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "titleProfileName": "Nom",
-    "@titleProfileName": {
-        "description": "Libellé pour le nom de l'utilisateur dans le profil"
-    },
-    "titleProfileGoal": "{target, select, weightLoss{Perte de poids} muscleGain{Gain musculaire} maintain{Maintien} other{Maintien}}",
-    "@titleProfileGoal": {
-        "description": "Sélection de l'objectif de forme physique de l'utilisateur",
+    "warningFormValidation": "{target, select, weight{Entrez un poids valide} height{Entrez une grandeur valide} age{Entrez un âge valide} other{Entrée invalide}}",
+    "@warningFormValidation": {
+        "description": "Messages de validation pour les champs de formulaire",
         "placeholders": {
             "target": {
                 "type": "String"

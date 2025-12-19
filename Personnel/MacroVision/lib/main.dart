@@ -9,6 +9,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:macro_vision/config/l10n/app_localizations.dart';
 import 'package:macro_vision/screens/error_screen.dart';
+import 'package:macro_vision/utils/global_key.dart';
 import 'package:provider/provider.dart';
 
 // Services et Modèles
@@ -102,6 +103,7 @@ Future<void> main() async {
       // Afficher l'écran d'erreur personnalisé
       runApp(
         MaterialApp(
+          navigatorKey: navigatorKey,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
             useMaterial3: true,
@@ -159,6 +161,8 @@ class MacroVisionApp extends StatelessWidget {
           locale:
               locale, // <-- FORCER LA LOCALE PAR DÉFAUT SELON LA LANGUE DE L'APPAREIL
           // =========================================================
+          
+          navigatorKey: navigatorKey,
           title: 'MacroVision',
           // Affiche que l'app est en mode DEBUG
           debugShowCheckedModeBanner: (kDebugMode && !kReleaseMode)

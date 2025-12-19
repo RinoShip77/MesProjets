@@ -98,53 +98,47 @@ abstract class AppLocalizations {
     Locale('fr'),
   ];
 
-  /// Le nom complet de la langue
+  /// Le titre pour les boîte de dialogue
   ///
   /// In fr, this message translates to:
-  /// **'Français'**
-  String get nameLanguage;
+  /// **'{target, select, legalWarning{Avertissement légale} userGuide{Guide de l\'utilisateur} other{Langue non supportée}}'**
+  String appDialogTitle(String target);
 
-  /// Le titre pour la sélection de la langue
+  /// Le nom de la langue de l'application
   ///
   /// In fr, this message translates to:
-  /// **'Langue'**
-  String get titleLanguageSelect;
+  /// **'{target, select, fr{Français} en{Anglais} other{Langue non supportée}}'**
+  String appLanguageName(String target);
 
-  /// Le titre pour le guide d'utilisation
+  /// No description provided for @appLoadingLbl.
   ///
   /// In fr, this message translates to:
-  /// **'Guide d\'utilisation'**
-  String get titleUserGuide;
+  /// **'Initialisation...'**
+  String get appLoadingLbl;
 
-  /// Message de succès après la mise à jour d'un élément spécifique
+  /// Libellé du bouton de sauvegarde avec contexte
   ///
   /// In fr, this message translates to:
-  /// **'Le {context} a été mis à jour avec succès'**
-  String successUpdate(String context);
+  /// **'Sauvegarder {context}'**
+  String appSaveBtn(String context);
 
-  /// Un avertissement lorsqu'aucune donnée n'est disponible
+  /// Libellé du bouton pour consulter l'historique
   ///
   /// In fr, this message translates to:
-  /// **'Aucune données'**
-  String get warningEmptyData;
+  /// **'Voir l\'historique'**
+  String get appSeeHistoryBtn;
 
-  /// Un message d'erreur global
+  /// Titre pour le tableau de bord principal
   ///
   /// In fr, this message translates to:
-  /// **'Une erreur s\'est produite'**
-  String get errorGlobal;
+  /// **'Tableau de bord'**
+  String get dashboardScreenTitle;
 
-  /// Message d'erreur pour le guide utilisateur
+  /// Message d'erreur lors de la suppression
   ///
   /// In fr, this message translates to:
-  /// **'Erreur: Impossible de lire le guide utilisateur'**
-  String get errorReadUserGuide;
-
-  /// Message d'erreur lors du chargement d'une ressource
-  ///
-  /// In fr, this message translates to:
-  /// **'Erreur: Impossible de charger le fichier'**
-  String get errorLoadingAssets;
+  /// **'Erreur de suppression'**
+  String get errorDelete;
 
   /// Message affiché lorsqu'une validation de formulaire échoue
   ///
@@ -152,71 +146,257 @@ abstract class AppLocalizations {
   /// **'Erreur dans le formulaire. Veuillez vérifier vos entrées'**
   String get errorForm;
 
+  /// Un message d'erreur global
+  ///
+  /// In fr, this message translates to:
+  /// **'Une erreur s\'est produite'**
+  String get errorGlobal;
+
+  /// Message d'erreur lors du chargement d'une ressource
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur: Impossible de charger le fichier'**
+  String get errorLoadingAssets;
+
   /// Message d'erreur lors du chargement des données
   ///
   /// In fr, this message translates to:
   /// **'Erreur de chargement des données'**
   String get errorLoadingContent;
 
-  /// Le titre à afficher selon le contexte des paramètres
+  /// Message d'erreur pour la lecture d'un fichier
   ///
   /// In fr, this message translates to:
-  /// **'{target, select, language{Langue de l\'application} luminosity{Luminosité de l\'application} color{Couleurs personnalisées} other{Paramètres}}'**
-  String titleSettingsSections(String target);
-
-  /// Titre affichant le nombre d'analyses quotidiennes
-  ///
-  /// In fr, this message translates to:
-  /// **'{count, plural, zero{Aucune analyse} one{Analyse (1)} other{Analyses ({count})}}'**
-  String titleDailyAnalisis(int count);
-
-  /// Titre pour l'écran des paramètres
-  ///
-  /// In fr, this message translates to:
-  /// **'Paramètres'**
-  String get titleSettings;
-
-  /// Titre pour l'écran d'historique
-  ///
-  /// In fr, this message translates to:
-  /// **'Historique'**
-  String get titleHistory;
-
-  /// Titre pour le tableau de bord principal
-  ///
-  /// In fr, this message translates to:
-  /// **'Tableau de bord'**
-  String get titleDashboard;
-
-  /// Titre pour l'écran d'accueil
-  ///
-  /// In fr, this message translates to:
-  /// **'Accueil'**
-  String get titleHome;
-
-  /// Titre pour la section caméra
-  ///
-  /// In fr, this message translates to:
-  /// **'Caméra'**
-  String get titleCamera;
+  /// **'{context, select, legalWarning{Erreur: Impossible de lire l\'avertissement légale} userGuide{Erreur: Impossible de lire le guide utilisateur} other{Erreur: Impossible de lire le fichier}}'**
+  String errorReadFile(String context);
 
   /// Titre pour la section de commentaires
   ///
   /// In fr, this message translates to:
   /// **'Commentaire'**
-  String get titleFeedback;
+  String get feedbackScreenTitle;
+
+  /// Titre affichant le nombre d'analyses quotidiennes
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, zero{Aucune analyse} one{Analyse (1)} other{Analyses ({count})}}'**
+  String homeScreenDailyAnalisisLbl(int count);
+
+  /// Texte pour la suppression d'un élément
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'entrée du {date} a été supprimée de l\'historique'**
+  String historyScreenDeleteSuccessLbl(String date);
+
+  /// Titre pour la page de l'historique
+  ///
+  /// In fr, this message translates to:
+  /// **'Historique'**
+  String get historyScreenTitle;
 
   /// Titre pour la section du résumé quotidien
   ///
   /// In fr, this message translates to:
   /// **'Résumé quotidien'**
-  String get titleDailySummary;
+  String get homeScreenDailySummaryLbl;
 
-  /// Libellé du bouton pour consulter l'historique
+  /// Texte pour les statistiques du résumé quotidien
   ///
   /// In fr, this message translates to:
-  /// **'Voir l\'historique'**
-  String get titleBtnSeeHistory;
+  /// **'sur {stat} g'**
+  String homeScreenDailySummaryStatLbl(int stat);
+
+  /// Texte pour les cartes du résumé quotidien
+  ///
+  /// In fr, this message translates to:
+  /// **'{field, select, carbohydrate{Glu} protein{Pro} fat{Lip} other{Stat}}'**
+  String homeScreenDailySummaryMacroCardLbl(String field);
+
+  /// Text pour commencer une analyse
+  ///
+  /// In fr, this message translates to:
+  /// **'Analyser un repas'**
+  String get homeScreenStartAnalysisBtn;
+
+  /// Titre pour l'écran d'accueil
+  ///
+  /// In fr, this message translates to:
+  /// **'Accueil'**
+  String get homeScreenTitle;
+
+  /// Message de bienvenue
+  ///
+  /// In fr, this message translates to:
+  /// **'Bienvenue sur MacroVision'**
+  String get homeScreenWelcomeLbl;
+
+  /// No description provided for @initializationScreenDialogDefaultLbl.
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, legalWarning{Chargement de l\'avertissement légale...} userGuide{Chargement des instructions...} other{Chargement du contenu...}}'**
+  String initializationScreenDialogDefaultLbl(String target);
+
+  /// No description provided for @profileScreenActivityLevelLbl.
+  ///
+  /// In fr, this message translates to:
+  /// **'Niveau d\'activité physique'**
+  String get profileScreenActivityLevelLbl;
+
+  /// Sélection du genre de l'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, sedentary{Sédentaire (peu ou pas d\'exercice)} lightly{Légèrement actif (1-3 jours/semaine)} moderate{Modérément actif (3-5 jours/semaine)} very{Très actif (6-7 jours/semaine)} extra{Extrêmement actif (2x/jour)} other{Aucun}}'**
+  String profileScreenActivityLevelOption(String target);
+
+  /// No description provided for @profileScreenGenderLbl.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sexe'**
+  String get profileScreenGenderLbl;
+
+  /// Sélection du genre de l'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, male{Homme} female{Femme} other{Autre}}'**
+  String profileScreenGenderOption(String target);
+
+  /// No description provided for @profileScreenGoalLbl.
+  ///
+  /// In fr, this message translates to:
+  /// **'Objectif principal'**
+  String get profileScreenGoalLbl;
+
+  /// Sélection de l'objectif de forme physique de l'utilisateur
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, weightLoss{Perte de poids} muscleGain{Gain musculaire} maintain{Maintien} other{Aucun}}'**
+  String profileScreenGoalOption(String target);
+
+  /// Libellé pour la saisie de la taille avec unité
+  ///
+  /// In fr, this message translates to:
+  /// **'Grandeur ({unit})'**
+  String profileScreenHeightLbl(String unit);
+
+  /// Libellé dynamique pour les entrées du profil
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, weight{Poids ({unit})} height{Grandeur ({unit})} other{{unit}}}'**
+  String profileScreenInpLbl(String target, String unit);
+
+  /// Libellé pour le nom de l'utilisateur dans le profil
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom d\'utilisateur'**
+  String get profileScreenNameLbl;
+
+  /// Titre pour l'écran de profil
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil'**
+  String get profileScreenTitle;
+
+  /// Options pour le système d'unité
+  ///
+  /// In fr, this message translates to:
+  /// **'{unit, select, metric{Métrique} imperial{Impérial} other{Aucun}}'**
+  String profileScreenUnitOption(String unit);
+
+  /// Titre pour la préférence du système d'unité
+  ///
+  /// In fr, this message translates to:
+  /// **'Système d\'unité'**
+  String get profileScreenUnitSystemLbl;
+
+  /// Libellé pour la saisie du poids avec unité
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids ({unit})'**
+  String profileScreenWeightLbl(String unit);
+
+  /// No description provided for @resultScreenEstimatedWeightLbl.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portion estimé par l\'IA : {weight} {unit}'**
+  String resultScreenEstimatedWeightLbl(String weight, String unit);
+
+  /// No description provided for @resultScreenAnalysisOutputLbl.
+  ///
+  /// In fr, this message translates to:
+  /// **'{context, select, energy{Énergie} calories{Calories} totalFat{Lipides} saturatedFat{Saturés} transFat{Trans} cholesterol{Cholestérol} sodium{Sodium} potassium{Potassium} totalCarbohydrate{Glucides} dietaryFiber{Fibres} sugar{Sucres} protein{Protéines} other{Nutriments}}'**
+  String resultScreenAnalysisOutputLbl(String context);
+
+  /// No description provided for @resultScreenAnalysisSummaryLbl.
+  ///
+  /// In fr, this message translates to:
+  /// **'Analyse nutrionnelle pour {weight} {unit}'**
+  String resultScreenAnalysisSummaryLbl(String weight, String unit);
+
+  /// No description provided for @resultScreenNewAnalysisBtn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Analyser une nouvelle photo'**
+  String get resultScreenNewAnalysisBtn;
+
+  /// No description provided for @resultScreenPortionLbl.
+  ///
+  /// In fr, this message translates to:
+  /// **'Poid réel ({unit})'**
+  String resultScreenPortionLbl(String unit);
+
+  /// No description provided for @resultScreenRefineAnalysisBtn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajuster l\'analyse'**
+  String get resultScreenRefineAnalysisBtn;
+
+  /// Libellé pour corrigé l'analyse avec le poids et son unité
+  ///
+  /// In fr, this message translates to:
+  /// **'Analyse ajustée pour {weight} ({unit})'**
+  String resultScreenRefineAnalysisLbl(String weight, String unit);
+
+  /// No description provided for @resultScreenSwitchLbl.
+  ///
+  /// In fr, this message translates to:
+  /// **'{unit, select, kJ{Afficher en kcal/cal} cal{Afficher en kJ} other{changer d\'unitée}}'**
+  String resultScreenSwitchLbl(String unit);
+
+  /// No description provided for @resultScreenTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Résultat'**
+  String get resultScreenTitle;
+
+  /// Sélection du thème personnalisé pour l'application
+  ///
+  /// In fr, this message translates to:
+  /// **'{color, select, mint{Menthe} ocean{Océan} passion{Passion} neon{Néon} platinum{Platine} merlot{Merlot} lemon{Citron} lime{Lime} peacock{Paon} azure{Azure} candy{Bonbon} pumpkin{Citrouille} lapis{Lapis} scarlet{Écarlate} other{Couleur}}'**
+  String settingsScreenCustomThemeOption(String color);
+
+  /// Le titre pour la sélection de la langue
+  ///
+  /// In fr, this message translates to:
+  /// **'Langue'**
+  String get settingsScreenLanguageSelectLbl;
+
+  /// Sélection du mode de luminosité de l'application
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, default{Défaut du système} light{Mode clair} dark{Mode sombre} other{Aucun}}'**
+  String settingsScreenLuminosityOption(String target);
+
+  /// Le titre à afficher selon le contexte des paramètres
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, language{Langue de l\'application} luminosity{Luminosité de l\'application} color{Couleurs personnalisées} other{Paramètres}}'**
+  String settingsScreenSectionLbl(String target);
+
+  /// Titre pour l'écran des paramètres
+  ///
+  /// In fr, this message translates to:
+  /// **'Paramètres'**
+  String get settingsScreenTitle;
 
   /// Affichage du compte de calories
   ///
@@ -224,17 +404,11 @@ abstract class AppLocalizations {
   /// **'{count, plural, zero{Calorie : 0} one{Calorie : 1} other{Calories : {count}}}'**
   String statsCalorie(int count);
 
-  /// Titre pour l'écran de profil
+  /// Message de succès après la mise à jour d'un élément spécifique
   ///
   /// In fr, this message translates to:
-  /// **'Profil'**
-  String get titleProfile;
-
-  /// Titre pour la préférence du système d'unité
-  ///
-  /// In fr, this message translates to:
-  /// **'Système d\'unité'**
-  String get titleProfileUnitSystem;
+  /// **'{context, select, profile{Le profile a été mis à jour avec succès} history{L\'historique a été mis à jour avec succès} other{Mise à jour réussie}}'**
+  String successUpdate(String context);
 
   /// Infobulle montrant les deux options d'un interrupteur
   ///
@@ -242,29 +416,17 @@ abstract class AppLocalizations {
   /// **'{option1} ou {option2}'**
   String tooltipSwitch(String option1, String option2);
 
-  /// Libellé du bouton de sauvegarde avec contexte
+  /// Un avertissement lorsqu'aucune donnée n'est disponible
   ///
   /// In fr, this message translates to:
-  /// **'Sauvegarder {context}'**
-  String titleBtnSave(String context);
+  /// **'Aucune données'**
+  String get warningEmptyData;
 
-  /// Sélection du mode de luminosité de l'application
+  /// Messages de validation pour les champs de formulaire
   ///
   /// In fr, this message translates to:
-  /// **'{target, select, default{Défaut du système} light{Mode clair} dark{Mode sombre} other{Aucun}}'**
-  String titleSettingsLuminosity(String target);
-
-  /// Libellé pour le nom de l'utilisateur dans le profil
-  ///
-  /// In fr, this message translates to:
-  /// **'Nom'**
-  String get titleProfileName;
-
-  /// Sélection de l'objectif de forme physique de l'utilisateur
-  ///
-  /// In fr, this message translates to:
-  /// **'{target, select, weightLoss{Perte de poids} muscleGain{Gain musculaire} maintain{Maintien} other{Maintien}}'**
-  String titleProfileGoal(String target);
+  /// **'{target, select, weight{Entrez un poids valide} height{Entrez une grandeur valide} age{Entrez un âge valide} other{Entrée invalide}}'**
+  String warningFormValidation(String target);
 }
 
 class _AppLocalizationsDelegate

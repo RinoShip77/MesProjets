@@ -7,7 +7,7 @@ import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/screens/history_screen.dart';
 import 'package:macro_vision/screens/result_screen.dart';
 import 'package:macro_vision/helpers/helpers.dart'; // Pour formatDate
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 class AnalysisList extends StatelessWidget {
   final Future<List<NutritionalFactsEntry>> historyFuture;
@@ -103,7 +103,7 @@ class AnalysisList extends StatelessWidget {
                     right: 16.0,
                   ),
                   child: Text(
-                        context.l10n.titleDailyAnalisis(snapshot.data!.length),
+                        context.l10n.homeScreenDailyAnalisisLbl(snapshot.data!.length),
                     // snapshot.data!.isNotEmpty
                     //     ? '${context.l10n.titleDailySummary} (${snapshot.data!.length})'
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -156,7 +156,7 @@ class AnalysisList extends StatelessWidget {
                         Icons.arrow_forward_ios_rounded,
                         size: 16,
                       ),
-                      label: Text(context.l10n.titleBtnSeeHistory),
+                      label: Text(context.l10n.appSeeHistoryBtn),
                       onPressed: () => navigate(context, HistoryScreen()),
                     ),
                   ),

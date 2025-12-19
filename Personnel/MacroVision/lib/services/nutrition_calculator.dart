@@ -5,10 +5,10 @@ class NutritionCalculator {
   // Facteurs d'activité physique pour le calcul du TDEE
   static const Map<ActivityLevel, double> _activityMultipliers = {
     ActivityLevel.sedentary: 1.2,
-    ActivityLevel.lightlyActive: 1.375,
-    ActivityLevel.moderatelyActive: 1.55,
-    ActivityLevel.veryActive: 1.725,
-    ActivityLevel.extraActive: 1.9,
+    ActivityLevel.lightly: 1.375,
+    ActivityLevel.moderate: 1.55,
+    ActivityLevel.very: 1.725,
+    ActivityLevel.extra: 1.9,
   };
 
   // --- CALCULATEUR DE BESOINS DE BASE (TMB) ---
@@ -83,13 +83,13 @@ class NutritionCalculator {
     switch (level) {
       case ActivityLevel.sedentary:
         return 'Sédentaire (peu ou pas d\'exercice)';
-      case ActivityLevel.lightlyActive:
+      case ActivityLevel.lightly:
         return 'Légèrement actif (1-3 jours/semaine)';
-      case ActivityLevel.moderatelyActive:
+      case ActivityLevel.moderate:
         return 'Modérément actif (3-5 jours/semaine)';
-      case ActivityLevel.veryActive:
+      case ActivityLevel.very:
         return 'Très actif (6-7 jours/semaine)';
-      case ActivityLevel.extraActive:
+      case ActivityLevel.extra:
         return 'Extrêmement actif (2x/jour)';
     }
   }

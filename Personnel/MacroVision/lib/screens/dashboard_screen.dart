@@ -6,7 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:macro_vision/models/user_profile.dart';
 import 'package:macro_vision/services/database_service.dart';
 import 'package:macro_vision/services/nutrition_calculator.dart';
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 // 1. DÉFINITION DE L'ÉNUMÉRATION
 enum ChartType { bar, line }

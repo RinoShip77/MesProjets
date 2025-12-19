@@ -7,7 +7,7 @@ import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:macro_vision/widgets/main_navigator.dart';
 import 'package:markdown_widget/config/markdown_generator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 /// Helper functions and utilities for the MacroVision application.
 ///

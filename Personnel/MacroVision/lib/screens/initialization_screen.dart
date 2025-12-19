@@ -3,10 +3,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:macro_vision/services/database_service.dart';
+import 'package:macro_vision/utils/global_key.dart';
 import 'package:macro_vision/widgets/main_navigator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/helpers/helpers.dart';
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 class InitializationScreen extends StatefulWidget {
   const InitializationScreen({super.key});
@@ -19,8 +20,8 @@ class _InitializationScreenState extends State<InitializationScreen> {
   // Clé et état de l'écran
   static const String _guideSeenKey = 'hasSeenUserGuide';
   static const String _dbSeededKey = 'hasSeededDatabase';
-  String _guideText = 'Chargement des instructions...';
-  String _warningText = 'Chargement de l\'avertissement légal...';
+  String _warningText = globalL10n.initializationScreenDialogDefaultLbl('legalWarning');
+  String _guideText = globalL10n.initializationScreenDialogDefaultLbl('userGuide');
 
   @override
   void initState() {
@@ -77,7 +78,7 @@ class _InitializationScreenState extends State<InitializationScreen> {
         // Afficher le guide suivi de l'avertissement légal
         openDialog(
           context: context,
-          title: 'Guide d\'utilisation',
+          title: context.l10n.appDialogTitle('userGuide'),
           content: _guideText,
           warningContent: _warningText,
           key: _guideSeenKey,
@@ -92,35 +93,35 @@ class _InitializationScreenState extends State<InitializationScreen> {
   Future<void> _loadAssets() async {
     // Logique de chargement des fichiers .md
     try {
+      // Chargement de l'avertissement
+      final warningFuture = DefaultAssetBundle.of(
+        context,
+      ).loadString('assets/legal_warning.md', cache: false);
+      
       // Chargement du guide
       final guideFuture = DefaultAssetBundle.of(
         context,
       ).loadString('assets/user_guide.md', cache: false);
 
-      // Chargement de l'avertissement
-      final warningFuture = DefaultAssetBundle.of(
-        context,
-      ).loadString('assets/legal_warning.md', cache: false);
-
       // Attendre que les deux futures soient terminées
-      final results = await Future.wait([guideFuture, warningFuture]);
+      final results = await Future.wait([warningFuture, guideFuture]);
 
       if (mounted) {
         setState(() {
-          _guideText = results[0];
-          _warningText = results[1]; // Stocke le contenu du fichier .md
+          _warningText = results[0]; // Stocke le contenu du fichier .md
+          _guideText = results[1];
         });
       }
     } catch (e) {
       if (mounted) {
         setState(() {
-          _guideText = 'Erreur lors du chargement des instructions.';
-          _warningText = 'Erreur lors du chargement de l\'avertissement.';
+          _warningText = globalL10n.errorLoadingContent;
+          _guideText = globalL10n.errorLoadingContent;
         });
         if (context.mounted) {
           showSnackBar(
             context,
-            "Erreur: Impossible de lire les fichiers de l'application.",
+            globalL10n.errorReadFile(''),
             true,
           );
         }
@@ -161,8 +162,8 @@ class _InitializationScreenState extends State<InitializationScreen> {
             const SizedBox(height: 15),
 
             // 3. Texte de chargement
-            const Text(
-              'Initialisation...',
+            Text(
+              context.l10n.appLoadingLbl,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
           ],

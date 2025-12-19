@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/config/l10n/app_localizations.dart';
-import 'package:macro_vision/helpers/l10n_extension.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -26,6 +26,27 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
        ); // kToolbarHeight est 56.0
 
   // =========================================================================
+  // LOGIQUE DE L'AVERTISSEMENT LÉGALE
+  // =========================================================================
+  Future<String> _getWarningText(BuildContext context) async {
+    try {
+      return await DefaultAssetBundle.of(
+        context,
+      ).loadString('assets/legal_warning.md', cache: false);
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(
+          context,
+          context.l10n.errorReadFile('legalWarning'),
+          true,
+        );
+      }
+
+      return context.l10n.errorLoadingAssets;
+    }
+  }
+
+  // =========================================================================
   // LOGIQUE DU GUIDE UTILISATEUR
   // =========================================================================
   Future<String> _getGuideText(BuildContext context) async {
@@ -37,7 +58,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       if (context.mounted) {
         showSnackBar(
           context,
-          context.l10n.errorReadUserGuide,
+          context.l10n.errorReadFile('userGuide'),
           true,
         );
       }
@@ -55,19 +76,49 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ...?actions,
         // Guide
         IconButton(
-          icon: const Icon(Icons.info_outline_rounded),
-          tooltip: context.l10n.titleUserGuide,
+          icon: const Icon(Icons.warning_amber_rounded),
+          tooltip: context.l10n.appDialogTitle('legalWarning'),
           onPressed: () async {
               try {
                 // 1. Charger le texte du guide de manière sûre
-                final String guideContent = await _getGuideText(context);
+                final String content = await _getWarningText(context);
 
                 // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
                 if (context.mounted) {
                   await openDialog(
                     context: context,
-                    title: context.l10n.titleUserGuide,
-                    content: guideContent, // Utilisez le contenu chargé
+                    title: context.l10n.appDialogTitle('legalWarning'),
+                    content: content, // Utilisez le contenu chargé
+                  );
+                }
+              } catch (e, stack) {
+                // 3. En cas d'erreur de chargement ou d'ouverture du dialogue :
+                // Afficher une simple Snackbar à l'utilisateur au lieu de crasher
+                if (context.mounted) {
+                  // Assurez-vous que showSnackBar est importé de helpers.dart
+                  showSnackBar(
+                    context,
+                    context.l10n.errorLoadingAssets,
+                    true,
+                  );
+                }
+              }
+            },
+        ),
+        IconButton(
+          icon: const Icon(Icons.info_outline_rounded),
+          tooltip: context.l10n.appDialogTitle('userGuide'),
+          onPressed: () async {
+              try {
+                // 1. Charger le texte du guide de manière sûre
+                final String content = await _getGuideText(context);
+
+                // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
+                if (context.mounted) {
+                  await openDialog(
+                    context: context,
+                    title: context.l10n.appDialogTitle('userGuide'),
+                    content: content, // Utilisez le contenu chargé
                   );
                 }
               } catch (e, stack) {
