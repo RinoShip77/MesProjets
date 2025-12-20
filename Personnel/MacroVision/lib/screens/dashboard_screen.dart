@@ -89,7 +89,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // 3. WIDGET DU SÉLECTEUR DE GRAPHIQUE
   Widget _buildChartTypeSelector() {
     return Tooltip(
-      message: 'Afficher les données dans un graphiques à barres ou à lignes.',
+      message: context.l10n.dashboardScreenSelectChartTypeLbl,
       child: ToggleButtons(
         isSelected: ChartType.values
             .map((type) => type == _selectedChartType)
@@ -100,110 +100,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           });
         },
         constraints: const BoxConstraints(minHeight: 36.0, minWidth: 80.0),
-        children: const [Text('Barres'), Text('Lignes')],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Tableau de Bord',
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _refreshData,
-            tooltip: 'Rafraîchir les données',
-          ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: _loadingFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Erreur: ${snapshot.error}'));
-          }
-
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Objectifs du Jour',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-
-                const SizedBox(height: 10),
-
-                _buildMacroGoalCard(
-                  context,
-                  title: 'Calories',
-                  consumed: _consumedMacros['calories'] ?? 0,
-                  goal: _goalMacros['calories'] ?? 0,
-                  unit: 'cal',
-                ),
-
-                const SizedBox(height: 10),
-
-                Row(
-                  children: [
-                    _buildMacroGoalCard(
-                      context,
-                      title: 'Protéines',
-                      consumed: _consumedMacros['protein'] ?? 0,
-                      goal: _goalMacros['protein'] ?? 0,
-                      unit: 'g',
-                      flex: 1,
-                    ),
-
-                    const SizedBox(width: 10),
-
-                    _buildMacroGoalCard(
-                      context,
-                      title: 'Lipides',
-                      consumed: _consumedMacros['totalFat'] ?? 0,
-                      goal: _goalMacros['totalFat'] ?? 0,
-                      unit: 'g',
-                      flex: 1,
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 10),
-
-                _buildMacroGoalCard(
-                  context,
-                  title: 'Glucides',
-                  consumed: _consumedMacros['totalCarbohydrates'] ?? 0,
-                  goal: _goalMacros['totalCarbohydrates'] ?? 0,
-                  unit: 'g',
-                ),
-
-                Divider(),
-
-                Text(
-                  'Suivi Hebdomadaire (Calories)',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-
-                const SizedBox(height: 10),
-
-                // UTILISATION DU SÉLECTEUR
-                _buildChartTypeSelector(),
-
-                const SizedBox(height: 20),
-
-                // PASSAGE DE LA SÉLECTION AU GRAPHIQUE
-                WeeklyChart(chartType: _selectedChartType),
-              ],
-            ),
-          );
-        },
+        children: [
+          Text(context.l10n.dashboardScreenChartTypeOption('bars')),
+          Text(context.l10n.dashboardScreenChartTypeOption('lines')),
+          ],
       ),
     );
   }
@@ -249,6 +149,110 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return flex > 0 ? Expanded(flex: flex, child: cardContent) : cardContent;
   }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: context.l10n.dashboardScreenTitle,
+        actions: [
+          IconButton(
+            tooltip: context.l10n.appRefreshDataLbl,
+            icon: const Icon(Icons.refresh),
+            onPressed: _refreshData,
+          ),
+        ],
+      ),
+      body: FutureBuilder(
+        future: _loadingFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text(context.l10n.appWarningEmptyData));
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.l10n.dashboardScreenDailyObjectivesLbl,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+
+                const SizedBox(height: 10),
+
+                _buildMacroGoalCard(
+                  context,
+                  title: context.l10n.dashboardScreenDailyObjectiveLbl('calories'),
+                  consumed: _consumedMacros['calories'] ?? 0,
+                  goal: _goalMacros['calories'] ?? 0,
+                  unit: 'cal',
+                ),
+
+                const SizedBox(height: 10),
+
+                Row(
+                  children: [
+                    _buildMacroGoalCard(
+                      context,
+                      title: context.l10n.dashboardScreenDailyObjectiveLbl('protein'),
+                      consumed: _consumedMacros['protein'] ?? 0,
+                      goal: _goalMacros['protein'] ?? 0,
+                      unit: 'g',
+                      flex: 1,
+                    ),
+
+                    const SizedBox(width: 10),
+
+                    _buildMacroGoalCard(
+                      context,
+                      title: context.l10n.dashboardScreenDailyObjectiveLbl('totalFat'),
+                      consumed: _consumedMacros['totalFat'] ?? 0,
+                      goal: _goalMacros['totalFat'] ?? 0,
+                      unit: 'g',
+                      flex: 1,
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 10),
+
+                _buildMacroGoalCard(
+                  context,
+                  title: context.l10n.dashboardScreenDailyObjectiveLbl('totalCarbohydrate'),
+                  consumed: _consumedMacros['totalCarbohydrates'] ?? 0,
+                  goal: _goalMacros['totalCarbohydrates'] ?? 0,
+                  unit: 'g',
+                ),
+
+                Divider(),
+
+                Text(
+                  context.l10n.appSummaryLbl('weekly'),
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+
+                const SizedBox(height: 10),
+
+                // UTILISATION DU SÉLECTEUR
+                _buildChartTypeSelector(),
+
+                const SizedBox(height: 20),
+
+                // PASSAGE DE LA SÉLECTION AU GRAPHIQUE
+                WeeklyChart(chartType: _selectedChartType),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
 }
 
 // --- Widget du Graphique Hebdomadaire ---
@@ -256,54 +260,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 class WeeklyChart extends StatelessWidget {
   final ChartType chartType;
   const WeeklyChart({required this.chartType, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<DailySummary>>(
-      future: DatabaseService().getWeeklySummary(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const SizedBox(
-            height: 250,
-            child: Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        final data = snapshot.data ?? [];
-
-        if (data.isEmpty) {
-          return const SizedBox(
-            height: 250,
-            child: Center(
-              child: Text('Historique insuffisant pour le graphique.'),
-            ),
-          );
-        }
-
-        double maxCalories = data
-            .map((e) => e.calories)
-            .reduce((a, b) => a > b ? a : b);
-        final double maxY = maxCalories > 0 ? (maxCalories + 500) : 2500;
-
-        return SizedBox(
-          height: 250,
-          child: chartType == ChartType.bar
-              ? _buildBarChart(
-                  context,
-                  data,
-                  maxY,
-                  Theme.of(context).colorScheme.primary,
-                )
-              : _buildLineChart(
-                  context,
-                  data,
-                  maxY,
-                  Theme.of(context).colorScheme.primary,
-                ),
-        );
-      },
-    );
-  }
 
   // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // --- GRAPHIQUE EN LIGNES ---
@@ -539,4 +495,53 @@ class WeeklyChart extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<DailySummary>>(
+      future: DatabaseService().getWeeklySummary(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SizedBox(
+            height: 250,
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        final data = snapshot.data ?? [];
+
+        if (data.isEmpty) {
+          return SizedBox(
+            height: 250,
+            child: Center(
+              child: Text(context.l10n.dashboardScreenNotEnoughDataLbl),
+            ),
+          );
+        }
+
+        double maxCalories = data
+            .map((e) => e.calories)
+            .reduce((a, b) => a > b ? a : b);
+        final double maxY = maxCalories > 0 ? (maxCalories + 500) : 2500;
+
+        return SizedBox(
+          height: 250,
+          child: chartType == ChartType.bar
+              ? _buildBarChart(
+                  context,
+                  data,
+                  maxY,
+                  Theme.of(context).colorScheme.primary,
+                )
+              : _buildLineChart(
+                  context,
+                  data,
+                  maxY,
+                  Theme.of(context).colorScheme.primary,
+                ),
+        );
+      },
+    );
+  }
+
 }

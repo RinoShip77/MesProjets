@@ -40,11 +40,8 @@ ThemeData _buildThemeData({
       actionsPadding: EdgeInsets.all(5),
       backgroundColor: colorScheme.primary,
       centerTitle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          // Apply a 30-pixel radius to both bottom corners
-          bottom: Radius.circular(20),
-        ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
       ),
     ),
 

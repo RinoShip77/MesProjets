@@ -1,0 +1,555 @@
+{
+    "@@locale": "es",
+    "@@comment": "Este archivo contiene el conjunto de constantes para la traducción al español",
+    "appDialogTitle": "{target, select, legalWarning{Advertencia legal} userGuide{Guía del usuario} other{Idioma no admitido}}",
+    "@appDialogTitle": {
+        "description": "El título para los cuadros de diálogo",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "appError": "Se ha producido un error",
+    "@appError": {
+        "description": "Un mensaje de error global"
+    },
+    "appErrorDelete": "Error de eliminación",
+    "@appErrorDelete": {
+        "description": "Mensaje de error durante la eliminación"
+    },
+    "appErrorForm": "Error en el formulario. Por favor, verifique sus datos",
+    "@appErrorForm": {
+        "description": "Mensaje mostrado cuando falla la validación del formulario"
+    },
+    "appErrorLoadingAssets": "Error: No se pudo cargar el archivo",
+    "@appErrorLoadingAssets": {
+        "description": "Mensaje de error al cargar un recurso"
+    },
+    "appErrorLoadingContent": "Error al cargar los datos",
+    "@appErrorLoadingContent": {
+        "description": "Mensaje de error al cargar los datos"
+    },
+    "appErrorReadFile": "{context, select, legalWarning{Error: No se pudo leer la advertencia legal} userGuide{Error: No se pudo leer la guía del usuario} other{Error: No se pudo leer el archivo}}",
+    "@appErrorReadFile": {
+        "description": "Mensaje de error para la lectura de un archivo",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "appLanguageName": "{target, select, fr{Francés} en{Inglés} es{Español} fil{Filipino} hi{Hindi} ja{Japonés} sv{Sueco} uk{Ucraniano} zh{Chino} sw{Suajili} other{Idioma no admitido}}",
+    "@appLanguageName": {
+        "description": "El nombre del idioma de la aplicación",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "appLoadingLbl": "Inicializando...",
+    "@appLoadingLbl": {
+        "description": "Etiqueta mostrada durante la inicialización de la aplicación"
+    },
+    "appRefreshDataLbl": "Actualizar datos",
+    "@appRefreshDataLbl": {
+        "description": "Etiqueta para la acción de actualizar los datos"
+    },
+    "appSeeHistoryBtn": "Ver historial",
+    "@appSeeHistoryBtn": {
+        "description": "Etiqueta del botón para consultar el historial"
+    },
+    "appSuccessUpdate": "{context, select, profile{El perfil se ha actualizado correctamente} history{El historial se ha actualizado correctamente} other{Actualización exitosa}}",
+    "@appSuccessUpdate": {
+        "description": "Mensaje de éxito después de actualizar un elemento específico",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "appSummaryLbl": "{duration, select, daily{Resumen diario} weekly{Resumen semanal} other{}}",
+    "@appSummaryLbl": {
+        "description": "Etiqueta para la sección del resumen",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "appUserNameInpLbl": "Nombre de usuario",
+    "@appUserNameInpLbl": {
+        "description": "Etiqueta para el nombre de usuario"
+    },
+    "appWarningEmptyData": "No hay datos",
+    "@appWarningEmptyData": {
+        "description": "Una advertencia cuando no hay datos disponibles"
+    },
+    "appWarningFormValidation": "{target, select, weight{Ingrese un peso válido} height{Ingrese una altura válida} age{Ingrese una edad válida} comment{Por favor, introduzca su comentario} other{Entrada no válida}}",
+    "@appWarningFormValidation": {
+        "description": "Mensajes de validación para los campos del formulario",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSaveLbl": "Guardar {context}",
+    "@btnSaveLbl": {
+        "description": "Etiqueta del botón de guardado con contexto",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSeeHistoryLbl": "Ver historial",
+    "@btnSeeHistoryLbl": {
+        "description": "Etiqueta del botón para consultar el historial"
+    },
+    "cameraScreenAnalysisInProgressLbl": "Análisis de IA en curso...",
+    "@cameraScreenAnalysisInProgressLbl": {
+        "description": "Mensaje que indica que el análisis de imagen está en curso"
+    },
+    "cameraScreenBtn": "{context, select, flash{Alternar flash} gallery{Seleccionar imagen de la galería} camera{Tomar una foto} other{Cámara}}",
+    "@cameraScreenBtn": {
+        "description": "Etiquetas de los botones de la pantalla de la cámara",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "cameraScreenErrors": "{type, select, initialization{Error de inicialización de la cámara} flash{Error al alternar el flash} capture{Error de captura} analysis{Error de análisis} permissions{No se puede acceder a la cámara. Compruebe los permisos de la aplicación} other{Error de cámara}}",
+    "@cameraScreenErrors": {
+        "description": "Mensajes de error relacionados con el uso de la cámara",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "cameraScreenTitle": "Análisis de alimentos",
+    "@cameraScreenTitle": {
+        "description": "Título de la pantalla de análisis por cámara"
+    },
+    "cameraScreenVisualHintLbl": "Consejo: Apunte a un alimento a la vez, con buena luz",
+    "@cameraScreenVisualHintLbl": {
+        "description": "Consejo visual para el usuario en la pantalla de la cámara"
+    },
+    "dashboardScreenChartTypeOption": "{type, select, bars{Barras} lines{Líneas} other{Gráfico}}",
+    "@dashboardScreenChartTypeOption": {
+        "description": "Opciones para el tipo de gráfico en el tablero",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyObjectiveLbl": "{target, select, calories{Calorías} protein{Proteínas} totalFat{Grasas} totalCarbohydrate{Carbohidratos} other{Nutrientes}}",
+    "@dashboardScreenDailyObjectiveLbl": {
+        "description": "Etiquetas para los objetivos nutricionales diarios",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyObjectivesLbl": "Objetivos del día",
+    "@dashboardScreenDailyObjectivesLbl": {
+        "description": "Título de la sección de objetivos diarios"
+    },
+    "dashboardScreenNotEnoughDataLbl": "Historial insuficiente para el gráfico",
+    "@dashboardScreenNotEnoughDataLbl": {
+        "description": "Una advertencia cuando el historial es insuficiente"
+    },
+    "dashboardScreenSelectChartTypeLbl": "Mostrar los datos en un gráfico de barras o de líneas",
+    "@dashboardScreenSelectChartTypeLbl": {
+        "description": "Instrucción para elegir el tipo de gráfico"
+    },
+    "dashboardScreenTitle": "Tablero",
+    "@dashboardScreenTitle": {
+        "description": "Título para el tablero principal"
+    },
+    "dashboardScreenWeeklySummaryLbl": "Resumen semanal (Calorías)",
+    "@dashboardScreenWeeklySummaryLbl": {
+        "description": "Título del resumen de calorías de la semana"
+    },
+    "errorForm": "Error en el formulario. Por favor, verifique sus datos",
+    "@errorForm": {
+        "description": "Mensaje mostrado cuando falla la validación del formulario"
+    },
+    "errorGlobal": "Se ha producido un error",
+    "@errorGlobal": {
+        "description": "Un mensaje de error global"
+    },
+    "errorLoadingAssets": "Error: No se pudo cargar el archivo",
+    "@errorLoadingAssets": {
+        "description": "Mensaje de error al cargar un recurso"
+    },
+    "errorLoadingContent": "Error al cargar los datos",
+    "@errorLoadingContent": {
+        "description": "Mensaje de error al cargar los datos"
+    },
+    "errorReadUserGuide": "Error: No se pudo leer la guía del usuario",
+    "@errorReadUserGuide": {
+        "description": "Mensaje de error para la guía del usuario"
+    },
+    "errorScreenDetailsLbl": "Detalles (visibles en modo Depuración):",
+    "@errorScreenDetailsLbl": {
+        "description": "Etiqueta para los detalles del error"
+    },
+    "errorScreenGoToBtn": "{target, select, comment{Enviar un comentario} home{Volver al inicio} other {}}",
+    "@errorScreenGoToBtn": {
+        "description": "Etiqueta del botón para ir a una pantalla determinada",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "errorScreenTitle": "Error",
+    "@errorScreenTitle": {
+        "description": "Título para la página de error"
+    },
+    "feedbackScreenCommentHintLbl": "Describa su experiencia, informe de un error o proponga una idea...",
+    "@feedbackScreenCommentHintLbl": {
+        "description": "Mensaje de pista para el espacio de comentarios"
+    },
+    "feedbackScreenCommentPaceholderLbl": "Su mensaje...",
+    "@feedbackScreenCommentPaceholderLbl": {
+        "description": "Mensaje temporal para el espacio de comentarios"
+    },
+    "feedbackScreenEncouragingMessageLbl": "¡Aprecio sus comentarios! Ayúdeme a mejorar MacroVision",
+    "@feedbackScreenEncouragingMessageLbl": {
+        "description": "Mensaje de información"
+    },
+    "feedbackScreenNoEmailClientLbl": "No se pudo abrir la aplicación de correo electrónico",
+    "@feedbackScreenNoEmailClientLbl": {
+        "description": "Mensaje de error al abrir la aplicación de mensajería"
+    },
+    "feedbackScreenNoRecipientEmailLbl": "Falta la dirección de correo electrónico para comentarios",
+    "@feedbackScreenNoRecipientEmailLbl": {
+        "description": "Mensaje de error al leer la dirección de correo electrónico"
+    },
+    "feedbackScreenOpeningEmailLbl": "Abriendo la aplicación de correo electrónico",
+    "@feedbackScreenOpeningEmailLbl": {
+        "description": "Mensaje de información para el enlace 'mailto:'"
+    },
+    "feedbackScreenSendBtn": "{state, select, true{Enviando...} false{Enviar comentarios} other{}}",
+    "@feedbackScreenSendBtn": {
+        "description": "Etiqueta del botón de éxito para enviar el comentario",
+        "placeholders": {
+            "state": {
+                "type": "String"
+            }
+        }
+    },
+    "feedbackScreenSendToClipboard": "Enviar mi mensaje al portapapeles",
+    "@feedbackScreenSendToClipboard": {
+        "description": "Etiqueta del botón para copiar el comentario"
+    },
+    "feedbackScreenSendTooltip": "Enviar comentarios",
+    "@feedbackScreenSendTooltip": {
+        "description": "Etiqueta del botón de éxito para enviar el comentario"
+    },
+    "feedbackScreenSendedToClipboard": "{context, select, comment{Comentario enviado al portapapeles} email{Dirección de correo enviada al portapapeles} other{Enviado al portapapeles}}",
+    "@feedbackScreenSendedToClipboard": {
+        "description": "Etiqueta del botón de éxito para copiar",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "feedbackScreenSendingError": "Error al enviar los comentarios",
+    "@feedbackScreenSendingError": {
+        "description": "Mensaje de error al enviar un comentario"
+    },
+    "feedbackScreenTitle": "Comentario",
+    "@feedbackScreenTitle": {
+        "description": "Título para la sección de comentarios"
+    },
+    "historyScreenDeleteSuccessLbl": "La entrada del {date} se ha eliminado del historial",
+    "@historyScreenDeleteSuccessLbl": {
+        "description": "Texto para la eliminación de un elemento",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "historyScreenTitle": "Historial",
+    "@historyScreenTitle": {
+        "description": "Título para la página del historial"
+    },
+    "homeScreenDailyAnalisisLbl": "{count, plural, zero{Ningún análisis} one{Análisis (1)} other{Análisis ({count})}}",
+    "@homeScreenDailyAnalisisLbl": {
+        "description": "Título que muestra el número de análisis diarios",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Carb} protein{Pro} fat{Grasa} other{Estad}}",
+    "@homeScreenDailySummaryMacroCardLbl": {
+        "description": "Texto para las tarjetas del resumen diario",
+        "placeholders": {
+            "field": {
+                "type": "String"
+            }
+        }
+    },
+    "homeScreenDailySummaryStatLbl": "de {stat} g",
+    "@homeScreenDailySummaryStatLbl": {
+        "description": "Texto para las estadísticas del resumen diario",
+        "placeholders": {
+            "stat": {
+                "type": "int"
+            }
+        }
+    },
+    "homeScreenStartAnalysisBtn": "Analizar una comida",
+    "@homeScreenStartAnalysisBtn": {
+        "description": "Texto para comenzar un análisis"
+    },
+    "homeScreenTitle": "Inicio",
+    "@homeScreenTitle": {
+        "description": "Título para la pantalla de inicio"
+    },
+    "homeScreenWelcomeLbl": "Bienvenido a MacroVision",
+    "@homeScreenWelcomeLbl": {
+        "description": "Mensaje de bienvenida"
+    },
+    "initializationScreenDialogDefaultLbl": "{target, select, legalWarning{Cargando advertencia legal...} userGuide{Cargando instrucciones...} other{Cargando contenido...}}",
+    "@initializationScreenDialogDefaultLbl": {
+        "description": "Mensaje predeterminado durante la inicialización",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenActivityLevelInpLbl": "Nivel de actividad física",
+    "@profileScreenActivityLevelInpLbl": {
+        "description": "Etiqueta para el campo del nivel de actividad física"
+    },
+    "profileScreenActivityLevelOption": "{target, select, sedentary{Sedentario (poco o nada de ejercicio)} lightly{Ligeramente activo (1-3 días/semana)} moderate{Moderadamente activo (3-5 días/semana)} very{Muy activo (6-7 días/semana)} extra{Extremadamente activo (2 veces/día)} other{Ninguno}}",
+    "@profileScreenActivityLevelOption": {
+        "description": "Opciones para el nivel de actividad física",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGenderInpLbl": "Sexo",
+    "@profileScreenGenderInpLbl": {
+        "description": "Etiqueta para el campo del sexo del usuario"
+    },
+    "profileScreenGenderOption": "{target, select, male{Hombre} female{Mujer} other{Otro}}",
+    "@profileScreenGenderOption": {
+        "description": "Selección del género del usuario",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGoalInpLbl": "Objetivo principal",
+    "@profileScreenGoalInpLbl": {
+        "description": "Etiqueta para el campo del objetivo principal"
+    },
+    "profileScreenGoalOption": "{target, select, weightLoss{Pérdida de peso} muscleGain{Ganancia muscular} maintain{Mantenimiento} other{Ninguno}}",
+    "@profileScreenGoalOption": {
+        "description": "Selección del objetivo de forma física del usuario",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenInpLbl": "{target, select, weight{Peso ({unit})} height{Altura ({unit})} other{Edad}}",
+    "@profileScreenInpLbl": {
+        "description": "Etiqueta dinámica para las entradas del perfil",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenSaveBtn": "Guardar perfil",
+    "@profileScreenSaveBtn": {
+        "description": "Etiqueta del botón de guardado con contexto"
+    },
+    "profileScreenTitle": "Perfil",
+    "@profileScreenTitle": {
+        "description": "Título para la pantalla de perfil"
+    },
+    "profileScreenUnitSystemSwitch": "Métrico (kg, cm) o Imperial (lb, in)",
+    "@profileScreenUnitSystemSwitch": {
+        "description": "Información sobre las dos opciones de un interruptor"
+    },
+    "profileScreenUnitOption": "{unit, select, metric{Métrico} imperial{Imperial} other{Ninguno}}",
+    "@profileScreenUnitOption": {
+        "description": "Opciones para el sistema de unidades",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenUnitSystemLbl": "Sistema de unidades",
+    "@profileScreenUnitSystemLbl": {
+        "description": "Título para la preferencia del sistema de unidades"
+    },
+    "resultScreenAnalysisOutputLbl": "{context, select, energy{Energía} calories{Calorías} totalFat{Grasas} saturatedFat{Saturadas} transFat{Trans} cholesterol{Colesterol} sodium{Sodio} potassium{Potasio} carbohydrate{Carbohidratos} fiber{Fibra} sugar{Azúcares} protein{Proteínas} other{Nutrientes}}",
+    "@resultScreenAnalysisOutputLbl": {
+        "description": "Etiquetas de los nutrientes en los resultados del análisis",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenAnalysisSummaryLbl": "Análisis nutricional para {weight} {unit}",
+    "@resultScreenAnalysisSummaryLbl": {
+        "description": "Título del resumen del análisis con peso y unidad",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenEstimatedWeightLbl": "Porción estimada por la IA: {weight} {unit}",
+    "@resultScreenEstimatedWeightLbl": {
+        "description": "Peso de la porción según lo estimado por la inteligencia artificial",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenNewAnalysisBtn": "Analizar una nueva foto",
+    "@resultScreenNewAnalysisBtn": {
+        "description": "Etiqueta del botón para reiniciar un análisis"
+    },
+    "resultScreenPortionLbl": "Peso real ({unit})",
+    "@resultScreenPortionLbl": {
+        "description": "Etiqueta para la entrada del peso real",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenRefineAnalysisBtn": "Ajustar análisis",
+    "@resultScreenRefineAnalysisBtn": {
+        "description": "Etiqueta del botón para refinar el análisis"
+    },
+    "resultScreenRefineAnalysisLbl": "Análisis ajustado para {weight} ({unit})",
+    "@resultScreenRefineAnalysisLbl": {
+        "description": "Etiqueta para el análisis corregido con el peso y su unidad",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenSwitchLbl": "{unit, select, kJ{Mostrar en kcal/cal} cal{Mostrar en kJ} other{cambiar de unidad}}",
+    "@resultScreenSwitchLbl": {
+        "description": "Etiqueta para cambiar la unidad de energía mostrada",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenTitle": "Resultado",
+    "@resultScreenTitle": {
+        "description": "Título de la pantalla de resultados"
+    },
+    "settingsScreenCustomThemeOption": "{color, select, mint{Menta} ocean{Océano} passion{Pasión} neon{Neón} platinum{Platino} merlot{Merlot} lemon{Limón} lime{Lima} peacock{Pavo real} azure{Azur} candy{Caramelo} pumpkin{Calabaza} lapis{Lapis} scarlet{Escarlata} other{Color}}",
+    "@settingsScreenCustomThemeOption": {
+        "description": "Selección del tema personalizado para la aplicación",
+        "placeholders": {
+            "color": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenLanguageSelectLbl": "Idioma",
+    "@settingsScreenLanguageSelectLbl": {
+        "description": "El título para la selección del idioma"
+    },
+    "settingsScreenLuminosityOption": "{target, select, default{Predeterminado del sistema} light{Modo claro} dark{Modo oscuro} other{Ninguno}}",
+    "@settingsScreenLuminosityOption": {
+        "description": "Selección del modo de luminosidad de la aplicación",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenSectionLbl": "{target, select, language{Idioma de la aplicación} luminosity{Luminosidad de la aplicación} color{Colores personalizados} other{Configuración}}",
+    "@settingsScreenSectionLbl": {
+        "description": "El título a mostrar según el contexto de la configuración",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenTitle": "Configuración",
+    "@settingsScreenTitle": {
+        "description": "Título para la pantalla de configuración"
+    },
+    "statsCalorie": "{count, plural, zero{Caloría: 0} one{Caloría: 1} other{Calorías: {count}}}",
+    "@statsCalorie": {
+        "description": "Visualización del conteo de calorías",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "tooltipSwitch": "{option1} o {option2}",
+    "@tooltipSwitch": {
+        "description": "Información sobre las dos opciones de un interruptor",
+        "placeholders": {
+            "option1": {
+                "type": "String"
+            },
+            "option2": {
+                "type": "String"
+            }
+        }
+    },
+    "warningEmptyData": "No hay datos",
+    "@warningEmptyData": {
+        "description": "Una advertencia cuando no hay datos disponibles"
+    },
+    "warningFormValidation": "{target, select, weight{Ingrese un peso válido} height{Ingrese una altura válida} age{Ingrese una edad válida} other{Entrada no válida}}",
+    "@warningFormValidation": {
+        "description": "Mensajes de validación para los campos del formulario",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    }
+}

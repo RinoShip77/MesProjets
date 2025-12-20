@@ -37,12 +37,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       if (context.mounted) {
         showSnackBar(
           context,
-          context.l10n.errorReadFile('legalWarning'),
+          context.l10n.appErrorReadFile('legalWarning'),
           true,
         );
       }
 
-      return context.l10n.errorLoadingAssets;
+      return context.l10n.appErrorLoadingAssets;
     }
   }
 
@@ -56,14 +56,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ).loadString('assets/user_guide.md', cache: false);
     } catch (e) {
       if (context.mounted) {
-        showSnackBar(
-          context,
-          context.l10n.errorReadFile('userGuide'),
-          true,
-        );
+        showSnackBar(context, context.l10n.appErrorReadFile('userGuide'), true);
       }
 
-      return context.l10n.errorLoadingAssets;
+      return context.l10n.appErrorLoadingAssets;
     }
   }
 
@@ -79,61 +75,53 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: const Icon(Icons.warning_amber_rounded),
           tooltip: context.l10n.appDialogTitle('legalWarning'),
           onPressed: () async {
-              try {
-                // 1. Charger le texte du guide de manière sûre
-                final String content = await _getWarningText(context);
+            try {
+              // 1. Charger le texte du guide de manière sûre
+              final String content = await _getWarningText(context);
 
-                // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
-                if (context.mounted) {
-                  await openDialog(
-                    context: context,
-                    title: context.l10n.appDialogTitle('legalWarning'),
-                    content: content, // Utilisez le contenu chargé
-                  );
-                }
-              } catch (e, stack) {
-                // 3. En cas d'erreur de chargement ou d'ouverture du dialogue :
-                // Afficher une simple Snackbar à l'utilisateur au lieu de crasher
-                if (context.mounted) {
-                  // Assurez-vous que showSnackBar est importé de helpers.dart
-                  showSnackBar(
-                    context,
-                    context.l10n.errorLoadingAssets,
-                    true,
-                  );
-                }
+              // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
+              if (context.mounted) {
+                await openDialog(
+                  context: context,
+                  title: context.l10n.appDialogTitle('legalWarning'),
+                  content: content, // Utilisez le contenu chargé
+                );
               }
-            },
+            } catch (e) {
+              // 3. En cas d'erreur de chargement ou d'ouverture du dialogue :
+              // Afficher une simple Snackbar à l'utilisateur au lieu de crasher
+              if (context.mounted) {
+                // Assurez-vous que showSnackBar est importé de helpers.dart
+                showSnackBar(context, context.l10n.appErrorLoadingAssets, true);
+              }
+            }
+          },
         ),
         IconButton(
           icon: const Icon(Icons.info_outline_rounded),
           tooltip: context.l10n.appDialogTitle('userGuide'),
           onPressed: () async {
-              try {
-                // 1. Charger le texte du guide de manière sûre
-                final String content = await _getGuideText(context);
+            try {
+              // 1. Charger le texte du guide de manière sûre
+              final String content = await _getGuideText(context);
 
-                // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
-                if (context.mounted) {
-                  await openDialog(
-                    context: context,
-                    title: context.l10n.appDialogTitle('userGuide'),
-                    content: content, // Utilisez le contenu chargé
-                  );
-                }
-              } catch (e, stack) {
-                // 3. En cas d'erreur de chargement ou d'ouverture du dialogue :
-                // Afficher une simple Snackbar à l'utilisateur au lieu de crasher
-                if (context.mounted) {
-                  // Assurez-vous que showSnackBar est importé de helpers.dart
-                  showSnackBar(
-                    context,
-                    context.l10n.errorLoadingAssets,
-                    true,
-                  );
-                }
+              // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
+              if (context.mounted) {
+                await openDialog(
+                  context: context,
+                  title: context.l10n.appDialogTitle('userGuide'),
+                  content: content, // Utilisez le contenu chargé
+                );
               }
-            },
+            } catch (e) {
+              // 3. En cas d'erreur de chargement ou d'ouverture du dialogue :
+              // Afficher une simple Snackbar à l'utilisateur au lieu de crasher
+              if (context.mounted) {
+                // Assurez-vous que showSnackBar est importé de helpers.dart
+                showSnackBar(context, context.l10n.appErrorLoadingAssets, true);
+              }
+            }
+          },
         ),
       ],
       foregroundColor: foreground,

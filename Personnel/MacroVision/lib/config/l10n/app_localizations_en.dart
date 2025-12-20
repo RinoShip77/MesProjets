@@ -11,9 +11,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String appDialogTitle(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
-      'legalWarning': 'Avertissement légale',
-      'userGuide': 'Guide de l\'utilisateur',
-      'other': 'Langue non supportée',
+      'legalWarning': 'Legal Warning',
+      'userGuide': 'User Guide',
+      'other': 'Unsupported Language',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get appError => 'An error occurred';
+
+  @override
+  String get appErrorDelete => 'Deletion error';
+
+  @override
+  String get appErrorForm => 'Form error. Please check your inputs';
+
+  @override
+  String get appErrorLoadingAssets => 'Error: Unable to load file';
+
+  @override
+  String get appErrorLoadingContent => 'Error loading data';
+
+  @override
+  String appErrorReadFile(String context) {
+    String _temp0 = intl.Intl.selectLogic(context, {
+      'legalWarning': 'Error: Unable to read legal warning',
+      'userGuide': 'Error: Unable to read user guide',
+      'other': 'Error: Unable to read file',
     });
     return '$_temp0';
   }
@@ -23,30 +48,148 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.selectLogic(target, {
       'fr': 'French',
       'en': 'English',
-      'other': 'Unsupported language',
+      'es': 'Spanish',
+      'fil': 'Filipino',
+      'hi': 'Hindi',
+      'ja': 'Japanese',
+      'sv': 'Swedish',
+      'uk': 'Ukrainian',
+      'zh': 'Chinese',
+      'other': 'Unsupported Language',
     });
     return '$_temp0';
   }
 
   @override
-  String get appLoadingLbl => 'Initialisation...';
+  String get appLoadingLbl => 'Initializing...';
 
   @override
-  String appSaveBtn(String context) {
-    return 'Sauvegarder $context';
+  String get appRefreshDataLbl => 'Refresh data';
+
+  @override
+  String get appSeeHistoryBtn => 'See history';
+
+  @override
+  String appSuccessUpdate(String context) {
+    String _temp0 = intl.Intl.selectLogic(context, {
+      'profile': 'Profile successfully updated',
+      'history': 'History successfully updated',
+      'other': 'Update successful',
+    });
+    return '$_temp0';
   }
 
   @override
-  String get appSeeHistoryBtn => 'Voir l\'historique';
+  String appSummaryLbl(String duration) {
+    String _temp0 = intl.Intl.selectLogic(duration, {
+      'daily': 'Daily Summary',
+      'weekly': 'Weekly Summary',
+      'other': '',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get appUserNameInpLbl => 'Username';
+
+  @override
+  String get appWarningEmptyData => 'No data';
+
+  @override
+  String appWarningFormValidation(String target) {
+    String _temp0 = intl.Intl.selectLogic(target, {
+      'weight': 'Enter a valid weight',
+      'height': 'Enter a valid height',
+      'age': 'Enter a valid age',
+      'comment': 'Please enter your comment',
+      'other': 'Invalid input',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String btnSaveLbl(String context) {
+    return 'Save $context';
+  }
+
+  @override
+  String get btnSeeHistoryLbl => 'See history';
+
+  @override
+  String get cameraScreenAnalysisInProgressLbl => 'AI Analysis in progress...';
+
+  @override
+  String cameraScreenBtn(String context) {
+    String _temp0 = intl.Intl.selectLogic(context, {
+      'flash': 'Toggle flash',
+      'gallery': 'Select image from gallery',
+      'camera': 'Take a photo',
+      'other': 'Camera',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String cameraScreenErrors(String type) {
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'initialization': 'Camera initialization error',
+      'flash': 'Error toggling flash',
+      'capture': 'Capture error',
+      'analysis': 'Analysis error',
+      'permissions': 'Unable to access camera. Check app permissions',
+      'other': 'Camera error',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get cameraScreenTitle => 'Food Analysis';
+
+  @override
+  String get cameraScreenVisualHintLbl =>
+      'Tip: Target one food item at a time, with good lighting';
+
+  @override
+  String dashboardScreenChartTypeOption(String type) {
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'bars': 'Bars',
+      'lines': 'Lines',
+      'other': 'Chart',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String dashboardScreenDailyObjectiveLbl(String target) {
+    String _temp0 = intl.Intl.selectLogic(target, {
+      'calories': 'Calories',
+      'protein': 'Protein',
+      'totalFat': 'Fat',
+      'totalCarbohydrate': 'Carbs',
+      'other': 'Nutrients',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get dashboardScreenDailyObjectivesLbl => 'Today\'s objectives';
+
+  @override
+  String get dashboardScreenNotEnoughDataLbl =>
+      'Insufficient history for the chart';
+
+  @override
+  String get dashboardScreenSelectChartTypeLbl =>
+      'Show data in bar or line charts';
 
   @override
   String get dashboardScreenTitle => 'Dashboard';
 
   @override
-  String get errorDelete => 'Erreur de suppression';
+  String get dashboardScreenWeeklySummaryLbl => 'Weekly Summary (Calories)';
 
   @override
-  String get errorForm => 'Form error. Please check your entries';
+  String get errorForm => 'Form error. Please check your inputs';
 
   @override
   String get errorGlobal => 'An error occurred';
@@ -58,17 +201,84 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorLoadingContent => 'Error loading data';
 
   @override
-  String errorReadFile(String context) {
-    String _temp0 = intl.Intl.selectLogic(context, {
-      'legalWarning': 'Erreur: Impossible de lire l\'avertissement légale',
-      'userGuide': 'Erreur: Impossible de lire le guide utilisateur',
-      'other': 'Erreur: Impossible de lire le fichier',
+  String get errorReadUserGuide => 'Error: Unable to read user guide';
+
+  @override
+  String get errorScreenDetailsLbl => 'Details (visible in Debug mode):';
+
+  @override
+  String errorScreenGoToBtn(String target) {
+    String _temp0 = intl.Intl.selectLogic(target, {
+      'comment': 'Submit a comment',
+      'home': 'Return to home',
+      'other': '',
     });
     return '$_temp0';
   }
 
   @override
-  String get feedbackScreenTitle => 'Feedback';
+  String get errorScreenTitle => 'Error';
+
+  @override
+  String get feedbackScreenCommentHintLbl =>
+      'Describe your experience, report a bug, or suggest an idea...';
+
+  @override
+  String get feedbackScreenCommentPaceholderLbl => 'Your message...';
+
+  @override
+  String get feedbackScreenEncouragingMessageLbl =>
+      'I appreciate your feedback! Help me improve MacroVision';
+
+  @override
+  String get feedbackScreenNoEmailClientLbl => 'Unable to open email app';
+
+  @override
+  String get feedbackScreenNoRecipientEmailLbl =>
+      'Feedback email address is missing';
+
+  @override
+  String get feedbackScreenOpeningEmailLbl => 'Opening email app';
+
+  @override
+  String feedbackScreenSendBtn(String state) {
+    String _temp0 = intl.Intl.selectLogic(state, {
+      'true': 'Sending...',
+      'false': 'Send feedback',
+      'other': '',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get feedbackScreenSendToClipboard => 'Send my message to clipboard';
+
+  @override
+  String get feedbackScreenSendTooltip => 'Send feedback';
+
+  @override
+  String feedbackScreenSendedToClipboard(String context) {
+    String _temp0 = intl.Intl.selectLogic(context, {
+      'comment': 'Comment sent to clipboard',
+      'email': 'Email address sent to clipboard',
+      'other': 'Sent to clipboard',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get feedbackScreenSendingError => 'Error sending feedback';
+
+  @override
+  String get feedbackScreenTitle => 'Comment';
+
+  @override
+  String historyScreenDeleteSuccessLbl(String date) {
+    return 'Entry for $date was deleted from history';
+  }
+
+  @override
+  String get historyScreenTitle => 'History';
 
   @override
   String homeScreenDailyAnalisisLbl(int count) {
@@ -83,88 +293,77 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String historyScreenDeleteSuccessLbl(String date) {
-    return 'L\'entrée du $date a été supprimée de l\'historique';
-  }
-
-  @override
-  String get historyScreenTitle => 'Historique';
-
-  @override
-  String get homeScreenDailySummaryLbl => 'Daily Summary';
-
-  @override
-  String homeScreenDailySummaryStatLbl(int stat) {
-    return 'sur $stat g';
-  }
-
-  @override
   String homeScreenDailySummaryMacroCardLbl(String field) {
     String _temp0 = intl.Intl.selectLogic(field, {
-      'carbohydrate': 'Glu',
+      'carbohydrate': 'Carbs',
       'protein': 'Pro',
-      'fat': 'Lip',
+      'fat': 'Fat',
       'other': 'Stat',
     });
     return '$_temp0';
   }
 
   @override
-  String get homeScreenStartAnalysisBtn => 'Analyser un repas';
+  String homeScreenDailySummaryStatLbl(int stat) {
+    return 'out of $stat g';
+  }
+
+  @override
+  String get homeScreenStartAnalysisBtn => 'Analyze a meal';
 
   @override
   String get homeScreenTitle => 'Home';
 
   @override
-  String get homeScreenWelcomeLbl => 'Bienvenue sur MacroVision';
+  String get homeScreenWelcomeLbl => 'Welcome to MacroVision';
 
   @override
   String initializationScreenDialogDefaultLbl(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
-      'legalWarning': 'Chargement de l\'avertissement légale...',
-      'userGuide': 'Chargement des instructions...',
-      'other': 'Chargement du contenu...',
+      'legalWarning': 'Loading legal warning...',
+      'userGuide': 'Loading instructions...',
+      'other': 'Loading content...',
     });
     return '$_temp0';
   }
 
   @override
-  String get profileScreenActivityLevelLbl => 'Niveau d\'activité physique';
+  String get profileScreenActivityLevelInpLbl => 'Physical activity level';
 
   @override
   String profileScreenActivityLevelOption(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
-      'sedentary': 'Sédentaire (peu ou pas d\'exercice)',
-      'lightly': 'Légèrement actif (1-3 jours/semaine)',
-      'moderate': 'Modérément actif (3-5 jours/semaine)',
-      'very': 'Très actif (6-7 jours/semaine)',
-      'extra': 'Extrêmement actif (2x/jour)',
-      'other': 'Aucun',
+      'sedentary': 'Sedentary (little or no exercise)',
+      'lightly': 'Lightly active (1-3 days/week)',
+      'moderate': 'Moderately active (3-5 days/week)',
+      'very': 'Very active (6-7 days/week)',
+      'extra': 'Extremely active (2x/day)',
+      'other': 'None',
     });
     return '$_temp0';
   }
 
   @override
-  String get profileScreenGenderLbl => 'Sexe';
+  String get profileScreenGenderInpLbl => 'Gender';
 
   @override
   String profileScreenGenderOption(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
-      'male': 'Homme',
-      'female': 'Femme',
-      'other': 'Autre',
+      'male': 'Male',
+      'female': 'Female',
+      'other': 'Other',
     });
     return '$_temp0';
   }
 
   @override
-  String get profileScreenGoalLbl => 'Objectif principal';
+  String get profileScreenGoalInpLbl => 'Main goal';
 
   @override
   String profileScreenGoalOption(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
-      'weightLoss': 'Weight Loss',
-      'muscleGain': 'Muscle Gain',
+      'weightLoss': 'Weight loss',
+      'muscleGain': 'Muscle gain',
       'maintain': 'Maintenance',
       'other': 'None',
     });
@@ -172,25 +371,24 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String profileScreenHeightLbl(String unit) {
-    return 'Height ($unit)';
-  }
-
-  @override
   String profileScreenInpLbl(String target, String unit) {
     String _temp0 = intl.Intl.selectLogic(target, {
       'weight': 'Weight ($unit)',
       'height': 'Height ($unit)',
-      'other': '$unit',
+      'other': 'Age',
     });
     return '$_temp0';
   }
 
   @override
-  String get profileScreenNameLbl => 'Username';
+  String get profileScreenSaveBtn => 'Save profile';
 
   @override
   String get profileScreenTitle => 'Profile';
+
+  @override
+  String get profileScreenUnitSystemSwitch =>
+      'Metric (kg, cm) or Imperial (lb, in)';
 
   @override
   String profileScreenUnitOption(String unit) {
@@ -203,71 +401,66 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get profileScreenUnitSystemLbl => 'Unit System';
-
-  @override
-  String profileScreenWeightLbl(String unit) {
-    return 'Weight ($unit)';
-  }
-
-  @override
-  String resultScreenEstimatedWeightLbl(String weight, String unit) {
-    return 'Portion estimé par l\'IA : $weight $unit';
-  }
+  String get profileScreenUnitSystemLbl => 'Unit system';
 
   @override
   String resultScreenAnalysisOutputLbl(String context) {
     String _temp0 = intl.Intl.selectLogic(context, {
-      'energy': 'Énergie',
+      'energy': 'Energy',
       'calories': 'Calories',
-      'totalFat': 'Lipides',
-      'saturatedFat': 'Saturés',
+      'totalFat': 'Fat',
+      'saturatedFat': 'Saturated',
       'transFat': 'Trans',
-      'cholesterol': 'Cholestérol',
+      'cholesterol': 'Cholesterol',
       'sodium': 'Sodium',
       'potassium': 'Potassium',
-      'totalCarbohydrate': 'Glucides',
-      'dietaryFiber': 'Fibres',
-      'sugar': 'Sucres',
-      'protein': 'Protéines',
-      'other': 'Nutriments',
+      'carbohydrate': 'Carbohydrates',
+      'fiber': 'Fiber',
+      'sugar': 'Sugars',
+      'protein': 'Protein',
+      'other': 'Nutrients',
     });
     return '$_temp0';
   }
 
   @override
   String resultScreenAnalysisSummaryLbl(String weight, String unit) {
-    return 'Analyse nutrionnelle pour $weight $unit';
+    return 'Nutritional analysis for $weight $unit';
   }
 
   @override
-  String get resultScreenNewAnalysisBtn => 'Analyser une nouvelle photo';
+  String resultScreenEstimatedWeightLbl(String weight, String unit) {
+    return 'Portion estimated by AI: $weight $unit';
+  }
+
+  @override
+  String get resultScreenNewAnalysisBtn => 'Analyze a new photo';
 
   @override
   String resultScreenPortionLbl(String unit) {
-    return 'Poid réel ($unit)';
+    return 'Real weight ($unit)';
   }
 
   @override
-  String get resultScreenRefineAnalysisBtn => 'Ajuster l\'analyse';
+  String get resultScreenRefineAnalysisBtn => 'Adjust analysis';
 
   @override
   String resultScreenRefineAnalysisLbl(String weight, String unit) {
-    return 'Analyse ajustée pour $weight ($unit)';
+    return 'Adjusted analysis for $weight ($unit)';
   }
 
   @override
   String resultScreenSwitchLbl(String unit) {
     String _temp0 = intl.Intl.selectLogic(unit, {
-      'kJ': 'Afficher en kcal/cal',
-      'cal': 'Afficher en kJ',
-      'other': 'changer d\'unitée',
+      'kJ': 'Show in kcal/cal',
+      'cal': 'Show in kJ',
+      'other': 'change unit',
     });
     return '$_temp0';
   }
 
   @override
-  String get resultScreenTitle => 'Résultat';
+  String get resultScreenTitle => 'Result';
 
   @override
   String settingsScreenCustomThemeOption(String color) {
@@ -297,9 +490,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String settingsScreenLuminosityOption(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
-      'default': 'System Default',
-      'light': 'Light Mode',
-      'dark': 'Dark Mode',
+      'default': 'System default',
+      'light': 'Light mode',
+      'dark': 'Dark mode',
       'other': 'None',
     });
     return '$_temp0';
@@ -308,9 +501,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String settingsScreenSectionLbl(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
-      'language': 'App Language',
-      'luminosity': 'App Brightness',
-      'color': 'Custom Colors',
+      'language': 'App language',
+      'luminosity': 'App brightness',
+      'color': 'Custom colors',
       'other': 'Settings',
     });
     return '$_temp0';
@@ -329,16 +522,6 @@ class AppLocalizationsEn extends AppLocalizations {
       zero: 'Calorie: 0',
     );
     return '$_temp0';
-  }
-
-  @override
-  String successUpdate(String context) {
-    return '$context has been successfully updated';
-  }
-
-  @override
-  String tooltipSwitch(String option1, String option2) {
-    return '$option1 or $option2';
   }
 
   @override

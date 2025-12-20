@@ -1,0 +1,543 @@
+{
+    "@@locale": "sv",
+    "@@comment": "Denna fil innehåller alla konstanter för översättning till svenska",
+    "appDialogTitle": "{target, select, legalWarning{Rättslig varning} userGuide{Användarhandbok} other{Språk stöds inte}}",
+    "@appDialogTitle": {
+        "description": "Titeln för dialogrutor",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "appError": "Ett fel har uppstått",
+    "@appError": {
+        "description": "Ett globalt felmeddelande"
+    },
+    "appErrorDelete": "Fel vid borttagning",
+    "@appErrorDelete": {
+        "description": "Felmeddelande vid borttagning"
+    },
+    "appErrorForm": "Fel i formuläret. Kontrollera dina uppgifter",
+    "@appErrorForm": {
+        "description": "Meddelande som visas när en formulärvalidering misslyckas"
+    },
+    "appErrorLoadingAssets": "Fel: Det gick inte att ladda filen",
+    "@appErrorLoadingAssets": {
+        "description": "Felmeddelande vid laddning av en resurs"
+    },
+    "appErrorLoadingContent": "Fel vid laddning av data",
+    "@appErrorLoadingContent": {
+        "description": "Felmeddelande vid laddning av data"
+    },
+    "appErrorReadFile": "{context, select, legalWarning{Fel: Det gick inte att läsa den rättsliga varningen} userGuide{Fel: Det gick inte att läsa användarhandboken} other{Fel: Det gick inte att läsa filen}}",
+    "@appErrorReadFile": {
+        "description": "Felmeddelande för läsning av en fil",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "appLanguageName": "{target, select, fr{Franska} en{Engelska} es{Spanska} fil{Filippinska} hej{Hindi} ja{Japanska} sv{Svenska} uk{Ukrainska} zh{Kinesiska} sw{Swahili} other{Språk stöds inte}}",
+    "@appLanguageName": {
+        "description": "Namnet på applikationens språk",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "appLoadingLbl": "Initierar...",
+    "@appLoadingLbl": {
+        "description": "Etikett som visas under applikationens initiering"
+    },
+    "appRefreshDataLbl": "Uppdatera data",
+    "@appRefreshDataLbl": {
+        "description": "Etikett för åtgärden att uppdatera data"
+    },
+    "appSeeHistoryBtn": "Visa historik",
+    "@appSeeHistoryBtn": {
+        "description": "Knappetikett för att se historiken"
+    },
+    "appSuccessUpdate": "{context, select, profile{Profilen har uppdaterats med framgång} history{Historiken har uppdaterats med framgång} other{Uppdateringen lyckades}}",
+    "@appSuccessUpdate": {
+        "description": "Framgångsmeddelande efter uppdatering av ett specifikt element",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "appSummaryLbl": "{duration, select, daily{Daglig sammanfattning} weekly{Veckosammanfattning} other{}}",
+    "@appSummaryLbl": {
+        "description": "Etikett för sammanfattningssektionen",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "appUserNameInpLbl": "Användarnamn",
+    "@appUserNameInpLbl": {
+        "description": "Etikett för användarnamnet"
+    },
+    "appWarningEmptyData": "Ingen data",
+    "@appWarningEmptyData": {
+        "description": "En varning när ingen data är tillgänglig"
+    },
+    "appWarningFormValidation": "{target, select, weight{Ange en giltig vikt} height{Ange en giltig längd} age{Ange en giltig ålder} comment{Vänligen ange din kommentar} other{Ogiltig inmatning}}",
+    "@appWarningFormValidation": {
+        "description": "Valideringsmeddelanden för formulärfält",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSaveLbl": "Spara {context}",
+    "@btnSaveLbl": {
+        "description": "Spara-knappetikett med sammanhang",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSeeHistoryLbl": "Visa historik",
+    "@btnSeeHistoryLbl": {
+        "description": "Knappetikett för att se historiken"
+    },
+    "cameraScreenAnalysisInProgressLbl": "Analys pågår via AI...",
+    "@cameraScreenAnalysisInProgressLbl": {
+        "description": "Meddelande som anger att bildanalys pågår"
+    },
+    "cameraScreenBtn": "{context, select, flash{Växla blixt} gallery{Välj en bild från galleriet} camera{Ta ett foto} other{Kamera}}",
+    "@cameraScreenBtn": {
+        "description": "Knappetiketter för kameraskärmen",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "cameraScreenErrors": "{type, select, initialization{Fel vid initiering av kameran} flash{Fel vid växling av blixt} capture{Fel vid bildtagning} analysis{Analysfel} permissions{Kan inte komma åt kameran. Kontrollera appens behörigheter} other{Kamerafel}}",
+    "@cameraScreenErrors": {
+        "description": "Felmeddelanden relaterade till användning av kameran",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "cameraScreenTitle": "Livsmedelsanalys",
+    "@cameraScreenTitle": {
+        "description": "Titel för kamerans analysskärm"
+    },
+    "cameraScreenVisualHintLbl": "Tips: Rikta mot ett livsmedel i taget, med bra ljus",
+    "@cameraScreenVisualHintLbl": {
+        "description": "Visuellt tips för användaren på kameraskärmen"
+    },
+    "dashboardScreenChartTypeOption": "{type, select, bars{Staplar} lines{Linjer} other{Diagram}}",
+    "@dashboardScreenChartTypeOption": {
+        "description": "Alternativ för diagramtyp i instrumentpanelen",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyObjectiveLbl": "{target, select, calories{Kalorier} protein{Protein} totalFat{Fett} totalCarbohydrate{Kolhydrater} other{Näringsämnen}}",
+    "@dashboardScreenDailyObjectiveLbl": {
+        "description": "Etiketter för dagliga näringsmål",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyObjectivesLbl": "Dagens mål",
+    "@dashboardScreenDailyObjectivesLbl": {
+        "description": "Titel för sektionen med dagliga mål"
+    },
+    "dashboardScreenNotEnoughDataLbl": "Otillräcklig historik för diagrammet",
+    "@dashboardScreenNotEnoughDataLbl": {
+        "description": "En varning när historiken är otillräcklig"
+    },
+    "dashboardScreenSelectChartTypeLbl": "Visa data i ett stapel- eller linjediagram",
+    "@dashboardScreenSelectChartTypeLbl": {
+        "description": "Instruktion för att välja diagramtyp"
+    },
+    "dashboardScreenTitle": "Instrumentpanel",
+    "@dashboardScreenTitle": {
+        "description": "Titel för huvudinstrumentpanelen"
+    },
+    "dashboardScreenWeeklySummaryLbl": "Veckosammanfattning (Kalorier)",
+    "@dashboardScreenWeeklySummaryLbl": {
+        "description": "Titel för sammanfattningen av kalorier under veckan"
+    },
+    "errorForm": "Fel i formuläret. Kontrollera dina uppgifter",
+    "@errorForm": {
+        "description": "Meddelande som visas när en formulärvalidering misslyckas"
+    },
+    "errorGlobal": "Ett fel har uppstått",
+    "@errorGlobal": {
+        "description": "Ett globalt felmeddelande"
+    },
+    "errorLoadingAssets": "Fel: Det gick inte att ladda filen",
+    "@errorLoadingAssets": {
+        "description": "Felmeddelande vid laddning av en resurs"
+    },
+    "errorLoadingContent": "Fel vid laddning av data",
+    "@errorLoadingContent": {
+        "description": "Felmeddelande vid laddning av data"
+    },
+    "errorReadUserGuide": "Fel: Det gick inte att läsa användarhandboken",
+    "@errorReadUserGuide": {
+        "description": "Felmeddelande för användarhandboken"
+    },
+    "errorScreenDetailsLbl": "Detaljer (synliga i felsökningsläge):",
+    "@errorScreenDetailsLbl": {
+        "description": "Etikett för feldetaljer"
+    },
+    "errorScreenGoToBtn": "{target, select, comment{Skicka en kommentar} home{Gå tillbaka till startsidan} other {}}",
+    "@errorScreenGoToBtn": {
+        "description": "Knappetikett för att gå till en viss skärm",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "errorScreenTitle": "Fel",
+    "@errorScreenTitle": {
+        "description": "Titel för felsidan"
+    },
+    "feedbackScreenCommentHintLbl": "Beskriv din upplevelse, rapportera en bugg eller föreslå en idé...",
+    "@feedbackScreenCommentHintLbl": {
+        "description": "Tipsmeddelande för kommentarsfältet"
+    },
+    "feedbackScreenCommentPaceholderLbl": "Ditt meddelande...",
+    "@feedbackScreenCommentPaceholderLbl": {
+        "description": "Tillfälligt meddelande för kommentarsfältet"
+    },
+    "feedbackScreenEncouragingMessageLbl": "Jag uppskattar din feedback! Hjälp mig att förbättra MacroVision",
+    "@feedbackScreenEncouragingMessageLbl": {
+        "description": "Informationsmeddelande"
+    },
+    "feedbackScreenNoEmailClientLbl": "Det går inte att öppna e-postappen",
+    "@feedbackScreenNoEmailClientLbl": {
+        "description": "Felmeddelande när e-postappen inte kan öppnas"
+    },
+    "feedbackScreenNoRecipientEmailLbl": "E-postadress för feedback saknas",
+    "@feedbackScreenNoRecipientEmailLbl": {
+        "description": "Felmeddelande vid läsning av e-postadressen"
+    },
+    "feedbackScreenOpeningEmailLbl": "Öppnar e-postappen",
+    "@feedbackScreenOpeningEmailLbl": {
+        "description": "Informationsmeddelande för 'mailto:'-länken"
+    },
+    "feedbackScreenSendBtn": "{state, select, true{Skickar...} false{Skicka feedback} other{}}",
+    "@feedbackScreenSendBtn": {
+        "description": "Knappetikett för att skicka kommentaren",
+        "placeholders": {
+            "state": {
+                "type": "String"
+            }
+        }
+    },
+    "feedbackScreenSendToClipboard": "Skicka mitt meddelande till urklipp",
+    "@feedbackScreenSendToClipboard": {
+        "description": "Knappetikett för att kopiera kommentaren"
+    },
+    "feedbackScreenSendTooltip": "Skicka feedback",
+    "@feedbackScreenSendTooltip": {
+        "description": "Knappetikett för att skicka kommentaren"
+    },
+    "feedbackScreenSendedToClipboard": "{context, select, comment{Kommentaren har kopierats till urklipp} email{E-postadressen har kopierats till urklipp} other{Kopierat till urklipp}}",
+    "@feedbackScreenSendedToClipboard": {
+        "description": "Framgångsetikett för kopiering",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "feedbackScreenSendingError": "Fel vid sändning av feedback",
+    "@feedbackScreenSendingError": {
+        "description": "Felmeddelande vid sändning av kommentar"
+    },
+    "feedbackScreenTitle": "Kommentar",
+    "@feedbackScreenTitle": {
+        "description": "Titel för kommentarssektionen"
+    },
+    "historyScreenDeleteSuccessLbl": "Inlägget för {date} har tagits bort från historiken",
+    "@historyScreenDeleteSuccessLbl": {
+        "description": "Text för borttagning av ett element",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "historyScreenTitle": "Historik",
+    "@historyScreenTitle": {
+        "description": "Titel för historiksidan"
+    },
+    "homeScreenDailyAnalisisLbl": "{count, plural, zero{Inga analyser} one{Analys (1)} other{Analyser ({count})}}",
+    "@homeScreenDailyAnalisisLbl": {
+        "description": "Titel som visar antalet dagliga analyser",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Kolh} protein{Pro} fat{Fett} other{Stat}}",
+    "@homeScreenDailySummaryMacroCardLbl": {
+        "description": "Text för korten i den dagliga sammanfattningen",
+        "placeholders": {
+            "field": {
+                "type": "String"
+            }
+        }
+    },
+    "homeScreenDailySummaryStatLbl": "av {stat} g",
+    "@homeScreenDailySummaryStatLbl": {
+        "description": "Text för statistiken i den dagliga sammanfattningen",
+        "placeholders": {
+            "stat": {
+                "type": "int"
+            }
+        }
+    },
+    "homeScreenStartAnalysisBtn": "Analysera en måltid",
+    "@homeScreenStartAnalysisBtn": {
+        "description": "Text för att starta en analys"
+    },
+    "homeScreenTitle": "Hem",
+    "@homeScreenTitle": {
+        "description": "Titel för startskärmen"
+    },
+    "homeScreenWelcomeLbl": "Välkommen till MacroVision",
+    "@homeScreenWelcomeLbl": {
+        "description": "Välkomstmeddelande"
+    },
+    "initializationScreenDialogDefaultLbl": "{target, select, legalWarning{Laddar rättslig varning...} userGuide{Laddar instruktioner...} other{Laddar innehåll...}}",
+    "@initializationScreenDialogDefaultLbl": {
+        "description": "Standardmeddelande under initiering",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenActivityLevelInpLbl": "Fysisk aktivitetsnivå",
+    "@profileScreenActivityLevelInpLbl": {
+        "description": "Etikett för fältet för fysisk aktivitetsnivå"
+    },
+    "profileScreenActivityLevelOption": "{target, select, sedentary{Stillasittande (lite eller ingen motion)} lightly{Lätt aktiv (1-3 dagar/vecka)} moderate{Måttligt aktiv (3-5 dagar/vecka)} very{Mycket aktiv (6-7 dagar/vecka)} extra{Extremt aktiv (2 ggr/dag)} other{Ingen}}",
+    "@profileScreenActivityLevelOption": {
+        "description": "Alternativ för fysisk aktivitetsnivå",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGenderInpLbl": "Kön",
+    "@profileScreenGenderInpLbl": {
+        "description": "Etikett för fältet för användarens kön"
+    },
+    "profileScreenGenderOption": "{target, select, male{Man} female{Kvinna} other{Annat}}",
+    "@profileScreenGenderOption": {
+        "description": "Val av användarens kön",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGoalInpLbl": "Huvudsakligt mål",
+    "@profileScreenGoalInpLbl": {
+        "description": "Etikett för fältet för det huvudsakliga målet"
+    },
+    "profileScreenGoalOption": "{target, select, weightLoss{Viktminskning} muscleGain{Muskelökning} maintain{Behålla} other{Inget}}",
+    "@profileScreenGoalOption": {
+        "description": "Val av användarens träningsmål",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenInpLbl": "{target, select, weight{Vikt ({unit})} height{Längd ({unit})} other{Ålder}}",
+    "@profileScreenInpLbl": {
+        "description": "Dynamisk etikett för profilinmatningar",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenSaveBtn": "Spara profil",
+    "@profileScreenSaveBtn": {
+        "description": "Spara-knappetikett"
+    },
+    "profileScreenTitle": "Profil",
+    "@profileScreenTitle": {
+        "description": "Titel för profilskärmen"
+    },
+    "profileScreenUnitSystemSwitch": "Metrisk (kg, cm) eller Imperial (lb, in)",
+    "@profileScreenUnitSystemSwitch": {
+        "description": "Inforuta som visar de två alternativen för en strömbrytare"
+    },
+    "profileScreenUnitOption": "{unit, select, metric{Metrisk} imperial{Imperial} other{Ingen}}",
+    "@profileScreenUnitOption": {
+        "description": "Alternativ för enhetssystem",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenUnitSystemLbl": "Enhetssystem",
+    "@profileScreenUnitSystemLbl": {
+        "description": "Titel för inställning av enhetssystem"
+    },
+    "resultScreenAnalysisOutputLbl": "{context, select, energy{Energi} calories{Kalorier} totalFat{Fett} saturatedFat{Mättat} transFat{Trans} cholesterol{Kolesterol} sodium{Natrium} potassium{Kalium} carbohydrate{Kolhydrater} fiber{Fiber} sugar{Sockerarter} protein{Protein} other{Näringsämnen}}",
+    "@resultScreenAnalysisOutputLbl": {
+        "description": "Näringsetiketter i analysresultaten",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenAnalysisSummaryLbl": "Näringsanalys för {weight} {unit}",
+    "@resultScreenAnalysisSummaryLbl": {
+        "description": "Titel för analyssammanfattningen med vikt och enhet",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenEstimatedWeightLbl": "Portion uppskattad av AI: {weight} {unit}",
+    "@resultScreenEstimatedWeightLbl": {
+        "description": "Portionsvikt enligt AI-uppskattning",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenNewAnalysisBtn": "Analysera ett nytt foto",
+    "@resultScreenNewAnalysisBtn": {
+        "description": "Etikett för knappen för att starta om en analys"
+    },
+    "resultScreenPortionLbl": "Verklig vikt ({unit})",
+    "@resultScreenPortionLbl": {
+        "description": "Etikett för inmatning av verklig vikt",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenRefineAnalysisBtn": "Justera analysen",
+    "@resultScreenRefineAnalysisBtn": {
+        "description": "Etikett för knappen för att finjustera analysen"
+    },
+    "resultScreenRefineAnalysisLbl": "Justerad analys för {weight} ({unit})",
+    "@resultScreenRefineAnalysisLbl": {
+        "description": "Etikett för korrigerad analys med vikt och dess enhet",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenSwitchLbl": "{unit, select, kJ{Visa i kcal/cal} cal{Visa i kJ} other{byt enhet}}",
+    "@resultScreenSwitchLbl": {
+        "description": "Etikett för att ändra den visade energienheten",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenTitle": "Resultat",
+    "@resultScreenTitle": {
+        "description": "Titel för resultatskärmen"
+    },
+    "settingsScreenCustomThemeOption": "{color, select, mint{Mynta} ocean{Ocean} passion{Passion} neon{Neon} platinum{Platina} merlot{Merlot} lemon{Citron} lime{Lime} peacock{Påfågel} azure{Azur} candy{Godis} pumpkin{Pumpa} lapis{Lapis} scarlet{Scharlakansröd} other{Färg}}",
+    "@settingsScreenCustomThemeOption": {
+        "description": "Val av anpassat tema för applikationen",
+        "placeholders": {
+            "color": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenLanguageSelectLbl": "Språk",
+    "@settingsScreenLanguageSelectLbl": {
+        "description": "Titeln för val av språk"
+    },
+    "settingsScreenLuminosityOption": "{target, select, default{Systemstandard} light{Ljust läge} dark{Mörkt läge} other{Ingen}}",
+    "@settingsScreenLuminosityOption": {
+        "description": "Val av applikationens ljusstyrka",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenSectionLbl": "{target, select, language{Applikationsspråk} luminosity{Applikationens ljusstyrka} color{Anpassade färger} other{Inställningar}}",
+    "@settingsScreenSectionLbl": {
+        "description": "Titeln som ska visas beroende på inställningssammanhanget",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenTitle": "Inställningar",
+    "@settingsScreenTitle": {
+        "description": "Titel för inställningsskärmen"
+    },
+    "statsCalorie": "{count, plural, zero{Kalori: 0} one{Kalori: 1} other{Kalorier: {count}}}",
+    "@statsCalorie": {
+        "description": "Visning av kaloriräkning",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "warningEmptyData": "Ingen data",
+    "@warningEmptyData": {
+        "description": "En varning när ingen data är tillgänglig"
+    },
+    "warningFormValidation": "{target, select, weight{Ange en giltig vikt} height{Ange en giltig längd} age{Ange en giltig ålder} other{Ogiltig inmatning}}",
+    "@warningFormValidation": {
+        "description": "Valideringsmeddelanden för formulärfält",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    }
+}

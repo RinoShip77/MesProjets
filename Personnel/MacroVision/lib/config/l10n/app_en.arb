@@ -1,7 +1,45 @@
 {
     "@@locale": "en",
-    "@@comment": "This file contains the set of constants for the EN translation",
-    "appLanguageName": "{target, select, fr{French} en{English} other{Unsupported language}}",
+    "@@comment": "This file contains the set of constants for English translation",
+    "appDialogTitle": "{target, select, legalWarning{Legal Warning} userGuide{User Guide} other{Unsupported Language}}",
+    "@appDialogTitle": {
+        "description": "The title for dialog boxes",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "appError": "An error occurred",
+    "@appError": {
+        "description": "A global error message"
+    },
+    "appErrorDelete": "Deletion error",
+    "@appErrorDelete": {
+        "description": "Error message during deletion"
+    },
+    "appErrorForm": "Form error. Please check your inputs",
+    "@appErrorForm": {
+        "description": "Message displayed when form validation fails"
+    },
+    "appErrorLoadingAssets": "Error: Unable to load file",
+    "@appErrorLoadingAssets": {
+        "description": "Error message when loading a resource"
+    },
+    "appErrorLoadingContent": "Error loading data",
+    "@appErrorLoadingContent": {
+        "description": "Error message when loading data"
+    },
+    "appErrorReadFile": "{context, select, legalWarning{Error: Unable to read legal warning} userGuide{Error: Unable to read user guide} other{Error: Unable to read file}}",
+    "@appErrorReadFile": {
+        "description": "Error message for reading a file",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "appLanguageName": "{target, select, fr{French} en{English} es{Spanish} fil{Filipino} hi{Hindi} ja{Japanese} sv{Swedish} uk{Ukrainian} zh{Chinese} sw{Swahili} other{Unsupported Language}}",
     "@appLanguageName": {
         "description": "The name of the application language",
         "placeholders": {
@@ -10,30 +48,137 @@
             }
         }
     },
-    "appUserGuideLbl": "User Guide",
-    "@appUserGuideLbl": {
-        "description": "The title for the user guide"
+    "appLoadingLbl": "Initializing...",
+    "@appLoadingLbl": {
+        "description": "Label displayed during application initialization"
     },
-    "btnSaveLbl": "Save {context}",
-    "@btnSaveLbl": {
-        "description": "Label for the save button with context",
+    "appRefreshDataLbl": "Refresh data",
+    "@appRefreshDataLbl": {
+        "description": "Label for the data refresh action"
+    },
+    "appSeeHistoryBtn": "See history",
+    "@appSeeHistoryBtn": {
+        "description": "Button label to consult history"
+    },
+    "appSuccessUpdate": "{context, select, profile{Profile successfully updated} history{History successfully updated} other{Update successful}}",
+    "@appSuccessUpdate": {
+        "description": "Success message after updating a specific item",
         "placeholders": {
             "context": {
                 "type": "String"
             }
         }
     },
-    "btnSeeHistoryLbl": "View History",
+    "appSummaryLbl": "{duration, select, daily{Daily Summary} weekly{Weekly Summary} other{}}",
+    "@appSummaryLbl": {
+        "description": "Label for the summary section",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "appUserNameInpLbl": "Username",
+    "@appUserNameInpLbl": {
+        "description": "Label for the username"
+    },
+    "appWarningEmptyData": "No data",
+    "@appWarningEmptyData": {
+        "description": "A warning when no data is available"
+    },
+    "appWarningFormValidation": "{target, select, weight{Enter a valid weight} height{Enter a valid height} age{Enter a valid age} comment{Please enter your comment} other{Invalid input}}",
+    "@appWarningFormValidation": {
+        "description": "Validation messages for form fields",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSaveLbl": "Save {context}",
+    "@btnSaveLbl": {
+        "description": "Save button label with context",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSeeHistoryLbl": "See history",
     "@btnSeeHistoryLbl": {
-        "description": "Label for the button to view history"
+        "description": "Button label to consult history"
+    },
+    "cameraScreenAnalysisInProgressLbl": "AI Analysis in progress...",
+    "@cameraScreenAnalysisInProgressLbl": {
+        "description": "Message indicating image analysis is ongoing"
+    },
+    "cameraScreenBtn": "{context, select, flash{Toggle flash} gallery{Select image from gallery} camera{Take a photo} other{Camera}}",
+    "@cameraScreenBtn": {
+        "description": "Camera screen button labels",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "cameraScreenErrors": "{type, select, initialization{Camera initialization error} flash{Error toggling flash} capture{Capture error} analysis{Analysis error} permissions{Unable to access camera. Check app permissions} other{Camera error}}",
+    "@cameraScreenErrors": {
+        "description": "Error messages related to camera usage",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "cameraScreenTitle": "Food Analysis",
+    "@cameraScreenTitle": {
+        "description": "Title of the camera analysis screen"
+    },
+    "cameraScreenVisualHintLbl": "Tip: Target one food item at a time, with good lighting",
+    "@cameraScreenVisualHintLbl": {
+        "description": "Visual tip for the user on the camera screen"
+    },
+    "dashboardScreenChartTypeOption": "{type, select, bars{Bars} lines{Lines} other{Chart}}",
+    "@dashboardScreenChartTypeOption": {
+        "description": "Options for the chart type in the dashboard",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyObjectiveLbl": "{target, select, calories{Calories} protein{Protein} totalFat{Fat} totalCarbohydrate{Carbs} other{Nutrients}}",
+    "@dashboardScreenDailyObjectiveLbl": {
+        "description": "Labels for daily nutritional objectives",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyObjectivesLbl": "Today's objectives",
+    "@dashboardScreenDailyObjectivesLbl": {
+        "description": "Title of the daily objectives section"
+    },
+    "dashboardScreenNotEnoughDataLbl": "Insufficient history for the chart",
+    "@dashboardScreenNotEnoughDataLbl": {
+        "description": "A warning when history is insufficient"
+    },
+    "dashboardScreenSelectChartTypeLbl": "Show data in bar or line charts",
+    "@dashboardScreenSelectChartTypeLbl": {
+        "description": "Instruction for choosing the chart type"
     },
     "dashboardScreenTitle": "Dashboard",
     "@dashboardScreenTitle": {
         "description": "Title for the main dashboard"
     },
-    "errorForm": "Form error. Please check your entries",
+    "dashboardScreenWeeklySummaryLbl": "Weekly Summary (Calories)",
+    "@dashboardScreenWeeklySummaryLbl": {
+        "description": "Title of the weekly calorie summary"
+    },
+    "errorForm": "Form error. Please check your inputs",
     "@errorForm": {
-        "description": "Message displayed when a form validation fails"
+        "description": "Message displayed when form validation fails"
     },
     "errorGlobal": "An error occurred",
     "@errorGlobal": {
@@ -41,19 +186,103 @@
     },
     "errorLoadingAssets": "Error: Unable to load file",
     "@errorLoadingAssets": {
-        "description": "An error message for the loading of an asset"
+        "description": "Error message when loading a resource"
     },
     "errorLoadingContent": "Error loading data",
     "@errorLoadingContent": {
-        "description": "An error message for the loading of the data"
+        "description": "Error message when loading data"
     },
     "errorReadUserGuide": "Error: Unable to read user guide",
     "@errorReadUserGuide": {
-        "description": "An error message for the user guide"
+        "description": "Error message for the user guide"
     },
-    "feedbackScreenTitle": "Feedback",
+    "errorScreenDetailsLbl": "Details (visible in Debug mode):",
+    "@errorScreenDetailsLbl": {
+        "description": "Label for error details"
+    },
+    "errorScreenGoToBtn": "{target, select, comment{Submit a comment} home{Return to home} other {}}",
+    "@errorScreenGoToBtn": {
+        "description": "Button label to go to a given screen",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "errorScreenTitle": "Error",
+    "@errorScreenTitle": {
+        "description": "Title for the error page"
+    },
+    "feedbackScreenCommentHintLbl": "Describe your experience, report a bug, or suggest an idea...",
+    "@feedbackScreenCommentHintLbl": {
+        "description": "Hint message for the comment space"
+    },
+    "feedbackScreenCommentPaceholderLbl": "Your message...",
+    "@feedbackScreenCommentPaceholderLbl": {
+        "description": "Temporary message for the comment space"
+    },
+    "feedbackScreenEncouragingMessageLbl": "I appreciate your feedback! Help me improve MacroVision",
+    "@feedbackScreenEncouragingMessageLbl": {
+        "description": "Information message"
+    },
+    "feedbackScreenNoEmailClientLbl": "Unable to open email app",
+    "@feedbackScreenNoEmailClientLbl": {
+        "description": "Error message when opening the messaging app"
+    },
+    "feedbackScreenNoRecipientEmailLbl": "Feedback email address is missing",
+    "@feedbackScreenNoRecipientEmailLbl": {
+        "description": "Error message when reading the email address"
+    },
+    "feedbackScreenOpeningEmailLbl": "Opening email app",
+    "@feedbackScreenOpeningEmailLbl": {
+        "description": "Information message for the 'mailto:' link"
+    },
+    "feedbackScreenSendBtn": "{state, select, true{Sending...} false{Send feedback} other{}}",
+    "@feedbackScreenSendBtn": {
+        "description": "Success button label for sending comment",
+        "placeholders": {
+            "state": {
+                "type": "String"
+            }
+        }
+    },
+    "feedbackScreenSendToClipboard": "Send my message to clipboard",
+    "@feedbackScreenSendToClipboard": {
+        "description": "Button label for copying the comment"
+    },
+    "feedbackScreenSendTooltip": "Send feedback",
+    "@feedbackScreenSendTooltip": {
+        "description": "Success button label for sending comment"
+    },
+    "feedbackScreenSendedToClipboard": "{context, select, comment{Comment sent to clipboard} email{Email address sent to clipboard} other{Sent to clipboard}}",
+    "@feedbackScreenSendedToClipboard": {
+        "description": "Success button label for copying",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "feedbackScreenSendingError": "Error sending feedback",
+    "@feedbackScreenSendingError": {
+        "description": "Error message when sending comment"
+    },
+    "feedbackScreenTitle": "Comment",
     "@feedbackScreenTitle": {
-        "description": "Title for the feedback section"
+        "description": "Title for the comment section"
+    },
+    "historyScreenDeleteSuccessLbl": "Entry for {date} was deleted from history",
+    "@historyScreenDeleteSuccessLbl": {
+        "description": "Text for element deletion",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "historyScreenTitle": "History",
+    "@historyScreenTitle": {
+        "description": "Title for the history page"
     },
     "homeScreenDailyAnalisisLbl": "{count, plural, zero{No analysis} one{Analysis (1)} other{Analyses ({count})}}",
     "@homeScreenDailyAnalisisLbl": {
@@ -64,42 +293,85 @@
             }
         }
     },
-    "homeScreenDailySummaryLbl": "Daily Summary",
-    "@homeScreenDailySummaryLbl": {
-        "description": "Title for the daily summary section"
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Carbs} protein{Pro} fat{Fat} other{Stat}}",
+    "@homeScreenDailySummaryMacroCardLbl": {
+        "description": "Text for daily summary cards",
+        "placeholders": {
+            "field": {
+                "type": "String"
+            }
+        }
+    },
+    "homeScreenDailySummaryStatLbl": "out of {stat} g",
+    "@homeScreenDailySummaryStatLbl": {
+        "description": "Text for daily summary statistics",
+        "placeholders": {
+            "stat": {
+                "type": "int"
+            }
+        }
+    },
+    "homeScreenStartAnalysisBtn": "Analyze a meal",
+    "@homeScreenStartAnalysisBtn": {
+        "description": "Text to start an analysis"
     },
     "homeScreenTitle": "Home",
     "@homeScreenTitle": {
         "description": "Title for the home screen"
     },
-    "profileScreenGenderOption": "{target, select, male{Homme} female{Femme} other{Autre}}",
+    "homeScreenWelcomeLbl": "Welcome to MacroVision",
+    "@homeScreenWelcomeLbl": {
+        "description": "Welcome message"
+    },
+    "initializationScreenDialogDefaultLbl": "{target, select, legalWarning{Loading legal warning...} userGuide{Loading instructions...} other{Loading content...}}",
+    "@initializationScreenDialogDefaultLbl": {
+        "description": "Default message during initialization",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenActivityLevelInpLbl": "Physical activity level",
+    "@profileScreenActivityLevelInpLbl": {
+        "description": "Label for physical activity level field"
+    },
+    "profileScreenActivityLevelOption": "{target, select, sedentary{Sedentary (little or no exercise)} lightly{Lightly active (1-3 days/week)} moderate{Moderately active (3-5 days/week)} very{Very active (6-7 days/week)} extra{Extremely active (2x/day)} other{None}}",
+    "@profileScreenActivityLevelOption": {
+        "description": "Options for physical activity level",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGenderInpLbl": "Gender",
+    "@profileScreenGenderInpLbl": {
+        "description": "Label for user gender field"
+    },
+    "profileScreenGenderOption": "{target, select, male{Male} female{Female} other{Other}}",
     "@profileScreenGenderOption": {
-        "description": "Selection of the user's gender",
+        "description": "User gender selection",
         "placeholders": {
             "target": {
                 "type": "String"
             }
         }
     },
-    "profileScreenGoalOption": "{target, select, weightLoss{Weight Loss} muscleGain{Muscle Gain} maintain{Maintenance} other{None}}",
+    "profileScreenGoalInpLbl": "Main goal",
+    "@profileScreenGoalInpLbl": {
+        "description": "Label for main goal field"
+    },
+    "profileScreenGoalOption": "{target, select, weightLoss{Weight loss} muscleGain{Muscle gain} maintain{Maintenance} other{None}}",
     "@profileScreenGoalOption": {
-        "description": "Selection of the user's fitness goal",
+        "description": "User fitness goal selection",
         "placeholders": {
             "target": {
                 "type": "String"
             }
         }
     },
-    "profileScreenHeightLbl": "Height ({unit})",
-    "@profileScreenHeightLbl": {
-        "description": "Label for the height input with unit",
-        "placeholders": {
-            "unit": {
-                "type": "String"
-            }
-        }
-    },
-    "profileScreenInpLbl": "{target, select, weight{Weight ({unit})} height{Height ({unit})} other{{unit}}}",
+    "profileScreenInpLbl": "{target, select, weight{Weight ({unit})} height{Height ({unit})} other{Age}}",
     "@profileScreenInpLbl": {
         "description": "Dynamic label for profile inputs",
         "placeholders": {
@@ -111,13 +383,17 @@
             }
         }
     },
-    "profileScreenNameLbl": "Username",
-    "@profileScreenNameLbl": {
-        "description": "Label for the user's name in the profile"
+    "profileScreenSaveBtn": "Save profile",
+    "@profileScreenSaveBtn": {
+        "description": "Save button label with context"
     },
     "profileScreenTitle": "Profile",
     "@profileScreenTitle": {
         "description": "Title for the profile screen"
+    },
+    "profileScreenUnitSystemSwitch": "Metric (kg, cm) or Imperial (lb, in)",
+    "@profileScreenUnitSystemSwitch": {
+        "description": "Tooltip showing the two options of a switch"
     },
     "profileScreenUnitOption": "{unit, select, metric{Metric} imperial{Imperial} other{None}}",
     "@profileScreenUnitOption": {
@@ -128,22 +404,88 @@
             }
         }
     },
-    "profileScreenUnitSystemLbl": "Unit System",
+    "profileScreenUnitSystemLbl": "Unit system",
     "@profileScreenUnitSystemLbl": {
-        "description": "Title for the unit system preference"
+        "description": "Title for unit system preference"
     },
-    "profileScreenWeightLbl": "Weight ({unit})",
-    "@profileScreenWeightLbl": {
-        "description": "Label for the weight input with unit",
+    "resultScreenAnalysisOutputLbl": "{context, select, energy{Energy} calories{Calories} totalFat{Fat} saturatedFat{Saturated} transFat{Trans} cholesterol{Cholesterol} sodium{Sodium} potassium{Potassium} carbohydrate{Carbohydrates} fiber{Fiber} sugar{Sugars} protein{Protein} other{Nutrients}}",
+    "@resultScreenAnalysisOutputLbl": {
+        "description": "Labels of nutrients in analysis results",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenAnalysisSummaryLbl": "Nutritional analysis for {weight} {unit}",
+    "@resultScreenAnalysisSummaryLbl": {
+        "description": "Analysis summary title with weight and unit",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenEstimatedWeightLbl": "Portion estimated by AI: {weight} {unit}",
+    "@resultScreenEstimatedWeightLbl": {
+        "description": "Portion weight as estimated by artificial intelligence",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenNewAnalysisBtn": "Analyze a new photo",
+    "@resultScreenNewAnalysisBtn": {
+        "description": "Button label to restart an analysis"
+    },
+    "resultScreenPortionLbl": "Real weight ({unit})",
+    "@resultScreenPortionLbl": {
+        "description": "Label for real weight entry",
         "placeholders": {
             "unit": {
                 "type": "String"
             }
         }
     },
+    "resultScreenRefineAnalysisBtn": "Adjust analysis",
+    "@resultScreenRefineAnalysisBtn": {
+        "description": "Button label to refine analysis"
+    },
+    "resultScreenRefineAnalysisLbl": "Adjusted analysis for {weight} ({unit})",
+    "@resultScreenRefineAnalysisLbl": {
+        "description": "Label for corrected analysis with weight and unit",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenSwitchLbl": "{unit, select, kJ{Show in kcal/cal} cal{Show in kJ} other{change unit}}",
+    "@resultScreenSwitchLbl": {
+        "description": "Label to change the displayed energy unit",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenTitle": "Result",
+    "@resultScreenTitle": {
+        "description": "Title of the results screen"
+    },
     "settingsScreenCustomThemeOption": "{color, select, mint{Mint} ocean{Ocean} passion{Passion} neon{Neon} platinum{Platinum} merlot{Merlot} lemon{Lemon} lime{Lime} peacock{Peacock} azure{Azure} candy{Candy} pumpkin{Pumpkin} lapis{Lapis} scarlet{Scarlet} other{Color}}",
     "@settingsScreenCustomThemeOption": {
-        "description": "Selection of the custom theme for the app",
+        "description": "Custom theme selection for the application",
         "placeholders": {
             "color": {
                 "type": "String"
@@ -152,20 +494,20 @@
     },
     "settingsScreenLanguageSelectLbl": "Language",
     "@settingsScreenLanguageSelectLbl": {
-        "description": "The label to select the language"
+        "description": "The title for language selection"
     },
-    "settingsScreenLuminosityOption": "{target, select, default{System Default} light{Light Mode} dark{Dark Mode} other{None}}",
+    "settingsScreenLuminosityOption": "{target, select, default{System default} light{Light mode} dark{Dark mode} other{None}}",
     "@settingsScreenLuminosityOption": {
-        "description": "Selection of the app brightness mode",
+        "description": "Selection of the application brightness mode",
         "placeholders": {
             "target": {
                 "type": "String"
             }
         }
     },
-    "settingsScreenSectionLbl": "{target, select, language{App Language} luminosity{App Brightness} color{Custom Colors} other{Settings}}",
+    "settingsScreenSectionLbl": "{target, select, language{App language} luminosity{App brightness} color{Custom colors} other{Settings}}",
     "@settingsScreenSectionLbl": {
-        "description": "The title to display regarding the settings section",
+        "description": "The title to display according to settings context",
         "placeholders": {
             "target": {
                 "type": "String"
@@ -178,31 +520,10 @@
     },
     "statsCalorie": "{count, plural, zero{Calorie: 0} one{Calorie: 1} other{Calories: {count}}}",
     "@statsCalorie": {
-        "description": "Display for calorie count",
+        "description": "Display of calorie count",
         "placeholders": {
             "count": {
                 "type": "int"
-            }
-        }
-    },
-    "successUpdate": "{context} has been successfully updated",
-    "@successUpdate": {
-        "description": "Success message after updating a specific element",
-        "placeholders": {
-            "context": {
-                "type": "String"
-            }
-        }
-    },
-    "tooltipSwitch": "{option1} or {option2}",
-    "@tooltipSwitch": {
-        "description": "Tooltip showing the two options of a switch",
-        "placeholders": {
-            "option1": {
-                "type": "String"
-            },
-            "option2": {
-                "type": "String"
             }
         }
     },

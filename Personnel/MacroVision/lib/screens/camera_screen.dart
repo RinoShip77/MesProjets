@@ -67,7 +67,11 @@ class _CameraScreenState extends State<CameraScreen> {
     } on CameraException {
       _hasCamera = false;
       if (mounted) {
-        showSnackBar(context, 'Erreur d\'initialisation de la caméra.', true);
+        showSnackBar(
+          context,
+          context.l10n.cameraScreenErrors('initialization'),
+          true,
+        );
       }
     } finally {
       if (mounted) {
@@ -101,7 +105,7 @@ class _CameraScreenState extends State<CameraScreen> {
         });
       } on CameraException {
         if (mounted) {
-          showSnackBar(context, 'Erreur lors du basculement du flash.', true);
+          showSnackBar(context, context.l10n.cameraScreenErrors('flash'), true);
         }
       }
     }
@@ -126,7 +130,11 @@ class _CameraScreenState extends State<CameraScreen> {
         await _analyseImage(file.path, origin: runtimeType.toString());
       } catch (e) {
         if (mounted) {
-          showSnackBar(context, 'Erreur de capture.', true);
+          showSnackBar(
+            context,
+            context.l10n.cameraScreenErrors('capture'),
+            true,
+          );
         }
       } finally {
         // Remettre l'état d'analyse à false (sauf si une navigation a eu lieu)
@@ -233,7 +241,11 @@ class _CameraScreenState extends State<CameraScreen> {
         await HapticFeedback.heavyImpact();
 
         if (mounted) {
-          showSnackBar(context, 'Erreur d\'analyse.', true);
+          showSnackBar(
+            context,
+            context.l10n.cameraScreenErrors('analysis'),
+            true,
+          );
         }
       }
     } finally {
@@ -254,7 +266,10 @@ class _CameraScreenState extends State<CameraScreen> {
     // 1. Affichage de l'état de chargement
     if (_isLoading) {
       return Scaffold(
-        appBar: CustomAppBar(title: 'Caméra'),
+        appBar: CustomAppBar(
+          title: context.l10n.cameraScreenTitle,
+          backButton: true,
+        ),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -264,14 +279,20 @@ class _CameraScreenState extends State<CameraScreen> {
         _controller == null ||
         !_controller!.value.isInitialized) {
       return Scaffold(
-        appBar: CustomAppBar(title: 'Caméra'),
-        body: const Center(
+        appBar: CustomAppBar(
+          title: context.l10n.cameraScreenTitle,
+          backButton: true,
+        ),
+        body: Center(
           child: Padding(
             padding: EdgeInsets.all(32.0),
             child: Text(
-              "Impossible d'accéder à la caméra. Vérifiez les permissions de l'application.",
+              context.l10n.cameraScreenErrors('permissions'),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, color: Colors.red),
+              style: TextStyle(
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ),
         ),
@@ -279,11 +300,14 @@ class _CameraScreenState extends State<CameraScreen> {
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Analyse alimentaire'),
+      appBar: CustomAppBar(
+        title: context.l10n.cameraScreenTitle,
+        backButton: true,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      extendBodyBehindAppBar: _isAnalyzing ? true : false,
+      extendBodyBehindAppBar: !_isAnalyzing ? true : false,
       body: Padding(
-        padding: EdgeInsets.only(top: _isAnalyzing ? kToolbarHeight : 0),
+        padding: EdgeInsets.only(top: !_isAnalyzing ? kToolbarHeight + 55 : 0),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -304,7 +328,7 @@ class _CameraScreenState extends State<CameraScreen> {
               right: 20,
               child: FloatingActionButton(
                 heroTag: 'flashBtn',
-                tooltip: 'Basculement du flash.',
+                tooltip: context.l10n.cameraScreenBtn('flash'),
                 onPressed: _isAnalyzing ? null : _toggleFlash,
                 // backgroundColor: _isFlashOn
                 //     ? Theme.of(context).colorScheme.primary
@@ -320,6 +344,8 @@ class _CameraScreenState extends State<CameraScreen> {
 
             // 3. Guide de Cadrage Visuel (texte centré en bas ou en haut)
             Positioned(
+              left: 10,
+              right: 10,
               top: 10,
               child: Container(
                 padding: const EdgeInsets.all(5.0),
@@ -327,16 +353,14 @@ class _CameraScreenState extends State<CameraScreen> {
                   color: Theme.of(context).colorScheme.primary,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Expanded(
-                  child: Text(
-                    "Conseil : Ciblez un aliment à la fois, avec une bonne lumière.",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                    overflow: TextOverflow.ellipsis,
+                child: Text(
+                  context.l10n.cameraScreenVisualHintLbl,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
@@ -344,7 +368,12 @@ class _CameraScreenState extends State<CameraScreen> {
             // 4. Overlay d'analyse (si _isAnalyzing est true)
             if (_isAnalyzing)
               Container(
-                color: Colors.black54,
+                decoration: BoxDecoration(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.surfaceDim.withAlpha(150),
+                  borderRadius: BorderRadius.circular(20), // Rounds the corners
+                ),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -352,7 +381,7 @@ class _CameraScreenState extends State<CameraScreen> {
                       CircularProgressIndicator(),
                       const SizedBox(height: 20),
                       Text(
-                        'Analyse en cours par l\'IA...',
+                        context.l10n.cameraScreenAnalysisInProgressLbl,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                         ),
@@ -376,7 +405,7 @@ class _CameraScreenState extends State<CameraScreen> {
                       size: 150,
                       shadows: [
                         BoxShadow(
-                          color: Colors.black.withAlpha(50),
+                          color: Theme.of(context).colorScheme.primary,
                           blurRadius: 10,
                         ),
                       ],
@@ -398,7 +427,7 @@ class _CameraScreenState extends State<CameraScreen> {
             // 1. Bouton de SÉLECTION/GALERIE
             FloatingActionButton(
               heroTag: 'galleryBtn',
-              tooltip: 'Sélectionner une image depuis la galerie.',
+              tooltip: context.l10n.cameraScreenBtn('gallery'),
               onPressed: _isAnalyzing ? null : _selectFromGallery,
               child: const Icon(Icons.photo_library_rounded),
             ),
@@ -406,7 +435,7 @@ class _CameraScreenState extends State<CameraScreen> {
             // 2. Bouton de CAPTURE PRINCIPAL
             FloatingActionButton(
               heroTag: 'captureBtn',
-              tooltip: 'Capturer une image.',
+              tooltip: context.l10n.cameraScreenBtn('camera'),
               onPressed: _isAnalyzing
                   ? null
                   : _takePhoto, // Déclenche _takePhoto

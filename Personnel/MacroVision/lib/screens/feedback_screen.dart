@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Pour obtenir l'info sur la plateforme
 import 'package:macro_vision/widgets/custom_app_bar.dart';
@@ -48,7 +50,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       if (mounted) {
         showSnackBar(
           context,
-          context.l10n.errorNoRecipientEmailLbl,
+          context.l10n.feedbackScreenNoRecipientEmailLbl,
           true,
           duration: 5000,
         );
@@ -96,7 +98,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           // Le cas où l'appareil n'a pas de client email configuré
           showSnackBar(
             context,
-            context.l10n.errorNoEmailClientLbl,
+            context.l10n.feedbackScreenNoEmailClientLbl,
             true,
             duration: 5000,
           );
@@ -109,7 +111,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       }
     } catch (e) {
       if (mounted) {
-        showSnackBar(context, context.l10n.errorSend, true);
+        showSnackBar(context, context.l10n.feedbackScreenSendingError, true);
       }
     } finally {
       setState(() {
@@ -140,14 +142,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              //*************************************************/
-              //??????????????????????????????????????????????????
-              //!!!!!!!!!!I'm here for the translation!!!!!!!!!!!!
-              //??????????????????????????????????????????????????
-              //*************************************************/
-              const Text(
-                "J'apprécie vos retours ! Aidez-moi à améliorer MacroVision.",
-                style: TextStyle(fontSize: 16),
+              Text(
+                context.l10n.feedbackScreenEncouragingMessageLbl,
+                style: const TextStyle(fontSize: 16),
               ),
 
               const SizedBox(height: 20),
@@ -155,7 +152,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               // Nom
               buildTextField(
                 controller: _nameController,
-                label: 'Nom',
+                label: context.l10n.appUserNameInpLbl,
                 keyboardType: TextInputType.name,
                 formatters: null, // Pas de formatage spécifique pour le texte
               ),
@@ -164,19 +161,19 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
               TextFormField(
                 controller: _feedbackController,
-                maxLines: 8,
+                minLines: 5,
+                maxLines: null,
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
                   labelText: widget.message == null || widget.message!.isEmpty
-                      ? 'Votre message ...'
+                      ? context.l10n.feedbackScreenCommentPaceholderLbl
                       : widget.message,
-                  hintText:
-                      'Décrivez votre expérience, signalez un bug ou proposez une idée...',
+                  hintText: context.l10n.feedbackScreenCommentHintLbl,
                   alignLabelWithHint: true,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Veuillez saisir votre commentaire.';
+                    return context.l10n.appWarningFormValidation('comment');
                   }
 
                   return null;
@@ -186,7 +183,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               const SizedBox(height: 20),
 
               Tooltip(
-                message: 'Envoyer la rétroaction.',
+                message: context.l10n.feedbackScreenSendTooltip,
                 child: ElevatedButton.icon(
                   icon: _isSending
                       ? SizedBox(
@@ -199,80 +196,70 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         )
                       : const Icon(Icons.send_rounded),
                   label: Text(
-                    _isSending ? 'Envoi en cours...' : 'Envoyer la rétroaction',
+                    context.l10n.feedbackScreenSendBtn(_isSending.toString()),
                     style: const TextStyle(fontSize: 16),
                   ),
                   onPressed: _isSending ? null : _submitFeedback,
                 ),
               ),
 
-              if (!_emailApp && dotenv.env['FEEDBACK_EMAIL'] != null) ...[
-                const SizedBox(height: 20),
-                Text(
-                  'Ou copiez l\'adresse e-mail ci-dessous pour l\'utiliser manuellement :',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                const SizedBox(height: 10),
+              if (!_emailApp) ...[
                 // Bouton de copie
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.copy_rounded),
+                const SizedBox(height: 30),
+
+                Tooltip(
+                  message: context.l10n.feedbackScreenSendToClipboard,
+                  child: OutlinedButton.icon(
+                    icon: Icon(Icons.content_copy_rounded),
+                    label: Text(
+                      context.l10n.feedbackScreenSendToClipboard,
+                      textAlign: TextAlign.center,
+                    ),
+                    onPressed: () async {
+                      await Clipboard.setData(
+                        ClipboardData(
+                          text:
+                              '${formatEmailSubject(context, _nameController.text.trim())} ${formatEmailBody(context, _feedbackController.text.trim())}',
+                        ),
+                      );
+
+                      if (context.mounted) {
+                        showSnackBar(
+                          context,
+                          context.l10n.feedbackScreenSendedToClipboard(
+                            'comment',
+                          ),
+                          false,
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+
+              if (dotenv.env['FEEDBACK_EMAIL'] != null) ...[
+                const SizedBox(height: 10),
+
+                TextButton.icon(
+                  icon: !_emailApp
+                      ? Icon(Icons.email_rounded)
+                      : Icon(Icons.copy_rounded),
                   label: Text(dotenv.env['FEEDBACK_EMAIL']!),
                   onPressed: () {
                     Clipboard.setData(
                       ClipboardData(text: dotenv.env['FEEDBACK_EMAIL']!),
                     ).then((_) {
-                      if (mounted) {
-                        showSnackBar(context, 'Adresse e-mail copiée !', false);
+                      if (context.mounted) {
+                        showSnackBar(
+                          context,
+                          context.l10n.feedbackScreenSendedToClipboard('email'),
+                          false,
+                        );
                       }
                     });
                   },
                 ),
               ],
-
-              // if (!_emailApp) ...[
-              //   const SizedBox(height: 30),
-
-              //   Tooltip(
-              //     message: 'Envoyer mon message vers le presse-papiers.',
-              //     child: OutlinedButton.icon(
-              //       icon: const Icon(Icons.assignment_outlined),
-              //       label: const Text(
-              //         'Envoyer mon message vers le presse-papiers',
-              //         textAlign: TextAlign.center,
-              //       ),
-              //       onPressed: () async {
-              //         await Clipboard.setData(
-              //           ClipboardData(
-              //             text:
-              //                 formatFeedback(
-              //                   context,
-              //                   _feedbackController.text.trim(),
-              //                 ) ??
-              //                 '',
-              //           ),
-              //         );
-
-              //         if (mounted) {
-              //           showSnackBar(
-              //             context,
-              //             'Text envoyé dans le presse-papiers.',
-              //             false,
-              //           );
-              //         }
-              //       },
-              //     ),
-              //   ),
-              // ],
-
-              // if (dotenv.env['FEEDBACK_EMAIL'] != null) ...[
-              //   const SizedBox(height: 10),
-
-              //   Text(
-              //     dotenv.env['FEEDBACK_EMAIL']!,
-              //     textAlign: TextAlign.center,
-              //   ),
-              // ],
             ],
           ),
         ),

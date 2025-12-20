@@ -1,0 +1,555 @@
+{
+    "@@locale": "hi",
+    "@@comment": "इस फ़ाइल में हिंदी अनुवाद के लिए सभी स्थिरांक शामिल हैं",
+    "appDialogTitle": "{target, select, legalWarning{कानूनी चेतावनी} userGuide{उपयोगकर्ता मार्गदर्शिका} other{असमर्थित भाषा}}",
+    "@appDialogTitle": {
+        "description": "संवाद बक्से के लिए शीर्षक",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "appError": "एक त्रुटि हुई",
+    "@appError": {
+        "description": "एक वैश्विक त्रुटि संदेश"
+    },
+    "appErrorDelete": "हटाने में त्रुटि",
+    "@appErrorDelete": {
+        "description": "हटाने के दौरान त्रुटि संदेश"
+    },
+    "appErrorForm": "फ़ॉर्म में त्रुटि। कृपया अपनी प्रविष्टियों की जाँच करें",
+    "@appErrorForm": {
+        "description": "फ़ॉर्म सत्यापन विफल होने पर प्रदर्शित संदेश"
+    },
+    "appErrorLoadingAssets": "त्रुटि: फ़ाइल लोड करने में असमर्थ",
+    "@appErrorLoadingAssets": {
+        "description": "संसाधन लोड करते समय त्रुटि संदेश"
+    },
+    "appErrorLoadingContent": "डेटा लोड करने में त्रुटि",
+    "@appErrorLoadingContent": {
+        "description": "डेटा लोड करते समय त्रुटि संदेश"
+    },
+    "appErrorReadFile": "{context, select, legalWarning{त्रुटि: कानूनी चेतावनी पढ़ने में असमर्थ} userGuide{त्रुटि: उपयोगकर्ता मार्गदर्शिका पढ़ने में असमर्थ} other{त्रुटि: फ़ाइल पढ़ने में असमर्थ}}",
+    "@appErrorReadFile": {
+        "description": "फ़ाइल पढ़ने के लिए त्रुटि संदेश",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "appLanguageName": "{target, select, fr{फ्रेंच} en{अंग्रेजी} es{स्पेनिश} fil{फिलिपिनो} hi{हिंदी} ja{जापानी} sv{स्वीडिश} uk{यूक्रेनी} zh{चीनी} sw{स्वाहिली} other{असमर्थित भाषा}}",
+    "@appLanguageName": {
+        "description": "एप्लिकेशन भाषा का नाम",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "appLoadingLbl": "प्रारंभ हो रहा है...",
+    "@appLoadingLbl": {
+        "description": "एप्लिकेशन के प्रारंभ होने के दौरान प्रदर्शित लेबल"
+    },
+    "appRefreshDataLbl": "डेटा रिफ्रेश करें",
+    "@appRefreshDataLbl": {
+        "description": "डेटा रिफ्रेश करने की कार्रवाई के लिए लेबल"
+    },
+    "appSeeHistoryBtn": "इतिहास देखें",
+    "@appSeeHistoryBtn": {
+        "description": "इतिहास देखने के लिए बटन लेबल"
+    },
+    "appSuccessUpdate": "{context, select, profile{प्रोफ़ाइल सफलतापूर्वक अपडेट की गई} history{इतिहास सफलतापूर्वक अपडेट किया गया} other{अपडेट सफल}}",
+    "@appSuccessUpdate": {
+        "description": "किसी विशिष्ट आइटम को अपडेट करने के बाद सफलता संदेश",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "appSummaryLbl": "{duration, select, daily{दैनिक सारांश} weekly{साप्ताहिक सारांश} other{}}",
+    "@appSummaryLbl": {
+        "description": "सारांश अनुभाग के लिए लेबल",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "appUserNameInpLbl": "उपयोगकर्ता नाम",
+    "@appUserNameInpLbl": {
+        "description": "उपयोगकर्ता नाम के लिए लेबल"
+    },
+    "appWarningEmptyData": "कोई डेटा नहीं",
+    "@appWarningEmptyData": {
+        "description": "डेटा उपलब्ध न होने पर चेतावनी"
+    },
+    "appWarningFormValidation": "{target, select, weight{एक मान्य वजन दर्ज करें} height{एक मान्य ऊंचाई दर्ज करें} age{एक मान्य आयु दर्ज करें} comment{कृपया अपनी टिप्पणी दर्ज करें} other{अमान्य प्रविष्टि}}",
+    "@appWarningFormValidation": {
+        "description": "फ़ॉर्म फ़ील्ड के लिए सत्यापन संदेश",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSaveLbl": "{context} सहेजें",
+    "@btnSaveLbl": {
+        "description": "संदर्भ के साथ सहेजें बटन लेबल",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSeeHistoryLbl": "इतिहास देखें",
+    "@btnSeeHistoryLbl": {
+        "description": "इतिहास देखने के लिए बटन लेबल"
+    },
+    "cameraScreenAnalysisInProgressLbl": "AI द्वारा विश्लेषण जारी है...",
+    "@cameraScreenAnalysisInProgressLbl": {
+        "description": "यह दर्शाता है कि छवि विश्लेषण चल रहा है"
+    },
+    "cameraScreenBtn": "{context, select, flash{फ्लैश टॉगल करें} gallery{गैलरी से छवि चुनें} camera{फोटो लें} other{कैमरा}}",
+    "@cameraScreenBtn": {
+        "description": "कैमरा स्क्रीन बटन लेबल",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "cameraScreenErrors": "{type, select, initialization{कैमरा प्रारंभ त्रुटि} flash{फ्लैश टॉगल करते समय त्रुटि} capture{कैप्चर त्रुटि} analysis{विश्लेषण त्रुटि} permissions{कैमरा एक्सेस करने में असमर्थ। अनुमति की जाँच करें} other{कैमरा त्रुटि}}",
+    "@cameraScreenErrors": {
+        "description": "कैमरा उपयोग से संबंधित त्रुटि संदेश",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "cameraScreenTitle": "खाद्य विश्लेषण",
+    "@cameraScreenTitle": {
+        "description": "कैमरा विश्लेषण स्क्रीन का शीर्षक"
+    },
+    "cameraScreenVisualHintLbl": "सुझाव: अच्छी रोशनी में एक बार में एक खाद्य पदार्थ को लक्षित करें",
+    "@cameraScreenVisualHintLbl": {
+        "description": "कैमरा स्क्रीन पर उपयोगकर्ता के लिए विजुअल टिप"
+    },
+    "dashboardScreenChartTypeOption": "{type, select, bars{बार} lines{लाइन} other{ग्राफ}}",
+    "@dashboardScreenChartTypeOption": {
+        "description": "डैशबोर्ड में चार्ट प्रकार के विकल्प",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyObjectiveLbl": "{target, select, calories{कैलोरी} protein{प्रोटीन} totalFat{वसा} totalCarbohydrate{कार्ब्स} other{पोषक तत्व}}",
+    "@dashboardScreenDailyObjectiveLbl": {
+        "description": "दैनिक पोषण संबंधी लक्ष्यों के लिए लेबल",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyObjectivesLbl": "आज के लक्ष्य",
+    "@dashboardScreenDailyObjectivesLbl": {
+        "description": "दैनिक लक्ष्य अनुभाग का शीर्षक"
+    },
+    "dashboardScreenNotEnoughDataLbl": "चार्ट के लिए अपर्याप्त इतिहास",
+    "@dashboardScreenNotEnoughDataLbl": {
+        "description": "इतिहास अपर्याप्त होने पर चेतावनी"
+    },
+    "dashboardScreenSelectChartTypeLbl": "डेटा को बार या लाइन चार्ट में दिखाएं",
+    "@dashboardScreenSelectChartTypeLbl": {
+        "description": "चार्ट प्रकार चुनने के लिए निर्देश"
+    },
+    "dashboardScreenTitle": "डैशबोर्ड",
+    "@dashboardScreenTitle": {
+        "description": "मुख्य डैशबोर्ड के लिए शीर्षक"
+    },
+    "dashboardScreenWeeklySummaryLbl": "साप्ताहिक सारांश (कैलोरी)",
+    "@dashboardScreenWeeklySummaryLbl": {
+        "description": "सप्ताह के दौरान कैलोरी सारांश का शीर्षक"
+    },
+    "errorForm": "फ़ॉर्म में त्रुटि। कृपया अपनी प्रविष्टियों की जाँच करें",
+    "@errorForm": {
+        "description": "फ़ॉर्म सत्यापन विफल होने पर संदेश"
+    },
+    "errorGlobal": "एक त्रुटि हुई",
+    "@errorGlobal": {
+        "description": "एक वैश्विक त्रुटि संदेश"
+    },
+    "errorLoadingAssets": "त्रुटि: फ़ाइल लोड करने में असमर्थ",
+    "@errorLoadingAssets": {
+        "description": "संसाधन लोड करते समय त्रुटि संदेश"
+    },
+    "errorLoadingContent": "डेटा लोड करने में त्रुटि",
+    "@errorLoadingContent": {
+        "description": "डेटा लोड करते समय त्रुटि संदेश"
+    },
+    "errorReadUserGuide": "त्रुटि: उपयोगकर्ता मार्गदर्शिका पढ़ने में असमर्थ",
+    "@errorReadUserGuide": {
+        "description": "उपयोगकर्ता मार्गदर्शिका के लिए त्रुटि संदेश"
+    },
+    "errorScreenDetailsLbl": "विवरण (डीबग मोड में दृश्यमान):",
+    "@errorScreenDetailsLbl": {
+        "description": "त्रुटि विवरण के लिए लेबल"
+    },
+    "errorScreenGoToBtn": "{target, select, comment{टिप्पणी भेजें} home{होम पर वापस जाएं} other {}}",
+    "@errorScreenGoToBtn": {
+        "description": "दिए गए स्क्रीन पर जाने के लिए बटन लेबल",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "errorScreenTitle": "त्रुटि",
+    "@errorScreenTitle": {
+        "description": "त्रुटि पृष्ठ के लिए शीर्षक"
+    },
+    "feedbackScreenCommentHintLbl": "अपने अनुभव का वर्णन करें, बग की रिपोर्ट करें या विचार सुझाएं...",
+    "@feedbackScreenCommentHintLbl": {
+        "description": "टिप्पणी स्थान के लिए संकेत संदेश"
+    },
+    "feedbackScreenCommentPaceholderLbl": "आपका संदेश...",
+    "@feedbackScreenCommentPaceholderLbl": {
+        "description": "टिप्पणी स्थान के लिए अस्थायी संदेश"
+    },
+    "feedbackScreenEncouragingMessageLbl": "मैं आपकी प्रतिक्रिया की सराहना करता हूँ! मैक्रोविज़न को बेहतर बनाने में मेरी मदद करें",
+    "@feedbackScreenEncouragingMessageLbl": {
+        "description": "सूचना संदेश"
+    },
+    "feedbackScreenNoEmailClientLbl": "ईमेल एप्लिकेशन खोलने में असमर्थ",
+    "@feedbackScreenNoEmailClientLbl": {
+        "description": "संदेश एप्लिकेशन खोलते समय त्रुटि संदेश"
+    },
+    "feedbackScreenNoRecipientEmailLbl": "प्रतिक्रिया ईमेल पता गायब है",
+    "@feedbackScreenNoRecipientEmailLbl": {
+        "description": "ईमेल पता पढ़ते समय त्रुटि संदेश"
+    },
+    "feedbackScreenOpeningEmailLbl": "ईमेल एप्लिकेशन खोल रहा है",
+    "@feedbackScreenOpeningEmailLbl": {
+        "description": "'mailto:' लिंक के लिए सूचना संदेश"
+    },
+    "feedbackScreenSendBtn": "{state, select, true{भेजा जा रहा है...} false{प्रतिक्रिया भेजें} other{}}",
+    "@feedbackScreenSendBtn": {
+        "description": "टिप्पणी भेजने के लिए बटन लेबल",
+        "placeholders": {
+            "state": {
+                "type": "String"
+            }
+        }
+    },
+    "feedbackScreenSendToClipboard": "मेरा संदेश क्लिपबोर्ड पर भेजें",
+    "@feedbackScreenSendToClipboard": {
+        "description": "टिप्पणी कॉपी करने के लिए बटन लेबल"
+    },
+    "feedbackScreenSendTooltip": "प्रतिक्रिया भेजें",
+    "@feedbackScreenSendTooltip": {
+        "description": "प्रतिक्रिया भेजने के लिए टूलटिप"
+    },
+    "feedbackScreenSendedToClipboard": "{context, select, comment{टिप्पणी क्लिपबोर्ड पर भेजी गई} email{ईमेल पता क्लिपबोर्ड पर भेजा गया} other{क्लिपबोर्ड पर भेजा गया}}",
+    "@feedbackScreenSendedToClipboard": {
+        "description": "कॉपी करने के लिए सफलता बटन लेबल",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "feedbackScreenSendingError": "प्रतिक्रिया भेजते समय त्रुटि",
+    "@feedbackScreenSendingError": {
+        "description": "टिप्पणी भेजते समय त्रुटि संदेश"
+    },
+    "feedbackScreenTitle": "टिप्पणी",
+    "@feedbackScreenTitle": {
+        "description": "टिप्पणी अनुभाग के लिए शीर्षक"
+    },
+    "historyScreenDeleteSuccessLbl": "{date} की प्रविष्टि इतिहास से हटा दी गई",
+    "@historyScreenDeleteSuccessLbl": {
+        "description": "तत्व हटाने के लिए पाठ",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "historyScreenTitle": "इतिहास",
+    "@historyScreenTitle": {
+        "description": "इतिहास पृष्ठ का शीर्षक"
+    },
+    "homeScreenDailyAnalisisLbl": "{count, plural, zero{कोई विश्लेषण नहीं} one{विश्लेषण (1)} other{विश्लेषण ({count})}}",
+    "@homeScreenDailyAnalisisLbl": {
+        "description": "दैनिक विश्लेषणों की संख्या दिखाने वाला शीर्षक",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{कार्ब्स} protein{प्रोटीन} fat{वसा} other{आंकड़े}}",
+    "@homeScreenDailySummaryMacroCardLbl": {
+        "description": "दैनिक सारांश कार्ड के लिए पाठ",
+        "placeholders": {
+            "field": {
+                "type": "String"
+            }
+        }
+    },
+    "homeScreenDailySummaryStatLbl": "{stat} ग्राम में से",
+    "@homeScreenDailySummaryStatLbl": {
+        "description": "दैनिक सारांश आंकड़ों के लिए पाठ",
+        "placeholders": {
+            "stat": {
+                "type": "int"
+            }
+        }
+    },
+    "homeScreenStartAnalysisBtn": "भोजन का विश्लेषण करें",
+    "@homeScreenStartAnalysisBtn": {
+        "description": "विश्लेषण शुरू करने के लिए पाठ"
+    },
+    "homeScreenTitle": "होम",
+    "@homeScreenTitle": {
+        "description": "होम स्क्रीन के लिए शीर्षक"
+    },
+    "homeScreenWelcomeLbl": "मैक्रोविज़न में आपका स्वागत है",
+    "@homeScreenWelcomeLbl": {
+        "description": "स्वागत संदेश"
+    },
+    "initializationScreenDialogDefaultLbl": "{target, select, legalWarning{कानूनी चेतावनी लोड हो रही है...} userGuide{निर्देश लोड हो रहे हैं...} other{सामग्री लोड हो रही है...}}",
+    "@initializationScreenDialogDefaultLbl": {
+        "description": "प्रारंभ के दौरान डिफ़ॉल्ट संदेश",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenActivityLevelInpLbl": "शारीरिक गतिविधि स्तर",
+    "@profileScreenActivityLevelInpLbl": {
+        "description": "गतिविधि स्तर फ़ील्ड के लिए लेबल"
+    },
+    "profileScreenActivityLevelOption": "{target, select, sedentary{गतिहीन (कम या कोई व्यायाम नहीं)} lightly{थोड़ा सक्रिय (सप्ताह में 1-3 दिन)} moderate{मध्यम सक्रिय (सप्ताह में 3-5 दिन)} very{बहुत सक्रिय (सप्ताह में 6-7 दिन)} extra{अत्यधिक सक्रिय (दिन में 2 बार)} other{कोई नहीं}}",
+    "@profileScreenActivityLevelOption": {
+        "description": "शारीरिक गतिविधि स्तर के विकल्प",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGenderInpLbl": "लिंग",
+    "@profileScreenGenderInpLbl": {
+        "description": "उपयोगकर्ता लिंग फ़ील्ड के लिए लेबल"
+    },
+    "profileScreenGenderOption": "{target, select, male{पुरुष} female{महिला} other{अन्य}}",
+    "@profileScreenGenderOption": {
+        "description": "उपयोगकर्ता लिंग चयन",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGoalInpLbl": "मुख्य लक्ष्य",
+    "@profileScreenGoalInpLbl": {
+        "description": "मुख्य लक्ष्य फ़ील्ड के लिए लेबल"
+    },
+    "profileScreenGoalOption": "{target, select, weightLoss{वजन घटाना} muscleGain{मांसपेशियों का लाभ} maintain{रखरखाव} other{कोई नहीं}}",
+    "@profileScreenGoalOption": {
+        "description": "उपयोगकर्ता फिटनेस लक्ष्य चयन",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenInpLbl": "{target, select, weight{वजन ({unit})} height{ऊंचाई ({unit})} other{आयु}}",
+    "@profileScreenInpLbl": {
+        "description": "प्रोफ़ाइल प्रविष्टियों के लिए गतिशील लेबल",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenSaveBtn": "प्रोफ़ाइल सहेजें",
+    "@profileScreenSaveBtn": {
+        "description": "सहेजें बटन लेबल"
+    },
+    "profileScreenTitle": "प्रोफ़ाइल",
+    "@profileScreenTitle": {
+        "description": "प्रोफ़ाइल स्क्रीन के लिए शीर्षक"
+    },
+    "profileScreenUnitSystemSwitch": "मीट्रिक (kg, cm) या इंपीरियल (lb, in)",
+    "@profileScreenUnitSystemSwitch": {
+        "description": "स्विच के दो विकल्प दिखाने वाला टूलटिप"
+    },
+    "profileScreenUnitOption": "{unit, select, metric{मीट्रिक} imperial{इंपीरियल} other{कोई नहीं}}",
+    "@profileScreenUnitOption": {
+        "description": "इकाई प्रणाली के लिए विकल्प",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenUnitSystemLbl": "इकाई प्रणाली",
+    "@profileScreenUnitSystemLbl": {
+        "description": "इकाई प्रणाली वरीयता के लिए शीर्षक"
+    },
+    "resultScreenAnalysisOutputLbl": "{context, select, energy{ऊर्जा} calories{कैलोरी} totalFat{वसा} saturatedFat{संतृप्त} transFat{ट्रांस} cholesterol{कोलेस्ट्रॉल} sodium{सोडियम} potassium{पोटेशियम} carbohydrate{कार्बोहाइड्रेट} fiber{फाइबर} sugar{चीनी} protein{प्रोटीन} other{पोषक तत्व}}",
+    "@resultScreenAnalysisOutputLbl": {
+        "description": "विश्लेषण परिणामों में पोषक तत्वों के लेबल",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenAnalysisSummaryLbl": "{weight} {unit} के लिए पोषण संबंधी विश्लेषण",
+    "@resultScreenAnalysisSummaryLbl": {
+        "description": "वजन और इकाई के साथ विश्लेषण सारांश शीर्षक",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenEstimatedWeightLbl": "AI द्वारा अनुमानित हिस्सा: {weight} {unit}",
+    "@resultScreenEstimatedWeightLbl": {
+        "description": "AI द्वारा अनुमानित हिस्से का वजन",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenNewAnalysisBtn": "एक नई फोटो का विश्लेषण करें",
+    "@resultScreenNewAnalysisBtn": {
+        "description": "विश्लेषण पुनरारंभ करने के लिए बटन लेबल"
+    },
+    "resultScreenPortionLbl": "वास्तविक वजन ({unit})",
+    "@resultScreenPortionLbl": {
+        "description": "वास्तविक वजन दर्ज करने के लिए लेबल",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenRefineAnalysisBtn": "विश्लेषण समायोजित करें",
+    "@resultScreenRefineAnalysisBtn": {
+        "description": "विश्लेषण को परिष्कृत करने के लिए बटन लेबल"
+    },
+    "resultScreenRefineAnalysisLbl": "{weight} ({unit}) के लिए समायोजित विश्लेषण",
+    "@resultScreenRefineAnalysisLbl": {
+        "description": "वजन और इकाई के साथ संशोधित विश्लेषण लेबल",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenSwitchLbl": "{unit, select, kJ{kcal/cal में दिखाएं} cal{kJ में दिखाएं} other{इकाई बदलें}}",
+    "@resultScreenSwitchLbl": {
+        "description": "प्रदर्शित ऊर्जा इकाई बदलने के लिए लेबल",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenTitle": "परिणाम",
+    "@resultScreenTitle": {
+        "description": "परिणाम स्क्रीन का शीर्षक"
+    },
+    "settingsScreenCustomThemeOption": "{color, select, mint{पुदीना} ocean{महासागर} passion{जुनून} neon{नियॉन} platinum{प्लैटिनम} merlot{मर्लोट} lemon{नींबू} lime{लाइम} peacock{मयूर} azure{आसमानी} candy{कैंडी} pumpkin{कद्दू} lapis{लापिस} scarlet{सिंदूरी} other{रंग}}",
+    "@settingsScreenCustomThemeOption": {
+        "description": "एप्लिकेशन के लिए कस्टम थीम चयन",
+        "placeholders": {
+            "color": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenLanguageSelectLbl": "भाषा",
+    "@settingsScreenLanguageSelectLbl": {
+        "description": "भाषा चयन के लिए शीर्षक"
+    },
+    "settingsScreenLuminosityOption": "{target, select, default{सिस्टम डिफ़ॉल्ट} light{लाइट मोड} dark{डार्क मोड} other{कोई नहीं}}",
+    "@settingsScreenLuminosityOption": {
+        "description": "एप्लिकेशन ब्राइटनेस मोड का चयन",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenSectionLbl": "{target, select, language{एप्लिकेशन भाषा} luminosity{एप्लिकेशन चमक} color{कस्टम रंग} other{सेटिंग्स}}",
+    "@settingsScreenSectionLbl": {
+        "description": "सेटिंग्स के अनुसार प्रदर्शित होने वाला शीर्षक",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenTitle": "सेटिंग्स",
+    "@settingsScreenTitle": {
+        "description": "सेटिंग्स स्क्रीन के लिए शीर्षक"
+    },
+    "statsCalorie": "{count, plural, zero{कैलोरी: 0} one{कैलोरी: 1} other{कैलोरी: {count}}}",
+    "@statsCalorie": {
+        "description": "कैलोरी गणना का प्रदर्शन",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "tooltipSwitch": "{option1} या {option2}",
+    "@tooltipSwitch": {
+        "description": "स्विच के दो विकल्प दिखाने वाला टूलटिप",
+        "placeholders": {
+            "option1": {
+                "type": "String"
+            },
+            "option2": {
+                "type": "String"
+            }
+        }
+    },
+    "warningEmptyData": "कोई डेटा नहीं",
+    "@warningEmptyData": {
+        "description": "डेटा उपलब्ध न होने पर चेतावनी"
+    },
+    "warningFormValidation": "{target, select, weight{एक मान्य वजन दर्ज करें} height{एक मान्य ऊंचाई दर्ज करें} age{एक मान्य आयु दर्ज करें} other{अमान्य प्रविष्टि}}",
+    "@warningFormValidation": {
+        "description": "फ़ॉर्म फ़ील्ड के लिए सत्यापन संदेश",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    }
+}

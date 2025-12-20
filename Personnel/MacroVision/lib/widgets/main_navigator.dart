@@ -434,7 +434,7 @@ class _MainNavigatorState extends State<MainNavigator> {
                       2 => context.l10n.homeScreenTitle, //'Accueil',
                       3 => context.l10n.profileScreenTitle, //'Profil',
                       4 => context.l10n.feedbackScreenTitle, //'Commentaire',
-                      _ => context.l10n.errorGlobal,
+                      _ => context.l10n.appError,
                     },
                     selectedIndex: _selectedIndex,
                     onTap: _onItemTapped,

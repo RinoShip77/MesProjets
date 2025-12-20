@@ -1,0 +1,543 @@
+{
+    "@@locale": "sw",
+    "@@comment": "Faili hili lina seti zote za constants kwa ajili ya tafsiri ya Kiswahili",
+    "appDialogTitle": "{target, select, legalWarning{Onyo la kisheria} userGuide{Mwongozo wa mtumiaji} other{Lugha haitumiki}}",
+    "@appDialogTitle": {
+        "description": "Kichwa cha habari kwa visanduku vya mazungumzo",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "appError": "Hitilafu imetokea",
+    "@appError": {
+        "description": "Ujumbe wa hitilafu wa ulimwengu wote"
+    },
+    "appErrorDelete": "Hitilafu wakati wa kufuta",
+    "@appErrorDelete": {
+        "description": "Ujumbe wa hitilafu wakati wa kufuta"
+    },
+    "appErrorForm": "Hitilafu katika fomu. Tafadhali kagua maelezo yako",
+    "@appErrorForm": {
+        "description": "Ujumbe unaoonyeshwa wakati uthibitishaji wa fomu unapofeli"
+    },
+    "appErrorLoadingAssets": "Hitilafu: Haiwezekani kupakia faili",
+    "@appErrorLoadingAssets": {
+        "description": "Ujumbe wa hitilafu wakati wa kupakia rasilimali"
+    },
+    "appErrorLoadingContent": "Hitilafu ya kupakia data",
+    "@appErrorLoadingContent": {
+        "description": "Ujumbe wa hitilafu wakati wa kupakia data"
+    },
+    "appErrorReadFile": "{context, select, legalWarning{Hitilafu: Haiwezekani kusoma onyo la kisheria} userGuide{Hitilafu: Haiwezekani kusoma mwongozo wa mtumiaji} other{Hitilafu: Haiwezekani kusoma faili}}",
+    "@appErrorReadFile": {
+        "description": "Ujumbe wa hitilafu kwa ajili ya kusoma faili",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "appLanguageName": "{target, select, fr{Kifaransa} en{Kiingereza} es{Spanish} fil{Filipino} hi{Kihindi} ja{Japanese} sv{Swedish} uk{Ukrainian} zh{Kichina} sw{Kiswahili} other{Lugha haitumiki}}",
+    "@appLanguageName": {
+        "description": "Jina la lugha ya programu",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "appLoadingLbl": "Inapakia...",
+    "@appLoadingLbl": {
+        "description": "Maelezo yanayoonyeshwa wakati wa kuanzisha programu"
+    },
+    "appRefreshDataLbl": "Refresh data",
+    "@appRefreshDataLbl": {
+        "description": "Maelezo kwa ajili ya kitendo cha kurejesha data"
+    },
+    "appSeeHistoryBtn": "Angalia historia",
+    "@appSeeHistoryBtn": {
+        "description": "Maelezo ya kitufe cha kuangalia historia"
+    },
+    "appSuccessUpdate": "{context, select, profile{Wasifu umesasishwa kwa mafanikio} history{Historia imesasishwa kwa mafanikio} other{Usasishaji umefanikiwa}}",
+    "@appSuccessUpdate": {
+        "description": "Ujumbe wa mafanikio baada ya kusasisha kipengele maalum",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "appSummaryLbl": "{duration, select, daily{Muhtasari wa kila siku} weekly{Muhtasari wa kila wiki} other{}}",
+    "@appSummaryLbl": {
+        "description": "Maelezo kwa ajili ya sehemu ya muhtasari",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "appUserNameInpLbl": "Jina la mtumiaji",
+    "@appUserNameInpLbl": {
+        "description": "Maelezo kwa ajili ya jina la mtumiaji"
+    },
+    "appWarningEmptyData": "Hakuna data",
+    "@appWarningEmptyData": {
+        "description": "Onyo wakati hakuna data inayopatikana"
+    },
+    "appWarningFormValidation": "{target, select, weight{Ingiza uzito sahihi} height{Ingiza kimo sahihi} age{Ingiza umri sahihi} comment{Tafadhali ingiza maoni yako} other{Ingizo si sahihi}}",
+    "@appWarningFormValidation": {
+        "description": "Ujumbe wa uthibitishaji kwa nyanja za fomu",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSaveLbl": "Hifadhi {context}",
+    "@btnSaveLbl": {
+        "description": "Maelezo ya kitufe cha kuhifadhi kulingana na muktadha",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "btnSeeHistoryLbl": "Angalia historia",
+    "@btnSeeHistoryLbl": {
+        "description": "Maelezo ya kitufe cha kuangalia historia"
+    },
+    "cameraScreenAnalysisInProgressLbl": "Uchambuzi unaendelea kupitia AI...",
+    "@cameraScreenAnalysisInProgressLbl": {
+        "description": "Ujumbe unaoonyesha kuwa uchambuzi wa picha unaendelea"
+    },
+    "cameraScreenBtn": "{context, select, flash{Washa/Zima flash} gallery{Chagua picha kutoka kwenye galari} camera{Piga picha} other{Kamera}}",
+    "@cameraScreenBtn": {
+        "description": "Maelezo ya vitufe vya skrini ya kamera",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "cameraScreenErrors": "{type, select, initialization{Hitilafu ya kuanzisha kamera} flash{Hitilafu wakati wa kuwasha/zima flash} capture{Hitilafu ya kupiga picha} analysis{Hitilafu ya uchambuzi} permissions{Imeshindikana kufikia kamera. Angalia ruhusa za programu} other{Hitilafu ya kamera}}",
+    "@cameraScreenErrors": {
+        "description": "Ujumbe wa hitilafu unaohusiana na matumizi ya kamera",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "cameraScreenTitle": "Uchambuzi wa chakula",
+    "@cameraScreenTitle": {
+        "description": "Kichwa cha habari cha skrini ya uchambuzi wa kamera"
+    },
+    "cameraScreenVisualHintLbl": "Kidokezo: Lenga chakula kimoja kwa wakati mmoja, kikiwa na mwanga mzuri",
+    "@cameraScreenVisualHintLbl": {
+        "description": "Kidokezo cha kuona kwa mtumiaji kwenye skrini ya kamera"
+    },
+    "dashboardScreenChartTypeOption": "{type, select, bars{Pau} lines{Mistari} other{Grafu}}",
+    "@dashboardScreenChartTypeOption": {
+        "description": "Chaguzi kwa ajili ya aina ya grafu kwenye dashibodi",
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyObjectiveLbl": "{target, select, calories{Kalori} protein{Protini} totalFat{Mafuta} totalCarbohydrate{Wanga} other{Virutubisho}}",
+    "@dashboardScreenDailyObjectiveLbl": {
+        "description": "Maelezo kwa ajili ya malengo ya lishe ya kila siku",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyObjectivesLbl": "Malengo ya leo",
+    "@dashboardScreenDailyObjectivesLbl": {
+        "description": "Kichwa cha habari cha sehemu ya malengo ya kila siku"
+    },
+    "dashboardScreenNotEnoughDataLbl": "Historia haitoshi kwa ajili ya grafu",
+    "@dashboardScreenNotEnoughDataLbl": {
+        "description": "Onyo wakati historia haitoshi"
+    },
+    "dashboardScreenSelectChartTypeLbl": "Onyesha data katika grafu ya pau au mistari",
+    "@dashboardScreenSelectChartTypeLbl": {
+        "description": "Maelekezo ya kuchagua aina ya grafu"
+    },
+    "dashboardScreenTitle": "Dashibodi",
+    "@dashboardScreenTitle": {
+        "description": "Kichwa cha habari kwa ajili ya dashibodi kuu"
+    },
+    "dashboardScreenWeeklySummaryLbl": "Muhtasari wa wiki (Kalori)",
+    "@dashboardScreenWeeklySummaryLbl": {
+        "description": "Kichwa cha habari cha muhtasari wa kalori kwa wiki"
+    },
+    "errorForm": "Hitilafu katika fomu. Tafadhali kagua maelezo yako",
+    "@errorForm": {
+        "description": "Ujumbe unaoonyeshwa wakati uthibitishaji wa fomu unapofeli"
+    },
+    "errorGlobal": "Hitilafu imetokea",
+    "@errorGlobal": {
+        "description": "Ujumbe wa hitilafu wa ulimwengu wote"
+    },
+    "errorLoadingAssets": "Hitilafu: Haiwezekani kupakia faili",
+    "@errorLoadingAssets": {
+        "description": "Ujumbe wa hitilafu wakati wa kupakia rasilimali"
+    },
+    "errorLoadingContent": "Hitilafu ya kupakia data",
+    "@errorLoadingContent": {
+        "description": "Ujumbe wa hitilafu wakati wa kupakia data"
+    },
+    "errorReadUserGuide": "Hitilafu: Haiwezekani kusoma mwongozo wa mtumiaji",
+    "@errorReadUserGuide": {
+        "description": "Ujumbe wa hitilafu kwa ajili ya mwongozo wa mtumiaji"
+    },
+    "errorScreenDetailsLbl": "Maelezo (yanaonekana katika hali ya Debug):",
+    "@errorScreenDetailsLbl": {
+        "description": "Maelezo kwa ajili ya maelezo ya hitilafu"
+    },
+    "errorScreenGoToBtn": "{target, select, comment{Tuma maoni} home{Rudi nyumbani} other {}}",
+    "@errorScreenGoToBtn": {
+        "description": "Maelezo ya kitufe cha kwenda kwenye skrini fulani",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "errorScreenTitle": "Hitilafu",
+    "@errorScreenTitle": {
+        "description": "Kichwa cha habari kwa ajili ya ukurasa wa hitilafu"
+    },
+    "feedbackScreenCommentHintLbl": "Elezea uzoefu wako, ripoti hitilafu au pendekeza wazo...",
+    "@feedbackScreenCommentHintLbl": {
+        "description": "Ujumbe wa kidokezo kwa ajili ya sehemu ya maoni"
+    },
+    "feedbackScreenCommentPaceholderLbl": "Ujumbe wako...",
+    "@feedbackScreenCommentPaceholderLbl": {
+        "description": "Ujumbe wa muda kwa ajili ya sehemu ya maoni"
+    },
+    "feedbackScreenEncouragingMessageLbl": "Nashukuru kwa maoni yako! Nisaidie kuboresha MacroVision",
+    "@feedbackScreenEncouragingMessageLbl": {
+        "description": "Ujumbe wa habari"
+    },
+    "feedbackScreenNoEmailClientLbl": "Imeshindikana kufungua programu ya barua pepe",
+    "@feedbackScreenNoEmailClientLbl": {
+        "description": "Ujumbe wa hitilafu wakati wa kufungua programu ya barua pepe"
+    },
+    "feedbackScreenNoRecipientEmailLbl": "Anwani ya barua pepe ya maoni haipo",
+    "@feedbackScreenNoRecipientEmailLbl": {
+        "description": "Ujumbe wa hitilafu wakati wa kusoma anwani ya barua pepe"
+    },
+    "feedbackScreenOpeningEmailLbl": "Inafungua programu ya barua pepe",
+    "@feedbackScreenOpeningEmailLbl": {
+        "description": "Ujumbe wa habari kwa ajili ya kiungo cha 'mailto:'"
+    },
+    "feedbackScreenSendBtn": "{state, select, true{Inatuma...} false{Tuma maoni} other{}}",
+    "@feedbackScreenSendBtn": {
+        "description": "Maelezo ya kitufe cha mafanikio kwa ajili ya kutuma maoni",
+        "placeholders": {
+            "state": {
+                "type": "String"
+            }
+        }
+    },
+    "feedbackScreenSendToClipboard": "Tuma ujumbe wangu kwenye ubao wa kunakili (clipboard)",
+    "@feedbackScreenSendToClipboard": {
+        "description": "Maelezo ya kitufe kwa ajili ya kunakili maoni"
+    },
+    "feedbackScreenSendTooltip": "Tuma maoni",
+    "@feedbackScreenSendTooltip": {
+        "description": "Maelezo ya kitufe cha mafanikio kwa ajili ya kutuma maoni"
+    },
+    "feedbackScreenSendedToClipboard": "{context, select, comment{Maoni yametumwa kwenye ubao wa kunakili} email{Anwani ya barua pepe imetumwa kwenye ubao wa kunakili} other{Imetumwa kwenye ubao wa kunakili}}",
+    "@feedbackScreenSendedToClipboard": {
+        "description": "Maelezo ya kitufe cha mafanikio kwa ajili ya kunakili",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "feedbackScreenSendingError": "Hitilafu wakati wa kutuma maoni",
+    "@feedbackScreenSendingError": {
+        "description": "Ujumbe wa hitilafu wakati wa kutuma maoni"
+    },
+    "feedbackScreenTitle": "Maoni",
+    "@feedbackScreenTitle": {
+        "description": "Kichwa cha habari kwa ajili ya sehemu ya maoni"
+    },
+    "historyScreenDeleteSuccessLbl": "Ingizo la tarehe {date} limefutwa kwenye historia",
+    "@historyScreenDeleteSuccessLbl": {
+        "description": "Maandishi kwa ajili ya kufuta kipengele",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "historyScreenTitle": "Historia",
+    "@historyScreenTitle": {
+        "description": "Kichwa cha habari kwa ajili ya ukurasa wa historia"
+    },
+    "homeScreenDailyAnalisisLbl": "{count, plural, zero{Hakuna uchambuzi} one{Uchambuzi (1)} other{Uchambuzi ({count})}}",
+    "@homeScreenDailyAnalisisLbl": {
+        "description": "Kichwa cha habari kinachoonyesha idadi ya uchambuzi wa kila siku",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Wanga} protein{Protini} fat{Mafuta} other{Takwimu}}",
+    "@homeScreenDailySummaryMacroCardLbl": {
+        "description": "Maandishi kwa ajili ya kadi za muhtasari wa kila siku",
+        "placeholders": {
+            "field": {
+                "type": "String"
+            }
+        }
+    },
+    "homeScreenDailySummaryStatLbl": "kati ya {stat} g",
+    "@homeScreenDailySummaryStatLbl": {
+        "description": "Maandishi kwa ajili ya takwimu za muhtasari wa kila siku",
+        "placeholders": {
+            "stat": {
+                "type": "int"
+            }
+        }
+    },
+    "homeScreenStartAnalysisBtn": "Chambua mlo",
+    "@homeScreenStartAnalysisBtn": {
+        "description": "Maandishi ya kuanza uchambuzi"
+    },
+    "homeScreenTitle": "Nyumbani",
+    "@homeScreenTitle": {
+        "description": "Kichwa cha habari kwa ajili ya skrini ya nyumbani"
+    },
+    "homeScreenWelcomeLbl": "Karibu kwenye MacroVision",
+    "@homeScreenWelcomeLbl": {
+        "description": "Ujumbe wa karibu"
+    },
+    "initializationScreenDialogDefaultLbl": "{target, select, legalWarning{Inapakia onyo la kisheria...} userGuide{Inapakia maelekezo...} other{Inapakia maudhui...}}",
+    "@initializationScreenDialogDefaultLbl": {
+        "description": "Ujumbe wa msingi wakati wa kuanza",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenActivityLevelInpLbl": "Kiwango cha mazoezi",
+    "@profileScreenActivityLevelInpLbl": {
+        "description": "Maelezo kwa ajili ya sehemu ya kiwango cha mazoezi"
+    },
+    "profileScreenActivityLevelOption": "{target, select, sedentary{Hafanyi mazoezi (kidogo au hakuna)} lightly{Mazoezi kidogo (siku 1-3/wiki)} moderate{Mazoezi ya wastani (siku 3-5/wiki)} very{Mazoezi mengi (siku 6-7/wiki)} extra{Mazoezi makubwa (2x/siku)} other{Hakuna}}",
+    "@profileScreenActivityLevelOption": {
+        "description": "Chaguzi kwa ajili ya kiwango cha mazoezi",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGenderInpLbl": "Jinsia",
+    "@profileScreenGenderInpLbl": {
+        "description": "Maelezo kwa ajili ya sehemu ya jinsia ya mtumiaji"
+    },
+    "profileScreenGenderOption": "{target, select, male{Mwanaume} female{Mwanamke} other{Nyingine}}",
+    "@profileScreenGenderOption": {
+        "description": "Uchaguzi wa jinsia ya mtumiaji",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenGoalInpLbl": "Lengo kuu",
+    "@profileScreenGoalInpLbl": {
+        "description": "Maelezo kwa ajili ya sehemu ya lengo kuu"
+    },
+    "profileScreenGoalOption": "{target, select, weightLoss{Kupunguza uzito} muscleGain{Kuongeza misuli} maintain{Kudumisha uzito} other{Hakuna}}",
+    "@profileScreenGoalOption": {
+        "description": "Uchaguzi wa lengo la afya la mtumiaji",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenInpLbl": "{target, select, weight{Uzito ({unit})} height{Kimo ({unit})} other{Umri}}",
+    "@profileScreenInpLbl": {
+        "description": "Maelezo yanayobadilika kwa ajili ya ingizo la wasifu",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenSaveBtn": "Hifadhi wasifu",
+    "@profileScreenSaveBtn": {
+        "description": "Maelezo ya kitufe cha kuhifadhi wasifu"
+    },
+    "profileScreenTitle": "Wasifu",
+    "@profileScreenTitle": {
+        "description": "Kichwa cha habari kwa ajili ya skrini ya wasifu"
+    },
+    "profileScreenUnitSystemSwitch": "Metriki (kg, cm) au Impirio (lb, in)",
+    "@profileScreenUnitSystemSwitch": {
+        "description": "Kidokezo kinachoonyesha chaguzi mbili za swichi"
+    },
+    "profileScreenUnitOption": "{unit, select, metric{Metriki} imperial{Impirio} other{Hakuna}}",
+    "@profileScreenUnitOption": {
+        "description": "Chaguzi kwa ajili ya mfumo wa vipimo",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenUnitSystemLbl": "Mfumo wa vipimo",
+    "@profileScreenUnitSystemLbl": {
+        "description": "Kichwa cha habari kwa ajili ya upendeleo wa mfumo wa vipimo"
+    },
+    "resultScreenAnalysisOutputLbl": "{context, select, energy{Nishati} calories{Kalori} totalFat{mafuta} saturatedFat{Yaliyokwama} transFat{Trans} cholesterol{Kolesteroli} sodium{Sodiamu} potassium{Potasiamu} carbohydrate{Wanga} fiber{Nyuzi} sugar{Sukari} protein{Protini} other{Virutubisho}}",
+    "@resultScreenAnalysisOutputLbl": {
+        "description": "Maelezo ya virutubisho katika matokeo ya uchambuzi",
+        "placeholders": {
+            "context": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenAnalysisSummaryLbl": "Uchambuzi wa lishe kwa {weight} {unit}",
+    "@resultScreenAnalysisSummaryLbl": {
+        "description": "Kichwa cha habari cha muhtasari wa uchambuzi wenye uzito na kipimo",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenEstimatedWeightLbl": "Sehemu iliyokadiriwa na AI: {weight} {unit}",
+    "@resultScreenEstimatedWeightLbl": {
+        "description": "Uzito wa sehemu kama ulivyokadiriwa na akili mnemba",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenNewAnalysisBtn": "Chambua picha mpya",
+    "@resultScreenNewAnalysisBtn": {
+        "description": "Maelezo ya kitufe cha kuanza upya uchambuzi"
+    },
+    "resultScreenPortionLbl": "Uzito halisi ({unit})",
+    "@resultScreenPortionLbl": {
+        "description": "Maelezo kwa ajili ya kuingiza uzito halisi",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenRefineAnalysisBtn": "Rekebisha uchambuzi",
+    "@resultScreenRefineAnalysisBtn": {
+        "description": "Maelezo ya kitufe cha kuboresha uchambuzi"
+    },
+    "resultScreenRefineAnalysisLbl": "Uchambuzi uliorekebishwa kwa {weight} ({unit})",
+    "@resultScreenRefineAnalysisLbl": {
+        "description": "Maelezo ya uchambuzi uliorekebishwa na uzito wake",
+        "placeholders": {
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenSwitchLbl": "{unit, select, kJ{Onyesha katika kcal/cal} cal{Onyesha katika kJ} other{badili kipimo}}",
+    "@resultScreenSwitchLbl": {
+        "description": "Maelezo kwa ajili ya kubadili kipimo cha nishati kinachoonyeshwa",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "resultScreenTitle": "Matokeo",
+    "@resultScreenTitle": {
+        "description": "Kichwa cha habari cha skrini ya matokeo"
+    },
+    "settingsScreenCustomThemeOption": "{color, select, mint{Menthe} ocean{Océan} passion{Passion} neon{Néon} platinum{Platine} merlot{Merlot} lemon{Citron} lime{Lime} peacock{Paon} azure{Azure} candy{Bonbon} pumpkin{Citrouille} lapis{Lapis} scarlet{Écarlate} other{Rangi}}",
+    "@settingsScreenCustomThemeOption": {
+        "description": "Uchaguzi wa mandhari maalum kwa ajili ya programu",
+        "placeholders": {
+            "color": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenLanguageSelectLbl": "Lugha",
+    "@settingsScreenLanguageSelectLbl": {
+        "description": "Kichwa cha habari kwa ajili ya uchaguzi wa lugha"
+    },
+    "settingsScreenLuminosityOption": "{target, select, default{Mfumo chaguo-msingi} light{Hali ya mwanga} dark{Hali ya giza} other{Hakuna}}",
+    "@settingsScreenLuminosityOption": {
+        "description": "Uchaguzi wa hali ya mwanga ya programu",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenSectionLbl": "{target, select, language{Lugha ya programu} luminosity{Mwanga wa programu} color{Rangi maalum} other{Mipangilio}}",
+    "@settingsScreenSectionLbl": {
+        "description": "Kichwa cha habari cha kuonyeshwa kulingana na muktadha wa mipangilio",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsScreenTitle": "Mipangilio",
+    "@settingsScreenTitle": {
+        "description": "Kichwa cha habari kwa ajili ya skrini ya mipangilio"
+    },
+    "statsCalorie": "{count, plural, zero{Kalori : 0} one{Kalori : 1} other{Kalori : {count}}}",
+    "@statsCalorie": {
+        "description": "Onyesho la idadi ya kalori",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "warningEmptyData": "Hakuna data",
+    "@warningEmptyData": {
+        "description": "Onyo wakati hakuna data inayopatikana"
+    },
+    "warningFormValidation": "{target, select, weight{Ingiza uzito sahihi} height{Ingiza kimo sahihi} age{Ingiza umri sahihi} other{Ingizo si sahihi}}",
+    "@warningFormValidation": {
+        "description": "Ujumbe wa uthibitishaji kwa nyanja za fomu",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    }
+}

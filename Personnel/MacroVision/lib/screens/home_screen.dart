@@ -165,10 +165,20 @@ class _HomeScreenState extends State<HomeScreen> {
             // Text('sur ${max.toInt()} g', style: TextStyle(fontSize: 10)),
             const SizedBox(height: 8),
 
-            LinearProgressIndicator(
-              value: progress,
-              minHeight: 6,
-              borderRadius: BorderRadius.circular(3),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  width: 1,
+                ), // The border
+                borderRadius: BorderRadius.circular(10), // Optional rounding
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  8,
+                ), // Matches border rounding
+                child: LinearProgressIndicator(value: 0.5, minHeight: 8),
+              ),
             ),
           ],
         ),
@@ -177,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // 2. Widget de la Roue des Calories
-  Widget _buildCalorieWheel(double consumed, double goal, Color primaryColor) {
+  Widget _buildCalorieWheel(double consumed, double goal) {
     final double progress = goal > 0 ? (consumed / goal).clamp(0.0, 1.0) : 0.0;
 
     return Column(
@@ -190,7 +200,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               // Roue de progression (couleur primaire)
               CircularProgressIndicator(
-                color: primaryColor,
+                color: Theme.of(context).colorScheme.primary,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 value: progress,
                 strokeWidth: 12,
                 strokeCap: StrokeCap.round,
@@ -206,7 +217,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     size: 28,
                     color: Colors.orange,
                   ),
+
                   const SizedBox(height: 4),
+
                   Text(
                     consumed.toInt().toString(),
                     style: const TextStyle(
@@ -214,8 +227,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontSize: 28,
                     ),
                   ),
-                  Text(context.l10n.homeScreenDailySummaryStatLbl(goal.toInt()), style: TextStyle(fontSize: 12)),
-                  // Text("sur ${goal.toInt()}", style: TextStyle(fontSize: 12)),
+
+                  Text(
+                    context.l10n.homeScreenDailySummaryStatLbl(goal.toInt()),
+                    style: TextStyle(fontSize: 12),
+                  ),
+
                   const Text(
                     "Cal",
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
@@ -240,7 +257,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final double calConsumed = _consumedMacros['calories'] ?? 0;
     final double calGoal = _goalMacros['calories'] ?? 2000;
-    final Color primaryColor = Theme.of(context).colorScheme.primary;
 
     return Card(
       elevation: 4,
@@ -250,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             // A. LA ROUE DES CALORIES
-            _buildCalorieWheel(calConsumed, calGoal, primaryColor),
+            _buildCalorieWheel(calConsumed, calGoal),
 
             const SizedBox(height: 30),
 
@@ -260,7 +276,9 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 _buildMacroCardInfo(
                   context,
-                  label: context.l10n.homeScreenDailySummaryMacroCardLbl('carbohydrates'),
+                  label: context.l10n.homeScreenDailySummaryMacroCardLbl(
+                    'carbohydrates',
+                  ),
                   value: _consumedMacros['totalCarbohydrates'] ?? 0,
                   max: _goalMacros['totalCarbohydrates'] ?? 0,
                   color: Colors.orange,
@@ -271,7 +289,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 _buildMacroCardInfo(
                   context,
-                  label: context.l10n.homeScreenDailySummaryMacroCardLbl('protein'),
+                  label: context.l10n.homeScreenDailySummaryMacroCardLbl(
+                    'protein',
+                  ),
                   value: _consumedMacros['protein'] ?? 0,
                   max: _goalMacros['protein'] ?? 0,
                   color: Colors.green, // Ou utilisez Theme colors
@@ -347,7 +367,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               right: 16.0,
                             ),
                             child: Text(
-                              context.l10n.homeScreenDailySummaryLbl,
+                              context.l10n.appSummaryLbl('daily'),
                               style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(
                                     fontWeight: FontWeight.bold,

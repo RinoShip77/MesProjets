@@ -10,6 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:macro_vision/config/l10n/app_localizations.dart';
 import 'package:macro_vision/screens/error_screen.dart';
 import 'package:macro_vision/utils/global_key.dart';
+import 'package:macro_vision/utils/l10n_extension.dart';
 import 'package:provider/provider.dart';
 
 // Services et Modèles
@@ -75,7 +76,9 @@ Future<void> main() async {
       // 💡 TEST 1 : ERREUR SYNCHRONE CRITIQUE
       // Décommentez la ligne ci-dessous pour forcer une panne
       // =======================================================
-      // throw Exception("SIMULATION: Erreur critique synchrone lors du chargement initial.");
+      // throw Exception(
+      //   "SIMULATION: Erreur critique synchrone lors du chargement initial.",
+      // );
       // =======================================================
 
       // --- LOGIQUE D'INITIALISATION ---
@@ -102,26 +105,49 @@ Future<void> main() async {
       // Cette fonction est appelée lorsqu'une erreur non gérée se produit.
       // Afficher l'écran d'erreur personnalisé
       runApp(
-        MaterialApp(
-          navigatorKey: navigatorKey,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-            useMaterial3: true,
-          ),
-          home: ErrorScreen(
-            message:
-                WidgetsBinding
-                        .instance
-                        .platformDispatcher
-                        .locales
-                        .first
-                        .languageCode ==
-                    'fr'
-                ? "Une erreur critique s'est produite"
-                : "A critical error has occurred",
-            details: kDebugMode
-                ? e.toString()
-                : null, // Détails uniquement en mode débogage
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (_) => ThemeProvider(),
+            ), // Injecte le provider pour l'écran d'erreur
+          ],
+          child: Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              // On récupère la couleur de semence comme dans MacroVisionApp
+              final MaterialColor selectedSeedColor =
+                  themeProvider.themeModeOption == ThemeModeOption.custom
+                  ? themeProvider.customTheme.color
+                  : appPrimaryColor;
+              return MaterialApp(
+                // 💡 IMPORTANT : Il faut ajouter les délégués ici aussi !
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                // On détecte la langue du système pour ce MaterialApp de secours
+                locale: Locale(
+                  WidgetsBinding
+                      .instance
+                      .platformDispatcher
+                      .locales
+                      .first
+                      .languageCode,
+                ),
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(seedColor: Theme.of(context).colorScheme.error),
+                  useMaterial3: true,
+                ),
+                // 2. On utilise un Builder pour "descendre" d'un niveau dans l'arbre
+                home: Builder(
+                  builder: (context) {
+                    return ErrorScreen(
+                      message: context
+                          .l10n
+                          .appError, // ✅ Traduction réussie depuis main
+                      details: kDebugMode ? e.toString() : null,
+                    );
+                  },
+                ),
+              );
+            },
           ),
         ),
       );
@@ -154,14 +180,21 @@ class MacroVisionApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('fr'), // Français (Canada)
-            Locale('en'), // Anglais (Canada)
+            Locale('fr'), // French
+            Locale('en'), // English
+            Locale('es'), // Espagnol
+            Locale('fil'), // Filipino
+            Locale('hi'), // Hindi
+            Locale('ja'), // Japanese
+            Locale('sv'), // Swedish
+            Locale('uk'), // Ukrainian
+            Locale('zh'), // Chinese
+            Locale('sw'), // Swahili
           ],
 
           locale:
               locale, // <-- FORCER LA LOCALE PAR DÉFAUT SELON LA LANGUE DE L'APPAREIL
           // =========================================================
-          
           navigatorKey: navigatorKey,
           title: 'MacroVision',
           // Affiche que l'app est en mode DEBUG

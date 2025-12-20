@@ -53,7 +53,7 @@ void showSnackBar(
       ),
     ),
     backgroundColor: isError
-        ? Colors.red
+        ? Theme.of(context).colorScheme.error
         : Theme.of(context).colorScheme.primary,
     behavior: SnackBarBehavior.floating,
     duration: Duration(milliseconds: duration),

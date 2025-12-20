@@ -34,7 +34,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     });
 
     if (mounted) {
-      showSnackBar(context, context.l10n.successUpdate('history'), false);
+      showSnackBar(context, context.l10n.appSuccessUpdate('history'), false);
     }
   }
 
@@ -49,7 +49,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         await File(entry.imagePath).delete();
       } catch (e) {
         if (mounted) {
-          showSnackBar(context, context.l10n.errorDelete, true);
+          showSnackBar(context, context.l10n.appErrorDelete, true);
         }
       }
       _refresh(); // Rafraîchir l'interface
@@ -72,6 +72,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         // Ajoutez un bouton de rafraîchissement si nécessaire
         actions: [
           IconButton(
+            tooltip: context.l10n.appRefreshDataLbl,
             icon: const Icon(Icons.refresh_outlined),
             onPressed: _refresh,
           ),

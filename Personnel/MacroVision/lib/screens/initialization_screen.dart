@@ -20,8 +20,12 @@ class _InitializationScreenState extends State<InitializationScreen> {
   // Clé et état de l'écran
   static const String _guideSeenKey = 'hasSeenUserGuide';
   static const String _dbSeededKey = 'hasSeededDatabase';
-  String _warningText = globalL10n.initializationScreenDialogDefaultLbl('legalWarning');
-  String _guideText = globalL10n.initializationScreenDialogDefaultLbl('userGuide');
+  String _warningText = globalL10n.initializationScreenDialogDefaultLbl(
+    'legalWarning',
+  );
+  String _guideText = globalL10n.initializationScreenDialogDefaultLbl(
+    'userGuide',
+  );
 
   @override
   void initState() {
@@ -70,7 +74,7 @@ class _InitializationScreenState extends State<InitializationScreen> {
     final prefs = await SharedPreferences.getInstance();
     final hasSeenGuide = prefs.getBool(_guideSeenKey) ?? false;
 
-    if (context.mounted) {
+    if (mounted) {
       if (hasSeenGuide) {
         // Naviguer vers l'écran principal
         navigate(context, const MainNavigator());
@@ -97,7 +101,7 @@ class _InitializationScreenState extends State<InitializationScreen> {
       final warningFuture = DefaultAssetBundle.of(
         context,
       ).loadString('assets/legal_warning.md', cache: false);
-      
+
       // Chargement du guide
       final guideFuture = DefaultAssetBundle.of(
         context,
@@ -115,15 +119,11 @@ class _InitializationScreenState extends State<InitializationScreen> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          _warningText = globalL10n.errorLoadingContent;
-          _guideText = globalL10n.errorLoadingContent;
+          _warningText = context.l10n.appErrorLoadingContent;
+          _guideText = context.l10n.appErrorLoadingContent;
         });
-        if (context.mounted) {
-          showSnackBar(
-            context,
-            globalL10n.errorReadFile(''),
-            true,
-          );
+        if (mounted) {
+          showSnackBar(context, context.l10n.appErrorReadFile(''), true);
         }
       }
     }
