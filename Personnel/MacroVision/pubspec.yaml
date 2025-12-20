@@ -82,6 +82,9 @@ dependencies:
   # Pour afficher le guide utilisateur
   markdown_widget: ^2.3.2
 
+  # Pour les polices de caractères
+  google_fonts: ^6.3.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -56,6 +56,7 @@ class AppLocalizationsSw extends AppLocalizations {
       'sv': 'Swedish',
       'uk': 'Ukrainian',
       'zh': 'Kichina',
+      'sw': 'Kiswahili',
       'other': 'Lugha haitumiki',
     });
     return '$_temp0';

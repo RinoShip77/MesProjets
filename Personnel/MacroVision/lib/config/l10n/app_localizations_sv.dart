@@ -48,13 +48,14 @@ class AppLocalizationsSv extends AppLocalizations {
     String _temp0 = intl.Intl.selectLogic(target, {
       'fr': 'Franska',
       'en': 'Engelska',
-      'es': 'spanska',
-      'fil': 'filippinska',
+      'es': 'Spanska',
+      'fil': 'Filippinska',
       'hej': 'Hindi',
-      'ja': 'japanska',
-      'sv': 'svenska',
-      'uk': 'ukrainska',
-      'zh': 'kinesiska',
+      'ja': 'Japanska',
+      'sv': 'Svenska',
+      'uk': 'Ukrainska',
+      'zh': 'Kinesiska',
+      'sw': 'Swahili',
       'other': 'Språk stöds inte',
     });
     return '$_temp0';

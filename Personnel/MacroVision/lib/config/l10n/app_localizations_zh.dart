@@ -55,6 +55,7 @@ class AppLocalizationsZh extends AppLocalizations {
       'sv': '瑞典语',
       'uk': '乌克兰语',
       'zh': '中文',
+      'sw': '斯瓦希里语',
       'other': '不支持的语言',
     });
     return '$_temp0';

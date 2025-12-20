@@ -55,6 +55,7 @@ class AppLocalizationsFil extends AppLocalizations {
       'sv': 'Swedish',
       'uk': 'Ukrainian',
       'zh': 'Chinese',
+      'sw': 'Swahili',
       'other': 'Hindi suportadong wika',
     });
     return '$_temp0';

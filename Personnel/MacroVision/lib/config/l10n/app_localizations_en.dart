@@ -55,6 +55,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'sv': 'Swedish',
       'uk': 'Ukrainian',
       'zh': 'Chinese',
+      'sw': 'Swahili',
       'other': 'Unsupported Language',
     });
     return '$_temp0';

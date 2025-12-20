@@ -348,6 +348,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   Text(
+                    textAlign: TextAlign.center,
                     context.l10n.homeScreenWelcomeLbl,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // =========================================================================
 // CONSTANTES DE COULEURS ACCESSIBLES GLOBALEMENT
@@ -29,6 +30,24 @@ ThemeData _buildThemeData({
     scaffoldBackgroundColor: brightness == Brightness.light
         ? Colors.white
         : colorScheme.surface,
+    textTheme: GoogleFonts.ubuntuTextTheme().copyWith(
+      headlineSmall: GoogleFonts.tomorrow(),
+      // displayLarge: GoogleFonts.roboto(),
+      // displayMedium: GoogleFonts.roboto(),
+      // displaySmall: GoogleFonts.roboto(),
+      // headlineLarge: GoogleFonts.roboto(),
+      // headlineMedium: GoogleFonts.roboto(),
+      // headlineSmall: GoogleFonts.roboto(),
+      // titleLarge: GoogleFonts.roboto(),
+      // titleMedium: GoogleFonts.roboto(),
+      // titleSmall: GoogleFonts.roboto(),
+      // bodyLarge: GoogleFonts.roboto(),
+      // bodyMedium: GoogleFonts.roboto(),
+      // bodySmall: GoogleFonts.roboto(),
+      // labelLarge: GoogleFonts.roboto(),
+      // labelMedium: GoogleFonts.roboto(),
+      // labelSmall: GoogleFonts.roboto(),
+    ),
 
     // --- Personnalisation générale pour l'application entière ---
     appBarTheme: AppBarTheme(
@@ -40,8 +59,11 @@ ThemeData _buildThemeData({
       actionsPadding: EdgeInsets.all(5),
       backgroundColor: colorScheme.primary,
       centerTitle: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          // Apply a 30-pixel radius to both bottom corners
+          bottom: Radius.circular(20),
+        ),
       ),
     ),
 
@@ -107,9 +129,7 @@ ThemeData _buildThemeData({
     cardTheme: CardThemeData(
       elevation: 2,
       shadowColor: colorScheme.primary,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     ),
 
     toggleButtonsTheme: ToggleButtonsThemeData(

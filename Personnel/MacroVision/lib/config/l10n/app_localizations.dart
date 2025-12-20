@@ -159,7 +159,7 @@ abstract class AppLocalizations {
   /// Le nom de la langue de l'application
   ///
   /// In fr, this message translates to:
-  /// **'{target, select, fr{Français} en{Anglais} es{espagnol} fil{philippin} hi{hindi} ja{japonais} sv{suédois} uk{ukrainien} zh{chinois} other{Langue non supportée}}'**
+  /// **'{target, select, fr{Français} en{Anglais} es{Espagnol} fil{Philippin} hi{Hindi} ja{Japonais} sv{Suédois} uk{Ukrainien} zh{Chinois} sw{Swahili} other{Langue non supportée}}'**
   String appLanguageName(String target);
 
   /// Libellé affiché pendant l'initialisation de l'application

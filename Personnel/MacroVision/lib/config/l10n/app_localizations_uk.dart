@@ -56,6 +56,7 @@ class AppLocalizationsUk extends AppLocalizations {
       'sv': 'шведська',
       'uk': 'українська',
       'zh': 'китайська',
+      'sw': 'Суахілі',
       'other': 'Мова не підтримується',
     });
     return '$_temp0';

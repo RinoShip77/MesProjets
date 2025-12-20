@@ -55,6 +55,7 @@ class AppLocalizationsJa extends AppLocalizations {
       'sv': 'スウェーデン語',
       'uk': 'ウクライナ語',
       'zh': '中国語',
+      'sw': 'スワヒリ語',
       'other': 'サポートされていない言語',
     });
     return '$_temp0';

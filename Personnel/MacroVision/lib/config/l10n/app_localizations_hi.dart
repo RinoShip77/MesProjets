@@ -56,6 +56,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'sv': 'स्वीडिश',
       'uk': 'यूक्रेनी',
       'zh': 'चीनी',
+      'sw': 'स्वाहिली',
       'other': 'असमर्थित भाषा',
     });
     return '$_temp0';
