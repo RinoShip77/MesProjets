@@ -159,8 +159,8 @@ flutter_launcher_icons:
   min_sdk_android: 21 # Nécessaire si minSdk est 21
   remove_alpha_channel: true
   # OPTIONNEL: Si tu veux une icône adaptative sur Android 8+
-  # adaptive_icon_background: "#FFFFFF" 
-  # adaptive_icon_foreground: "assets/images/macrovision_logo_foreground.png"
+  adaptive_icon_background: "#FFFFFF" 
+  adaptive_icon_foreground: "assets/images/macrovision_logo_foreground.png"
 
 flutter_native_splash:
   # La couleur du fond de l'écran de chargement
