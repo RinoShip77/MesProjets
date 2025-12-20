@@ -129,7 +129,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               title,
               style: Theme.of(
                 context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 5),
@@ -180,7 +180,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 Text(
                   context.l10n.dashboardScreenDailyObjectivesLbl,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
 
                 const SizedBox(height: 10),
@@ -233,7 +233,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                 Text(
                   context.l10n.appSummaryLbl('weekly'),
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
 
                 const SizedBox(height: 10),

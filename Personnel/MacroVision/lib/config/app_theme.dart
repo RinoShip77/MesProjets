@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path/path.dart';
 
 // =========================================================================
 // CONSTANTES DE COULEURS ACCESSIBLES GLOBALEMENT
@@ -30,29 +31,18 @@ ThemeData _buildThemeData({
     scaffoldBackgroundColor: brightness == Brightness.light
         ? Colors.white
         : colorScheme.surface,
-    // textTheme: GoogleFonts.ubuntuTextTheme().copyWith(
-    //   headlineSmall: GoogleFonts.tomorrow(),
-    //   // displayLarge: GoogleFonts.roboto(),
-    //   // displayMedium: GoogleFonts.roboto(),
-    //   // displaySmall: GoogleFonts.roboto(),
-    //   // headlineLarge: GoogleFonts.roboto(),
-    //   // headlineMedium: GoogleFonts.roboto(),
-    //   // headlineSmall: GoogleFonts.roboto(),
-    //   // titleLarge: GoogleFonts.roboto(),
-    //   // titleMedium: GoogleFonts.roboto(),
-    //   // titleSmall: GoogleFonts.roboto(),
-    //   // bodyLarge: GoogleFonts.roboto(),
-    //   // bodyMedium: GoogleFonts.roboto(),
-    //   // bodySmall: GoogleFonts.roboto(),
-    //   // labelLarge: GoogleFonts.roboto(),
-    //   // labelMedium: GoogleFonts.roboto(),
-    //   // labelSmall: GoogleFonts.roboto(),
-    // ),
+    textTheme: GoogleFonts.ubuntuTextTheme()
+        .apply(bodyColor: colorScheme.onSurface)
+        .copyWith(
+          headlineLarge: GoogleFonts.tomorrow(),
+          headlineMedium: GoogleFonts.oswald(),
+        ),
 
     // --- Personnalisation générale pour l'application entière ---
     appBarTheme: AppBarTheme(
       titleTextStyle: TextStyle(
-        fontSize: 25,
+        fontSize: 30,
+        fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
         fontWeight: FontWeight.bold,
         color: colorScheme.onPrimary,
       ),
@@ -87,7 +77,11 @@ ThemeData _buildThemeData({
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-        textStyle: TextStyle(fontWeight: FontWeight.w900, fontSize: 15),
+        textStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          fontFamily: GoogleFonts.tomorrow().fontFamily,
+        ),
         backgroundColor: colorScheme.inversePrimary.withAlpha(70),
         foregroundColor: colorScheme.inverseSurface,
         side: BorderSide(color: colorScheme.primary, width: 2),
@@ -98,7 +92,11 @@ ThemeData _buildThemeData({
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-        textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        textStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          fontFamily: GoogleFonts.tomorrow().fontFamily,
+        ),
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -136,7 +134,11 @@ ThemeData _buildThemeData({
       fillColor: colorScheme.primary.withAlpha(250),
       selectedColor: colorScheme.onPrimary,
       borderRadius: BorderRadius.circular(10),
-      textStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+      textStyle: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 15,
+        fontFamily: GoogleFonts.tomorrow().fontFamily,
+      ),
     ),
 
     // --- CameraScreen ---
@@ -146,6 +148,11 @@ ThemeData _buildThemeData({
       shape: const CircleBorder(),
       elevation: 15,
     ),
+    
+    dialogTheme: DialogThemeData(
+      alignment: AlignmentGeometry.center,
+      titleTextStyle: TextStyle(fontFamily: GoogleFonts.tomorrow().fontFamily)
+    )
   );
 }
 

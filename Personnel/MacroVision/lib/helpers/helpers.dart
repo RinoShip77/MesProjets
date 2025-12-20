@@ -209,6 +209,7 @@ Future<void> openDialog({
         title: Center(
           child: Text(
             title,
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 30.0, // Set your desired font size
               fontWeight: FontWeight.bold,
@@ -220,7 +221,7 @@ Future<void> openDialog({
           child: SingleChildScrollView(
             // REMPLACEMENT : Utilisation du widget Column pour contenir les widgets générés par MarkdownGenerator
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: children, // Les widgets générés par MarkdownWidget
             ),
           ),

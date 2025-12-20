@@ -188,6 +188,7 @@ class _CameraScreenState extends State<CameraScreen> {
       // 1. Appeler le service Gemini
       final NutritionalFacts initialFacts = await GeminiService().analyzeImage(
         imagePath,
+        Localizations.localeOf(context).languageCode // ✅ Récupère 'fr', 'en', etc.
       );
 
       // 2. FeedBack de succès

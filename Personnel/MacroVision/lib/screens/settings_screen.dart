@@ -67,7 +67,8 @@ class SettingsScreen extends StatelessWidget {
           children: [
             Text(
               context.l10n.settingsScreenSectionLbl('language'),
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.headlineMedium,
+              // style: Theme.of(context).textTheme.headlineLarge,
             ),
 
             const Divider(),
@@ -100,7 +101,7 @@ class SettingsScreen extends StatelessWidget {
 
             Text(
               context.l10n.settingsScreenSectionLbl('luminosity'),
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
 
             const Divider(),
@@ -131,7 +132,7 @@ class SettingsScreen extends StatelessWidget {
 
             Text(
               context.l10n.settingsScreenSectionLbl('color'),
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
 
             const Divider(),

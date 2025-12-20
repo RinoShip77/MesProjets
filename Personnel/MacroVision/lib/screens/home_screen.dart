@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           label,
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
                             fontWeight: FontWeight.bold,
                             color: color.withAlpha(200),
                           ),
@@ -186,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(
                   8,
                 ), // Matches border rounding
-                child: LinearProgressIndicator(value: 0.5, minHeight: 8),
+                child: LinearProgressIndicator(value: progress, minHeight: 8),
               ),
             ),
           ],
@@ -359,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     textAlign: TextAlign.center,
                     context.l10n.homeScreenWelcomeLbl,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),

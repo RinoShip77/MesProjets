@@ -50,8 +50,12 @@ class GeminiService {
     );
   }
 
-  // Le prompt système mis à jour (Prompt 2.2)
-  final String _systemInstruction = '''
+  Future<NutritionalFacts> analyzeImage(
+    String imagePath,
+    String languageCode,
+  ) async {
+    // Le prompt système mis à jour (Prompt 2.2)
+    final String systemInstruction = '''
     Tu es un expert en nutrition. Ton rôle est d'analyser l'image d'un plat ou d'aliments 
     et d'estimer les valeurs nutritionnelles pour l'ensemble du contenu visible.
     
@@ -74,7 +78,6 @@ class GeminiService {
     }
   ''';
 
-  Future<NutritionalFacts> analyzeImage(String imagePath) async {
     // Vérification de sécurité (essentielle)
     if (_model == null) {
       throw NotInitializedError();
@@ -92,11 +95,32 @@ class GeminiService {
     final imagePart = DataPart('image/jpeg', imageBytes);
 
     // Ajout d'une requête utilisateur générique pour une analyse alimentaire
-    final userPrompt = TextPart(
-      '$_systemInstruction \n\nAnalyse l\'image ci-jointe pour estimer les valeurs nutritionnelles du plat visible.',
-    );
+    final userPrompt = TextPart('''
+    Tu es un expert en nutrition. Ton rôle est d'analyser l'image d'un plat ou d'aliments et d'estimer les valeurs
+    nutritionnelles pour l'ensemble du contenu visible. Ta réponse doit être intégralement en $languageCode. Tu
+    DOIS retourner UNIQUEMENT un objet JSON strictement formaté selon le schéma ci-dessous. Les valeurs doivent
+    être des nombres (double) SAUF la première. La réponse en avec UNIQUEMENT l'objet JSON doit contenir les clés
+    suivantes :
+    {
+      "foodName": [chaîne de caractères]
+      "portionInGrams": [nombre]
+      "calories": [nombre]
+      "totalFat": [nombre]
+      "saturatedFat": [nombre]
+      "transFat": [nombre]
+      "cholesterol": [nombre]
+      "sodium": [nombre]
+      "potassium": [nombre]
+      "totalCarbohydrates": [nombre]
+      "dietaryFiber": [nombre]
+      "sugar": [nombre]
+      "protein": [nombre]
+    }
+    ''');
 
-    final contents = [Content('user', [imagePart, userPrompt])];
+    final contents = [
+      Content('user', [imagePart, userPrompt]),
+    ];
 
     // 3. Configurer la génération (GenerationConfig) pour un JSON strict
     final generationConfig = GenerationConfig(
@@ -105,15 +129,15 @@ class GeminiService {
 
     // // Créer un Content pour l'instruction système
     // final systemContent = Content.system(_systemInstruction);
-    
+
     // // Ajouter l'instruction système au début des contenus de la requête
     // final fullContents = [systemContent, ...content];
-    
+
     // 4. Exécuter la requête
     final response = await _model!.generateContent(
       contents, // Utiliser la liste complète incluant l'instruction système
       generationConfig: generationConfig,
-  );
+    );
     // final imageBytes = await compute(_readFileBytes, imagePath);
     // final response = await _model.generateContent(
     //   [Content('user', [TextPart(_systemInstruction), DataPart('image/jpeg', imageBytes)])],
