@@ -293,7 +293,7 @@
             }
         }
     },
-    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{कार्ब्स} protein{प्रोटीन} fat{वसा} other{आंकड़े}}",
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{कार्बोहाइड्रेट} protein{प्रोटीन} fat{लिपिड} other{पोषक तत्व}}",
     "@homeScreenDailySummaryMacroCardLbl": {
         "description": "दैनिक सारांश कार्ड के लिए पाठ",
         "placeholders": {

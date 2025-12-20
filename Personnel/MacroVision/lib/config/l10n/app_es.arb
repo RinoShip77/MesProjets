@@ -293,7 +293,7 @@
             }
         }
     },
-    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Carb} protein{Pro} fat{Grasa} other{Estad}}",
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Carbohidratos} protein{Proteínas} fat{Grasas} other{Nutrientes}}",
     "@homeScreenDailySummaryMacroCardLbl": {
         "description": "Texto para las tarjetas del resumen diario",
         "placeholders": {

@@ -293,7 +293,7 @@
             }
         }
     },
-    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Carbs} protein{Pro} fat{Fat} other{Stat}}",
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Carbohydrates} protein{Proteins} fat{Fat} other{Nutrients}}",
     "@homeScreenDailySummaryMacroCardLbl": {
         "description": "Text for daily summary cards",
         "placeholders": {

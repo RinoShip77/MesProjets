@@ -295,7 +295,7 @@ class AppLocalizationsJa extends AppLocalizations {
       'carbohydrate': '炭水化物',
       'protein': 'タンパク質',
       'fat': '脂質',
-      'other': '統計',
+      'other': '栄養素',
     });
     return '$_temp0';
   }

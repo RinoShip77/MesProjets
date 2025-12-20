@@ -293,7 +293,7 @@
             }
         }
     },
-    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Glu} protein{Pro} fat{Lip} other{Stat}}",
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Glucides} protein{Protéines} fat{Lipides} other{Nutriments}}",
     "@homeScreenDailySummaryMacroCardLbl": {
         "description": "Texte pour les cartes du résumé quotidien",
         "placeholders": {

@@ -137,14 +137,24 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Row(
               children: [
-                Icon(icon, size: 16, color: color),
-                const SizedBox(width: 4),
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: color.withAlpha(200),
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit
+                        .scaleDown, // Shrinks the text only if it's too large
+                    child: Row(
+                      children: [
+                        Icon(icon, size: 16, color: color),
+                        const SizedBox(width: 4),
+                        Text(
+                          label,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: color.withAlpha(200),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -162,7 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 10),
             ),
 
-            // Text('sur ${max.toInt()} g', style: TextStyle(fontSize: 10)),
             const SizedBox(height: 8),
 
             Container(
@@ -277,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 _buildMacroCardInfo(
                   context,
                   label: context.l10n.homeScreenDailySummaryMacroCardLbl(
-                    'carbohydrates',
+                    'carbohydrate',
                   ),
                   value: _consumedMacros['totalCarbohydrates'] ?? 0,
                   max: _goalMacros['totalCarbohydrates'] ?? 0,

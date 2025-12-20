@@ -435,7 +435,7 @@ abstract class AppLocalizations {
   /// Texte pour les cartes du résumé quotidien
   ///
   /// In fr, this message translates to:
-  /// **'{field, select, carbohydrate{Glu} protein{Pro} fat{Lip} other{Stat}}'**
+  /// **'{field, select, carbohydrate{Glucides} protein{Protéines} fat{Lipides} other{Nutriments}}'**
   String homeScreenDailySummaryMacroCardLbl(String field);
 
   /// Texte pour les statistiques du résumé quotidien

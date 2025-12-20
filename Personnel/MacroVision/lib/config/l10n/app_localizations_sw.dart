@@ -305,8 +305,8 @@ class AppLocalizationsSw extends AppLocalizations {
     String _temp0 = intl.Intl.selectLogic(field, {
       'carbohydrate': 'Wanga',
       'protein': 'Protini',
-      'fat': 'Mafuta',
-      'other': 'Takwimu',
+      'fat': 'Lipidi',
+      'other': 'Virutubisho',
     });
     return '$_temp0';
   }

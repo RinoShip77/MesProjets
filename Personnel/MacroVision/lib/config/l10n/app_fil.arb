@@ -293,7 +293,7 @@
             }
         }
     },
-    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Carb} protein{Pro} fat{Taba} other{Stat}}",
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Karbohidrat} protein{Protina} fat{Taba} other{Pagkaing nakapagpalusog}}",
     "@homeScreenDailySummaryMacroCardLbl": {
         "description": "Teksto para sa mga card ng pang-araw-araw na buod",
         "placeholders": {

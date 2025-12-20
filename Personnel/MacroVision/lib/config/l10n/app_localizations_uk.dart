@@ -301,10 +301,10 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String homeScreenDailySummaryMacroCardLbl(String field) {
     String _temp0 = intl.Intl.selectLogic(field, {
-      'carbohydrate': 'Вугл',
+      'carbohydrate': 'Вуглеводи',
       'protein': 'Білки',
-      'fat': 'Жири',
-      'other': 'Стат',
+      'fat': 'Ліпіди',
+      'other': 'Поживні речовини',
     });
     return '$_temp0';
   }

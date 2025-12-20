@@ -293,7 +293,7 @@
             }
         }
     },
-    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Kolh} protein{Pro} fat{Fett} other{Stat}}",
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Kolhydrater} protein{Proteiner} fat{Lipider} other{Näringsämnen}}",
     "@homeScreenDailySummaryMacroCardLbl": {
         "description": "Text för korten i den dagliga sammanfattningen",
         "placeholders": {

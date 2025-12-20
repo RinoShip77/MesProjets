@@ -30,24 +30,24 @@ ThemeData _buildThemeData({
     scaffoldBackgroundColor: brightness == Brightness.light
         ? Colors.white
         : colorScheme.surface,
-    textTheme: GoogleFonts.ubuntuTextTheme().copyWith(
-      headlineSmall: GoogleFonts.tomorrow(),
-      // displayLarge: GoogleFonts.roboto(),
-      // displayMedium: GoogleFonts.roboto(),
-      // displaySmall: GoogleFonts.roboto(),
-      // headlineLarge: GoogleFonts.roboto(),
-      // headlineMedium: GoogleFonts.roboto(),
-      // headlineSmall: GoogleFonts.roboto(),
-      // titleLarge: GoogleFonts.roboto(),
-      // titleMedium: GoogleFonts.roboto(),
-      // titleSmall: GoogleFonts.roboto(),
-      // bodyLarge: GoogleFonts.roboto(),
-      // bodyMedium: GoogleFonts.roboto(),
-      // bodySmall: GoogleFonts.roboto(),
-      // labelLarge: GoogleFonts.roboto(),
-      // labelMedium: GoogleFonts.roboto(),
-      // labelSmall: GoogleFonts.roboto(),
-    ),
+    // textTheme: GoogleFonts.ubuntuTextTheme().copyWith(
+    //   headlineSmall: GoogleFonts.tomorrow(),
+    //   // displayLarge: GoogleFonts.roboto(),
+    //   // displayMedium: GoogleFonts.roboto(),
+    //   // displaySmall: GoogleFonts.roboto(),
+    //   // headlineLarge: GoogleFonts.roboto(),
+    //   // headlineMedium: GoogleFonts.roboto(),
+    //   // headlineSmall: GoogleFonts.roboto(),
+    //   // titleLarge: GoogleFonts.roboto(),
+    //   // titleMedium: GoogleFonts.roboto(),
+    //   // titleSmall: GoogleFonts.roboto(),
+    //   // bodyLarge: GoogleFonts.roboto(),
+    //   // bodyMedium: GoogleFonts.roboto(),
+    //   // bodySmall: GoogleFonts.roboto(),
+    //   // labelLarge: GoogleFonts.roboto(),
+    //   // labelMedium: GoogleFonts.roboto(),
+    //   // labelSmall: GoogleFonts.roboto(),
+    // ),
 
     // --- Personnalisation générale pour l'application entière ---
     appBarTheme: AppBarTheme(

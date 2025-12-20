@@ -293,7 +293,7 @@
             }
         }
     },
-    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Вугл} protein{Білки} fat{Жири} other{Стат}}",
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Вуглеводи} protein{Білки} fat{Ліпіди} other{Поживні речовини}}",
     "@homeScreenDailySummaryMacroCardLbl": {
         "description": "Текст для карток щоденного підсумку",
         "placeholders": {

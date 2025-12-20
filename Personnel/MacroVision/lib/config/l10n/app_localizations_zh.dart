@@ -290,10 +290,10 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String homeScreenDailySummaryMacroCardLbl(String field) {
     String _temp0 = intl.Intl.selectLogic(field, {
-      'carbohydrate': '碳水',
-      'protein': '蛋白',
+      'carbohydrate': '碳水化合物',
+      'protein': '蛋白质',
       'fat': '脂肪',
-      'other': '统计',
+      'other': '营养素',
     });
     return '$_temp0';
   }

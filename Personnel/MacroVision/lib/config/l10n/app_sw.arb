@@ -293,7 +293,7 @@
             }
         }
     },
-    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Wanga} protein{Protini} fat{Mafuta} other{Takwimu}}",
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{Wanga} protein{Protini} fat{Lipidi} other{Virutubisho}}",
     "@homeScreenDailySummaryMacroCardLbl": {
         "description": "Maandishi kwa ajili ya kadi za muhtasari wa kila siku",
         "placeholders": {

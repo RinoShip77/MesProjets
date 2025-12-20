@@ -296,10 +296,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String homeScreenDailySummaryMacroCardLbl(String field) {
     String _temp0 = intl.Intl.selectLogic(field, {
-      'carbohydrate': 'Carbs',
-      'protein': 'Pro',
+      'carbohydrate': 'Carbohydrates',
+      'protein': 'Proteins',
       'fat': 'Fat',
-      'other': 'Stat',
+      'other': 'Nutrients',
     });
     return '$_temp0';
   }

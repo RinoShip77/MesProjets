@@ -293,7 +293,7 @@
             }
         }
     },
-    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{碳水} protein{蛋白} fat{脂肪} other{统计}}",
+    "homeScreenDailySummaryMacroCardLbl": "{field, select, carbohydrate{碳水化合物} protein{蛋白质} fat{脂肪} other{营养素}}",
     "@homeScreenDailySummaryMacroCardLbl": {
         "description": "每日总结卡片的文本",
         "placeholders": {
