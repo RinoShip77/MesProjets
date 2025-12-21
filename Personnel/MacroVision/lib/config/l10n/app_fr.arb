@@ -121,6 +121,10 @@
             }
         }
     },
+    "cameraScreenConfirmFactsLbl": "Confirmer les valeurs",
+    "@cameraScreenConfirmFactsLbl": {
+        "description": "Message pour la fenêtre de dialogue"
+    },
     "cameraScreenErrors": "{type, select, initialization{Erreur d'initialisation de la caméra} flash{Erreur lors du basculement du flash} capture{Erreur de capture} analysis{Erreur d'analyse} permissions{Impossible d'accéder à la caméra. Vérifiez les permissions de l'application} other{Erreur dde caméra}}",
     "@cameraScreenErrors": {
         "description": "Messages d'erreur liés à l'utilisation de la caméra",

@@ -234,6 +234,12 @@ abstract class AppLocalizations {
   /// **'{context, select, flash{Basculement du flash} gallery{Sélectionner une image depuis la galerie} camera{Prendre une photo} other{Caméra}}'**
   String cameraScreenBtn(String context);
 
+  /// Message pour la fenêtre de dialogue
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer les valeurs'**
+  String get cameraScreenConfirmFactsLbl;
+
   /// Messages d'erreur liés à l'utilisation de la caméra
   ///
   /// In fr, this message translates to:

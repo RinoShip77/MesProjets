@@ -50,6 +50,48 @@ class GeminiService {
     );
   }
 
+  Future<Map<String, dynamic>?> analyzeNutritionTable(
+    Uint8List imageBytes,
+    String languageCode,
+  ) async {
+    final prompt =
+        """
+    Analyse cette image d'un tableau nutritionnel.
+    Extrais les valeurs suivantes pour 100g ou par portion (précise l'unité) :
+    - Calories (cal)
+    - Protéines (g)
+    - Glucides (g)
+    - Lipides (g)
+    
+    Réponds EXCLUSIVEMENT sous ce format JSON :
+    {
+      "calories": 0.0,
+      "proteins": 0.0,
+      "carbs": 0.0,
+      "fat": 0.0,
+      "servingSize": "100g"
+    }
+    Langue de l'utilisateur : $languageCode.
+  """;
+
+    try {
+      final response = await _model!.generateContent([
+        Content.multi([TextPart(prompt), DataPart('image/jpeg', imageBytes)]),
+      ]);
+
+      // Nettoyage de la réponse pour ne garder que le JSON
+      final text = response.text ?? "";
+      final jsonStart = text.indexOf('{');
+      final jsonEnd = text.lastIndexOf('}') + 1;
+      final jsonString = text.substring(jsonStart, jsonEnd);
+
+      return jsonDecode(jsonString) as Map<String, dynamic>;
+    } catch (e) {
+      debugPrint("Erreur lors de l'analyse du tableau: $e");
+      return null;
+    }
+  }
+
   Future<NutritionalFacts> analyzeImage(
     String imagePath,
     String languageCode,
@@ -202,9 +244,5 @@ class GeminiService {
         protein: 0.0,
       );
     }
-  }
-
-  Future<Uint8List> _readFileBytes(String path) async {
-    return File(path).readAsBytes();
   }
 }

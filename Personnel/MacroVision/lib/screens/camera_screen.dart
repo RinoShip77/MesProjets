@@ -30,11 +30,20 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   // Le contrôleur est maintenant optionnel car l'initialisation peut échouer
   CameraController? _controller;
+  final ImagePicker _picker = ImagePicker();
+  final GeminiService _geminiService =
+      GeminiService(); // Assurez-vous d'importer le service
   bool _isLoading = true;
   bool _hasCamera = false;
   bool _isAnalyzing = false;
   bool _showSuccessAnimation = false;
   bool _isFlashOn = false;
+
+  // Contrôleurs pour le dialogue de confirmation
+  final TextEditingController _calController = TextEditingController();
+  final TextEditingController _protController = TextEditingController();
+  final TextEditingController _carbsController = TextEditingController();
+  final TextEditingController _fatController = TextEditingController();
 
   @override
   void initState() {
@@ -85,6 +94,11 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   void dispose() {
     _controller?.dispose();
+    // Toujours nettoyer les contrôleurs
+    _calController.dispose();
+    _protController.dispose();
+    _carbsController.dispose();
+    _fatController.dispose();
     super.dispose();
   }
 
@@ -108,6 +122,45 @@ class _CameraScreenState extends State<CameraScreen> {
           showSnackBar(context, context.l10n.cameraScreenErrors('flash'), true);
         }
       }
+    }
+  }
+
+  void _onScanLabelPressed() async {
+    if (_controller == null ||
+        !_controller!.value.isInitialized ||
+        _isAnalyzing)
+      return;
+
+    setState(() => _isAnalyzing = true);
+
+    try {
+      // Capture directement depuis le flux caméra existant
+      final XFile image = await _controller!.takePicture();
+      final bytes = await image.readAsBytes();
+
+      showLoadingDialog(context);
+
+      // Analyse via votre nouveau prompt Gemini
+      final data = await _geminiService.analyzeNutritionTable(
+        bytes,
+        Localizations.localeOf(context).languageCode,
+      );
+
+      if (mounted) Navigator.pop(context); // Fermer le loader
+
+      if (data != null) {
+        // Pré-remplissage des contrôleurs pour le dialogue
+        _calController.text = data['calories']?.toString() ?? "0";
+        _protController.text = data['proteins']?.toString() ?? "0";
+        _carbsController.text = data['carbs']?.toString() ?? "0";
+        _fatController.text = data['fat']?.toString() ?? "0";
+
+        _showConfirmationDialog(data);
+      }
+    } catch (e) {
+      debugPrint("Erreur lors du scan : $e");
+    } finally {
+      if (mounted) setState(() => _isAnalyzing = false);
     }
   }
 
@@ -152,8 +205,7 @@ class _CameraScreenState extends State<CameraScreen> {
     if (_isAnalyzing) {
       return;
     } else {
-      final ImagePicker picker = ImagePicker();
-      final XFile? image = await picker.pickImage(
+      final XFile? image = await _picker.pickImage(
         source: ImageSource.gallery,
         imageQuality: 70,
         maxWidth: 1024,
@@ -178,6 +230,46 @@ class _CameraScreenState extends State<CameraScreen> {
     });
   }
 
+  void _saveEntryToDatabase() async {
+    // 1. Récupération des valeurs textuelles converties en nombres
+    final double calories = double.tryParse(_calController.text) ?? 0;
+    final double proteins = double.tryParse(_protController.text) ?? 0;
+    final double carbs = double.tryParse(_carbsController.text) ?? 0;
+    final double fat = double.tryParse(_fatController.text) ?? 0;
+
+    // 2. Création de l'objet NutritionalFactsEntry
+    // Note : On peut laisser le chemin d'image vide ou mettre une icône par défaut pour les scans d'étiquettes
+    final entry = NutritionalFactsEntry(
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+      imagePath: "", // Ou le chemin de la photo du scan si vous souhaitez la garder
+      foodName: "Scan Étiquette",
+      portionInGrams: 0,
+      calories: calories,
+      totalFat: fat,
+      saturatedFat: 0,
+      transFat: 0,
+      cholesterol: 0,
+      sodium: 0,
+      potassium: 0,
+      totalCarbohydrates: carbs,
+      sugar: 0,
+      dietaryFiber: 0,
+      protein: proteins,
+    );
+
+    try {
+      // 3. Appel de l'insertion
+      await DatabaseService().insertEntry(entry);
+
+      if (mounted) {
+        showSnackBar(context, "Données enregistrées avec succès !", false);
+      }
+    } catch (e) {
+        showSnackBar(context, "Erreur lors de l'enregistrement", true);
+      debugPrint("Erreur lors de l'enregistrement : $e");
+    }
+  }
+
   // 4.Processus d'analyse (commun à la photo ET à la galerie)
   Future<void> _analyseImage(String imagePath, {required String origin}) async {
     setState(() {
@@ -186,9 +278,11 @@ class _CameraScreenState extends State<CameraScreen> {
 
     try {
       // 1. Appeler le service Gemini
-      final NutritionalFacts initialFacts = await GeminiService().analyzeImage(
+      final NutritionalFacts initialFacts = await _geminiService.analyzeImage(
         imagePath,
-        Localizations.localeOf(context).languageCode // ✅ Récupère 'fr', 'en', etc.
+        Localizations.localeOf(
+          context,
+        ).languageCode, // ✅ Récupère 'fr', 'en', etc.
       );
 
       // 2. FeedBack de succès
@@ -258,6 +352,109 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
+  void _showConfirmationDialog(Map<String, dynamic> data) {
+    // Utilisez des TextEditingController pré-remplis avec data['calories'], etc.
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          context.l10n.cameraScreenConfirmFactsLbl,
+        ), // Ajoutez cette clé dans vos .arb
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _calController,
+              decoration: InputDecoration(labelText: 'Calories'),
+            ),
+            TextField(
+              controller: _protController,
+              decoration: InputDecoration(labelText: 'Protéines (g)'),
+            ),
+            TextField(
+              controller: _carbsController,
+              decoration: InputDecoration(labelText: 'Glucides (g)'),
+            ),
+            TextField(
+              controller: _fatController,
+              decoration: InputDecoration(labelText: 'Lipides (g)'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Annuler'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Sauvegarder dans votre DatabaseService
+              _saveEntryToDatabase();
+              Navigator.pop(context);
+            },
+            child: Text('Enregistrer'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget _buildCameraOverlay() {
+    return Stack(
+      children: [
+        // Fond assombri avec un trou au milieu (ClipPath)
+        ColorFiltered(
+          colorFilter: ColorFilter.mode(
+            Colors.black.withOpacity(0.5),
+            BlendMode.srcOut,
+          ),
+          child: Stack(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                  backgroundBlendMode: BlendMode.dstOut,
+                ),
+              ),
+              // Le rectangle "vide" pour le scan
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  height: 250,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        // Bordure visuelle du rectangle
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            height: 250,
+            width: 300,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.green, width: 2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   // -----------------------------------------------------------
   // WIDGET DE CONSTRUCTION
   // -----------------------------------------------------------
@@ -322,6 +519,9 @@ class _CameraScreenState extends State<CameraScreen> {
                 ),
               ),
             ),
+
+            // // 💡 AJOUT : L'overlay de guidage pour le scan
+            // _buildCameraOverlay(),
 
             // 2. Bouton Flash/Lampe de poche (en haut à droite)
             Positioned(
@@ -431,6 +631,15 @@ class _CameraScreenState extends State<CameraScreen> {
               tooltip: context.l10n.cameraScreenBtn('gallery'),
               onPressed: _isAnalyzing ? null : _selectFromGallery,
               child: const Icon(Icons.photo_library_rounded),
+            ),
+
+            // 💡 NOUVEAU : Bouton SCAN ÉTIQUETTE (Milieu)
+            FloatingActionButton(
+              heroTag: 'scanBtn',
+              tooltip: "Scanner une étiquette",
+              backgroundColor: Colors.green, // Couleur distincte
+              onPressed: _isAnalyzing ? null : _onScanLabelPressed,
+              child: const Icon(Icons.document_scanner_rounded),
             ),
 
             // 2. Bouton de CAPTURE PRINCIPAL

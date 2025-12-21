@@ -121,6 +121,10 @@
             }
         }
     },
+    "cameraScreenConfirmFactsLbl": "Confirm values",
+    "@cameraScreenConfirmFactsLbl": {
+        "description": "Message for the dialog box"
+    },
     "cameraScreenErrors": "{type, select, initialization{Camera initialization error} flash{Error toggling flash} capture{Capture error} analysis{Analysis error} permissions{Unable to access camera. Check app permissions} other{Camera error}}",
     "@cameraScreenErrors": {
         "description": "Error messages related to camera usage",

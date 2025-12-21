@@ -131,6 +131,9 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
+  String get cameraScreenConfirmFactsLbl => 'Confirmer les valeurs';
+
+  @override
   String cameraScreenErrors(String type) {
     String _temp0 = intl.Intl.selectLogic(type, {
       'initialization': 'Fel vid initiering av kameran',
