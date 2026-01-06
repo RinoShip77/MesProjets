@@ -148,7 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           label,
                           style: TextStyle(
-                            fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
+                            fontSize: Theme.of(
+                              context,
+                            ).textTheme.bodyLarge!.fontSize,
                             fontWeight: FontWeight.bold,
                             color: color.withAlpha(200),
                           ),
@@ -421,21 +423,138 @@ class _HomeScreenState extends State<HomeScreen> {
                   // const SizedBox(height: 15),
 
                   // Bouton principal pour la caméra
-                  Tooltip(
-                    message: context.l10n.homeScreenStartAnalysisBtn,
-                    child: ElevatedButton.icon(
-                      icon: const Icon(Icons.camera_enhance_rounded),
-                      label: Text(context.l10n.homeScreenStartAnalysisBtn),
-                      onPressed: () =>
-                          _navigateAndRefresh(context, CameraScreen()),
-                    ),
-                  ),
+                  // Tooltip(
+                  //   message: context.l10n.homeScreenStartAnalysisBtn,
+                  //   child: ElevatedButton.icon(
+                  //     icon: const Icon(Icons.camera_enhance_rounded),
+                  //     label: Text(context.l10n.homeScreenStartAnalysisBtn),
+                  //     onPressed: () =>
+                  //         _navigateAndRefresh(context, CameraScreen(mode: CameraMode.mealAnalysis)),
+                  //   ),
+                  // ),
+
+                  // // Bouton principal pour le scanner de valeurs nutritives
+                  // Tooltip(
+                  //   message: context.l10n.homeScreenStartAnalysisBtn,
+                  //   child: ElevatedButton.icon(
+                  //     icon: const Icon(Icons.document_scanner_rounded),
+                  //     label: Text('Facts label scanner'),
+                  //     onPressed: () =>
+                  //         _navigateAndRefresh(context, CameraScreen(mode: CameraMode.labelScanner)),
+                  //   ),
+                  // ),
+
+                  // // Bouton principal pour le scanner de code barres
+                  // Tooltip(
+                  //   message: context.l10n.homeScreenStartAnalysisBtn,
+                  //   child: ElevatedButton.icon(
+                  //     icon: const Icon(Icons.qr_code_scanner_rounded),
+                  //     label: Text('Barcode scanner'),
+                  //     onPressed: () =>
+                  //         _navigateAndRefresh(context, CameraScreen(mode: CameraMode.barcodeScanner)),
+                  //   ),
+                  // ),
+                  // Section 1 : Analyse Repas
                 ],
               ),
             ),
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
+        child: _buildSegmentedActionButton(context),
+      ),
+    );
+  }
+
+  void _navigateToCamera(BuildContext context, CameraMode mode) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CameraScreen(mode: mode)),
+    );
+  }
+
+  Widget _buildSegmentedActionButton(BuildContext context) {
+    return Container(
+      height: 60,
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceVariant,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Theme.of(context).colorScheme.outline),
+      ),
+      child: Row(
+        children: [
+          // Section 1 : Analyse Repas
+          Expanded(
+            child: _buildSegmentItem(
+              context,
+              icon: Icons.restaurant,
+              label: "Repas",
+              onTap: () => _navigateToCamera(context, CameraMode.mealAnalysis),
+            ),
+          ),
+          _buildVerticalDivider(context),
+
+          // Section 2 : Scan Étiquette
+          Expanded(
+            child: _buildSegmentItem(
+              context,
+              icon: Icons.description,
+              label: "Étiquette",
+              onTap: () => _navigateToCamera(context, CameraMode.labelScanner),
+            ),
+          ),
+          _buildVerticalDivider(context),
+
+          // Section 3 : Scan Code-barres
+          Expanded(
+            child: _buildSegmentItem(
+              context,
+              icon: Icons.qr_code_scanner,
+              label: "Code",
+              onTap: () =>
+                  _navigateToCamera(context, CameraMode.barcodeScanner),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Helper pour chaque section
+  Widget _buildSegmentItem(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(15),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: Theme.of(context).colorScheme.primary),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Séparateur entre les boutons
+  Widget _buildVerticalDivider(BuildContext context) {
+    return VerticalDivider(
+      width: 1,
+      thickness: 1,
+      indent: 12,
+      endIndent: 12,
+      color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
     );
   }
 }

@@ -24,7 +24,7 @@ class AnalysisList extends StatelessWidget {
     this.onDismissed,
     super.key,
   });
-  
+
   // Fond pour la suppression (réutilisé)
   Widget _buildDismissBackground(BuildContext context) {
     return Container(
@@ -76,9 +76,7 @@ class AnalysisList extends StatelessWidget {
                     : Icon(
                         Icons.image_not_supported_rounded,
                         size: 40,
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.error,
+                        color: Theme.of(context).colorScheme.error,
                       ),
               ),
             ),
@@ -93,9 +91,10 @@ class AnalysisList extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
+
+                  if (!isCompact)
                   Text(
                     '${context.l10n.statsCalorie(entry.calories.round())} | ${formatDate(date)} $formattedTime', // Réutilise formatDate
-                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),
@@ -142,7 +141,7 @@ class AnalysisList extends StatelessWidget {
           itemCount: history.length,
           itemBuilder: (context, index) {
             final entry = history[index];
-            final tile = _buildAnalysisTile(context, entry, compactMode);
+            final tile = _buildAnalysisTile(context, entry, false);
 
             if (compactMode || onDismissed == null) {
               // Mode compact (HomeScreen) ou simple tuile

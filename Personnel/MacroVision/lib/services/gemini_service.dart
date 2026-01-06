@@ -50,6 +50,50 @@ class GeminiService {
     );
   }
 
+  Future<Map<String, dynamic>?> getInfoFromBarcode(
+    String barcode,
+    String languageCode,
+  ) async {
+    final prompt =
+        """
+    L'utilisateur a scanné le code-barres suivant : $barcode.
+    1. Identifie le produit correspondant à ce code EAN.
+    2. Fournis les informations nutritionnelles pour 100g :
+       - Calories (kcal)
+       - Protéines (g)
+       - Glucides (g)
+       - Lipides (g)
+    
+    Réponds EXCLUSIVEMENT sous ce format JSON :
+    {
+      "productName": "Nom du produit",
+      "calories": 0.0,
+      "proteins": 0.0,
+      "carbs": 0.0,
+      "fat": 0.0
+    }
+    Langue de réponse : $languageCode.
+    Si tu ne connais pas le produit, réponds "null".
+  """;
+
+    try {
+      // On utilise generateContent sans image cette fois, juste le texte
+      final response = await _model!.generateContent([Content.text(prompt)]);
+
+      final text = response.text ?? "";
+      if (text.contains("null")) return null;
+
+      final jsonStart = text.indexOf('{');
+      final jsonEnd = text.lastIndexOf('}') + 1;
+      final jsonString = text.substring(jsonStart, jsonEnd);
+
+      return jsonDecode(jsonString) as Map<String, dynamic>;
+    } catch (e) {
+      debugPrint("Erreur Gemini Barcode: $e");
+      return null;
+    }
+  }
+
   Future<Map<String, dynamic>?> analyzeNutritionTable(
     Uint8List imageBytes,
     String languageCode,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Packages Externes
 import 'package:camera/camera.dart';
+import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
@@ -20,8 +21,19 @@ import 'package:flutter/services.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:path_provider/path_provider.dart';
 
+enum CameraMode {
+  mealAnalysis, // Photo + Galerie
+  labelScanner, // OCR Tableau nutritionnel
+  barcodeScanner, // ML Kit Code-barres
+}
+
 class CameraScreen extends StatefulWidget {
-  const CameraScreen({super.key});
+  final CameraMode mode; // Ajout du mode
+
+  const CameraScreen({
+    super.key,
+    this.mode = CameraMode.mealAnalysis, // Mode par défaut
+  });
 
   @override
   State<CameraScreen> createState() => _CameraScreenState();
@@ -33,11 +45,13 @@ class _CameraScreenState extends State<CameraScreen> {
   final ImagePicker _picker = ImagePicker();
   final GeminiService _geminiService =
       GeminiService(); // Assurez-vous d'importer le service
+  final BarcodeScanner _barcodeScanner = BarcodeScanner();
   bool _isLoading = true;
   bool _hasCamera = false;
   bool _isAnalyzing = false;
   bool _showSuccessAnimation = false;
   bool _isFlashOn = false;
+  bool _isScanningBarcode = false;
 
   // Contrôleurs pour le dialogue de confirmation
   final TextEditingController _calController = TextEditingController();
@@ -99,7 +113,87 @@ class _CameraScreenState extends State<CameraScreen> {
     _protController.dispose();
     _carbsController.dispose();
     _fatController.dispose();
+    _barcodeScanner.close(); // Important pour libérer la mémoire
     super.dispose();
+  }
+
+  InputImage? _inputImageFromCameraImage(CameraImage image) {
+    final sensorOrientation = _controller!.description.sensorOrientation;
+    final inputImageRotation = InputImageRotationValue.fromRawValue(
+      sensorOrientation,
+    );
+    if (inputImageRotation == null) return null;
+
+    final inputImageFormat = InputImageFormatValue.fromRawValue(
+      image.format.raw,
+    );
+    if (inputImageFormat == null) return null;
+
+    final plane = image.planes.first;
+
+    return InputImage.fromBytes(
+      bytes: plane.bytes,
+      metadata: InputImageMetadata(
+        size: Size(image.width.toDouble(), image.height.toDouble()),
+        rotation: inputImageRotation,
+        format: inputImageFormat,
+        bytesPerRow: plane.bytesPerRow,
+      ),
+    );
+  }
+
+  void _saveEntryToDatabase() async {
+    // 1. Récupération des valeurs textuelles converties en nombres
+    final double calories = double.tryParse(_calController.text) ?? 0;
+    final double proteins = double.tryParse(_protController.text) ?? 0;
+    final double carbs = double.tryParse(_carbsController.text) ?? 0;
+    final double fat = double.tryParse(_fatController.text) ?? 0;
+
+    // 2. Création de l'objet NutritionalFactsEntry
+    // Note : On peut laisser le chemin d'image vide ou mettre une icône par défaut pour les scans d'étiquettes
+    final entry = NutritionalFactsEntry(
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+      imagePath:
+          "", // Ou le chemin de la photo du scan si vous souhaitez la garder
+      foodName: "Scan Étiquette",
+      portionInGrams: 0,
+      calories: calories,
+      totalFat: fat,
+      saturatedFat: 0,
+      transFat: 0,
+      cholesterol: 0,
+      sodium: 0,
+      potassium: 0,
+      totalCarbohydrates: carbs,
+      sugar: 0,
+      dietaryFiber: 0,
+      protein: proteins,
+    );
+
+    try {
+      // 3. Appel de l'insertion
+      await DatabaseService().insertEntry(entry);
+
+      if (mounted) {
+        showSnackBar(context, "Données enregistrées avec succès !", false);
+      }
+    } catch (e) {
+      showSnackBar(context, "Erreur lors de l'enregistrement", true);
+      debugPrint("Erreur lors de l'enregistrement : $e");
+    }
+  }
+
+  // 3. Affiche l'icône de succès et attend brièvement
+  Future<void> _showSuccess() async {
+    setState(() {
+      _showSuccessAnimation = true;
+    });
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    setState(() {
+      _showSuccessAnimation = false;
+    });
   }
 
   // -----------------------------------------------------------
@@ -125,6 +219,75 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
+  Future<void> _scanBarcode(CameraImage image) async {
+    if (_isScanningBarcode || _isAnalyzing) return;
+    _isScanningBarcode = true;
+
+    try {
+      final inputImage = _inputImageFromCameraImage(image);
+      if (inputImage == null) return;
+
+      final List<Barcode> barcodes = await _barcodeScanner.processImage(
+        inputImage,
+      );
+
+      if (barcodes.isNotEmpty) {
+        final String? code = barcodes.first.rawValue;
+        if (code != null) {
+          // 💡 Feedback Haptique pour confirmer la lecture
+          HapticFeedback.heavyImpact();
+
+          // Arrêter le flux pour traiter le code
+          await _controller?.stopImageStream();
+
+          _handleBarcodeDetected(code);
+        }
+      }
+    } catch (e) {
+      debugPrint("Erreur scan: $e");
+    } finally {
+      _isScanningBarcode = false;
+    }
+  }
+
+  void _handleBarcodeDetected(String code) async {
+    // showLoadingDialog(context);
+
+    try {
+      // Appel au service avec le code détecté par ML Kit
+      final data = await _geminiService.getInfoFromBarcode(
+        code,
+        Localizations.localeOf(context).languageCode,
+      );
+
+      if (mounted) Navigator.pop(context); // Fermer le loader
+
+      if (data != null) {
+        // On remplit les contrôleurs avec les données trouvées
+        setState(() {
+          _calController.text = data['calories'].toString();
+          _protController.text = data['proteins'].toString();
+          _carbsController.text = data['carbs'].toString();
+          _fatController.text = data['fat'].toString();
+        });
+
+        // On affiche le dialogue de confirmation pour que l'utilisateur valide
+        _showConfirmationDialog(data);
+      } else {
+        // Si le produit est inconnu, on propose de scanner le tableau nutritionnel
+        showSnackBar(
+          context,
+          "Produit inconnu. Veuillez scanner le tableau nutritionnel.",
+          true,
+        );
+        setState(() => _isScanningBarcode = false);
+      }
+    } catch (e) {
+      if (mounted) Navigator.pop(context);
+      debugPrint("Erreur handleBarcode: $e");
+    }
+  }
+
   void _onScanLabelPressed() async {
     if (_controller == null ||
         !_controller!.value.isInitialized ||
@@ -138,7 +301,7 @@ class _CameraScreenState extends State<CameraScreen> {
       final XFile image = await _controller!.takePicture();
       final bytes = await image.readAsBytes();
 
-      showLoadingDialog(context);
+      // showLoadingDialog(context);
 
       // Analyse via votre nouveau prompt Gemini
       final data = await _geminiService.analyzeNutritionTable(
@@ -214,59 +377,6 @@ class _CameraScreenState extends State<CameraScreen> {
       if (image != null) {
         await _analyseImage(image.path, origin: runtimeType.toString());
       }
-    }
-  }
-
-  // 3. Affiche l'icône de succès et attend brièvement
-  Future<void> _showSuccess() async {
-    setState(() {
-      _showSuccessAnimation = true;
-    });
-
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    setState(() {
-      _showSuccessAnimation = false;
-    });
-  }
-
-  void _saveEntryToDatabase() async {
-    // 1. Récupération des valeurs textuelles converties en nombres
-    final double calories = double.tryParse(_calController.text) ?? 0;
-    final double proteins = double.tryParse(_protController.text) ?? 0;
-    final double carbs = double.tryParse(_carbsController.text) ?? 0;
-    final double fat = double.tryParse(_fatController.text) ?? 0;
-
-    // 2. Création de l'objet NutritionalFactsEntry
-    // Note : On peut laisser le chemin d'image vide ou mettre une icône par défaut pour les scans d'étiquettes
-    final entry = NutritionalFactsEntry(
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-      imagePath: "", // Ou le chemin de la photo du scan si vous souhaitez la garder
-      foodName: "Scan Étiquette",
-      portionInGrams: 0,
-      calories: calories,
-      totalFat: fat,
-      saturatedFat: 0,
-      transFat: 0,
-      cholesterol: 0,
-      sodium: 0,
-      potassium: 0,
-      totalCarbohydrates: carbs,
-      sugar: 0,
-      dietaryFiber: 0,
-      protein: proteins,
-    );
-
-    try {
-      // 3. Appel de l'insertion
-      await DatabaseService().insertEntry(entry);
-
-      if (mounted) {
-        showSnackBar(context, "Données enregistrées avec succès !", false);
-      }
-    } catch (e) {
-        showSnackBar(context, "Erreur lors de l'enregistrement", true);
-      debugPrint("Erreur lors de l'enregistrement : $e");
     }
   }
 
@@ -352,13 +462,21 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
+  // void showLoadingDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (context) => const Center(child: CircularProgressIndicator()),
+  //   );
+  // }
+
   void _showConfirmationDialog(Map<String, dynamic> data) {
     // Utilisez des TextEditingController pré-remplis avec data['calories'], etc.
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          context.l10n.cameraScreenConfirmFactsLbl,
+          data['productName'] ?? context.l10n.cameraScreenConfirmFactsLbl,
         ), // Ajoutez cette clé dans vos .arb
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -396,14 +514,6 @@ class _CameraScreenState extends State<CameraScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  void showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -446,7 +556,12 @@ class _CameraScreenState extends State<CameraScreen> {
             height: 250,
             width: 300,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.green, width: 2),
+              border: Border.all(
+                color: _isScanningBarcode
+                    ? Colors.red
+                    : Colors.green, // Rouge si on scanne activement
+                width: _isScanningBarcode ? 3 : 2,
+              ),
               borderRadius: BorderRadius.circular(12),
             ),
           ),
@@ -455,10 +570,78 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
+  Widget _buildContextualActionButton() {
+    switch (widget.mode) {
+      case CameraMode.mealAnalysis:
+        return FloatingActionButton(
+          heroTag: 'captureBtn',
+          tooltip: context.l10n.cameraScreenBtn('camera'),
+          onPressed: _isAnalyzing ? null : _takePhoto, // Déclenche _takePhoto,
+          child: const Icon(Icons.camera_alt_rounded),
+        );
+
+      case CameraMode.labelScanner:
+        return Tooltip(
+          message: "Scanner une étiquette",
+          child: ElevatedButton.icon(
+            label: const Text("Scanner l'étiquette"),
+            onPressed: _isAnalyzing ? null : _onScanLabelPressed,
+            icon: const Icon(Icons.document_scanner_rounded),
+          ),
+        );
+
+      case CameraMode.barcodeScanner:
+        return Tooltip(
+          message: "Scanner un code barres",
+          child: ElevatedButton.icon(
+            label: Text(_isScanningBarcode ? "Arrêter" : "Scanner Code-barres"),
+            onPressed: () async {
+              if (_isScanningBarcode) {
+                _controller?.stopImageStream();
+                setState(() => _isScanningBarcode = false);
+              } else {
+                // On force une mise au point automatique avant de verrouiller
+                await _controller!.setFocusMode(FocusMode.auto);
+
+                // Optionnel : verrouiller après un court délai pour éviter les pompages de focus
+                // await Future.delayed(const Duration(seconds: 1));
+                // await _controller!.setFocusMode(FocusMode.locked);
+                _controller?.startImageStream((image) => _scanBarcode(image));
+                setState(() => _isScanningBarcode = true);
+              }
+            },
+            icon: Icon(_isScanningBarcode ? Icons.stop : Icons.qr_code_scanner),
+            // backgroundColor: _isScanningBarcode ? Colors.red : Colors.green,
+          ),
+        );
+      // return FloatingActionButton.extended(
+      //   heroTag: 'scanBarcodeBtn',
+      //   tooltip: "Scanner un code barres",
+      //   label: Text(_isScanningBarcode ? "Arrêter" : "Scanner Code-barres"),
+      //   onPressed: () async {
+      //     if (_isScanningBarcode) {
+      //       _controller?.stopImageStream();
+      //       setState(() => _isScanningBarcode = false);
+      //     } else {
+      //       // On force une mise au point automatique avant de verrouiller
+      //       await _controller!.setFocusMode(FocusMode.auto);
+
+      //       // Optionnel : verrouiller après un court délai pour éviter les pompages de focus
+      //       // await Future.delayed(const Duration(seconds: 1));
+      //       // await _controller!.setFocusMode(FocusMode.locked);
+      //       _controller?.startImageStream((image) => _scanBarcode(image));
+      //       setState(() => _isScanningBarcode = true);
+      //     }
+      //   },
+      //   icon: Icon(_isScanningBarcode ? Icons.stop : Icons.qr_code_scanner),
+      //   backgroundColor: _isScanningBarcode ? Colors.red : Colors.green,
+      // );
+    }
+  }
+
   // -----------------------------------------------------------
   // WIDGET DE CONSTRUCTION
   // -----------------------------------------------------------
-
   @override
   Widget build(BuildContext context) {
     // 1. Affichage de l'état de chargement
@@ -503,82 +686,93 @@ class _CameraScreenState extends State<CameraScreen> {
         backButton: true,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      extendBodyBehindAppBar: !_isAnalyzing ? true : false,
-      body: Padding(
-        padding: EdgeInsets.only(top: !_isAnalyzing ? kToolbarHeight + 55 : 0),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // 1. Vue de la Caméra
-            Positioned.fill(
-              child: Align(
-                alignment: const Alignment(0.0, -1.0),
-                child: Padding(
-                  padding: EdgeInsetsGeometry.only(top: 50.0),
-                  child: CameraPreview(_controller!),
-                ),
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          // 1. Vue de la Caméra
+          Positioned.fill(
+            child: Align(
+              alignment: const Alignment(0.0, -1.0),
+              child: Padding(
+                padding: EdgeInsetsGeometry.only(top: 50.0),
+                child: CameraPreview(_controller!),
               ),
             ),
+          ),
 
-            // // 💡 AJOUT : L'overlay de guidage pour le scan
-            // _buildCameraOverlay(),
+          // 2. : L'overlay de guidage pour le scan
+          if (widget.mode != CameraMode.mealAnalysis) _buildCameraOverlay(),
 
-            // 2. Bouton Flash/Lampe de poche (en haut à droite)
-            Positioned(
-              top: 60,
-              right: 20,
-              child: FloatingActionButton(
-                heroTag: 'flashBtn',
-                tooltip: context.l10n.cameraScreenBtn('flash'),
-                onPressed: _isAnalyzing ? null : _toggleFlash,
-                // backgroundColor: _isFlashOn
-                //     ? Theme.of(context).colorScheme.primary
-                //     : Colors.black87,
-                child: Icon(
-                  _isFlashOn ? Icons.flash_on_sharp : Icons.flash_off_sharp,
-                  // color: _isFlashOn
-                  //     ? Colors.black87
-                  //     : Theme.of(context).colorScheme.primary,
+          // 3. Guide de Cadrage Visuel (texte centré en bas ou en haut)
+          Positioned(
+            left: 10,
+            right: 10,
+            top: 10,
+            child: Container(
+              padding: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                textAlign: TextAlign.center,
+                context.l10n.cameraScreenVisualHintLbl,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
+          ),
 
-            // 3. Guide de Cadrage Visuel (texte centré en bas ou en haut)
-            Positioned(
-              left: 10,
-              right: 10,
-              top: 10,
-              child: Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  context.l10n.cameraScreenVisualHintLbl,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
+          // 2. Bouton Flash/Lampe de poche (en haut à droite)
+          Positioned(
+            top: 60,
+            right: 20,
+            child: FloatingActionButton(
+              heroTag: 'flashBtn',
+              tooltip: context.l10n.cameraScreenBtn('flash'),
+              onPressed: _isAnalyzing ? null : _toggleFlash,
+              // backgroundColor: _isFlashOn
+              //     ? Theme.of(context).colorScheme.primary
+              //     : Colors.black87,
+              child: Icon(
+                _isFlashOn ? Icons.flash_on_sharp : Icons.flash_off_sharp,
+                // color: _isFlashOn
+                //     ? Colors.black87
+                //     : Theme.of(context).colorScheme.primary,
               ),
             ),
+          ),
 
-            // 4. Overlay d'analyse (si _isAnalyzing est true)
-            if (_isAnalyzing)
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.surfaceDim.withAlpha(150),
-                  borderRadius: BorderRadius.circular(20), // Rounds the corners
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+          // // Titre dynamique dans l'AppBar ou en haut
+          // Positioned(
+          //   top: 60,
+          //   left: 20,
+          //   child: Text(
+          //     widget.mode.name,
+          //     style: const TextStyle(
+          //       color: Colors.white,
+          //       fontSize: 20,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
+
+          // 4. Overlay d'analyse (si _isAnalyzing est true)
+          if (_isAnalyzing)
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceDim.withAlpha(150),
+                borderRadius: BorderRadius.circular(20), // Rounds the corners
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.mode != CameraMode.barcodeScanner) ...[
                       CircularProgressIndicator(),
                       const SizedBox(height: 20),
                       Text(
@@ -588,72 +782,98 @@ class _CameraScreenState extends State<CameraScreen> {
                         ),
                       ),
                     ],
-                  ),
+                  ],
                 ),
               ),
+            ),
 
-            // 5. Surcouche d'Animation de Succès
-            if (_showSuccessAnimation)
-              TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0.0, end: 1.0),
-                duration: const Duration(milliseconds: 300),
-                builder: (context, scale, child) {
-                  return Transform.scale(
-                    scale: scale,
-                    child: Icon(
-                      Icons.check_circle,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 150,
-                      shadows: [
-                        BoxShadow(
-                          color: Theme.of(context).colorScheme.primary,
-                          blurRadius: 10,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-          ],
-        ),
+          // 5. Surcouche d'Animation de Succès
+          if (_showSuccessAnimation)
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 0.0, end: 1.0),
+              duration: const Duration(milliseconds: 300),
+              builder: (context, scale, child) {
+                return Transform.scale(
+                  scale: scale,
+                  child: Icon(
+                    Icons.check_circle,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 150,
+                    shadows: [
+                      BoxShadow(
+                        color: Theme.of(context).colorScheme.primary,
+                        blurRadius: 10,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+        ],
       ),
 
       // Boutons de Galerie et de Capture (Horizontal)
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            // 1. Bouton de SÉLECTION/GALERIE
-            FloatingActionButton(
-              heroTag: 'galleryBtn',
-              tooltip: context.l10n.cameraScreenBtn('gallery'),
-              onPressed: _isAnalyzing ? null : _selectFromGallery,
-              child: const Icon(Icons.photo_library_rounded),
-            ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          FloatingActionButton(
+            heroTag: 'galleryBtn',
+            tooltip: context.l10n.cameraScreenBtn('gallery'),
+            onPressed: _isAnalyzing ? null : _selectFromGallery,
+            child: const Icon(Icons.photo_library_rounded),
+          ),
 
-            // 💡 NOUVEAU : Bouton SCAN ÉTIQUETTE (Milieu)
-            FloatingActionButton(
-              heroTag: 'scanBtn',
-              tooltip: "Scanner une étiquette",
-              backgroundColor: Colors.green, // Couleur distincte
-              onPressed: _isAnalyzing ? null : _onScanLabelPressed,
-              child: const Icon(Icons.document_scanner_rounded),
-            ),
-
-            // 2. Bouton de CAPTURE PRINCIPAL
-            FloatingActionButton(
-              heroTag: 'captureBtn',
-              tooltip: context.l10n.cameraScreenBtn('camera'),
-              onPressed: _isAnalyzing
-                  ? null
-                  : _takePhoto, // Déclenche _takePhoto
-              child: const Icon(Icons.camera_alt_rounded),
-            ),
-          ],
-        ),
+          _buildContextualActionButton(),
+        ],
       ),
+      // Padding(
+      //   padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //     crossAxisAlignment: CrossAxisAlignment.end,
+      //     children: [
+      //       if (_isTakingPhoto) ...[
+      //         // 1. Bouton de SÉLECTION/GALERIE
+      //         FloatingActionButton(
+      //           heroTag: 'galleryBtn',
+      //           tooltip: context.l10n.cameraScreenBtn('gallery'),
+      //           onPressed: _isAnalyzing ? null : _selectFromGallery,
+      //           child: const Icon(Icons.photo_library_rounded),
+      //         ),
+
+      //         // 2. Bouton de CAPTURE PRINCIPAL
+      //         FloatingActionButton(
+      //           heroTag: 'captureBtn',
+      //           tooltip: context.l10n.cameraScreenBtn('camera'),
+      //           onPressed: _isAnalyzing
+      //               ? null
+      //               : () => _isTakingPhoto = true, // Déclenche _takePhoto
+      //           child: const Icon(Icons.camera_alt_rounded),
+      //         ),
+      //       ],
+
+      //       if (_isScanningFactsLabel)
+      //         // 💡 NOUVEAU : Bouton SCAN ÉTIQUETTE
+      //         FloatingActionButton(
+      //           heroTag: 'scanLabelBtn',
+      //           tooltip: "Scanner une étiquette",
+      //           onPressed: _isAnalyzing ? null : _scanFactsLabel,
+      //           child: const Icon(Icons.document_scanner_rounded),
+      //         ),
+
+      //       if (_isScanningBarcode)
+      //         // 💡 NOUVEAU : Bouton SCAN CODE BARRES
+      //         FloatingActionButton(
+      //           heroTag: 'scanBarcodeBtn',
+      //           tooltip: "Scanner un code barres",
+      //           onPressed: _isAnalyzing
+      //               ? null
+      //               : () => _isScanningBarcode = true,
+      //           child: const Icon(Icons.qr_code_scanner_rounded),
+      //         ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

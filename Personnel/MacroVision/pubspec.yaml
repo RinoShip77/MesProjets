@@ -85,6 +85,9 @@ dependencies:
   # Pour les polices de caractères
   google_fonts: ^6.3.3
 
+  # Pour le scanner de code barres
+  google_mlkit_barcode_scanning: ^0.14.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

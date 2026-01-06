@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -114,11 +113,6 @@ Future<void> main() async {
           ],
           child: Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
-              // On récupère la couleur de semence comme dans MacroVisionApp
-              final MaterialColor selectedSeedColor =
-                  themeProvider.themeModeOption == ThemeModeOption.custom
-                  ? themeProvider.customTheme.color
-                  : appPrimaryColor;
               return MaterialApp(
                 // 💡 IMPORTANT : Il faut ajouter les délégués ici aussi !
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
