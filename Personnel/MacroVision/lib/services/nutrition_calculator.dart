@@ -1,8 +1,14 @@
 import 'package:macro_vision/models/user_profile.dart';
 
-//TODO: Find a way to don't write plain text in the code
 class NutritionCalculator {
-  // Facteurs d'activité physique pour le calcul du TDEE
+  // Constants for Readability
+  static const double _calPerCarb = 4.0;
+  static const double _calPerProtein = 4.0;
+  static const double _calPerFat = 9.0;
+
+  static const double _minSafeCalories = 1200.0;
+
+  // Multipliers
   static const Map<ActivityLevel, double> _activityMultipliers = {
     ActivityLevel.sedentary: 1.2,
     ActivityLevel.lightly: 1.375,
@@ -11,86 +17,60 @@ class NutritionCalculator {
     ActivityLevel.extra: 1.9,
   };
 
-  // --- CALCULATEUR DE BESOINS DE BASE (TMB) ---
-
-  // Utilise la formule de Mifflin-St Jeor
   static double calculateBMR(UserProfile profile) {
-    final double weightFactor = 10 * profile.weight; // 10 * kg
-    final double heightFactor = 6.25 * profile.height; // 6.25 * cm
-    final double ageFactor = 5.0 * profile.age; // 5 * années
-    double genderAdjustment = profile.gender == Gender.male ? 5 : -161;
+    // Mifflin-St Jeor Formula
+    final genderAdjustment = profile.gender == Gender.male ? 5 : -161;
+    final bmr =
+        (10 * profile.weight) +
+        (6.25 * profile.height) -
+        (5.0 * profile.age) +
+        genderAdjustment;
 
-    double bmr = weightFactor + heightFactor - ageFactor + genderAdjustment;
     return bmr.roundToDouble();
   }
 
-  // --- CALCULATEUR DÉPENSE ÉNERGÉTIQUE QUOTIDIENNE (TDEE) ---
-
   static double calculateTDEE(UserProfile profile) {
-    final double bmr = calculateBMR(profile);
-    final double multiplier =
+    final bmr = calculateBMR(profile);
+    final multiplier =
         _activityMultipliers[profile.activityLevel] ?? 1.2;
     return (bmr * multiplier).roundToDouble();
   }
 
-  // --- CALCULATEUR D'OBJECTIFS CALORIQUES ---
-
   static double calculateGoalCalories(UserProfile profile) {
-    final double tdee = calculateTDEE(profile);
+    final tdee = calculateTDEE(profile);
+    final double adjustment = switch (profile.goal) {
+      Goal.weightLoss => -500.0, // ~0.5kg/week loss
+      Goal.muscleGain => 300.0,
+      _ => 0.0, // 'Maintain'
+    };
 
-    double goalAdjustment;
-    switch (profile.goal) {
-      case 'Perte de poids':
-        goalAdjustment =
-            -500; // Déficit modéré pour perdre environ 0.5kg/semaine
-        break;
-      case 'Gain musculaire':
-        goalAdjustment = 300; // Surplus modéré
-        break;
-      case 'Maintien':
-      default:
-        goalAdjustment = 0;
-        break;
-    }
-
-    // S'assurer que le minimum est respecté (même avec un déficit, pour éviter des régimes extrêmes)
-    final double result = tdee + goalAdjustment;
-    return result < 1200 ? 1200 : result.roundToDouble();
+    final result = tdee + adjustment;
+    return result < _minSafeCalories ? _minSafeCalories : result.roundToDouble();
   }
-
-  // --- CALCULATEUR D'OBJECTIFS MACRO (Exemple 40/30/30) ---
-
+  
   static Map<String, double> calculateMacroGoals(UserProfile profile) {
     final double goalCals = calculateGoalCalories(profile);
 
-    // Répartition classique (ex: 40% Glucides, 30% Protéines, 30% Lipides)
-    // 1g Protéines = 4 Kcal | 1g Glucides = 4 Kcal | 1g Lipides = 9 Kcal
-
-    final double proteinCals = goalCals * 0.30;
-    final double carbCals = goalCals * 0.40;
-    final double fatCals = goalCals * 0.30;
+    // Standard Split: 40C / 30P / 30F
+    const splitCarb = 0.40;
+    const splitProtein = 0.30;
+    const splitFat = 0.30;
 
     return {
       'calories': goalCals,
-      'protein': (proteinCals / 4).roundToDouble(),
-      'totalCarbohydrates': (carbCals / 4).roundToDouble(),
-      'totalFat': (fatCals / 9).roundToDouble(),
+      'protein': (goalCals * splitProtein / _calPerProtein).roundToDouble(),
+      'totalCarbohydrates': (goalCals * splitCarb / _calPerCarb).roundToDouble(),
+      'totalFat': (goalCals * splitFat / _calPerFat).roundToDouble(),
     };
   }
 
-  // --- Noms d'Affichage pour l'Activité ---
   static String getActivityName(ActivityLevel level) {
-    switch (level) {
-      case ActivityLevel.sedentary:
-        return 'Sédentaire (peu ou pas d\'exercice)';
-      case ActivityLevel.lightly:
-        return 'Légèrement actif (1-3 jours/semaine)';
-      case ActivityLevel.moderate:
-        return 'Modérément actif (3-5 jours/semaine)';
-      case ActivityLevel.very:
-        return 'Très actif (6-7 jours/semaine)';
-      case ActivityLevel.extra:
-        return 'Extrêmement actif (2x/jour)';
-    }
+    return switch (level) {
+      ActivityLevel.sedentary => 'Sédentaire (peu ou pas d\'exercice)',
+      ActivityLevel.lightly => 'Légèrement actif (1-3 jours/semaine)',
+      ActivityLevel.moderate => 'Modérément actif (3-5 jours/semaine)',
+      ActivityLevel.very => 'Très actif (6-7 jours/semaine)',
+      ActivityLevel.extra => 'Extrêmement actif (2x/jour)',
+    };
   }
 }

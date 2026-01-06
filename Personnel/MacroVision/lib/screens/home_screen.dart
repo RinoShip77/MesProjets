@@ -525,7 +525,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 60,
       margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceVariant,
+        color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(15),
         border: Border.all(color: Theme.of(context).colorScheme.outline),
       ),

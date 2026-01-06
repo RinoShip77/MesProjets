@@ -356,10 +356,12 @@ class _CameraScreenState extends State<CameraScreen> {
         !_controller!.value.isInitialized ||
         _isAnalyzing)
       return;
-    setState(() => _isAnalyzing = true);
 
     try {
-      // Capture directement depuis le flux caméra existant
+      setState(() => _isAnalyzing = true);
+
+      // 1. Prise de la photo (Haute qualité pour que Gemini lise bien le texte)
+      // Note: Pour une étiquette, on veut la meilleure résolution possible.
       final XFile image = await _controller!.takePicture();
 
       // --- FEEDBACK CAPTURE ---
@@ -477,7 +479,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
     try {
       // 1. Appeler le service Gemini
-      final NutritionalFacts initialFacts = await _geminiService.analyzeImage(
+      final NutritionalFacts? initialFacts = await _geminiService.analyzeImage(
         imagePath,
         Localizations.localeOf(
           context,
@@ -499,7 +501,10 @@ class _CameraScreenState extends State<CameraScreen> {
       await File(imagePath).copy(savedPath);
 
       // 3. Créer et insérer l'entrée initiale pour obtenir un ID
-      final entry = NutritionalFactsEntry.fromAnalysis(initialFacts, savedPath);
+      final entry = NutritionalFactsEntry.fromAnalysis(
+        initialFacts!,
+        savedPath,
+      );
       final entryId = await DatabaseService().insertEntry(entry);
 
       // 4. Afficher les résultats et attendre l'ajustement utilisateur
@@ -729,9 +734,15 @@ class _CameraScreenState extends State<CameraScreen> {
         children: [
           // 1. Vue de la Caméra
           Positioned.fill(
-            child: AspectRatio(
-              aspectRatio: _controller!.value.aspectRatio,
-              child: CameraPreview(_controller!),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30.0), // Adjust radius as needed
+                topRight: Radius.circular(30.0),
+              ),
+              child: AspectRatio(
+                aspectRatio: _controller!.value.aspectRatio,
+                child: CameraPreview(_controller!),
+              ),
             ),
             // child: Align(
             //   alignment: const Alignment(0.0, -1.0),
