@@ -188,12 +188,18 @@ class _ResultScreenState extends State<ResultScreen> {
                     // --- AFFICHAGE DE L'IMAGE CAPTURÉE ---
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
-                      child: Image.file(
-                        File(widget.imagePath),
-                        height: 200,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
+                      child: File(widget.imagePath).existsSync()
+                          ? Image.file(
+                              File(widget.imagePath),
+                              height: 200,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            )
+                          : Icon(
+                              Icons.fastfood_outlined,
+                              size: 40,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
                     ),
 
                     const SizedBox(height: 16),

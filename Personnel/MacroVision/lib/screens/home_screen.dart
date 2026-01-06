@@ -354,7 +354,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Utilisation de SingleChildScrollView pour éviter l'overflow si l'écran est petit
           SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: EdgeInsets.symmetric(vertical: 30),
             child: Center(
               child: Column(
                 children: [
@@ -461,6 +461,50 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      // floatingActionButtonLocation: ExpandableFab.location,
+      // floatingActionButton: ExpandableFab(
+      //   type: ExpandableFabType.fan,
+      //   pos: ExpandableFabPos.center,
+      //   fanAngle: 180,
+      //   distance: 75,
+      //   overlayStyle: ExpandableFabOverlayStyle(
+      //     color: Theme.of(context).colorScheme.surface.withAlpha(150),
+      //   ),
+      //   openButtonBuilder: RotateFloatingActionButtonBuilder(
+      //     child: const Icon(Icons.camera_enhance_rounded),
+      //     fabSize: ExpandableFabSize.regular,
+      //   ),
+      //   closeButtonBuilder: DefaultFloatingActionButtonBuilder(
+      //     child: const Icon(Icons.close),
+      //     fabSize: ExpandableFabSize.small,
+      //   ),
+      //   children: [
+      //     // Section 1 : Analyse Repas
+      //     FloatingActionButton(
+      //       heroTag: "mealAnalysisBtn",
+      //       tooltip: "Analyse de repas",
+      //       child: const Icon(Icons.restaurant),
+      //       onPressed: () =>
+      //           _navigateToCamera(context, CameraMode.mealAnalysis),
+      //     ),
+
+      //     // Section 2 : Scan Étiquette
+      //     FloatingActionButton(
+      //       heroTag: "labelAnalysisBtn",
+      //       tooltip: "Analyse d'étiquette",
+      //       child: const Icon(Icons.description),
+      //       onPressed: () => _navigateToCamera(context, CameraMode.labelScanner),
+      //     ),
+
+      //     // Section 3 : Scan Code-barres
+      //     FloatingActionButton(
+      //       heroTag: "barcodeAnalysisBtn",
+      //       tooltip: "Lire un code barre",
+      //       child: const Icon(Icons.qr_code_scanner),
+      //       onPressed: () => _navigateToCamera(context, CameraMode.barcodeScanner),
+      //     ),
+      //   ],
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,

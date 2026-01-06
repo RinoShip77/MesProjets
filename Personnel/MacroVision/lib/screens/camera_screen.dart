@@ -52,6 +52,8 @@ class _CameraScreenState extends State<CameraScreen> {
   bool _showSuccessAnimation = false;
   bool _isFlashOn = false;
   bool _isScanningBarcode = false;
+  bool _isProcessingBarcode = false; // Verrou de sécurité
+  double _currentZoom = 1.0;
 
   // Contrôleurs pour le dialogue de confirmation
   final TextEditingController _calController = TextEditingController();
@@ -68,34 +70,50 @@ class _CameraScreenState extends State<CameraScreen> {
   // Initialisation de la caméra
   Future<void> _initializeCamera() async {
     try {
-      // 1. Recherche des caméras disponibles (logique déplacée ici)
       final List<CameraDescription> cameras = await availableCameras();
 
       if (cameras.isEmpty) {
-        // Aucune caméra trouvée
         _hasCamera = false;
         _controller = null;
       } else {
-        // Caméra trouvée, initialisation du contrôleur
+        // 1. Choix de la résolution dynamique
+        final resolution = (widget.mode == CameraMode.barcodeScanner)
+            ? ResolutionPreset.high
+            : ResolutionPreset.medium;
+
         _controller = CameraController(
-          cameras.first, // Utilise la première caméra trouvée
-          ResolutionPreset.medium,
+          cameras.first,
+          resolution,
           enableAudio: false,
+          // 2. Format universel par plateforme pour ML Kit
+          imageFormatGroup: Platform.isAndroid
+              ? ImageFormatGroup.yuv420
+              : ImageFormatGroup.bgra8888,
         );
 
         await _controller!.initialize();
-        await _controller!.setFlashMode(FlashMode.off);
+
+        // 3. Activation du focus continu pour la détection de précision
+        if (widget.mode != CameraMode.mealAnalysis) {
+          try {
+            await _controller!.setFocusMode(FocusMode.auto);
+          } catch (e) {
+            debugPrint(
+              "Le focus continu n'est pas supporté sur cet appareil: $e",
+            );
+          }
+        }
+
         _hasCamera = true;
+
+        // 4. Lancement automatique du flux pour le code-barres
+        if (widget.mode == CameraMode.barcodeScanner) {
+          _controller?.startImageStream((image) => _processBarcode(image));
+        }
       }
-    } on CameraException {
+    } on CameraException catch (e) {
       _hasCamera = false;
-      if (mounted) {
-        showSnackBar(
-          context,
-          context.l10n.cameraScreenErrors('initialization'),
-          true,
-        );
-      }
+      debugPrint("Erreur caméra: ${e.description}");
     } finally {
       if (mounted) {
         setState(() {
@@ -118,69 +136,65 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   InputImage? _inputImageFromCameraImage(CameraImage image) {
-    final sensorOrientation = _controller!.description.sensorOrientation;
-    final inputImageRotation = InputImageRotationValue.fromRawValue(
+    if (_controller == null) return null;
+
+    final camera = _controller!.description;
+    final sensorOrientation = camera.sensorOrientation;
+    final InputImageRotation? rotation = InputImageRotationValue.fromRawValue(
       sensorOrientation,
     );
-    if (inputImageRotation == null) return null;
+    if (rotation == null) return null;
 
-    final inputImageFormat = InputImageFormatValue.fromRawValue(
-      image.format.raw,
-    );
-    if (inputImageFormat == null) return null;
+    if (Platform.isAndroid && image.format.raw != 35) return null;
 
-    final plane = image.planes.first;
+    final width = image.width;
+    final height = image.height;
+
+    // Allocation du buffer exact : Y (width*height) + UV (width*height/2)
+    final Uint8List bytes = Uint8List(width * height * 3 ~/ 2);
+    int offset = 0;
+
+    // Plan Y (Luminance)
+    final Plane yPlane = image.planes[0];
+    final int yStride = yPlane.bytesPerRow;
+    final Uint8List yBuffer = yPlane.bytes;
+
+    for (int y = 0; y < height; y++) {
+      bytes.setRange(
+        offset,
+        offset + width,
+        yBuffer.sublist(y * yStride, y * yStride + width),
+      );
+      offset += width;
+    }
+
+    // Plans U et V (Chrominance)
+    final Plane uPlane = image.planes[1];
+    final Plane vPlane = image.planes[2];
+    final Uint8List uBuffer = uPlane.bytes;
+    final Uint8List vBuffer = vPlane.bytes;
+    final int uvStride = uPlane.bytesPerRow;
+    // ✅ CORRECTION : Utilisation de bytesPerPixel au lieu de pixelStride
+    final int uvPixelStride = uPlane.bytesPerPixel ?? 1;
+
+    for (int y = 0; y < height ~/ 2; y++) {
+      for (int x = 0; x < width ~/ 2; x++) {
+        final int uvIndex = y * uvStride + x * uvPixelStride;
+        bytes[offset++] = vBuffer[uvIndex];
+        bytes[offset++] = uBuffer[uvIndex];
+      }
+    }
 
     return InputImage.fromBytes(
-      bytes: plane.bytes,
+      bytes: bytes,
       metadata: InputImageMetadata(
-        size: Size(image.width.toDouble(), image.height.toDouble()),
-        rotation: inputImageRotation,
-        format: inputImageFormat,
-        bytesPerRow: plane.bytesPerRow,
+        size: Size(width.toDouble(), height.toDouble()),
+        rotation: rotation,
+        format: InputImageFormat
+            .nv21, // ML Kit préfère NV21 sur Android après reconstruction
+        bytesPerRow: width,
       ),
     );
-  }
-
-  void _saveEntryToDatabase() async {
-    // 1. Récupération des valeurs textuelles converties en nombres
-    final double calories = double.tryParse(_calController.text) ?? 0;
-    final double proteins = double.tryParse(_protController.text) ?? 0;
-    final double carbs = double.tryParse(_carbsController.text) ?? 0;
-    final double fat = double.tryParse(_fatController.text) ?? 0;
-
-    // 2. Création de l'objet NutritionalFactsEntry
-    // Note : On peut laisser le chemin d'image vide ou mettre une icône par défaut pour les scans d'étiquettes
-    final entry = NutritionalFactsEntry(
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-      imagePath:
-          "", // Ou le chemin de la photo du scan si vous souhaitez la garder
-      foodName: "Scan Étiquette",
-      portionInGrams: 0,
-      calories: calories,
-      totalFat: fat,
-      saturatedFat: 0,
-      transFat: 0,
-      cholesterol: 0,
-      sodium: 0,
-      potassium: 0,
-      totalCarbohydrates: carbs,
-      sugar: 0,
-      dietaryFiber: 0,
-      protein: proteins,
-    );
-
-    try {
-      // 3. Appel de l'insertion
-      await DatabaseService().insertEntry(entry);
-
-      if (mounted) {
-        showSnackBar(context, "Données enregistrées avec succès !", false);
-      }
-    } catch (e) {
-      showSnackBar(context, "Erreur lors de l'enregistrement", true);
-      debugPrint("Erreur lors de l'enregistrement : $e");
-    }
   }
 
   // 3. Affiche l'icône de succès et attend brièvement
@@ -219,89 +233,140 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
-  Future<void> _scanBarcode(CameraImage image) async {
-    if (_isScanningBarcode || _isAnalyzing) return;
-    _isScanningBarcode = true;
+  Future<void> _toggleZoom() async {
+    if (_controller == null || !_controller!.value.isInitialized) return;
 
     try {
-      final inputImage = _inputImageFromCameraImage(image);
-      if (inputImage == null) return;
+      // On alterne entre 1.0x et 2.0x
+      final newZoom = _currentZoom == 1.0 ? 2.0 : 1.0;
 
+      // On vérifie les limites de l'appareil par sécurité
+      final maxZoom = await _controller!.getMaxZoomLevel();
+      final minZoom = await _controller!.getMinZoomLevel();
+
+      final targetZoom = newZoom.clamp(minZoom, maxZoom);
+
+      await _controller!.setZoomLevel(targetZoom);
+      setState(() {
+        _currentZoom = targetZoom;
+      });
+
+      HapticFeedback.selectionClick(); // Petit retour tactile
+    } catch (e) {
+      debugPrint("Erreur Zoom: $e");
+    }
+  }
+
+  Future<void> _processBarcode(CameraImage image) async {
+    // 1. Barrière de sécurité
+    if (_isProcessingBarcode || _isAnalyzing || !mounted) return;
+
+    final inputImage = _inputImageFromCameraImage(image);
+    if (inputImage == null) return;
+
+    try {
       final List<Barcode> barcodes = await _barcodeScanner.processImage(
         inputImage,
       );
 
-      if (barcodes.isNotEmpty) {
+      if (barcodes.isNotEmpty && !_isProcessingBarcode) {
         final String? code = barcodes.first.rawValue;
-        if (code != null) {
-          // 💡 Feedback Haptique pour confirmer la lecture
-          HapticFeedback.heavyImpact();
 
-          // Arrêter le flux pour traiter le code
+        if (code != null) {
+          // 2. Verrouillage et Arrêt immédiat
+          _isProcessingBarcode = true;
           await _controller?.stopImageStream();
 
-          _handleBarcodeDetected(code);
+          // 3. Feedbacks Utilisateur (Son + Vibration + Animation)
+          final player = AudioPlayer();
+          await player.play(AssetSource('audio/success.mp3'));
+          await HapticFeedback.mediumImpact();
+          _showSuccess(); // Déclenche votre icône check-circle
+
+          setState(() => _isAnalyzing = true);
+
+          // 4. Appel à l'API Gemini
+          final data = await _geminiService.getInfoFromBarcode(
+            code,
+            Localizations.localeOf(context).languageCode,
+          );
+
+          if (data != null) {
+            // 5. Conversion et Enregistrement
+            final facts = NutritionalFacts.fromJson(data);
+
+            // On crée l'entrée avec un chemin d'image vide pour le code-barres
+            final entry = NutritionalFactsEntry.fromAnalysis(facts, "");
+            final entryId = await DatabaseService().insertEntry(entry);
+
+            if (mounted) {
+              // 6. Navigation vers l'écran de résultat
+              final NutritionalFacts? refinedFacts = await Navigator.of(context)
+                  .push(
+                    MaterialPageRoute(
+                      builder: (context) => ResultScreen(
+                        initialFacts: facts,
+                        imagePath: "",
+                        origin: "barcode",
+                      ),
+                    ),
+                  );
+
+              // 7. Mise à jour si l'utilisateur a ajusté les valeurs
+              if (refinedFacts != null) {
+                final updatedEntry = NutritionalFactsEntry.fromAnalysis(
+                  refinedFacts,
+                  "",
+                  id: entryId, // Utilisation de l'ID existant pour l'UPDATE
+                );
+                await DatabaseService().insertEntry(updatedEntry);
+              }
+            }
+          } else {
+            // Gestion cas "Produit inconnu"
+            if (mounted) {
+              showSnackBar(
+                context,
+                "Produit inconnu dans la base Gemini.",
+                true,
+              );
+            }
+          }
         }
       }
     } catch (e) {
-      debugPrint("Erreur scan: $e");
-    } finally {
-      _isScanningBarcode = false;
+      debugPrint("Erreur Scan/API: $e");
+      _resetScanner();
     }
   }
 
-  void _handleBarcodeDetected(String code) async {
-    // showLoadingDialog(context);
-
-    try {
-      // Appel au service avec le code détecté par ML Kit
-      final data = await _geminiService.getInfoFromBarcode(
-        code,
-        Localizations.localeOf(context).languageCode,
-      );
-
-      if (mounted) Navigator.pop(context); // Fermer le loader
-
-      if (data != null) {
-        // On remplit les contrôleurs avec les données trouvées
-        setState(() {
-          _calController.text = data['calories'].toString();
-          _protController.text = data['proteins'].toString();
-          _carbsController.text = data['carbs'].toString();
-          _fatController.text = data['fat'].toString();
-        });
-
-        // On affiche le dialogue de confirmation pour que l'utilisateur valide
-        _showConfirmationDialog(data);
-      } else {
-        // Si le produit est inconnu, on propose de scanner le tableau nutritionnel
-        showSnackBar(
-          context,
-          "Produit inconnu. Veuillez scanner le tableau nutritionnel.",
-          true,
-        );
-        setState(() => _isScanningBarcode = false);
-      }
-    } catch (e) {
-      if (mounted) Navigator.pop(context);
-      debugPrint("Erreur handleBarcode: $e");
+  // Fonction utilitaire pour relancer le scan après un échec ou un retour
+  void _resetScanner() {
+    if (mounted && widget.mode == CameraMode.barcodeScanner) {
+      setState(() {
+        _isProcessingBarcode = false;
+        _isAnalyzing = false;
+      });
+      _controller?.startImageStream((image) => _processBarcode(image));
     }
   }
 
-  void _onScanLabelPressed() async {
+  Future<void> _scanLabel() async {
     if (_controller == null ||
         !_controller!.value.isInitialized ||
         _isAnalyzing)
       return;
-
     setState(() => _isAnalyzing = true);
 
     try {
       // Capture directement depuis le flux caméra existant
       final XFile image = await _controller!.takePicture();
-      final bytes = await image.readAsBytes();
 
-      // showLoadingDialog(context);
+      // --- FEEDBACK CAPTURE ---
+      final player = AudioPlayer();
+      await player.play(AssetSource('audio/shutter.mp3'));
+
+      final bytes = await image.readAsBytes();
 
       // Analyse via votre nouveau prompt Gemini
       final data = await _geminiService.analyzeNutritionTable(
@@ -309,19 +374,45 @@ class _CameraScreenState extends State<CameraScreen> {
         Localizations.localeOf(context).languageCode,
       );
 
-      if (mounted) Navigator.pop(context); // Fermer le loader
-
       if (data != null) {
-        // Pré-remplissage des contrôleurs pour le dialogue
-        _calController.text = data['calories']?.toString() ?? "0";
-        _protController.text = data['proteins']?.toString() ?? "0";
-        _carbsController.text = data['carbs']?.toString() ?? "0";
-        _fatController.text = data['fat']?.toString() ?? "0";
+        // --- FEEDBACK SUCCÈS ---
+        await player.play(AssetSource('audio/success.mp3'));
+        await HapticFeedback.mediumImpact();
+        await _showSuccess(); // Votre animation de succès existante
 
-        _showConfirmationDialog(data);
+        // ✅ UTILISATION DE VOTRE FACTORY
+        final facts = NutritionalFacts.fromJson(data);
+
+        // Sauvegarde de l'image temporaire pour l'affichage
+        final Directory appDocumentsDir = await getTemporaryDirectory();
+        final String savedPath =
+            '${appDocumentsDir.path}/label_scan_${DateTime.now().millisecondsSinceEpoch}.jpg';
+        await File(image.path).copy(savedPath);
+
+        // 1. Créer l'entrée initiale pour obtenir un ID
+        final entry = NutritionalFactsEntry.fromAnalysis(facts, savedPath);
+
+        // 2. Insérer en base de données
+        final entryId = await DatabaseService().insertEntry(entry);
+
+        if (mounted) {
+          await Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ResultScreen(
+                initialFacts: facts,
+                imagePath: savedPath,
+                origin: "label_ocr",
+              ),
+            ),
+          );
+        }
       }
     } catch (e) {
-      debugPrint("Erreur lors du scan : $e");
+      debugPrint("Erreur scan du label : $e");
+      // Feedback d'erreur existant
+      final player = AudioPlayer();
+      await player.play(AssetSource('audio/error.mp3'));
+      await HapticFeedback.heavyImpact();
     } finally {
       if (mounted) setState(() => _isAnalyzing = false);
     }
@@ -334,14 +425,12 @@ class _CameraScreenState extends State<CameraScreen> {
         _controller!.value.isTakingPicture) {
       return;
     } else {
-      setState(() {
-        _isAnalyzing = true;
-      });
-
+      setState(() => _isAnalyzing = true);
       final player = AudioPlayer();
       await player.play(AssetSource('audio/shutter.mp3'));
 
       try {
+        // Capture directement depuis le flux caméra existant
         final XFile file = await _controller!.takePicture();
         await _analyseImage(file.path, origin: runtimeType.toString());
       } catch (e) {
@@ -398,7 +487,7 @@ class _CameraScreenState extends State<CameraScreen> {
       // 2. FeedBack de succès
       final player = AudioPlayer();
       await player.play(AssetSource('audio/success.mp3'));
-      await HapticFeedback.lightImpact();
+      await HapticFeedback.mediumImpact();
 
       // 3. Montrer l'animation avant la navigation
       await _showSuccess();
@@ -460,61 +549,6 @@ class _CameraScreenState extends State<CameraScreen> {
         });
       }
     }
-  }
-
-  // void showLoadingDialog(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (context) => const Center(child: CircularProgressIndicator()),
-  //   );
-  // }
-
-  void _showConfirmationDialog(Map<String, dynamic> data) {
-    // Utilisez des TextEditingController pré-remplis avec data['calories'], etc.
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          data['productName'] ?? context.l10n.cameraScreenConfirmFactsLbl,
-        ), // Ajoutez cette clé dans vos .arb
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: _calController,
-              decoration: InputDecoration(labelText: 'Calories'),
-            ),
-            TextField(
-              controller: _protController,
-              decoration: InputDecoration(labelText: 'Protéines (g)'),
-            ),
-            TextField(
-              controller: _carbsController,
-              decoration: InputDecoration(labelText: 'Glucides (g)'),
-            ),
-            TextField(
-              controller: _fatController,
-              decoration: InputDecoration(labelText: 'Lipides (g)'),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Annuler'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Sauvegarder dans votre DatabaseService
-              _saveEntryToDatabase();
-              Navigator.pop(context);
-            },
-            child: Text('Enregistrer'),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _buildCameraOverlay() {
@@ -585,56 +619,60 @@ class _CameraScreenState extends State<CameraScreen> {
           message: "Scanner une étiquette",
           child: ElevatedButton.icon(
             label: const Text("Scanner l'étiquette"),
-            onPressed: _isAnalyzing ? null : _onScanLabelPressed,
+            onPressed: _isAnalyzing ? null : _scanLabel,
             icon: const Icon(Icons.document_scanner_rounded),
           ),
         );
 
       case CameraMode.barcodeScanner:
-        return Tooltip(
-          message: "Scanner un code barres",
-          child: ElevatedButton.icon(
-            label: Text(_isScanningBarcode ? "Arrêter" : "Scanner Code-barres"),
-            onPressed: () async {
-              if (_isScanningBarcode) {
-                _controller?.stopImageStream();
-                setState(() => _isScanningBarcode = false);
-              } else {
-                // On force une mise au point automatique avant de verrouiller
-                await _controller!.setFocusMode(FocusMode.auto);
-
-                // Optionnel : verrouiller après un court délai pour éviter les pompages de focus
-                // await Future.delayed(const Duration(seconds: 1));
-                // await _controller!.setFocusMode(FocusMode.locked);
-                _controller?.startImageStream((image) => _scanBarcode(image));
-                setState(() => _isScanningBarcode = true);
-              }
-            },
-            icon: Icon(_isScanningBarcode ? Icons.stop : Icons.qr_code_scanner),
-            // backgroundColor: _isScanningBarcode ? Colors.red : Colors.green,
+        // 💡 PLUS DE BOUTON CLIQUABLE : Juste une indication visuelle
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          decoration: BoxDecoration(
+            color: Colors.black54,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.qr_code_scanner, color: Colors.white),
+              SizedBox(width: 10),
+              Text(
+                "Centrez le code-barres",
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
           ),
         );
-      // return FloatingActionButton.extended(
-      //   heroTag: 'scanBarcodeBtn',
-      //   tooltip: "Scanner un code barres",
-      //   label: Text(_isScanningBarcode ? "Arrêter" : "Scanner Code-barres"),
-      //   onPressed: () async {
-      //     if (_isScanningBarcode) {
-      //       _controller?.stopImageStream();
-      //       setState(() => _isScanningBarcode = false);
-      //     } else {
-      //       // On force une mise au point automatique avant de verrouiller
-      //       await _controller!.setFocusMode(FocusMode.auto);
 
-      //       // Optionnel : verrouiller après un court délai pour éviter les pompages de focus
-      //       // await Future.delayed(const Duration(seconds: 1));
-      //       // await _controller!.setFocusMode(FocusMode.locked);
-      //       _controller?.startImageStream((image) => _scanBarcode(image));
-      //       setState(() => _isScanningBarcode = true);
-      //     }
-      //   },
-      //   icon: Icon(_isScanningBarcode ? Icons.stop : Icons.qr_code_scanner),
-      //   backgroundColor: _isScanningBarcode ? Colors.red : Colors.green,
+      // return Tooltip(
+      //   message: "Scanner un code barres",
+      //   child: ElevatedButton.icon(
+      //     label: Text(_isScanningBarcode ? "Arrêter" : "Scanner Code-barres"),
+      //     onPressed: () async {
+      //       if (_isScanningBarcode) {
+      //         _controller?.stopImageStream();
+      //         // Remettre le focus en auto simple pour économiser la batterie
+      //         await _controller?.setFocusMode(FocusMode.auto);
+      //         setState(() => _isScanningBarcode = false);
+      //       } else {
+      //         try {
+      //           // On force une mise au point automatique avant de verrouiller
+      //           await _controller?.setFocusMode(FocusMode.auto);
+      //         } catch (e) {}
+
+      //         // Optionnel : verrouiller après un court délai pour éviter les pompages de focus
+      //         // await Future.delayed(const Duration(seconds: 1));
+      //         // await _controller!.setFocusMode(FocusMode.locked);
+      //         _controller?.startImageStream(
+      //           (image) => _processBarcode(image),
+      //         );
+      //         setState(() => _isScanningBarcode = true);
+      //       }
+      //     },
+      //     icon: Icon(_isScanningBarcode ? Icons.stop : Icons.qr_code_scanner),
+      //     // backgroundColor: _isScanningBarcode ? Colors.red : Colors.green,
+      //   ),
       // );
     }
   }
@@ -691,17 +729,21 @@ class _CameraScreenState extends State<CameraScreen> {
         children: [
           // 1. Vue de la Caméra
           Positioned.fill(
-            child: Align(
-              alignment: const Alignment(0.0, -1.0),
-              child: Padding(
-                padding: EdgeInsetsGeometry.only(top: 50.0),
-                child: CameraPreview(_controller!),
-              ),
+            child: AspectRatio(
+              aspectRatio: _controller!.value.aspectRatio,
+              child: CameraPreview(_controller!),
             ),
+            // child: Align(
+            //   alignment: const Alignment(0.0, -1.0),
+            //   child: Padding(
+            //     padding: EdgeInsetsGeometry.only(top: 50.0),
+            //     child: CameraPreview(_controller!),
+            //   ),
+            // ),
           ),
 
           // 2. : L'overlay de guidage pour le scan
-          if (widget.mode != CameraMode.mealAnalysis) _buildCameraOverlay(),
+          if (widget.mode == CameraMode.barcodeScanner) _buildCameraOverlay(),
 
           // 3. Guide de Cadrage Visuel (texte centré en bas ou en haut)
           Positioned(
@@ -747,19 +789,25 @@ class _CameraScreenState extends State<CameraScreen> {
             ),
           ),
 
-          // // Titre dynamique dans l'AppBar ou en haut
-          // Positioned(
-          //   top: 60,
-          //   left: 20,
-          //   child: Text(
-          //     widget.mode.name,
-          //     style: const TextStyle(
-          //       color: Colors.white,
-          //       fontSize: 20,
-          //       fontWeight: FontWeight.bold,
-          //     ),
-          //   ),
-          // ),
+          // 2. Bouton Flash/Lampe de poche (en haut à droite)
+          // Dans votre Stack, à côté du bouton Flash
+          Positioned(
+            top: 130, // Un peu plus bas que le bouton Flash
+            right: 20,
+            child: FloatingActionButton(
+              heroTag: 'zoomBtn',
+              mini: true, // Plus petit pour ne pas encombrer
+              onPressed: _isAnalyzing ? null : _toggleZoom,
+              backgroundColor: Colors.black54,
+              child: Text(
+                "${_currentZoom.toInt()}x",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
 
           // 4. Overlay d'analyse (si _isAnalyzing est true)
           if (_isAnalyzing)
@@ -772,17 +820,17 @@ class _CameraScreenState extends State<CameraScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (widget.mode != CameraMode.barcodeScanner) ...[
-                      CircularProgressIndicator(),
-                      const SizedBox(height: 20),
-                      Text(
-                        context.l10n.cameraScreenAnalysisInProgressLbl,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                    // if (widget.mode != CameraMode.barcodeScanner) ...[
+                    CircularProgressIndicator(),
+                    const SizedBox(height: 20),
+                    Text(
+                      context.l10n.cameraScreenAnalysisInProgressLbl,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                    ],
+                    ),
                   ],
+                  // ],
                 ),
               ),
             ),
@@ -816,64 +864,18 @@ class _CameraScreenState extends State<CameraScreen> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          FloatingActionButton(
-            heroTag: 'galleryBtn',
-            tooltip: context.l10n.cameraScreenBtn('gallery'),
-            onPressed: _isAnalyzing ? null : _selectFromGallery,
-            child: const Icon(Icons.photo_library_rounded),
-          ),
+          if (widget.mode ==
+              CameraMode.mealAnalysis) // Galerie uniquement pour les repas
+            FloatingActionButton(
+              heroTag: 'galleryBtn',
+              tooltip: context.l10n.cameraScreenBtn('gallery'),
+              onPressed: _isAnalyzing ? null : _selectFromGallery,
+              child: const Icon(Icons.photo_library_rounded),
+            ),
 
           _buildContextualActionButton(),
         ],
       ),
-      // Padding(
-      //   padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //     crossAxisAlignment: CrossAxisAlignment.end,
-      //     children: [
-      //       if (_isTakingPhoto) ...[
-      //         // 1. Bouton de SÉLECTION/GALERIE
-      //         FloatingActionButton(
-      //           heroTag: 'galleryBtn',
-      //           tooltip: context.l10n.cameraScreenBtn('gallery'),
-      //           onPressed: _isAnalyzing ? null : _selectFromGallery,
-      //           child: const Icon(Icons.photo_library_rounded),
-      //         ),
-
-      //         // 2. Bouton de CAPTURE PRINCIPAL
-      //         FloatingActionButton(
-      //           heroTag: 'captureBtn',
-      //           tooltip: context.l10n.cameraScreenBtn('camera'),
-      //           onPressed: _isAnalyzing
-      //               ? null
-      //               : () => _isTakingPhoto = true, // Déclenche _takePhoto
-      //           child: const Icon(Icons.camera_alt_rounded),
-      //         ),
-      //       ],
-
-      //       if (_isScanningFactsLabel)
-      //         // 💡 NOUVEAU : Bouton SCAN ÉTIQUETTE
-      //         FloatingActionButton(
-      //           heroTag: 'scanLabelBtn',
-      //           tooltip: "Scanner une étiquette",
-      //           onPressed: _isAnalyzing ? null : _scanFactsLabel,
-      //           child: const Icon(Icons.document_scanner_rounded),
-      //         ),
-
-      //       if (_isScanningBarcode)
-      //         // 💡 NOUVEAU : Bouton SCAN CODE BARRES
-      //         FloatingActionButton(
-      //           heroTag: 'scanBarcodeBtn',
-      //           tooltip: "Scanner un code barres",
-      //           onPressed: _isAnalyzing
-      //               ? null
-      //               : () => _isScanningBarcode = true,
-      //           child: const Icon(Icons.qr_code_scanner_rounded),
-      //         ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

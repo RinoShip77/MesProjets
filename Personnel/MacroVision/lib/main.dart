@@ -52,7 +52,6 @@ class _AppSetupState extends State<AppSetup> {
 
   @override
   Widget build(BuildContext context) {
-    print(WidgetsBinding.instance.platformDispatcher.locales.first.languageCode);
     return MacroVisionApp(locale: _currentLocale);
   }
 }

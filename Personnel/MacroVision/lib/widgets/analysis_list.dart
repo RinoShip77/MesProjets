@@ -74,7 +74,7 @@ class AnalysisList extends StatelessWidget {
                 child: File(entry.imagePath).existsSync()
                     ? Image.file(File(entry.imagePath), fit: BoxFit.cover)
                     : Icon(
-                        Icons.image_not_supported_rounded,
+                        Icons.fastfood_outlined,
                         size: 40,
                         color: Theme.of(context).colorScheme.error,
                       ),
