@@ -48,14 +48,6 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.selectLogic(target, {
       'fr': 'French',
       'en': 'English',
-      'es': 'Spanish',
-      'fil': 'Filipino',
-      'hi': 'Hindi',
-      'ja': 'Japanese',
-      'sv': 'Swedish',
-      'uk': 'Ukrainian',
-      'zh': 'Chinese',
-      'sw': 'Swahili',
       'other': 'Unsupported Language',
     });
     return '$_temp0';

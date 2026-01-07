@@ -6,15 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
-import 'app_localizations_es.dart';
-import 'app_localizations_fil.dart';
 import 'app_localizations_fr.dart';
-import 'app_localizations_hi.dart';
-import 'app_localizations_ja.dart';
-import 'app_localizations_sv.dart';
-import 'app_localizations_sw.dart';
-import 'app_localizations_uk.dart';
-import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -103,15 +95,7 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('es'),
-    Locale('fil'),
     Locale('fr'),
-    Locale('hi'),
-    Locale('ja'),
-    Locale('sv'),
-    Locale('sw'),
-    Locale('uk'),
-    Locale('zh'),
   ];
 
   /// Le titre pour les boîte de dialogue
@@ -159,7 +143,7 @@ abstract class AppLocalizations {
   /// Le nom de la langue de l'application
   ///
   /// In fr, this message translates to:
-  /// **'{target, select, fr{Français} en{Anglais} es{Espagnol} fil{Philippin} hi{Hindi} ja{Japonais} sv{Suédois} uk{Ukrainien} zh{Chinois} sw{Swahili} other{Langue non supportée}}'**
+  /// **'{target, select, fr{Français} en{Anglais} other{Langue non supportée}}'**
   String appLanguageName(String target);
 
   /// Libellé affiché pendant l'initialisation de l'application
@@ -659,18 +643,8 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) => <String>[
-    'en',
-    'es',
-    'fil',
-    'fr',
-    'hi',
-    'ja',
-    'sv',
-    'sw',
-    'uk',
-    'zh',
-  ].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'fr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -681,24 +655,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
-    case 'es':
-      return AppLocalizationsEs();
-    case 'fil':
-      return AppLocalizationsFil();
     case 'fr':
       return AppLocalizationsFr();
-    case 'hi':
-      return AppLocalizationsHi();
-    case 'ja':
-      return AppLocalizationsJa();
-    case 'sv':
-      return AppLocalizationsSv();
-    case 'sw':
-      return AppLocalizationsSw();
-    case 'uk':
-      return AppLocalizationsUk();
-    case 'zh':
-      return AppLocalizationsZh();
   }
 
   throw FlutterError(

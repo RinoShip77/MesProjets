@@ -1,28 +1,55 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
-#
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
+# =============================================================================
+# PROJECT QUALITY RULES & MAINTENANCE
+# =============================================================================
+# TO ANALYZE: Run 'flutter analyze' in the terminal to find all violations.
+# TO FIX AUTOMATICALLY: Run 'dart fix --apply' to resolve most style issues
+# (like quotes, consts, and commas) across the entire project automatically.
+# =============================================================================
 
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
-linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at https://dart.dev/lints.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
-  rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+# TODO: Uncomment the sections below and edit target files
+# analyzer:
+#   language:
+#     # Forces you to manually cast types from 'dynamic', preventing runtime crashes
+#     strict-casts: true
+#     # Prevents 'dynamic' types when the compiler cannot infer a specific type
+#     strict-inference: true
+#     # Requires explicit type arguments (e.g., List<String> instead of just List)
+#     strict-raw-types: true
+#   errors:
+#     # Treat missing required parameters as hard errors instead of just warnings
+#     missing_required_param: error
+#     # Ensures every path in a function returns a value if a return type is specified
+#     missing_return: error
+#     # Prevents accidental 'TODO' comments from being committed without notice
+#     todo: info
+#   exclude:
+#     # Ignore auto-generated files from packages like Freezed, JsonSerializable, or l10n
+#     - "**/*.g.dart"
+#     - "**/*.freezed.dart"
+#     - "lib/generated_plugin_registrant.dart"
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+linter:
+  rules:
+    # --- STYLE & CONSISTENCY ---
+    - prefer_single_quotes # Standardizes on '...' for a cleaner look
+    - require_trailing_commas # Forces commas after last parameters to keep formatting vertical
+    - sort_child_properties_last # Always keep 'child' at the bottom of a widget's code for readability
+    - always_declare_return_types # Prevents accidentally returning 'dynamic'
+    - unnecessary_lambdas # Replaces () => _method() with just _method for cleaner callback syntax
+    - sort_pub_dependencies # Keeps your pubspec.yaml file alphabetically organized
+
+    # --- PERFORMANCE ---
+    - prefer_const_constructors # Critical for widget reuse and performance
+    - prefer_const_declarations # Encourages 'const' over 'final' for compile-time optimizations
+    - avoid_unnecessary_containers # Prevents using Container when SizedBox/Padding is enough
+    
+    # --- ERROR PREVENTION ---
+    - use_build_context_synchronously # Prevents crashes when using context after an 'await' call
+    - avoid_print # Ensures debug logs don't leak into production; use debugPrint instead
+    - unawaited_futures # Catches async calls that aren't awaited or explicitly handled
+    - no_literal_bool_comparisons # Forces idiomatic if(isReady) instead of if(isReady == true)
+    - use_key_in_widget_constructors # Essential for Flutter to correctly track widget state
+    - avoid_void_async # Prevents returning 'void' from async functions; forces Future<void> instead
+    - prefer_final_locals # Encourages immutability by using 'final' for variables that don't change

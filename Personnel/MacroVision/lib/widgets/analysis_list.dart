@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:macro_vision/main.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/screens/history_screen.dart';
 import 'package:macro_vision/screens/result_screen.dart';
@@ -92,9 +93,10 @@ class AnalysisList extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
 
-                  if (!isCompact)
                   Text(
-                    '${context.l10n.statsCalorie(entry.calories.round())} | ${formatDate(date)} $formattedTime', // Réutilise formatDate
+                    isCompact
+                        ? context.l10n.statsCalorie(entry.calories.round())
+                        : '${context.l10n.statsCalorie(entry.calories.round())} | ${formatDate(date)} $formattedTime', // Réutilise formatDate
                   ),
                 ],
               ),

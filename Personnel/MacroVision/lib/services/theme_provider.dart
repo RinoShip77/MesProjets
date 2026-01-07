@@ -1,125 +1,115 @@
 import 'package:flutter/material.dart';
+import 'package:macro_vision/helpers/helpers.dart'; //
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum ThemeModeOption { system, light, dark, custom }
+// ==============================================================================
+// CONFIGURATION & MODELS
+// ==============================================================================
 
+/// Defines the brightness modes supported by the application.
+enum ThemeModeOption { system, light, dark }
+
+/// Represents a user-selectable accent color theme.
 class CustomTheme {
-  final String name;
-  final MaterialColor color;
+  final String name; // The unique name of the theme
+  final MaterialColor color; // The actual color palette
+
   const CustomTheme(this.name, this.color);
 }
 
-// Configuration Constants
+/// List of all available custom colors.
 const List<CustomTheme> customThemes = [
-  CustomTheme("mint", Colors.green),
-  CustomTheme("ocean", Colors.blue),
-  CustomTheme("passion", Colors.red),
-  CustomTheme("neon", Colors.purple),
-  CustomTheme("platinum", Colors.grey),
-  CustomTheme("merlot", Colors.brown),
-  CustomTheme("lemon", Colors.yellow),
-  CustomTheme("lime", Colors.lime),
-  CustomTheme("peacock", Colors.cyan),
-  CustomTheme("azure", Colors.teal),
-  CustomTheme("candy", Colors.pink),
-  CustomTheme("pumpkin", Colors.orange),
-  CustomTheme("lapis", Colors.indigo),
-  CustomTheme("scarlet", Colors.deepOrange),
+  CustomTheme('mint', Colors.green),
+  CustomTheme('ocean', Colors.blue),
+  CustomTheme('passion', Colors.red),
+  CustomTheme('neon', Colors.purple),
+  CustomTheme('platinum', Colors.grey),
+  CustomTheme('merlot', Colors.brown),
+  CustomTheme('lemon', Colors.yellow),
+  CustomTheme('lime', Colors.lime),
+  CustomTheme('peacock', Colors.cyan),
+  CustomTheme('azure', Colors.teal),
+  CustomTheme('candy', Colors.pink),
+  CustomTheme('pumpkin', Colors.orange),
+  CustomTheme('lapis', Colors.indigo),
+  CustomTheme('scarlet', Colors.deepOrange),
 ];
 
-class PrefKeys {
-  static const String themeModeOption = 'themeModeOption';
-  static const String customThemeIndex = 'customThemeIndex';
+/// Keys used for SharedPreferences persistence.
+class _PrefKeys {
+  static const String themeMode = 'theme_mode_index';
+  static const String customThemeIndex = 'custom_theme_index';
 }
 
+// ==============================================================================
+// THEME PROVIDER
+// ==============================================================================
+
 class ThemeProvider with ChangeNotifier {
-  // State
+  // --- State Variables ---
   ThemeModeOption _themeModeOption = ThemeModeOption.system;
   CustomTheme _customTheme = customThemes.first;
-  ThemeMode _baseThemeMode = ThemeMode.system;
 
-  // Getters
+  // --- Getters ---
   ThemeModeOption get themeModeOption => _themeModeOption;
   CustomTheme get customTheme => _customTheme;
 
-  ThemeProvider() {
-    loadPreferences();
-  }
-
-  // --- Logic ---
-
-  /// Determines the actual Flutter ThemeMode based on the selected option
+  /// Converts the internal [ThemeModeOption] to Flutter's native [ThemeMode].
   ThemeMode get themeMode {
     return switch (_themeModeOption) {
       ThemeModeOption.light => ThemeMode.light,
       ThemeModeOption.dark => ThemeMode.dark,
-      ThemeModeOption.custom =>
-        _baseThemeMode != ThemeMode.system ? _baseThemeMode : ThemeMode.system,
-      _ => ThemeMode.system,
+      ThemeModeOption.system => ThemeMode.system,
     };
   }
 
-  Future<void> loadPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    // Load Mode
-    final savedModeIndex = prefs.getInt(PrefKeys.themeModeOption);
-    if (savedModeIndex != null &&
-        savedModeIndex < ThemeModeOption.values.length) {
-      _themeModeOption = ThemeModeOption.values[savedModeIndex];
-      _updateBaseThemeMode(_themeModeOption);
-    }
-
-    // Load Custom Theme Color
-    final savedThemeIndex = prefs.getInt(PrefKeys.customThemeIndex);
-    if (savedThemeIndex != null && savedThemeIndex < customThemes.length) {
-      _customTheme = customThemes[savedThemeIndex];
-    }
-
-    notifyListeners();
+  // --- Constructor ---
+  ThemeProvider() {
+    _loadPreferences();
   }
 
+  // --- Actions ---
+
+  /// Updates the brightness mode (System, Light, Dark).
+  /// This does NOT affect the selected custom color.
   void setThemeMode(ThemeModeOption newMode) {
     if (_themeModeOption == newMode) return;
 
     _themeModeOption = newMode;
-    _updateBaseThemeMode(newMode);
-    
-    // Save only the mode
-    _saveToPrefs(key: PrefKeys.themeModeOption, value: _themeModeOption.index);
+    // Persist immediately using helper
+    saveToPrefs(_PrefKeys.themeMode, newMode.index);
     notifyListeners();
   }
 
+  /// Updates the accent color theme.
+  /// This does NOT affect the selected brightness mode.
   void setCustomTheme(CustomTheme newTheme) {
     if (_customTheme == newTheme) return;
 
     _customTheme = newTheme;
-    
-    // Automatically switch to custom mode if we pick a color
-    if (_themeModeOption != ThemeModeOption.custom) {
-      _themeModeOption = ThemeModeOption.custom;
-      _saveToPrefs(key: PrefKeys.themeModeOption, value: _themeModeOption.index);
-    }
-
-    _saveToPrefs(key: PrefKeys.customThemeIndex, value: customThemes.indexOf(_customTheme));
+    // Persist immediately using helper
+    saveToPrefs(_PrefKeys.customThemeIndex, customThemes.indexOf(newTheme)); //
     notifyListeners();
   }
 
-  // --- Helpers ---
+  // --- Internal Logic ---
 
-  void _updateBaseThemeMode(ThemeModeOption mode) {
-    if (mode == ThemeModeOption.light) {
-      _baseThemeMode = ThemeMode.light;
-    } else if (mode == ThemeModeOption.dark) {
-      _baseThemeMode = ThemeMode.dark;
-    } else if (mode == ThemeModeOption.system) {
-      _baseThemeMode = ThemeMode.system;
-    }
-    // If Custom, we keep the previous base mode
-  }
-
-  Future<void> _saveToPrefs({required String key, required int value}) async {
+  /// Loads saved preferences on startup.
+  Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(key, value);
+
+    // 1. Load Brightness Mode
+    final modeIndex = prefs.getInt(_PrefKeys.themeMode);
+    if (modeIndex != null && modeIndex < ThemeModeOption.values.length) {
+      _themeModeOption = ThemeModeOption.values[modeIndex];
+    }
+
+    // 2. Load Accent Color
+    final themeIndex = prefs.getInt(_PrefKeys.customThemeIndex);
+    if (themeIndex != null && themeIndex < customThemes.length) {
+      _customTheme = customThemes[themeIndex];
+    }
+
+    notifyListeners();
   }
 }

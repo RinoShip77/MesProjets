@@ -1,13 +1,16 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart'; // For rootBundle if needed
 import 'package:intl/intl.dart';
-import 'package:macro_vision/screens/feedback_screen.dart';
-import 'package:macro_vision/widgets/main_navigator.dart';
-import 'package:markdown_widget/config/markdown_generator.dart';
+import 'package:macro_vision/main.dart';
+import 'package:macro_vision/models/nutritional_facts_entry.dart';
+import 'package:macro_vision/utils/global_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:markdown_widget/config/markdown_generator.dart';
+import 'package:macro_vision/widgets/main_navigator.dart';
+import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:macro_vision/utils/l10n_extension.dart';
 
 /// Helper functions and utilities for the MacroVision application.
@@ -20,8 +23,199 @@ import 'package:macro_vision/utils/l10n_extension.dart';
 /// ``` import 'package:macro_vision/helpers/helpers.dart';
 /// ```
 
+/// =======================================================================
+/// 1. PREFERENCES & STORAGE HELPERS
+/// =======================================================================
+/// These functions simplify interactions with SharedPreferences.
+/// Usage: await saveIntToPrefs('my_key', 10);
+
+/// Saves an integer value to local storage.
+Future<void> saveToPrefs(String key, value) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setInt(key, value);
+}
+
+/// =======================================================================
+/// 2. JSON & DATA PARSING
+/// =======================================================================
+
+/// Cleans a string containing Markdown JSON (e.g., ```json ... ```) and parses it.
+///
+/// Returns `null` if the string is empty or parsing fails.
+/// This is crucial for handling responses from Generative AI models which often
+/// wrap JSON in Markdown code blocks.
+Map<String, dynamic>? cleanAndParseJson(String? rawText) {
+  if (rawText == null || rawText.isEmpty) return null;
+
+  try {
+    // 1. Remove Markdown code block syntax
+    String clean = rawText.replaceAll(RegExp(r'^```json|```$'), '').trim();
+
+    // 2. Fallback cleanup
+    clean = clean.replaceAll('```json', '').replaceAll('```', '').trim();
+
+    // 3. Safety: Normalize critical values (e.g. portion size) to prevent division by zero in UI
+    final Map<String, dynamic> data = jsonDecode(clean);
+
+    // Safety: Normalize portion size if missing or zero
+    if (data.containsKey('portionInGrams') &&
+        (data['portionInGrams'] as num?) == 0) {
+      data['portionInGrams'] = 100.0;
+    }
+
+    return data;
+  } catch (e) {
+    debugPrint('🔴 JSON Parsing Helper Error: $e');
+    return null;
+  }
+}
+
+/// =======================================================================
+/// 3. DATE & TIME UTILITIES
+/// =======================================================================
+
+/// Returns the timestamp (ms) for the start (00:00:00) of the given date.
+/// Used for database queries to filter by day.
+int getStartOfDayTimestamp(DateTime date) {
+  final startOfDay = DateTime(date.year, date.month, date.day);
+  return startOfDay.millisecondsSinceEpoch;
+}
+
+/// Returns a DateTime representing the Monday of the current week at 00:00:00.
+/// Used for weekly summary calculations.
+DateTime getStartOfCurrentWeek() {
+  final now = DateTime.now();
+  // Calculate offset to get back to Monday (Weekday 1)
+  final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+  return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
+}
+
+/// Formats a date into a short day name for charts.
+String formatDateForSummary(DateTime dateTime) {
+  // Use 'E' pattern (gives "Mon", "Tue", etc.) and forces language specific
+  return (DateFormat(
+    'E',
+    AppSetup.of(navigatorKey.currentContext!).getLocale.toLanguageTag(),
+  ).format(dateTime)).replaceAll('.', '').capitalize();
+}
+
+/// Utility function to format date as "dd-MM-yyyy"
+String formatDate(DateTime dateTime) {
+  // Uses 'dd-MM-yyyy' format and forces language specific for numeric date formats
+  return DateFormat('yyyy-MM-dd').format(dateTime);
+}
+
+/// =======================================================================
+/// 4. MOCK DATA (Development & Testing)
+/// =======================================================================
+
+/// Standardized mock response for Gemini Service testing.
+const Map<String, dynamic> mockGeminiResponse = {
+  'foodName': 'Barre Granola',
+  'portionInGrams': 42.0,
+  'calories': 190.0,
+  'totalFat': 6.0,
+  'saturatedFat': 1.0,
+  'transFat': 0.0,
+  'cholesterol': 0.0,
+  'sodium': 140.0,
+  'potassium': 95.0,
+  'totalCarbohydrates': 29.0,
+  'dietaryFiber': 2.0,
+  'sugar': 11.0,
+  'protein': 3.0,
+};
+
+List<NutritionalFactsEntry> getMockDatabaseEntries() {
+  final now = DateTime.now();
+  final today = getStartOfDayTimestamp(now);
+  final yesterday = getStartOfDayTimestamp(
+    now.subtract(const Duration(days: 1)),
+  );
+
+  return [
+    NutritionalFactsEntry(
+      timestamp: today + 32400000,
+      imagePath: 'assets/dummy_breakfast.png',
+      foodName: 'Omelette Breakfast',
+      portionInGrams: 250,
+      calories: 450,
+      totalFat: 25,
+      saturatedFat: 8,
+      transFat: 0,
+      cholesterol: 300,
+      sodium: 300,
+      potassium: 100,
+      totalCarbohydrates: 5,
+      dietaryFiber: 1,
+      sugar: 3,
+      protein: 40,
+    ),
+    NutritionalFactsEntry(
+      timestamp: today + 46800000,
+      imagePath: 'assets/dummy_lunch.png',
+      foodName: 'Chicken Salad',
+      portionInGrams: 400,
+      calories: 600,
+      totalFat: 30,
+      saturatedFat: 5,
+      transFat: 0,
+      cholesterol: 120,
+      sodium: 450,
+      potassium: 500,
+      totalCarbohydrates: 20,
+      dietaryFiber: 5,
+      sugar: 8,
+      protein: 50,
+    ),
+    NutritionalFactsEntry(
+      timestamp: yesterday + 28800000,
+      imagePath: 'assets/dummy_bf_2.png',
+      foodName: 'Yogurt & Granola',
+      portionInGrams: 300,
+      calories: 320,
+      totalFat: 5,
+      saturatedFat: 3,
+      transFat: 0,
+      cholesterol: 10,
+      sodium: 150,
+      potassium: 200,
+      totalCarbohydrates: 35,
+      dietaryFiber: 0,
+      sugar: 30,
+      protein: 30,
+    ),
+    NutritionalFactsEntry(
+      timestamp: yesterday + 45000000,
+      imagePath: 'assets/dummy_lunch_2.png',
+      foodName: 'Pasta Bolognese',
+      portionInGrams: 550,
+      calories: 850,
+      totalFat: 35,
+      saturatedFat: 12,
+      transFat: 0,
+      cholesterol: 150,
+      sodium: 800,
+      potassium: 550,
+      totalCarbohydrates: 90,
+      dietaryFiber: 10,
+      sugar: 5,
+      protein: 30,
+    ),
+  ];
+}
+
+/// =======================================================================
+/// 5. EXTENSIONS
+/// =======================================================================
+
+extension StringExtension on String {
+  /// Capitalizes the first letter of the string.
+  String capitalize() => '${this[0].toUpperCase()}${substring(1)}';
+}
+
 // =======================================================================
-// Genral functions
+// General functions
 // =======================================================================
 // Call with navigate(context, const $nextScreen()),
 void navigate(BuildContext context, nextScreen, {bool replace = false}) {
@@ -50,7 +244,7 @@ void showSnackBar(
       message,
       textAlign: TextAlign.center,
       style: TextStyle(
-        color: isError ? Colors.white : Theme.of(context).colorScheme.onPrimary,
+        color: isError ? Colors.black : Theme.of(context).colorScheme.onPrimary,
       ),
     ),
     backgroundColor: isError
@@ -244,7 +438,8 @@ Future<void> openDialog({
                 } else {
                   if (key != null) {
                     // Nous sommes en phase d'initialisation. On sauvegarde et on enchaîne.
-                    await saveHasSeenGuide(key);
+                    // await saveHasSeenGuide(key);
+                    await saveToPrefs(key, true);
 
                     if (context.mounted) {
                       Navigator.of(context).pop();
@@ -288,10 +483,10 @@ Future<void> openDialog({
   );
 }
 
-Future<void> saveHasSeenGuide(String key) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setBool(key, true);
-}
+// Future<void> saveHasSeenGuide(String key) async {
+//   final prefs = await SharedPreferences.getInstance();
+//   await prefs.setBool(key, true);
+// }
 
 // =======================================================================
 // SettingsScreen
@@ -451,48 +646,4 @@ String? formatEmailBody(BuildContext context, feedback) {
 
   return '''Plateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
   // return '''Version : 1.0.0\nPlateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
-}
-
-// =======================================================================
-// DatabaseService
-// =======================================================================
-// Obtient le timestamp de début de journée pour une date donnée (minuit)
-int getStartOfDayTimestamp(DateTime date) {
-  final startOfDay = DateTime(date.year, date.month, date.day);
-  return startOfDay.millisecondsSinceEpoch;
-}
-
-// Obtient le DateTime du début de la semaine (lundi à 00:00:00)
-DateTime getStartOfCurrentWeek() {
-  final now = DateTime.now();
-  // 1 = Lundi, 7 = Dimanche
-  int weekday = now.weekday;
-
-  // Calcule le décalage pour revenir à Lundi.
-  // Si aujourd'hui est Lundi (1), daysToSubtract sera 0.
-  // Si aujourd'hui est Jeudi (4), daysToSubtract sera 3.
-  final startOfWeek = now.subtract(Duration(days: weekday - 1));
-
-  return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
-}
-
-// Formate une date en nom de jour (Lun, Mar, etc.) pour les graphiques
-String formatDateForSummary(DateTime dateTime) {
-  // 'E' donne le nom abrégé du jour (Lun, Mar, ...)
-  // Le paramètre locale: 'fr_CA' force l'utilisation des noms français.
-  return (DateFormat('E', 'fr_CA').format(dateTime))
-      .substring(0, (DateFormat('E', 'fr_CA').format(dateTime)).length - 1)
-      .capitalize();
-}
-
-// Fonction utilitaire pour formater la date comme "dd-MM-yyyy"
-String formatDate(DateTime dateTime) {
-  // Utilise le format 'dd-MM-yyyy' et force la locale pour les formats de date numériques
-  return DateFormat('dd-MM-yyyy', 'fr_CA').format(dateTime);
-}
-
-extension StringExtension on String {
-  String capitalize() {
-    return "${this[0].toUpperCase()}${substring(1)}";
-  }
 }

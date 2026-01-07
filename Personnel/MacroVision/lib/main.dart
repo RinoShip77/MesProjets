@@ -20,6 +20,7 @@ import 'package:macro_vision/config/app_theme.dart';
 
 // Écrans de l'application
 import 'package:macro_vision/screens/initialization_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Définition de la locale par défaut (français canadien)
 final Locale defaultLocale = Locale(
@@ -43,11 +44,33 @@ class AppSetup extends StatefulWidget {
 class _AppSetupState extends State<AppSetup> {
   Locale _currentLocale = defaultLocale;
 
+  Locale get getLocale => _currentLocale;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLocalePreference();
+  }
+
   // 💡 Fonction pour changer la locale
-  void setLocale(Locale newLocale) {
+  Future<void> setLocale(Locale newLocale) async {
     setState(() {
       _currentLocale = newLocale;
     });
+
+    // Save the preference
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user_language', newLocale.languageCode);
+  }
+
+  Future<void> _loadLocalePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? savedLanguageCode = prefs.getString('user_language');
+    if (savedLanguageCode != null) {
+      setState(() {
+        _currentLocale = Locale(savedLanguageCode);
+      });
+    }
   }
 
   @override
@@ -126,7 +149,9 @@ Future<void> main() async {
                       .languageCode,
                 ),
                 theme: ThemeData(
-                  colorScheme: ColorScheme.fromSeed(seedColor: Theme.of(context).colorScheme.error),
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: Theme.of(context).colorScheme.error,
+                  ),
                   useMaterial3: true,
                 ),
                 // 2. On utilise un Builder pour "descendre" d'un niveau dans l'arbre
@@ -157,12 +182,6 @@ class MacroVisionApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        // Utiliser le thème de 'app_theme.dart'
-        final MaterialColor selectedSeedColor =
-            themeProvider.themeModeOption == ThemeModeOption.custom
-            ? themeProvider.customTheme.color
-            : appPrimaryColor;
-
         return MaterialApp(
           // =========================================================
           // 💡 INTERNATIONALISATION : AJOUTER CES LIGNES
@@ -176,14 +195,6 @@ class MacroVisionApp extends StatelessWidget {
           supportedLocales: const [
             Locale('fr'), // French
             Locale('en'), // English
-            Locale('es'), // Espagnol
-            Locale('fil'), // Filipino
-            Locale('hi'), // Hindi
-            Locale('ja'), // Japanese
-            Locale('sv'), // Swedish
-            Locale('uk'), // Ukrainian
-            Locale('zh'), // Chinese
-            Locale('sw'), // Swahili
           ],
 
           locale:
@@ -196,8 +207,8 @@ class MacroVisionApp extends StatelessWidget {
               ? true
               : false,
           themeMode: themeProvider.themeMode,
-          theme: getLightTheme(selectedSeedColor),
-          darkTheme: getDarkTheme(selectedSeedColor),
+          theme: getLightTheme(themeProvider.customTheme.color),
+          darkTheme: getDarkTheme(themeProvider.customTheme.color),
           home: const InitializationScreen(),
         );
       },

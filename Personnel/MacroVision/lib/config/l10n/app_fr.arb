@@ -39,7 +39,7 @@
             }
         }
     },
-    "appLanguageName": "{target, select, fr{Français} en{Anglais} es{Espagnol} fil{Philippin} hi{Hindi} ja{Japonais} sv{Suédois} uk{Ukrainien} zh{Chinois} sw{Swahili} other{Langue non supportée}}",
+    "appLanguageName": "{target, select, fr{Français} en{Anglais} other{Langue non supportée}}",
     "@appLanguageName": {
         "description": "Le nom de la langue de l'application",
         "placeholders": {

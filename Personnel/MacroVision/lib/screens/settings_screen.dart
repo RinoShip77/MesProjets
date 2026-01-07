@@ -31,30 +31,6 @@ class SettingsScreen extends StatelessWidget {
       if (locale.languageCode == 'en') {
         return context.l10n.appLanguageName('en');
       }
-      if (locale.languageCode == 'es') {
-        return context.l10n.appLanguageName('es');
-      }
-      if (locale.languageCode == 'fil') {
-        return context.l10n.appLanguageName('fil');
-      }
-      if (locale.languageCode == 'hi') {
-        return context.l10n.appLanguageName('hi');
-      }
-      if (locale.languageCode == 'ja') {
-        return context.l10n.appLanguageName('ja');
-      }
-      if (locale.languageCode == 'sv') {
-        return context.l10n.appLanguageName('sv');
-      }
-      if (locale.languageCode == 'uk') {
-        return context.l10n.appLanguageName('uk');
-      }
-      if (locale.languageCode == 'zh') {
-        return context.l10n.appLanguageName('zh');
-      }
-      if (locale.languageCode == 'sw') {
-        return context.l10n.appLanguageName('sw');
-      }
       return locale.languageCode.toUpperCase();
     }
 
@@ -68,7 +44,6 @@ class SettingsScreen extends StatelessWidget {
             Text(
               context.l10n.settingsScreenSectionLbl('language'),
               style: Theme.of(context).textTheme.headlineMedium,
-              // style: Theme.of(context).textTheme.headlineLarge,
             ),
 
             const Divider(),
@@ -76,7 +51,7 @@ class SettingsScreen extends StatelessWidget {
             ListTile(
               title: Text(
                 context.l10n.settingsScreenLanguageSelectLbl,
-              ), // Nouvelle clé ARB : "languageSettingTitle"
+              ),
               trailing: DropdownButton<Locale>(
                 value:
                     currentLocale, // La valeur est maintenant directement un objet Locale

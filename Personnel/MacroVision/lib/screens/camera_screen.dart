@@ -108,7 +108,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
         // 4. Lancement automatique du flux pour le code-barres
         if (widget.mode == CameraMode.barcodeScanner) {
-          _controller?.startImageStream((image) => _processBarcode(image));
+          _controller?.startImageStream((image) => _scanBarcode(image));
         }
       }
     } on CameraException catch (e) {
@@ -257,7 +257,7 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
-  Future<void> _processBarcode(CameraImage image) async {
+  Future<void> _scanBarcode(CameraImage image) async {
     // 1. Barrière de sécurité
     if (_isProcessingBarcode || _isAnalyzing || !mounted) return;
 
@@ -286,7 +286,7 @@ class _CameraScreenState extends State<CameraScreen> {
           setState(() => _isAnalyzing = true);
 
           // 4. Appel à l'API Gemini
-          final data = await _geminiService.getInfoFromBarcode(
+          final data = await _geminiService.analyseBarcode(
             code,
             Localizations.localeOf(context).languageCode,
           );
@@ -347,7 +347,7 @@ class _CameraScreenState extends State<CameraScreen> {
         _isProcessingBarcode = false;
         _isAnalyzing = false;
       });
-      _controller?.startImageStream((image) => _processBarcode(image));
+      _controller?.startImageStream((image) => _scanBarcode(image));
     }
   }
 
@@ -371,7 +371,7 @@ class _CameraScreenState extends State<CameraScreen> {
       final bytes = await image.readAsBytes();
 
       // Analyse via votre nouveau prompt Gemini
-      final data = await _geminiService.analyzeNutritionTable(
+      final data = await _geminiService.analyzeLabel(
         bytes,
         Localizations.localeOf(context).languageCode,
       );
@@ -421,7 +421,7 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   // 1. Gère la photo prise via la caméra
-  Future<void> _takePhoto() async {
+  Future<void> _scanPhoto() async {
     if (_controller == null ||
         _isAnalyzing ||
         _controller!.value.isTakingPicture) {
@@ -434,7 +434,7 @@ class _CameraScreenState extends State<CameraScreen> {
       try {
         // Capture directement depuis le flux caméra existant
         final XFile file = await _controller!.takePicture();
-        await _analyseImage(file.path, origin: runtimeType.toString());
+        await _processImage(file.path, origin: runtimeType.toString());
       } catch (e) {
         if (mounted) {
           showSnackBar(
@@ -455,7 +455,7 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   // 2. Gère la sélection d'une image depuis la galerie
-  Future<void> _selectFromGallery() async {
+  Future<void> _selectInGallery() async {
     if (_isAnalyzing) {
       return;
     } else {
@@ -466,13 +466,13 @@ class _CameraScreenState extends State<CameraScreen> {
       );
 
       if (image != null) {
-        await _analyseImage(image.path, origin: runtimeType.toString());
+        await _processImage(image.path, origin: runtimeType.toString());
       }
     }
   }
 
   // 4.Processus d'analyse (commun à la photo ET à la galerie)
-  Future<void> _analyseImage(String imagePath, {required String origin}) async {
+  Future<void> _processImage(String imagePath, {required String origin}) async {
     setState(() {
       _isAnalyzing = true;
     });
@@ -615,7 +615,7 @@ class _CameraScreenState extends State<CameraScreen> {
         return FloatingActionButton(
           heroTag: 'captureBtn',
           tooltip: context.l10n.cameraScreenBtn('camera'),
-          onPressed: _isAnalyzing ? null : _takePhoto, // Déclenche _takePhoto,
+          onPressed: _isAnalyzing ? null : _scanPhoto, // Déclenche _takePhoto,
           child: const Icon(Icons.camera_alt_rounded),
         );
 
@@ -880,7 +880,7 @@ class _CameraScreenState extends State<CameraScreen> {
             FloatingActionButton(
               heroTag: 'galleryBtn',
               tooltip: context.l10n.cameraScreenBtn('gallery'),
-              onPressed: _isAnalyzing ? null : _selectFromGallery,
+              onPressed: _isAnalyzing ? null : _selectInGallery,
               child: const Icon(Icons.photo_library_rounded),
             ),
 
