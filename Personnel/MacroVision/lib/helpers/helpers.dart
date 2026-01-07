@@ -238,6 +238,7 @@ void showSnackBar(
   String message,
   isError, {
   int duration = 1500,
+  SnackBarAction? action,
 }) {
   final snackbar = SnackBar(
     content: Text(
@@ -251,18 +252,19 @@ void showSnackBar(
         ? Theme.of(context).colorScheme.error
         : Theme.of(context).colorScheme.primary,
     behavior: SnackBarBehavior.floating,
-    duration: Duration(milliseconds: duration),
-    margin: EdgeInsets.all(20),
+    // duration: Duration(milliseconds: duration),
+    margin: const EdgeInsets.all(20),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+    action: action,
   );
 
   ScaffoldMessenger.of(context).showSnackBar(
     snackbar,
-    snackBarAnimationStyle: AnimationStyle(
-      duration: const Duration(
+    snackBarAnimationStyle: const AnimationStyle(
+      duration: Duration(
         milliseconds: 1000,
       ), // Override show animation duration
-      reverseDuration: const Duration(
+      reverseDuration: Duration(
         milliseconds: 1500,
       ), // Override hide animation duration
     ),

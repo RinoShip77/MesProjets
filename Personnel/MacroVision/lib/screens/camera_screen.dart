@@ -54,6 +54,8 @@ class _CameraScreenState extends State<CameraScreen> {
   bool _isScanningBarcode = false;
   bool _isProcessingBarcode = false; // Verrou de sécurité
   double _currentZoom = 1.0;
+  late CameraMode _currentMode;
+  ScaffoldMessengerState? _messenger;
 
   // Contrôleurs pour le dialogue de confirmation
   final TextEditingController _calController = TextEditingController();
@@ -65,6 +67,29 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     _initializeCamera();
+    _currentMode = widget.mode;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Save a reference to the ScaffoldMessenger while we have access to it
+    _messenger = ScaffoldMessenger.of(context);
+  }
+
+  @override
+  void dispose() {
+    // Use the saved reference to clear bars.
+    // This works even if the widget is already unmounted.
+    _messenger?.clearSnackBars();
+    _controller?.dispose();
+    // Toujours nettoyer les contrôleurs
+    _calController.dispose();
+    _protController.dispose();
+    _carbsController.dispose();
+    _fatController.dispose();
+    _barcodeScanner.close(); // Important pour libérer la mémoire
+    super.dispose();
   }
 
   // Initialisation de la caméra
@@ -121,18 +146,6 @@ class _CameraScreenState extends State<CameraScreen> {
         });
       }
     }
-  }
-
-  @override
-  void dispose() {
-    _controller?.dispose();
-    // Toujours nettoyer les contrôleurs
-    _calController.dispose();
-    _protController.dispose();
-    _carbsController.dispose();
-    _fatController.dispose();
-    _barcodeScanner.close(); // Important pour libérer la mémoire
-    super.dispose();
   }
 
   InputImage? _inputImageFromCameraImage(CameraImage image) {
@@ -292,6 +305,9 @@ class _CameraScreenState extends State<CameraScreen> {
           );
 
           if (data != null) {
+            // Clear any previous "Error" snackbars before showing success
+            if (mounted) ScaffoldMessenger.of(context).clearSnackBars();
+
             // 5. Conversion et Enregistrement
             final facts = NutritionalFacts.fromJson(data);
 
@@ -323,20 +339,34 @@ class _CameraScreenState extends State<CameraScreen> {
               }
             }
           } else {
-            // Gestion cas "Produit inconnu"
             if (mounted) {
+              // FAILURE: OpenFoodFacts didn't know it.
+              ScaffoldMessenger.of(context).clearSnackBars();
+                    _currentMode = CameraMode.mealAnalysis;
               showSnackBar(
                 context,
-                "Produit inconnu dans la base Gemini.",
-                true,
+                'Unknown barcode. Try a photo scan?',
+                false,
+                action: SnackBarAction(
+                  label: 'TAKE PHOTO',
+                  onPressed: () {
+                    // 1. Kill the SnackBar instantly
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    // 2. Perform your actions
+                    _isProcessingBarcode = false;
+                    _scanPhoto();
+                  },
+                ),
               );
             }
           }
         }
       }
     } catch (e) {
-      debugPrint("Erreur Scan/API: $e");
+      debugPrint('Error Scan/API: $e');
       _resetScanner();
+    } finally {
+      if (mounted) setState(() => _isAnalyzing = false);
     }
   }
 
@@ -649,36 +679,6 @@ class _CameraScreenState extends State<CameraScreen> {
             ],
           ),
         );
-
-      // return Tooltip(
-      //   message: "Scanner un code barres",
-      //   child: ElevatedButton.icon(
-      //     label: Text(_isScanningBarcode ? "Arrêter" : "Scanner Code-barres"),
-      //     onPressed: () async {
-      //       if (_isScanningBarcode) {
-      //         _controller?.stopImageStream();
-      //         // Remettre le focus en auto simple pour économiser la batterie
-      //         await _controller?.setFocusMode(FocusMode.auto);
-      //         setState(() => _isScanningBarcode = false);
-      //       } else {
-      //         try {
-      //           // On force une mise au point automatique avant de verrouiller
-      //           await _controller?.setFocusMode(FocusMode.auto);
-      //         } catch (e) {}
-
-      //         // Optionnel : verrouiller après un court délai pour éviter les pompages de focus
-      //         // await Future.delayed(const Duration(seconds: 1));
-      //         // await _controller!.setFocusMode(FocusMode.locked);
-      //         _controller?.startImageStream(
-      //           (image) => _processBarcode(image),
-      //         );
-      //         setState(() => _isScanningBarcode = true);
-      //       }
-      //     },
-      //     icon: Icon(_isScanningBarcode ? Icons.stop : Icons.qr_code_scanner),
-      //     // backgroundColor: _isScanningBarcode ? Colors.red : Colors.green,
-      //   ),
-      // );
     }
   }
 
@@ -744,17 +744,10 @@ class _CameraScreenState extends State<CameraScreen> {
                 child: CameraPreview(_controller!),
               ),
             ),
-            // child: Align(
-            //   alignment: const Alignment(0.0, -1.0),
-            //   child: Padding(
-            //     padding: EdgeInsetsGeometry.only(top: 50.0),
-            //     child: CameraPreview(_controller!),
-            //   ),
-            // ),
           ),
 
           // 2. : L'overlay de guidage pour le scan
-          if (widget.mode == CameraMode.barcodeScanner) _buildCameraOverlay(),
+          if (_currentMode == CameraMode.barcodeScanner) _buildCameraOverlay(),
 
           // 3. Guide de Cadrage Visuel (texte centré en bas ou en haut)
           Positioned(
@@ -765,7 +758,7 @@ class _CameraScreenState extends State<CameraScreen> {
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
                 textAlign: TextAlign.center,
@@ -788,14 +781,8 @@ class _CameraScreenState extends State<CameraScreen> {
               heroTag: 'flashBtn',
               tooltip: context.l10n.cameraScreenBtn('flash'),
               onPressed: _isAnalyzing ? null : _toggleFlash,
-              // backgroundColor: _isFlashOn
-              //     ? Theme.of(context).colorScheme.primary
-              //     : Colors.black87,
               child: Icon(
                 _isFlashOn ? Icons.flash_on_sharp : Icons.flash_off_sharp,
-                // color: _isFlashOn
-                //     ? Colors.black87
-                //     : Theme.of(context).colorScheme.primary,
               ),
             ),
           ),
@@ -831,8 +818,7 @@ class _CameraScreenState extends State<CameraScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // if (widget.mode != CameraMode.barcodeScanner) ...[
-                    CircularProgressIndicator(),
+                    const CircularProgressIndicator(),
                     const SizedBox(height: 20),
                     Text(
                       context.l10n.cameraScreenAnalysisInProgressLbl,

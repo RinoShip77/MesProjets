@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
+import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -24,7 +26,7 @@ class GeminiService {
 
   // --- Configuration ---
   // Set to 'true' to test. Set 'false' for real AI.
-  static const bool _useMockData = false;
+  static const bool _useMockData = true;
   // static const bool _useMockData = (kDebugMode && !kReleaseMode) ? true : false; // Use mock in Debug mode
   GenerativeModel? _model;
 
@@ -49,17 +51,65 @@ class GeminiService {
   // PUBLIC ANALYSIS METHODS
   // ===========================================================================
 
-  /// Analyzes a barcode string to identify a product and estimate nutrition.
+  /// Orchestrates the lookup:
+  /// 1. Asks OpenFoodFacts for the raw data.
+  /// 2. If found, asks Gemini to format it into your strict JSON.
+  /// 3. If NOT found, returns null immediately (prevents hallucination).
   Future<Map<String, dynamic>?> analyseBarcode(
     String barcode,
     String lang,
   ) async {
     if (_useMockData) return _getMockData();
 
+    // Step 1: Real Database Lookup
+    final rawProductData = await _fetchProduct(barcode);
+
+    // CRITICAL: If the database doesn't know it, Gemini won't either.
+    // We return null so your UI can say: "Product not found. Take a photo instead?"
+    if (rawProductData == null) {
+      return null;
+    }
+
+    // Step 2: AI Formatting
+    // We send the messy raw data to Gemini to standardize into your App's JSON
     return _generateAndParse([
-      Content.text(_Prompts.barcodeAnalisys(barcode, lang)),
+      Content.text(_Prompts.barcodeAnalysis(jsonEncode(rawProductData), lang)),
     ]);
   }
+
+  /// Private helper to hit the OpenFoodFacts API
+  Future<Map<String, dynamic>?> _fetchProduct(String barcode) async {
+    try {
+      final url = Uri.parse(
+        'https://world.openfoodfacts.org/api/v2/product/$barcode.json',
+      );
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        // "status" 1 means found, 0 means not found
+        if (data['status'] == 1) {
+          // We return the specific product object
+          return data['product'] as Map<String, dynamic>;
+        }
+      }
+    } catch (e) {
+      debugPrint('OpenFoodFacts Error: $e');
+    }
+    return null;
+  }
+
+  // /// Analyzes a barcode string to identify a product and estimate nutrition.
+  // Future<Map<String, dynamic>?> analyseBarcode(
+  //   String barcode,
+  //   String lang,
+  // ) async {
+  //   if (_useMockData) return _getMockData();
+
+  //   return _generateAndParse([
+  //     Content.text(_Prompts.barcodeAnalysis(barcode, lang)),
+  //   ]);
+  // }
 
   /// Performs OCR on a Nutrition Facts label image.
   Future<Map<String, dynamic>?> analyzeLabel(
@@ -144,16 +194,33 @@ class _Prompts {
     }
   ''';
 
-  static String barcodeAnalisys(String code, String lang) =>
+  static String barcodeAnalysis(String rawJson, String lang) =>
       '''
-    Role: Nutrition Databse. Task: Identify product $code.
+    Role: Data Standardizer for Nutrition App.
+    Task: Convert the provided RAW PRODUCT DATA into the strict app JSON format.
+    
+    RAW DATA:
+    $rawJson
+    
     Rules:
-    2. If identified, return exact nutrition.
-    3. If unknown, estimate based on product type.
-    4. Language: $lang.
-    4. Output JSON ONLY. No Markdown.
-    Structure: $_structure
+    1. Extract the product Name and Brand from the raw data. Translate to $lang.
+    2. Extract Nutrition Facts (calories, protein, carbs, fat). 
+       - If exact values are missing in raw data, estimate them based on the Product Name/Ingredients found in the data.
+    3. Output JSON ONLY. No Markdown.
+    
+    Target Structure: $_structure
   ''';
+
+  // static String barcodeAnalysis(String code, String lang) =>
+  //     '''
+  //   Role: Nutrition Databse. Task: Identify product $code.
+  //   Rules:
+  //   2. If identified, return exact nutrition.
+  //   3. If unknown, estimate based on product type.
+  //   4. Language: $lang.
+  //   4. Output JSON ONLY. No Markdown.
+  //   Structure: $_structure
+  // ''';
 
   static String labelAnalysis(String lang) =>
       '''

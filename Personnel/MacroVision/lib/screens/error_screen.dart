@@ -96,10 +96,10 @@ class ErrorScreen extends StatelessWidget {
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
                 onPressed: () {
-                  // Relance l'application en naviguant vers la racine
+                  // Navigue vers l'écran d'accueil
                   Navigator.of(
                     context,
-                  ).push(MaterialPageRoute(builder: (context) => HomeScreen()));
+                  ).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
                 },
               ),
             ],
