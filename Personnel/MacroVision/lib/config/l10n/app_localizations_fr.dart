@@ -160,6 +160,12 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get dashboardScreenDailyMealLogsLbl => 'Journal des repas';
+
+  @override
+  String get dashboardScreenDailyObjectivesLbl => 'Objectifs';
+
+  @override
   String dashboardScreenDailyObjectiveLbl(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
       'calories': 'Calories',
@@ -172,7 +178,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get dashboardScreenDailyObjectivesLbl => 'Objectifs';
+  String get dashboardScreenDailyWaterLogsLbl => 'Hydratation';
 
   @override
   String get dashboardScreenNotEnoughDataLbl =>

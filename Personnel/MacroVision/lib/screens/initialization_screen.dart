@@ -46,6 +46,8 @@ class _InitializationScreenState extends State<InitializationScreen> {
         if (!(prefs.getBool(_dbSeededKey) ?? false)) {
           await DatabaseService().seedDatabaseForTesting();
           await prefs.setBool(_dbSeededKey, true);
+        } else {
+          debugPrint('[DB] Seed skipped: Data already exists.');
         }
       }
     }();
@@ -138,13 +140,8 @@ class _InitializationScreenState extends State<InitializationScreen> {
             ),
             const SizedBox(),
             SizedBox(
-              width:
-                  MediaQuery.sizeOf(context).width *
-                  0.75,
-              child: const LinearProgressIndicator(
-                value: null,
-                minHeight: 10,
-              ),
+              width: MediaQuery.sizeOf(context).width * 0.75,
+              child: const LinearProgressIndicator(value: null, minHeight: 10),
             ),
             const SizedBox(height: 15),
             Text(

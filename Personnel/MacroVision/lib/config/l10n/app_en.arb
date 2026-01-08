@@ -151,6 +151,10 @@
             }
         }
     },
+    "dashboardScreenDailyMealLogsLbl": "Meal Diary",
+    "@dashboardScreenDailyMealLogsLbl": {
+        "description": "Title of the meal logs section"
+    },
     "dashboardScreenDailyObjectiveLbl": "{target, select, calories{Calories} protein{Protein} totalFat{Fat} totalCarbohydrate{Carbs} other{Nutrients}}",
     "@dashboardScreenDailyObjectiveLbl": {
         "description": "Labels for daily nutritional objectives",
@@ -163,6 +167,10 @@
     "dashboardScreenDailyObjectivesLbl": "Objectives",
     "@dashboardScreenDailyObjectivesLbl": {
         "description": "Title of the objectives section"
+    },
+    "dashboardScreenDailyWaterLogsLbl": "Hydration",
+    "@dashboardScreenDailyWaterLogsLbl": {
+        "description": "Title of the water logs section"
     },
     "dashboardScreenNotEnoughDataLbl": "Insufficient history for the chart",
     "@dashboardScreenNotEnoughDataLbl": {

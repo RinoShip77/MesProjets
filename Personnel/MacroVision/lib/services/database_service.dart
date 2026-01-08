@@ -27,30 +27,24 @@ class DatabaseService {
   // --- Constants ---
   static const String _dbName = 'macro_vision.db';
   static const String _oldDbName = 'macro_vision_history.db';
-  static const int _dbVersion = 2;
-  static const String _table = 'analysis_history';
+  static const int _dbVersion = 3;
+  // static const int _dbVersion = 2;
+  // static const int _dbVersion = 1;
 
   // --- Column Names ---
-  static const String _colId = 'id';
-  static const String _colTimestamp = 'timestamp';
-  static const String _colCals = 'calories';
-  // final String colId = 'id';
-  // final String colTimestamp = 'timestamp';
-  // final String colImagePath = 'imagePath';
-  // final String colName = 'foodName';
-  // final String colPortionInGrams = 'portionInGrams';
-  // final String colCalories = 'calories';
-  // final String colTotalFat = 'totalFat';
-  // final String colSaturatedFat = 'saturatedFat';
-  // final String colTransFat = 'transFat';
-  // final String colCholesterol = 'cholesterol';
-  // final String colSodium = 'sodium';
-  // final String colPotassium = 'potassium';
-  // final String colTotalCarbohydrates = 'totalCarbohydrates';
-  // final String colDietaryFiber = 'dietaryFiber';
-  // final String colSugar = 'sugar';
-  // final String colProtein = 'protein';
-  // (Other columns are inferred via raw queries or model mapping)
+  //region Meal table
+  static const String _tblMeal = 'meal_history';
+  static const String _colMealId = 'id';
+  static const String _colMealTimestamp = 'timestamp';
+  static const String _colMealCals = 'calories';
+  //endregion
+
+  //region Water table
+  static const String _tblWater = 'water_history';
+  static const String _colWaterId = 'id';
+  static const String _colWaterTimestamp = 'timestamp';
+  static const String _colWaterQuantity = 'quantity';
+  //endregion
 
   // ===========================================================================
   // 1. DATABASE ACCESS & HELPERS
@@ -116,14 +110,17 @@ class DatabaseService {
 
   /// Handles schema creation.
   Future<void> _onCreate(Database db, int version) async {
+    debugPrint('✨ Creating new Database structure...');
+
+    // 1. Create Meal history
     await db.execute('''
-      CREATE TABLE $_table (
-        $_colId INTEGER PRIMARY KEY AUTOINCREMENT,
-        $_colTimestamp INTEGER NOT NULL,
+      CREATE TABLE $_tblMeal (
+        $_colMealId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $_colMealTimestamp INTEGER NOT NULL,
         imagePath TEXT NOT NULL,
         foodName TEXT NOT NULL,
         portionInGrams REAL NOT NULL,
-        $_colCals REAL NOT NULL,
+        $_colMealCals REAL NOT NULL,
         totalFat REAL NOT NULL,
         saturatedFat REAL NOT NULL,
         transFat REAL NOT NULL,
@@ -136,57 +133,73 @@ class DatabaseService {
         protein REAL NOT NULL
       )
     ''');
-    // return db.execute('''
-    //   CREATE TABLE $tableName (
-    //     $colId INTEGER PRIMARY KEY AUTOINCREMENT,
-    //     $colTimestamp INTEGER NOT NULL,
-    //     $colImagePath TEXT NOT NULL,
-    //     $colName TEXT NOT NULL,
-    //     $colPortionInGrams REAL NOT NULL,
-    //     $colCalories REAL NOT NULL,
-    //     $colTotalFat REAL NOT NULL,
-    //     $colSaturatedFat REAL NOT NULL,
-    //     $colTransFat REAL NOT NULL,
-    //     $colCholesterol REAL NOT NULL,
-    //     $colSodium REAL NOT NULL,
-    //     $colPotassium REAL NOT NULL,
-    //     $colTotalCarbohydrates REAL NOT NULL,
-    //     $colDietaryFiber REAL NOT NULL,
-    //     $colSugar REAL NOT NULL,
-    //     $colProtein REAL NOT NULL
-    //   )
-    //   ''');
+
+    // 2. Create Water history
+    await db.execute('''
+      CREATE TABLE $_tblWater (
+        $_colWaterId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $_colWaterTimestamp INTEGER PRIMARY KEY,
+        $_colWaterQuantity INTEGER NOT NULL,
+        UNIQUE($_colWaterTimestamp)
+      )
+    ''');
   }
 
-  /// Handles schema updates (e.g. adding columns).
+  /// Handles schema updates.
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    debugPrint('🛠️ Upgrading Database from $oldVersion to $newVersion...');
+
+    // V2 Migration: Add portionInGrams column
     if (oldVersion < 2) {
-      // V2 Upgrade: Add 'portionInGrams' column
       await db.execute(
-        'ALTER TABLE $_table ADD COLUMN portionInGrams REAL DEFAULT 0.0',
+        'ALTER TABLE $_tblMeal ADD COLUMN portionInGrams REAL DEFAULT 0.0',
       );
+    }
+
+    // V3 Migration: Add water tracking table & rename meal table
+    if (oldVersion < 3) {
+      // 1. Rename 'analysis_history' -> 'meal_history'
+      try {
+        // We check if the old table exists by trying to rename it.
+        await db.execute('ALTER TABLE analysis_history RENAME TO $_tblMeal');
+        debugPrint('✅ Table renamed to meal_history');
+      } catch (e) {
+        // If this fails, it might be because the table was already renamed
+        // or didn't exist. We proceed safely.
+        debugPrint('⚠️ Rename skipped (Target table might already exist): $e');
+      }
+
+      // 2. Create Water Table
+      await db.execute('''
+        CREATE TABLE $_tblWater (
+          $_colWaterId INTEGER PRIMARY KEY AUTOINCREMENT,
+          $_colWaterTimestamp INTEGER NOT NULL,
+          $_colWaterQuantity INTEGER NOT NULL,
+          UNIQUE($_colWaterTimestamp)
+        )
+      ''');
     }
   }
 
   // ===========================================================================
-  // 3. CRUD OPERATIONS
+  // 3. CRUD OPERATIONS (MEAL HELPERS)
   // ===========================================================================
 
   /// Fetches all entries, ordered by most recent first.
   Future<List<NutritionalFactsEntry>> getHistory() =>
-      _queryEntries(orderBy: '$_colTimestamp DESC');
+      _queryEntries(orderBy: '$_colMealTimestamp DESC');
 
   /// Fetches entries from a specific day.
   Future<List<NutritionalFactsEntry>> getHistoryForDay(int startTimestamp) {
-// 1. Calculate the end of the day (start + 24 hours)
+    // 1. Calculate the end of the day (start + 24 hours)
     // We use 86400000 ms (24 * 60 * 60 * 1000)
     final int endTimestamp = startTimestamp + 86400000;
 
     // 2. Add the Upper Bound to the query
-      return _queryEntries(
-        where: '$_colTimestamp >= ? AND $_colTimestamp < ?',
-        args: [startTimestamp, endTimestamp],
-      );
+    return _queryEntries(
+      where: '$_colMealTimestamp >= ? AND $_colMealTimestamp < ?',
+      args: [startTimestamp, endTimestamp],
+    );
   }
 
   /// Inserts a new food entry, but BLOCKS "Not Food" or invalid AI results.
@@ -211,49 +224,64 @@ class DatabaseService {
     // 3. Proceed to Insert if valid
     return _withDatabase(
       (db) => db.insert(
-        _table,
+        _tblMeal,
         entry.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       ),
     );
   }
-  // Future<int> insertEntry(NutritionalFactsEntry entry) => _withDatabase(
-  //   (db) => db.insert(
-  //     _table,
-  //     entry.toMap(),
-  //     conflictAlgorithm: ConflictAlgorithm.replace,
-  //   ),
-  // );
 
   /// Updates an existing entry.
   Future<int> updateEntry(NutritionalFactsEntry entry) async {
     // Apply the same guardrail
     if (entry.foodName.toLowerCase().contains('not food detected')) {
-       return -1; 
+      return -1;
     }
-      
+
     return _withDatabase(
       (db) => db.update(
-        _table,
+        _tblMeal,
         entry.toMap(),
-        where: '$_colId = ?',
+        where: '$_colMealId = ?',
         whereArgs: [entry.id],
       ),
     );
   }
-  // Future<int> updateEntry(NutritionalFactsEntry entry) => _withDatabase(
-  //   (db) => db.update(
-  //     _table,
-  //     entry.toMap(),
-  //     where: '$_colId = ?',
-  //     whereArgs: [entry.id],
-  //   ),
-  // );
 
   /// Deletes an entry by ID.
   Future<int> deleteEntry(int id) => _withDatabase(
-    (db) => db.delete(_table, where: '$_colId = ?', whereArgs: [id]),
+    (db) => db.delete(_tblMeal, where: '$_colMealId = ?', whereArgs: [id]),
   );
+
+  // ===========================================================================
+  // 3. CRUD OPERATIONS (WATER HELPERS)
+  // ===========================================================================
+
+  /// Fetches water intake for a specific day (by timestamp).
+  Future<int> getWaterIntake(int dateTimestamp) async {
+    return _withDatabase((db) async {
+      final List<Map<String, dynamic>> maps = await db.query(
+        _tblWater,
+        where: '$_colWaterTimestamp = ?',
+        whereArgs: [dateTimestamp],
+      );
+
+      if (maps.isNotEmpty) {
+        return maps.first[_colWaterQuantity] as int;
+      }
+      return 0;
+    });
+  }
+
+  /// Sets water intake for a specific day (by timestamp).
+  Future<void> setWaterIntake(int dateTimestamp, int quantity) async {
+    await _withDatabase((db) async {
+      await db.insert(_tblWater, {
+        _colWaterTimestamp: dateTimestamp,
+        _colWaterQuantity: quantity,
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
+    });
+  }
 
   // ===========================================================================
   // 4. ANALYTICS & SUMMARIES
@@ -269,10 +297,10 @@ class DatabaseService {
       final result = await db.rawQuery(
         '''
         SELECT 
-          strftime('%Y-%m-%d', $_colTimestamp / 1000, 'unixepoch', 'localtime') as day,
-          SUM($_colCals) as totalCalories
-        FROM $_table
-        WHERE $_colTimestamp >= ?
+          strftime('%Y-%m-%d', $_colMealTimestamp / 1000, 'unixepoch', 'localtime') as day,
+          SUM($_colMealCals) as totalCalories
+        FROM $_tblMeal
+        WHERE $_colMealTimestamp >= ?
         GROUP BY day
       ''',
         [startTimestamp],
@@ -309,7 +337,7 @@ class DatabaseService {
   }) async {
     return _withDatabase((db) async {
       final maps = await db.query(
-        _table,
+        _tblMeal,
         where: where,
         whereArgs: args,
         orderBy: orderBy,
@@ -322,19 +350,47 @@ class DatabaseService {
   // 6. HELPER FOR DEBUGGING & TESTING
   // ===========================================================================
 
+  /// Debug utility: Prints all table names in the database.
+  Future<void> debugPrintTables() async {
+    await _withDatabase((db) async {
+      // Query the sqlite_master table which holds the schema
+      final tables = await db.rawQuery(
+        "SELECT name FROM sqlite_master WHERE type='table'",
+      );
+
+      debugPrint('📂 CURRENT TABLES IN DB:');
+      for (var t in tables) {
+        debugPrint(" - ${t['name']}");
+      }
+    });
+  }
+
   /// Seeds the database with dummy data for testing purposes.
   Future<void> seedDatabaseForTesting() async {
-    final isEmpty = await _withDatabase((db) async {
+    final now = DateTime.now();
+    final startOfDay = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).millisecondsSinceEpoch;
+    final endOfDay = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      23,
+      59,
+      59,
+    ).millisecondsSinceEpoch;
+
+    await _withDatabase((db) async {
       final count = Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM $_table'),
+        await db.rawQuery(
+          'SELECT COUNT(*) FROM $_tblMeal WHERE $_colMealTimestamp >= ? AND $_colMealTimestamp <= ?',
+          [startOfDay, endOfDay],
+        ),
       );
       return (count ?? 0) == 0;
     });
-
-    if (!isEmpty) {
-      debugPrint('[DB] Seed skipped: Data already exists.');
-      return;
-    }
 
     debugPrint('[DB] Seeding dummy data...');
     final entries = getMockDatabaseEntries(); // Get data from helper
@@ -343,7 +399,7 @@ class DatabaseService {
       final batch = db.batch(); // Use batch for performance
       for (var entry in entries) {
         batch.insert(
-          _table,
+          _tblMeal,
           entry.toMap(),
           conflictAlgorithm: ConflictAlgorithm.replace,
         );

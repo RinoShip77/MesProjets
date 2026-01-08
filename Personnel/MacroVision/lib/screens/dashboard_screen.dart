@@ -34,6 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   };
   // 1. Default to Today
   DateTime _selectedDate = DateTime.now();
+  int _waterCount = 0;
 
   // 2. Helper to check if we are looking at today (for UI labels)
   bool get _isToday {
@@ -64,19 +65,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     _goalMacros = NutritionCalculator.calculateMacroGoals(_profile);
 
-    final today = DateTime.now();
-    final startOfDay = DateTime(
-      today.year,
-      today.month,
-      today.day,
-    ).millisecondsSinceEpoch;
+    // 1. Fetch Food history
+    final mealsLogs = await DatabaseService().getHistoryForDay(
+      getStartOfDayTimestamp(_selectedDate),
+    );
 
-    final history = await DatabaseService().getHistoryForDay(
+    // 2. Fetch Water history
+    final waterLogs = await DatabaseService().getWaterIntake(
       getStartOfDayTimestamp(_selectedDate),
     );
 
     double cal = 0, pro = 0, totalFat = 0, totalCarbohydrates = 0;
-    for (var entry in history) {
+    for (var entry in mealsLogs) {
       cal += entry.calories;
       pro += entry.protein;
       totalFat += entry.totalFat;
@@ -91,7 +91,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     };
 
     if (mounted) {
-      setState(() {});
+      setState(() {
+        _waterCount = waterLogs;
+      });
     }
   }
 
@@ -121,6 +123,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
         // using the new _selectedDate automatically.
       });
     }
+  }
+
+  Future<void> _updateWater(int newCount) async {
+    // Optimistic UI Update (Update screen immediately before DB finishes)
+    setState(() {
+      _waterCount = newCount;
+    });
+
+    await DatabaseService().setWaterIntake(
+      getStartOfDayTimestamp(_selectedDate),
+      newCount,
+    );
   }
 
   // TODO: Envoyer cette fonction de un fichier "helpers.dart"
@@ -156,26 +170,183 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  Widget _buildWaterTracker() {
+    // 1. Calculate the fill percentage (0.0 to 1.0)
+    double progress = (_waterCount / 8).clamp(0.0, 1.0);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.l10n.dashboardScreenDailyWaterLogsLbl,
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+
+        const SizedBox(height: 10),
+
+        Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          // ClipRRect is crucial: it keeps the "water" inside the rounded corners
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Stack(
+              children: [
+                // =============================================================
+                // LAYER 1: THE RISING WATER (BACKGROUND)
+                // =============================================================
+                Positioned.fill(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Align(
+                        alignment:
+                            Alignment.bottomCenter, // Fills from bottom up
+                        child: AnimatedContainer(
+                          duration: const Duration(
+                            milliseconds: 600,
+                          ), // Slower = more fluid
+                          curve:
+                              Curves.easeOutCubic, // "Water-like" deceleration
+                          height: constraints.maxHeight * progress,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            // Gradient makes it look more like deep water
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.blue.withOpacity(0.2),
+                                Colors.blue.withOpacity(0.4),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                // =============================================================
+                // LAYER 2: THE CONTENT (FOREGROUND)
+                // =============================================================
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16.0,
+                    horizontal: 12.0,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: List.generate(8, (index) {
+                          final glassNumber = index + 1;
+                          final isFilled = _waterCount >= glassNumber;
+
+                          return GestureDetector(
+                            onTap: () {
+                              if (_waterCount == glassNumber) {
+                                _updateWater(glassNumber - 1);
+                              } else {
+                                _updateWater(glassNumber);
+                              }
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeOutBack,
+                              // Add a slight scale effect when selected
+                              transform: Matrix4.identity()
+                                ..scale(isFilled ? 1.1 : 1.0),
+                              child: Icon(
+                                isFilled
+                                    ? Icons.water_drop_rounded
+                                    : Icons.water_drop_outlined,
+                                // Make filled icons darker blue to contrast with background
+                                color: isFilled
+                                    ? Colors.blue.shade700
+                                    : Colors.grey.shade400,
+                                size: 32,
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      Text(
+                        "$_waterCount / 8 verres",
+                        style: TextStyle(
+                          color: _waterCount >= 8
+                              ? Colors.green.shade700
+                              : Theme.of(context).colorScheme.onSurface,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMealLog() {
+    return Column(
+      children: [
+        Text(
+          context.l10n.dashboardScreenDailyMealLogsLbl,
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+
+        const SizedBox(height: 10),
+
+        AnalysisList(
+          // Fetch list for the SELECTED date
+          historyFuture: DatabaseService().getHistoryForDay(
+            getStartOfDayTimestamp(_selectedDate),
+          ),
+          compactMode: false, // Show full list
+          disableScroll: true, // <--- Let Dashboard handle scrolling
+          onDismissed: _handleDismissed, // Enable Swipe-to-Delete
+        ),
+      ],
+    );
+  }
+
   // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // 3. WIDGET DU SÉLECTEUR DE GRAPHIQUE
   Widget _buildChartTypeSelector() {
-    return Tooltip(
-      message: context.l10n.dashboardScreenSelectChartTypeLbl,
-      child: ToggleButtons(
-        isSelected: ChartType.values
-            .map((type) => type == _selectedChartType)
-            .toList(),
-        onPressed: (int index) {
-          setState(() {
-            _selectedChartType = ChartType.values[index];
-          });
-        },
-        constraints: const BoxConstraints(minHeight: 36.0, minWidth: 80.0),
-        children: [
-          Text(context.l10n.dashboardScreenChartTypeOption('bars')),
-          Text(context.l10n.dashboardScreenChartTypeOption('lines')),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.l10n.dashboardScreenWeeklySummaryLbl,
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+
+        const SizedBox(height: 10),
+
+        ToggleButtons(
+          isSelected: ChartType.values
+              .map((type) => type == _selectedChartType)
+              .toList(),
+          onPressed: (int index) {
+            setState(() {
+              _selectedChartType = ChartType.values[index];
+            });
+          },
+          constraints: const BoxConstraints(minHeight: 36.0, minWidth: 80.0),
+          children: [
+            Text(context.l10n.dashboardScreenChartTypeOption('bars')),
+            Text(context.l10n.dashboardScreenChartTypeOption('lines')),
+          ],
+        ),
+      ],
     );
   }
 
@@ -391,34 +562,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                 Divider(),
 
-                // 2. NEW: THE DAILY LOG
-                Text(
-                  "Journal des Repas", // Or add to l10n
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-
-                const SizedBox(height: 10),
-
-                AnalysisList(
-                  // Fetch list for the SELECTED date
-                  historyFuture: DatabaseService().getHistoryForDay(
-                    getStartOfDayTimestamp(_selectedDate),
-                  ),
-                  compactMode: false, // Show full list
-                  disableScroll: true, // <--- Let Dashboard handle scrolling
-                  onDismissed: _handleDismissed, // Enable Swipe-to-Delete
-                ),
+                // 2. THE DAILY WATER LOG
+                _buildWaterTracker(),
 
                 Divider(),
 
-                Text(
-                  context.l10n.appSummaryLbl('weekly'),
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
+                // 3. THE DAILY MEAL LOG
+                _buildMealLog(),
 
-                const SizedBox(height: 10),
+                Divider(),
 
-                // UTILISATION DU SÉLECTEUR
+                // 3. THE CHART SELECTOR
                 _buildChartTypeSelector(),
 
                 const SizedBox(height: 20),

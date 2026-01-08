@@ -248,17 +248,29 @@ abstract class AppLocalizations {
   /// **'{type, select, bars{Barres} lines{Lignes} other{Graphique}}'**
   String dashboardScreenChartTypeOption(String type);
 
-  /// Libellés pour les objectifs nutritionnels quotidiens
+  /// Titre de la section des logs de repas
   ///
   /// In fr, this message translates to:
-  /// **'{target, select, calories{Calories} protein{Protéines} totalFat{Lipides} totalCarbohydrate{Glucides} other{Nutriments}}'**
-  String dashboardScreenDailyObjectiveLbl(String target);
+  /// **'Journal des repas'**
+  String get dashboardScreenDailyMealLogsLbl;
 
   /// Titre de la section des objectifs
   ///
   /// In fr, this message translates to:
   /// **'Objectifs'**
   String get dashboardScreenDailyObjectivesLbl;
+
+  /// Libellés pour les objectifs nutritionnels quotidiens
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, calories{Calories} protein{Protéines} totalFat{Lipides} totalCarbohydrate{Glucides} other{Nutriments}}'**
+  String dashboardScreenDailyObjectiveLbl(String target);
+
+  /// Titre de la section des logs d'hydratation
+  ///
+  /// In fr, this message translates to:
+  /// **'Hydratation'**
+  String get dashboardScreenDailyWaterLogsLbl;
 
   /// Un avertissement lorsque l'historique est insuffisant
   ///

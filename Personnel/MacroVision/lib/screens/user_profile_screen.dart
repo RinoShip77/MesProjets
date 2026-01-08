@@ -359,40 +359,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             // ),
             Divider(),
 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                // Accès à l'Historique
-                Tooltip(
-                  // Wrap the entire tile with a Tooltip
-                  message: context.l10n.appSeeHistoryBtn, // The help message
-                  child: OutlinedButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Icon(Icons.history_rounded),
-                        SizedBox(width: 8),
-                        Text(context.l10n.appSeeHistoryBtn),
-                        Spacer(),
-                        const Icon(Icons.arrow_forward_ios_rounded),
-                      ],
-                    ),
-                    onPressed: () => navigate(context, HistoryScreen()),
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                // Bouton de Sauvegarde
-                Tooltip(
-                  message: context.l10n.profileScreenSaveBtn,
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.save_alt_rounded),
-                    label: Text(context.l10n.profileScreenSaveBtn),
-                    onPressed: () => _saveUserProfile(),
-                  ),
-                ),
-              ],
+            // Bouton de Sauvegarde
+            Tooltip(
+              message: context.l10n.profileScreenSaveBtn,
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.save_alt_rounded),
+                label: Text(context.l10n.profileScreenSaveBtn),
+                onPressed: () => _saveUserProfile(),
+              ),
             ),
           ],
         ),

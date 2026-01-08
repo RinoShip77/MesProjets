@@ -9,7 +9,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:macro_vision/config/l10n/app_localizations.dart';
 import 'package:macro_vision/screens/error_screen.dart';
 import 'package:macro_vision/utils/global_key.dart';
-import 'package:macro_vision/utils/l10n_extension.dart';
 import 'package:macro_vision/widgets/fatal_error.dart';
 import 'package:provider/provider.dart';
 
@@ -62,6 +61,7 @@ class _AppSetupState extends State<AppSetup> {
   }
 
   Future<void> _loadLocalePreference() async {
+    await DatabaseService().debugPrintTables();
     final prefs = await SharedPreferences.getInstance();
     final String? savedLanguageCode = prefs.getString('user_language');
     if (savedLanguageCode != null) {

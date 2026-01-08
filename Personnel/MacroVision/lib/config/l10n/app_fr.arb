@@ -151,6 +151,14 @@
             }
         }
     },
+    "dashboardScreenDailyMealLogsLbl": "Journal des repas",
+    "@dashboardScreenDailyMealLogsLbl": {
+        "description": "Titre de la section des logs de repas"
+    },
+    "dashboardScreenDailyObjectivesLbl": "Objectifs",
+    "@dashboardScreenDailyObjectivesLbl": {
+        "description": "Titre de la section des objectifs"
+    },
     "dashboardScreenDailyObjectiveLbl": "{target, select, calories{Calories} protein{Protéines} totalFat{Lipides} totalCarbohydrate{Glucides} other{Nutriments}}",
     "@dashboardScreenDailyObjectiveLbl": {
         "description": "Libellés pour les objectifs nutritionnels quotidiens",
@@ -163,6 +171,10 @@
     "dashboardScreenDailyObjectivesLbl": "Objectifs",
     "@dashboardScreenDailyObjectivesLbl": {
         "description": "Titre de la section des objectifs"
+    },
+    "dashboardScreenDailyWaterLogsLbl": "Hydratation",
+    "@dashboardScreenDailyWaterLogsLbl": {
+        "description": "Titre de la section des logs d'hydratation"
     },
     "dashboardScreenNotEnoughDataLbl": "Historique insuffisant pour le graphique",
     "@dashboardScreenNotEnoughDataLbl": {
