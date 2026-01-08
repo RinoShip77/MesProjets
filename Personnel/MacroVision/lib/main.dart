@@ -10,6 +10,7 @@ import 'package:macro_vision/config/l10n/app_localizations.dart';
 import 'package:macro_vision/screens/error_screen.dart';
 import 'package:macro_vision/utils/global_key.dart';
 import 'package:macro_vision/utils/l10n_extension.dart';
+import 'package:macro_vision/widgets/fatal_error.dart';
 import 'package:provider/provider.dart';
 
 // Services et Modèles
@@ -54,10 +55,7 @@ class _AppSetupState extends State<AppSetup> {
 
   // 💡 Fonction pour changer la locale
   Future<void> setLocale(Locale newLocale) async {
-    setState(() {
-      _currentLocale = newLocale;
-    });
-
+    setState(() => _currentLocale = newLocale);
     // Save the preference
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('user_language', newLocale.languageCode);
@@ -67,9 +65,7 @@ class _AppSetupState extends State<AppSetup> {
     final prefs = await SharedPreferences.getInstance();
     final String? savedLanguageCode = prefs.getString('user_language');
     if (savedLanguageCode != null) {
-      setState(() {
-        _currentLocale = Locale(savedLanguageCode);
-      });
+      setState(() => _currentLocale = Locale(savedLanguageCode));
     }
   }
 
@@ -79,11 +75,11 @@ class _AppSetupState extends State<AppSetup> {
   }
 }
 
+// =======================================================================
+// 💡 MAIN FUNCTION WITH UNIVERSAL ERROR HANDLING
+// =======================================================================
 Future<void> main() async {
-  // =======================================================================
-  // 💡 GESTION GLOBALE DES ERREURS PAR DART ZONE
-  // =======================================================================
-  runZonedGuarded<Future<void>>(
+  await runZonedGuarded<Future<void>>(
     () async {
       // Ensure the Flutter engine is initialized
       WidgetsFlutterBinding.ensureInitialized();
@@ -94,28 +90,41 @@ Future<void> main() async {
         DeviceOrientation.portraitDown,
       ]);
 
-      // =======================================================
-      // 💡 TEST 1 : ERREUR SYNCHRONE CRITIQUE
-      // Décommentez la ligne ci-dessous pour forcer une panne
-      // =======================================================
-      // throw Exception(
-      //   "SIMULATION: Erreur critique synchrone lors du chargement initial.",
-      // );
-      // =======================================================
+      //region TEST CRASH
+      // ===============================================================================
+      // 💡 TEST 1: CRITICAL STARTUP CRASH/ERROR
+      // Uncomment the line below to force a crash
+      // ===============================================================================
+      // throw Exception('☠️ TEST: Critical Startup Failure!');
+      // ===============================================================================
+      //endregion
 
-      // --- LOGIQUE D'INITIALISATION ---
+      // 1. CATCH RENDER ERRORS ("Red Screen of Death")
+      // Instead of the red box, we render the ErrorScreen directly in the tree.
+      ErrorWidget.builder = (FlutterErrorDetails details) {
+        return Material(
+          child: ErrorScreen(
+            message: 'Rendering Error',
+            details: kDebugMode ? details.exceptionAsString() : null,
+          ),
+        );
+      };
+
+      // 2. CATCH FRAMEWORK ERRORS (Logic crashes managed by Flutter)
+      FlutterError.onError = (FlutterErrorDetails details) {
+        FlutterError.presentError(details); // Still print to console logs
+        _handleFatalError(details.exception, details.stack);
+      };
+
+      // --- INIT LOGIC ---
       try {
-        // 1. CHARGEMENT DES VARIABLES D'ENVIRONNEMENT
-        await dotenv.load(fileName: ".env");
-        // 4. Initialisation de la Base de Données
-        DatabaseService().database;
+        await dotenv.load(fileName: '.env');
+        await DatabaseService().database;
         GeminiService().initialize();
       } catch (e) {
-        // Une erreur ici sera capturée par le runZonedGuarded
-        rethrow; // Rejeter l'erreur pour qu'elle soit capturée par la Zone
+        rethrow; // Pass to ZonedGuard
       }
 
-      // Lancement de l'application
       runApp(
         MultiProvider(
           providers: [ChangeNotifierProvider(create: (_) => ThemeProvider())],
@@ -123,55 +132,36 @@ Future<void> main() async {
         ),
       );
     },
-    (Object e, StackTrace stack) {
-      // Cette fonction est appelée lorsqu'une erreur non gérée se produit.
-      // Afficher l'écran d'erreur personnalisé
-      runApp(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (_) => ThemeProvider(),
-            ), // Injecte le provider pour l'écran d'erreur
-          ],
-          child: Consumer<ThemeProvider>(
-            builder: (context, themeProvider, child) {
-              return MaterialApp(
-                // 💡 IMPORTANT : Il faut ajouter les délégués ici aussi !
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                // On détecte la langue du système pour ce MaterialApp de secours
-                locale: Locale(
-                  WidgetsBinding
-                      .instance
-                      .platformDispatcher
-                      .locales
-                      .first
-                      .languageCode,
-                ),
-                theme: ThemeData(
-                  colorScheme: ColorScheme.fromSeed(
-                    seedColor: Theme.of(context).colorScheme.error,
-                  ),
-                  useMaterial3: true,
-                ),
-                // 2. On utilise un Builder pour "descendre" d'un niveau dans l'arbre
-                home: Builder(
-                  builder: (context) {
-                    return ErrorScreen(
-                      message: context
-                          .l10n
-                          .appError, // ✅ Traduction réussie depuis main
-                      details: kDebugMode ? e.toString() : null,
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-        ),
-      );
-    },
+    _handleFatalError,
   );
+}
+
+/// 💡 UNIVERSAL ERROR HANDLER
+/// Decides whether to use Navigation (smoother) or RunApp (nuclear fallback)
+void _handleFatalError(Object error, StackTrace? stack) {
+  debugPrint('🔴 FATAL ERROR CAUGHT: $error');
+
+  // SCENARIO A: The App is running and we have a Navigator.
+  // We push the full FatalErrorApp as a new route.
+  // This essentially "nests" a fresh app inside the current window.
+  if (navigatorKey.currentState != null) {
+    try {
+      navigatorKey.currentState!.pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => FatalError(error: error),
+        ),
+        (route) => false, // Remove back history so user is stuck on error
+      );
+      return; // Success!
+    } catch (e) {
+      debugPrint('Could not use Navigator to show error: $e');
+      // Fall through to Scenario B
+    }
+  }
+
+  // SCENARIO B: Startup Crash or Navigator Missing.
+  // We Re-Run the entire app using our safe widget.
+  runApp(FatalError(error: error));
 }
 
 class MacroVisionApp extends StatelessWidget {
@@ -183,9 +173,6 @@ class MacroVisionApp extends StatelessWidget {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
         return MaterialApp(
-          // =========================================================
-          // 💡 INTERNATIONALISATION : AJOUTER CES LIGNES
-          // =========================================================
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -197,12 +184,10 @@ class MacroVisionApp extends StatelessWidget {
             Locale('en'), // English
           ],
 
-          locale:
-              locale, // <-- FORCER LA LOCALE PAR DÉFAUT SELON LA LANGUE DE L'APPAREIL
-          // =========================================================
+          locale: locale,
           navigatorKey: navigatorKey,
           title: 'MacroVision',
-          // Affiche que l'app est en mode DEBUG
+          // Shows that the app is in DEBUG mode
           debugShowCheckedModeBanner: (kDebugMode && !kReleaseMode)
               ? true
               : false,

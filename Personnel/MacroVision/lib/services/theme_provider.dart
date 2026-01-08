@@ -45,6 +45,7 @@ class _PrefKeys {
 // THEME PROVIDER
 // ==============================================================================
 
+/// Manages the application's theme state and persistence.
 class ThemeProvider with ChangeNotifier {
   // --- State Variables ---
   ThemeModeOption _themeModeOption = ThemeModeOption.system;

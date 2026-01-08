@@ -56,6 +56,7 @@ class DatabaseService {
   // 1. DATABASE ACCESS & HELPERS
   // ===========================================================================
 
+  /// Provides a singleton database instance.
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDB();
@@ -73,6 +74,7 @@ class DatabaseService {
   // 2. INITIALIZATION & MIGRATION
   // ===========================================================================
 
+  /// Initializes the database, handling migrations if necessary.
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, _dbName);
@@ -112,6 +114,7 @@ class DatabaseService {
     );
   }
 
+  /// Handles schema creation.
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $_table (
@@ -169,29 +172,76 @@ class DatabaseService {
   // 3. CRUD OPERATIONS
   // ===========================================================================
 
+  /// Fetches all entries, ordered by most recent first.
   Future<List<NutritionalFactsEntry>> getHistory() =>
       _queryEntries(orderBy: '$_colTimestamp DESC');
 
+  /// Fetches entries from a specific day.
   Future<List<NutritionalFactsEntry>> getHistoryForDay(int startTimestamp) =>
       _queryEntries(where: '$_colTimestamp >= ?', args: [startTimestamp]);
 
-  Future<int> insertEntry(NutritionalFactsEntry entry) => _withDatabase(
-    (db) => db.insert(
-      _table,
-      entry.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    ),
-  );
+  /// Inserts a new food entry, but BLOCKS "Not Food" or invalid AI results.
+  Future<int> insertEntry(NutritionalFactsEntry entry) async {
+    // 1. GUARDRAIL: Check for the specific "Not Food" flag from the AI
+    if (entry.foodName.toLowerCase().contains('not food detected')) {
+      debugPrint('[DB] Insert skipped: "Not Food Detected" in image.');
+      return -1; // Return -1 to indicate skipped operation
+    }
 
-  Future<int> updateEntry(NutritionalFactsEntry entry) => _withDatabase(
-    (db) => db.update(
-      _table,
-      entry.toMap(),
-      where: '$_colId = ?',
-      whereArgs: [entry.id],
-    ),
-  );
+    // 2. SAFETY CHECK: Prevent saving "empty" ghosts (all zeros + unknown name)
+    // Note: We allow all-zeros if the name is explicit (e.g., "Water" or "Diet Coke")
+    if (entry.calories == 0 &&
+        entry.protein == 0 &&
+        entry.totalCarbohydrates == 0 &&
+        entry.totalFat == 0 &&
+        (entry.foodName == 'Unknown Product' || entry.foodName.isEmpty)) {
+      debugPrint('[DB] Insert skipped: Empty/Invalid nutritional data.');
+      return -1;
+    }
 
+    // 3. Proceed to Insert if valid
+    return _withDatabase(
+      (db) => db.insert(
+        _table,
+        entry.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      ),
+    );
+  }
+  // Future<int> insertEntry(NutritionalFactsEntry entry) => _withDatabase(
+  //   (db) => db.insert(
+  //     _table,
+  //     entry.toMap(),
+  //     conflictAlgorithm: ConflictAlgorithm.replace,
+  //   ),
+  // );
+
+  /// Updates an existing entry.
+  Future<int> updateEntry(NutritionalFactsEntry entry) async {
+    // Apply the same guardrail
+    if (entry.foodName.toLowerCase().contains('not food detected')) {
+       return -1; 
+    }
+      
+    return _withDatabase(
+      (db) => db.update(
+        _table,
+        entry.toMap(),
+        where: '$_colId = ?',
+        whereArgs: [entry.id],
+      ),
+    );
+  }
+  // Future<int> updateEntry(NutritionalFactsEntry entry) => _withDatabase(
+  //   (db) => db.update(
+  //     _table,
+  //     entry.toMap(),
+  //     where: '$_colId = ?',
+  //     whereArgs: [entry.id],
+  //   ),
+  // );
+
+  /// Deletes an entry by ID.
   Future<int> deleteEntry(int id) => _withDatabase(
     (db) => db.delete(_table, where: '$_colId = ?', whereArgs: [id]),
   );
@@ -200,6 +250,7 @@ class DatabaseService {
   // 4. ANALYTICS & SUMMARIES
   // ===========================================================================
 
+  /// Generates a weekly summary of daily calorie totals.
   Future<List<DailySummary>> getWeeklySummary() async {
     return _withDatabase((db) async {
       final startOfWeek = getStartOfCurrentWeek();
@@ -241,6 +292,7 @@ class DatabaseService {
   // 5. INTERNAL UTILITIES
   // ===========================================================================
 
+  /// Generic query helper with optional filtering and ordering.
   Future<List<NutritionalFactsEntry>> _queryEntries({
     String? where,
     List<Object?>? args,
@@ -257,14 +309,19 @@ class DatabaseService {
     });
   }
 
-  // --- Seeding (Optimized with Batch) ---
+  // ===========================================================================
+  // 6. HELPER FOR DEBUGGING & TESTING
+  // ===========================================================================
 
+  /// Seeds the database with dummy data for testing purposes.
   Future<void> seedDatabaseForTesting() async {
     final isEmpty = await _withDatabase((db) async {
-      final count = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $_table'));
+      final count = Sqflite.firstIntValue(
+        await db.rawQuery('SELECT COUNT(*) FROM $_table'),
+      );
       return (count ?? 0) == 0;
     });
-    
+
     if (!isEmpty) {
       debugPrint('[DB] Seed skipped: Data already exists.');
       return;

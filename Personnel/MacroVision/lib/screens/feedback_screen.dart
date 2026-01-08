@@ -73,12 +73,11 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         query: encodeQueryParameters(<String, String>{
           'subject': ?formatEmailSubject(context, _nameController.text.trim()),
           // Corps de l'e-mail avec le message du testeur et les informations d'aide
-          'body': ?formatEmailBody(context, _feedbackController.text.trim()),
+          'body': _feedbackController.text.trim(),
         }),
       );
 
       // Lancement de l'application de messagerie
-      // if (await canLaunchUrl(emailLaunchUri)) {
       try {
         await launchUrl(emailLaunchUri);
 
@@ -107,7 +106,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         setState(() {
           _emailApp = false;
         });
-        // }
       }
     } catch (e) {
       if (mounted) {
@@ -165,10 +163,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
-                  labelText: widget.message == null || widget.message!.isEmpty
-                      ? context.l10n.feedbackScreenCommentPaceholderLbl
+                  labelText: context.l10n.feedbackScreenCommentPaceholderLbl,
+                  hintText: widget.message == null || widget.message!.isEmpty
+                      ? context.l10n.feedbackScreenCommentHintLbl
                       : widget.message,
-                  hintText: context.l10n.feedbackScreenCommentHintLbl,
                   alignLabelWithHint: true,
                 ),
                 validator: (value) {

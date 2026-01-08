@@ -213,7 +213,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String errorScreenGoToBtn(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
       'comment': 'Soumettre un commentaire',
-      'home': 'Revenir à l\'accueil',
+      'restart': 'Redémarrer l\'application',
       'other': '',
     });
     return '$_temp0';

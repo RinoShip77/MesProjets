@@ -323,7 +323,7 @@ abstract class AppLocalizations {
   /// Libellé du bouton pour aller à un écran donné
   ///
   /// In fr, this message translates to:
-  /// **'{target, select, comment{Soumettre un commentaire} home{Revenir à l\'accueil} other {}}'**
+  /// **'{target, select, comment{Soumettre un commentaire} restart{Redémarrer l\'application} other {}}'**
   String errorScreenGoToBtn(String target);
 
   /// Titre pour la page d'erreur

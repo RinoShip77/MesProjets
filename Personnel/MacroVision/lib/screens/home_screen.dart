@@ -354,7 +354,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Utilisation de SingleChildScrollView pour éviter l'overflow si l'écran est petit
           SingleChildScrollView(
-            padding: EdgeInsets.symmetric(vertical: 30),
+            padding: const EdgeInsets.only(top: 30),
             child: Center(
               child: Column(
                 children: [
@@ -409,52 +409,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-                  // Bouton vers le Tableau de Bord
-                  // Tooltip(
-                  //   message: 'Voir le tableau de bord.',
-                  //   child: OutlinedButton.icon(
-                  //     icon: const Icon(Icons.bar_chart_rounded),
-                  //     label: const Text('Détails complets'),
-                  //     onPressed: () =>
-                  //         _navigateAndRefresh(context, DashboardScreen()),
-                  //   ),
-                  // ),
 
-                  // const SizedBox(height: 15),
-
-                  // Bouton principal pour la caméra
-                  // Tooltip(
-                  //   message: context.l10n.homeScreenStartAnalysisBtn,
-                  //   child: ElevatedButton.icon(
-                  //     icon: const Icon(Icons.camera_enhance_rounded),
-                  //     label: Text(context.l10n.homeScreenStartAnalysisBtn),
-                  //     onPressed: () =>
-                  //         _navigateAndRefresh(context, CameraScreen(mode: CameraMode.mealAnalysis)),
+                  // ===============================================================================
+                  // 💡 TEST 2: CRITICAL RUNTIME CRASH/ERROR
+                  // Uncomment the button below to test/force a crash
+                  // ===============================================================================
+                  //region TEST CRASH
+                  // ElevatedButton(
+                  //   onPressed: () async {
+                  //     // This is an ASYNC error. It will be caught by runZonedGuarded.
+                  //     // Because the app is running, it should use the 'navigatorKey' path.
+                  //     throw Exception(
+                  //       '⚠️ TEST: Runtime Crash triggered by User!',
+                  //     );
+                  //   },
+                  //   style: ElevatedButton.styleFrom(
+                  //     backgroundColor: Colors.red,
                   //   ),
+                  //   child: const Text('TEST CRASH'),
                   // ),
-
-                  // // Bouton principal pour le scanner de valeurs nutritives
-                  // Tooltip(
-                  //   message: context.l10n.homeScreenStartAnalysisBtn,
-                  //   child: ElevatedButton.icon(
-                  //     icon: const Icon(Icons.document_scanner_rounded),
-                  //     label: Text('Facts label scanner'),
-                  //     onPressed: () =>
-                  //         _navigateAndRefresh(context, CameraScreen(mode: CameraMode.labelScanner)),
-                  //   ),
-                  // ),
-
-                  // // Bouton principal pour le scanner de code barres
-                  // Tooltip(
-                  //   message: context.l10n.homeScreenStartAnalysisBtn,
-                  //   child: ElevatedButton.icon(
-                  //     icon: const Icon(Icons.qr_code_scanner_rounded),
-                  //     label: Text('Barcode scanner'),
-                  //     onPressed: () =>
-                  //         _navigateAndRefresh(context, CameraScreen(mode: CameraMode.barcodeScanner)),
-                  //   ),
-                  // ),
-                  // Section 1 : Analyse Repas
+                  //endregion
                 ],
               ),
             ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 // Pour kDebugMode
 import 'package:macro_vision/screens/feedback_screen.dart';
-import 'package:macro_vision/screens/home_screen.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart'; // Pour pouvoir relancer MacroVisionApp
 import 'package:macro_vision/utils/l10n_extension.dart';
+import 'package:restart_app/restart_app.dart';
 
 // =========================================================================
 // WIDGET D'ERREUR CRITIQUE (ErrorScreen)
@@ -92,15 +92,10 @@ class ErrorScreen extends StatelessWidget {
                   color: Theme.of(context).colorScheme.error,
                 ),
                 label: Text(
-                  context.l10n.errorScreenGoToBtn('home'),
+                  context.l10n.errorScreenGoToBtn('restart'),
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
-                onPressed: () {
-                  // Navigue vers l'écran d'accueil
-                  Navigator.of(
-                    context,
-                  ).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
-                },
+                onPressed: Restart.restartApp,
               ),
             ],
           ),

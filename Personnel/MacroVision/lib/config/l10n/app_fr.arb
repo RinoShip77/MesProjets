@@ -204,7 +204,7 @@
     "@errorScreenDetailsLbl": {
         "description": "Libellé pour les détails de l'erreur"
     },
-    "errorScreenGoToBtn": "{target, select, comment{Soumettre un commentaire} home{Revenir à l'accueil} other {}}",
+    "errorScreenGoToBtn": "{target, select, comment{Soumettre un commentaire} restart{Redémarrer l'application} other {}}",
     "@errorScreenGoToBtn": {
         "description": "Libellé du bouton pour aller à un écran donné",
         "placeholders": {

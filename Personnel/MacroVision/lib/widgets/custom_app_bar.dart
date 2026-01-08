@@ -76,7 +76,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () async {
             try {
               // 1. Charger le texte du guide de manière sûre
-              final String content = await _getWarningText(context);
+              final String content = await loadLocalizedAsset(context, 'legal_warning');
+              // final String content = await _getWarningText(context);
 
               // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
               if (context.mounted) {
@@ -102,7 +103,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () async {
             try {
               // 1. Charger le texte du guide de manière sûre
-              final String content = await _getGuideText(context);
+              final String content = await loadLocalizedAsset(context, 'user_guide');
+              // final String content = await _getGuideText(context);
 
               // 2. Ouvrir le dialogue UNIQUEMENT si le contenu a été chargé
               if (context.mounted) {

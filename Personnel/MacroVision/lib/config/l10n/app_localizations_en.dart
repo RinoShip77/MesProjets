@@ -206,7 +206,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorScreenGoToBtn(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
       'comment': 'Submit a comment',
-      'home': 'Return to home',
+      'restart': 'Restart the app',
       'other': '',
     });
     return '$_temp0';

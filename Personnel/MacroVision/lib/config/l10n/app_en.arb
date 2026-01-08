@@ -204,7 +204,7 @@
     "@errorScreenDetailsLbl": {
         "description": "Label for error details"
     },
-    "errorScreenGoToBtn": "{target, select, comment{Submit a comment} home{Return to home} other {}}",
+    "errorScreenGoToBtn": "{target, select, comment{Submit a comment} restart{Restart the app} other {}}",
     "@errorScreenGoToBtn": {
         "description": "Button label to go to a given screen",
         "placeholders": {

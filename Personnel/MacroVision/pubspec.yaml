@@ -2,7 +2,7 @@ name: macro_vision
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -38,10 +38,10 @@ dependencies:
   # --- Outils requis pour l'IA et la Caméra ---
   # L'API Gemini de Google pour la vision
   google_generative_ai: ^0.4.7 # Mettre à jour à une version récente (ou utiliser la plus récente disponible)
-  
+
   # Pour utiliser la caméra
-  camera: ^0.11.3 
-  
+  camera: ^0.11.3
+
   # Pour manipuler les chemins de fichiers et images
   path_provider: ^2.1.1
   path: ^1.8.3
@@ -83,13 +83,16 @@ dependencies:
   markdown_widget: ^2.3.2
 
   # Pour les polices de caractères
-  google_fonts: ^6.3.3
+  google_fonts: ^7.0.0
 
   # Pour le scanner de code barres
   google_mlkit_barcode_scanning: ^0.14.1
 
   # Pour les requêtes HTTP
   http: ^1.6.0
+
+  # Pour redémarrer l'application
+  restart_app: ^1.3.2
 
 dev_dependencies:
   flutter_test:
@@ -108,13 +111,11 @@ dev_dependencies:
   # Pour générer des écrans de démarrage natifs
   flutter_native_splash: ^2.4.0
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -131,7 +132,7 @@ flutter:
     - assets/audio/
 
   generate: true # Active la génération de code pour l'i18n
-  
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
@@ -165,16 +166,16 @@ flutter_launcher_icons:
   min_sdk_android: 21 # Nécessaire si minSdk est 21
   remove_alpha_channel: true
   # OPTIONNEL: Si tu veux une icône adaptative sur Android 8+
-  adaptive_icon_background: "#FFFFFF" 
+  adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground: "assets/images/macrovision_logo_foreground.png"
 
 flutter_native_splash:
   # La couleur du fond de l'écran de chargement
-  color: "#FFFFFF" 
+  color: "#FFFFFF"
   # Le chemin vers l'image à afficher (utilise le même logo)
-  image: assets/images/macrovision_logo.png 
+  image: assets/images/macrovision_logo.png
   # OPTIONNEL: Pour un écran de splash qui est juste une image (iOS)
-  # ios_content_mode: scaleAspectFit 
-  
+  # ios_content_mode: scaleAspectFit
+
   # iOS est généralement moins problématique, mais pour Android, utilise une couleur.
   android_gravity: center

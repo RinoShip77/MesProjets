@@ -206,10 +206,11 @@ class _ResultScreenState extends State<ResultScreen> {
                                 width: double.infinity,
                                 fit: BoxFit.cover,
                               )
-                            : Icon(
-                                Icons.fastfood_outlined,
-                                size: 40,
-                                color: Theme.of(context).colorScheme.error,
+                            : const Center(
+                                child: Icon(
+                                  Icons.fastfood_outlined,
+                                  size: 60,
+                                ),
                               ),
                       ),
 

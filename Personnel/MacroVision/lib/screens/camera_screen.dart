@@ -102,9 +102,22 @@ class _CameraScreenState extends State<CameraScreen> {
         _controller = null;
       } else {
         // 1. Choix de la résolution dynamique
-        final resolution = (widget.mode == CameraMode.barcodeScanner)
-            ? ResolutionPreset.high
-            : ResolutionPreset.medium;
+        // final resolution = (widget.mode == CameraMode.barcodeScanner)
+        //     ? ResolutionPreset.high
+        //     : ResolutionPreset.medium;
+
+        // 1. Choix de la résolution dynamique
+        // 1. Choix de la résolution dynamique (Switch Expression)
+        final resolution = switch (widget.mode) {
+          // Barcode: High is fast and sharp enough for 1D codes
+          CameraMode.barcodeScanner => ResolutionPreset.high,
+
+          // Label: CRITICAL. Must be VeryHigh/Max to read tiny text on crinkled bags
+          CameraMode.labelScanner => ResolutionPreset.veryHigh,
+
+          // Meal: Medium is faster for sending to API and sufficient for recognizing food
+          CameraMode.mealAnalysis => ResolutionPreset.medium,
+        };
 
         _controller = CameraController(
           cameras.first,
@@ -134,6 +147,17 @@ class _CameraScreenState extends State<CameraScreen> {
         // 4. Lancement automatique du flux pour le code-barres
         if (widget.mode == CameraMode.barcodeScanner) {
           _controller?.startImageStream((image) => _scanBarcode(image));
+        }
+
+        // 5. Auto-turn on flash (torch mode) only for Label Scanning to reduce shadows/blur
+        if (widget.mode == CameraMode.labelScanner) {
+          // Give the camera a moment to initialize before turning on the light
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (mounted) {
+              _controller?.setFlashMode(FlashMode.auto);
+              // _toggleFlash();
+            }
+          });
         }
       }
     } on CameraException catch (e) {
@@ -342,7 +366,7 @@ class _CameraScreenState extends State<CameraScreen> {
             if (mounted) {
               // FAILURE: OpenFoodFacts didn't know it.
               ScaffoldMessenger.of(context).clearSnackBars();
-                    _currentMode = CameraMode.mealAnalysis;
+              _currentMode = CameraMode.mealAnalysis;
               showSnackBar(
                 context,
                 'Unknown barcode. Try a photo scan?',
@@ -515,6 +539,29 @@ class _CameraScreenState extends State<CameraScreen> {
           context,
         ).languageCode, // ✅ Récupère 'fr', 'en', etc.
       );
+
+      // --- GUARDRAIL: Check for "Not Food" ---
+      // If the AI followed our prompt and found no food, it returns this specific name.
+      if (initialFacts != null && initialFacts.foodName.toLowerCase().contains('not food detected')) {
+        
+        // 1. Play Error Sound
+        final player = AudioPlayer();
+        await player.play(AssetSource('audio/error.mp3'));
+        await HapticFeedback.heavyImpact();
+
+        // 2. Show UI Warning
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          showSnackBar(
+            context,
+            'No food detected. Please try a clearer photo.', // Or use l10n
+            true, // isError = true (Red color)
+          );
+        }
+        
+        // 3. STOP EVERYTHING. Do not save to DB. Do not navigate.
+        return; 
+      }
 
       // 2. FeedBack de succès
       final player = AudioPlayer();

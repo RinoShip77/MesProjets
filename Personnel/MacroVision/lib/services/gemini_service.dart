@@ -26,7 +26,7 @@ class GeminiService {
 
   // --- Configuration ---
   // Set to 'true' to test. Set 'false' for real AI.
-  static const bool _useMockData = true;
+  static const bool _useMockData = false;
   // static const bool _useMockData = (kDebugMode && !kReleaseMode) ? true : false; // Use mock in Debug mode
   GenerativeModel? _model;
 
@@ -129,14 +129,12 @@ class GeminiService {
   /// Analyzes a photo of a meal to estimate nutritional content.
   Future<NutritionalFacts?> analyzeImage(String imagePath, String lang) async {
     if (_useMockData) {
-      final mockData = await _getMockData();
-      return NutritionalFacts.fromJson(mockData);
+      return NutritionalFacts.fromJson(await _getMockData());
     }
 
-    final file = File(imagePath);
-    if (!await file.exists()) return null;
+    if (!await File(imagePath).exists()) return null;
 
-    final imageBytes = await file.readAsBytes();
+    final imageBytes = await File(imagePath).readAsBytes();
     final content = [
       Content.multi([
         DataPart('image/jpeg', imageBytes),
@@ -173,27 +171,33 @@ class GeminiService {
   }
 }
 
-// --- Prompts Repository ---
-// Kept at the bottom to maintain code readability.
+// ===========================================================================
+// PROMPT REPOSITORY
+// ===========================================================================
+
+/// Contains all prompt templates used by the GeminiService.
 class _Prompts {
-  static const _structure = '''
+  /// Target JSON structure for all analyses.
+  static const String _structure = '''
     {
-      'foodName': 'string',
-      'portionInGrams': 0.0,
-      'calories': 0.0,
-      'totalFat': 0.0,
-      'saturatedFat': 0.0,
-      'transFat': 0.0,
-      'cholesterol': 0.0,
-      'sodium': 0.0,
-      'potassium': 0.0,
-      'totalCarbohydrates': 0.0,
-      'dietaryFiber': 0.0,
-      'sugar': 0.0,
-      'protein': 0.0
+      'foodName': 'String',
+      'portionInGrams': Double,
+      'calories': Double,
+      'totalFat': Double,
+      'saturatedFat': Double,
+      'transFat': Double,
+      'cholesterol': Double,
+      'sodium': Double,
+      'potassium': Double,
+      'totalCarbohydrates': Double,
+      'dietaryFiber': Double,
+      'sugar': Double,
+      'protein': Double
     }
   ''';
 
+  /// Generates the prompt for barcode analysis.
+  /// Strategy: Don't guess. Read the messy database JSON and clean it up.
   static String barcodeAnalysis(String rawJson, String lang) =>
       '''
     Role: Data Standardizer for Nutrition App.
@@ -222,24 +226,63 @@ class _Prompts {
   //   Structure: $_structure
   // ''';
 
+  /// Generates the prompt for nutrition label analysis.
+  /// Strategy: Trust the text first, use Math (4-4-9 rule) only to repair damage.
   static String labelAnalysis(String lang) =>
       '''
-    Role: OCR Scanner. Task: Extract nutrition values from image.
-    Rules:
-    1. Convert all units to g (grams) or mg (milligrams).
-    2. Handle "< 1g" as 0.5.
-    3. Language: $lang.
-    4. Output JSON ONLY. No Markdown.
-    Structure: $_structure
+    Role: Expert Nutritionist OCR.
+    Task: Extract nutrition facts from this image.
+    
+    Instructions:
+    1. PRIORITIZE VISIBLE TEXT: Trust the numbers you see on the label above all else.
+    2. REPAIR DAMAGE: Only if a number is illegible (glare/crease) or missing, estimate it using the 4-4-9 rule (Protein/Carbs*4, Fat*9).
+    3. Translate values to $lang.
+    4. Normalize to "Per Serving" if possible.
+    
+    Output JSON ONLY. Structure: $_structure
   ''';
+  // static String labelAnalysis(String lang) =>
+  //     '''
+  //   Role: OCR Scanner. Task: Extract nutrition values from image.
+  //   Rules:
+  //   1. Convert all units to g (grams) or mg (milligrams).
+  //   2. Handle "< 1g" as 0.5.
+  //   3. Language: $lang.
+  //   4. Output JSON ONLY. No Markdown.
+  //   Structure: $_structure
+  // ''';
 
+  /// Generates the prompt for meal photo analysis.
+  /// Strategy: Deconstruct the meal, check for hidden oils, and reject non-food.
   static String mealAnalysis(String lang) =>
       '''
-    Role: Nutrition Expert. Task: Analyse this meal photo.
-    Rules:
-    1. Identify the food and estimate portions realistically.
-    2. Language: $lang.
-    3. Output JSON ONLY. No Markdown.
-    Structure: $_structure
+    Role: Expert AI Dietitian & Chef.
+    Task: Analyze the provided image to estimate precise nutritional data.
+    
+    PHASE 1: VALIDATION
+    - Check if the image contains food.
+    - If the image is NOT food (e.g., a person, blurry object, room), return JSON with name "Not Food Detected" and all values as 0.
+    
+    PHASE 2: SPATIAL DECONSTRUCTION
+    1. Identify all distinct components (e.g., "150g Steak", "100g Rice").
+    2. OIL & GLAZE CHECK: Look for surface sheen/reflection. If present, assume added fats (butter/oil) and increase the Fat/Calorie count accordingly.
+    3. VOLUME ESTIMATION: Use the plate size as a reference to estimate portion weight in grams.
+    
+    PHASE 3: OUTPUT
+    - Translate the final Dish Name to $lang.
+    - Combine all components into ONE total nutritional profile.
+    - Return STRICT JSON only. No Markdown formatting (no ```json).
+    
+    Target Structure: $_structure
   ''';
+
+  // static String mealAnalysis(String lang) =>
+  //     '''
+  //   Role: Nutrition Expert. Task: Analyse this meal photo.
+  //   Rules:
+  //   1. Identify the food and estimate portions realistically.
+  //   2. Language: $lang.
+  //   3. Output JSON ONLY. No Markdown.
+  //   Structure: $_structure
+  // ''';
 }

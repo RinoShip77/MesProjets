@@ -1,17 +1,14 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:ui';
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For rootBundle if needed
-import 'package:intl/intl.dart';
 import 'package:macro_vision/main.dart';
-import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/utils/global_key.dart';
+import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:markdown_widget/config/markdown_generator.dart';
-import 'package:macro_vision/widgets/main_navigator.dart';
-import 'package:macro_vision/screens/feedback_screen.dart';
-import 'package:macro_vision/utils/l10n_extension.dart';
+import 'package:macro_vision/models/nutritional_facts_entry.dart';
 
 /// Helper functions and utilities for the MacroVision application.
 ///
@@ -27,7 +24,32 @@ import 'package:macro_vision/utils/l10n_extension.dart';
 /// 1. PREFERENCES & STORAGE HELPERS
 /// =======================================================================
 /// These functions simplify interactions with SharedPreferences.
-/// Usage: await saveIntToPrefs('my_key', 10);
+/// Usage: await saveToPrefs('my_key', 10);
+
+/// Loads a localized markdown file (e.g., 'user_guide_en.md').
+/// Falls back to 'fr' if the target language file is missing.
+Future<String> loadLocalizedAsset(BuildContext context, String baseName) async {
+  final lang = Localizations.localeOf(context).languageCode;
+
+  // 1. Try Target Language
+  try {
+    return await DefaultAssetBundle.of(
+      context,
+    ).loadString('assets/${baseName}_$lang.md');
+  } catch (e) {
+    debugPrint('Asset not found for $lang, falling back to default.');
+  }
+
+  // 2. Fallback to Default
+  // Used if the user is in 'es' or 'de' and not in the supported languages.
+  try {
+    return await DefaultAssetBundle.of(
+      context,
+    ).loadString('assets/${baseName}_fr.md');
+  } catch (e) {
+    return 'Error: Content not found.';
+  }
+}
 
 /// Saves an integer value to local storage.
 Future<void> saveToPrefs(String key, value) async {
@@ -40,7 +62,6 @@ Future<void> saveToPrefs(String key, value) async {
 /// =======================================================================
 
 /// Cleans a string containing Markdown JSON (e.g., ```json ... ```) and parses it.
-///
 /// Returns `null` if the string is empty or parsing fails.
 /// This is crucial for handling responses from Generative AI models which often
 /// wrap JSON in Markdown code blocks.
@@ -381,102 +402,64 @@ Widget feedbackButton(BuildContext context) {
 }
 
 // =======================================================================
-// HomeScreen
+// HomeScreen & Initialization Helpers
 // =======================================================================
-// Fonction pour afficher la boîte de dialogue du guide utilisateur
+
+/// Displays a Markdown-based dialog and waits for it to be dismissed.
 Future<void> openDialog({
   required BuildContext context,
   required String title,
   required String content,
-  String? warningContent,
-  String? key,
-  dynamic onDismiss,
+  String? buttonText, // NEW: Custom button label
 }) async {
-  // void openDialog(BuildContext context, String title, String text) {
-  // Utilisation de la fonction builder pour gérer le contenu long.
+  // 1. Parse Markdown
   final children = MarkdownGenerator().buildWidgets(content);
 
+  // 2. Determine Icon based on title (Visual helper)
+  final icon = title.toLowerCase().contains('guide')
+      ? const Icon(Icons.auto_stories_rounded, color: Colors.blue, size: 40)
+      : const Icon(Icons.warning_rounded, color: Colors.orange, size: 40);
+
+  // 3. Determine Button Text if not provided
+  final actionLabel =
+      buttonText ??
+      (title.toLowerCase().contains('guide') ? 'Compris!' : 'Continuer');
+
+  // 4. Show and AWAIT the dialog
   return showDialog(
     context: context,
+    barrierDismissible: false, // Force user to click the button
     builder: (BuildContext context) {
       return AlertDialog(
-        icon: title.toLowerCase().contains('guide')
-            ? Icon(Icons.auto_stories_rounded, color: Colors.blue, size: 40)
-            : Icon(Icons.warning_rounded, color: Colors.orange, size: 40),
+        icon: icon,
         title: Center(
           child: Text(
             title,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 30.0, // Set your desired font size
+              fontSize: 24.0, // Reduced slightly for better fit
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ),
         content: SizedBox(
+          width: double.maxFinite,
           child: SingleChildScrollView(
-            // REMPLACEMENT : Utilisation du widget Column pour contenir les widgets générés par MarkdownGenerator
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: children, // Les widgets générés par MarkdownWidget
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: children,
             ),
           ),
         ),
         actions: <Widget>[
           TextButton(
-            child: title.toLowerCase().contains('guide')
-                ? Text('Compris!')
-                : Text('Continuer'),
-            onPressed: () async {
-              try {
-                if (onDismiss != null) {
-                  // Cas 1 : Dialogue Général ou Avertissement Légal (onDismiss est défini)
-                  // On exécute l'action de fermeture (navigate)
-                  if (context.mounted) {
-                    onDismiss(); // Exécute la fonction de fermeture (qui navigue vers HomeScreen)
-                    Navigator.of(context).pop(); // Ferme le dialogue
-                  }
-                } else {
-                  if (key != null) {
-                    // Nous sommes en phase d'initialisation. On sauvegarde et on enchaîne.
-                    // await saveHasSeenGuide(key);
-                    await saveToPrefs(key, true);
-
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-
-                      openDialog(
-                        context: context,
-                        title: 'Avertissement légal',
-                        content: warningContent ?? '',
-                        onDismiss: () => navigate(
-                          context,
-                          const MainNavigator(),
-                          replace: true,
-                        ),
-                      );
-                    }
-                  } else {
-                    // Nous sommes sur l'HomeScreen (Menu > Guide). On ferme simplement.
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                    }
-                  }
-                }
-              } catch (e, stack) {
-                // Gère l'erreur localement (si le contexte est encore valide)
-                print("Erreur critique dans openDialog: $e");
-                print(stack);
-                if (context.mounted) {
-                  // Optionnel : Afficher un message d'erreur moins fatal à l'utilisateur
-                  showSnackBar(
-                    context,
-                    "Une erreur est survenue lors de la sauvegarde ou de la navigation.",
-                    true,
-                  );
-                }
-              }
+            child: Text(actionLabel),
+            onPressed: () {
+              // SIMPLE: Just close the dialog.
+              // The 'await openDialog(...)' in the calling screen will then complete.
+              Navigator.of(context).pop();
             },
           ),
         ],
@@ -484,6 +467,106 @@ Future<void> openDialog({
     },
   );
 }
+// Future<void> openDialog({
+//   required BuildContext context,
+//   required String title,
+//   required String content,
+//   String? warningContent,
+//   String? key,
+//   dynamic onDismiss,
+// }) async {
+//   // void openDialog(BuildContext context, String title, String text) {
+//   // Utilisation de la fonction builder pour gérer le contenu long.
+//   final children = MarkdownGenerator().buildWidgets(content);
+
+//   return showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         icon: title.toLowerCase().contains('guide')
+//             ? Icon(Icons.auto_stories_rounded, color: Colors.blue, size: 40)
+//             : Icon(Icons.warning_rounded, color: Colors.orange, size: 40),
+//         title: Center(
+//           child: Text(
+//             title,
+//             textAlign: TextAlign.center,
+//             style: TextStyle(
+//               fontSize: 30.0, // Set your desired font size
+//               fontWeight: FontWeight.bold,
+//               color: Theme.of(context).colorScheme.onSurface,
+//             ),
+//           ),
+//         ),
+//         content: SizedBox(
+//           child: SingleChildScrollView(
+//             // REMPLACEMENT : Utilisation du widget Column pour contenir les widgets générés par MarkdownGenerator
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.center,
+//               children: children, // Les widgets générés par MarkdownWidget
+//             ),
+//           ),
+//         ),
+//         actions: <Widget>[
+//           TextButton(
+//             child: title.toLowerCase().contains('guide')
+//                 ? Text('Compris!')
+//                 : Text('Continuer'),
+//             onPressed: () async {
+//               try {
+//                 if (onDismiss != null) {
+//                   // Cas 1 : Dialogue Général ou Avertissement Légal (onDismiss est défini)
+//                   // On exécute l'action de fermeture (navigate)
+//                   if (context.mounted) {
+//                     onDismiss(); // Exécute la fonction de fermeture (qui navigue vers HomeScreen)
+//                     Navigator.of(context).pop(); // Ferme le dialogue
+//                   }
+//                 } else {
+//                   if (key != null) {
+//                     // Nous sommes en phase d'initialisation. On sauvegarde et on enchaîne.
+//                     // await saveHasSeenGuide(key);
+//                     await saveToPrefs(key, true);
+
+//                     if (context.mounted) {
+//                       Navigator.of(context).pop();
+
+//                       openDialog(
+//                         context: context,
+//                         title: 'Avertissement légal',
+//                         content: warningContent ?? '',
+//                         onDismiss: () => navigate(
+//                           context,
+//                           const MainNavigator(),
+//                           replace: true,
+//                         ),
+//                       );
+//                     }
+//                   } else {
+//                     // Nous sommes sur l'HomeScreen (Menu > Guide). On ferme simplement.
+//                     if (context.mounted) {
+//                       Navigator.of(context).pop();
+//                     }
+//                   }
+//                 }
+//               } catch (e, stack) {
+//                 // Gère l'erreur localement (si le contexte est encore valide)
+//                 print("Erreur critique dans openDialog: $e");
+//                 print(stack);
+//                 if (context.mounted) {
+//                   // Optionnel : Afficher un message d'erreur moins fatal à l'utilisateur
+//                   showSnackBar(
+//                     context,
+//                     "Une erreur est survenue lors de la sauvegarde ou de la navigation.",
+//                     true,
+//                   );
+//                 }
+//               }
+//             },
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
 
 // Future<void> saveHasSeenGuide(String key) async {
 //   final prefs = await SharedPreferences.getInstance();
@@ -637,15 +720,10 @@ String? formatEmailSubject(BuildContext context, name) {
     subject += ' de ${name.trim()}';
   }
 
-  return subject;
+  return '$subject (${Theme.of(context).platform.name})';
 }
 
 String? formatEmailBody(BuildContext context, feedback) {
-  // Déterminer la plateforme (utile pour le débogage)
-  final String platform = (Theme.of(context).platform == TargetPlatform.iOS)
-      ? 'iOS'
-      : 'Android/Autre';
-
-  return '''Plateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
+  return '''Plateforme: ${Theme.of(context).platform.name}\n$feedback''';
   // return '''Version : 1.0.0\nPlateforme: ${Theme.of(context).platform.name}\n--- Message de l'utilisateur ---\n\n$feedback''';
 }
