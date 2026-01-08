@@ -160,9 +160,9 @@
             }
         }
     },
-    "dashboardScreenDailyObjectivesLbl": "Objectifs du jour",
+    "dashboardScreenDailyObjectivesLbl": "Objectifs",
     "@dashboardScreenDailyObjectivesLbl": {
-        "description": "Titre de la section des objectifs quotidiens"
+        "description": "Titre de la section des objectifs"
     },
     "dashboardScreenNotEnoughDataLbl": "Historique insuffisant pour le graphique",
     "@dashboardScreenNotEnoughDataLbl": {

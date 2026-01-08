@@ -177,8 +177,17 @@ class DatabaseService {
       _queryEntries(orderBy: '$_colTimestamp DESC');
 
   /// Fetches entries from a specific day.
-  Future<List<NutritionalFactsEntry>> getHistoryForDay(int startTimestamp) =>
-      _queryEntries(where: '$_colTimestamp >= ?', args: [startTimestamp]);
+  Future<List<NutritionalFactsEntry>> getHistoryForDay(int startTimestamp) {
+// 1. Calculate the end of the day (start + 24 hours)
+    // We use 86400000 ms (24 * 60 * 60 * 1000)
+    final int endTimestamp = startTimestamp + 86400000;
+
+    // 2. Add the Upper Bound to the query
+      return _queryEntries(
+        where: '$_colTimestamp >= ? AND $_colTimestamp < ?',
+        args: [startTimestamp, endTimestamp],
+      );
+  }
 
   /// Inserts a new food entry, but BLOCKS "Not Food" or invalid AI results.
   Future<int> insertEntry(NutritionalFactsEntry entry) async {

@@ -160,9 +160,9 @@
             }
         }
     },
-    "dashboardScreenDailyObjectivesLbl": "Today's objectives",
+    "dashboardScreenDailyObjectivesLbl": "Objectives",
     "@dashboardScreenDailyObjectivesLbl": {
-        "description": "Title of the daily objectives section"
+        "description": "Title of the objectives section"
     },
     "dashboardScreenNotEnoughDataLbl": "Insufficient history for the chart",
     "@dashboardScreenNotEnoughDataLbl": {

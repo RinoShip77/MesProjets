@@ -168,7 +168,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get dashboardScreenDailyObjectivesLbl => 'Today\'s objectives';
+  String get dashboardScreenDailyObjectivesLbl => 'Objectives';
 
   @override
   String get dashboardScreenNotEnoughDataLbl =>

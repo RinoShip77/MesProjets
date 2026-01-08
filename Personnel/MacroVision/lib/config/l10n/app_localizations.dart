@@ -254,10 +254,10 @@ abstract class AppLocalizations {
   /// **'{target, select, calories{Calories} protein{Protéines} totalFat{Lipides} totalCarbohydrate{Glucides} other{Nutriments}}'**
   String dashboardScreenDailyObjectiveLbl(String target);
 
-  /// Titre de la section des objectifs quotidiens
+  /// Titre de la section des objectifs
   ///
   /// In fr, this message translates to:
-  /// **'Objectifs du jour'**
+  /// **'Objectifs'**
   String get dashboardScreenDailyObjectivesLbl;
 
   /// Un avertissement lorsque l'historique est insuffisant

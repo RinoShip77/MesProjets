@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -27,6 +28,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     'totalFat': 0.0,
     'totalCarbohydrates': 0.0,
   };
+  // 1. Default to Today
+  DateTime _selectedDate = DateTime.now();
+
+  // 2. Helper to check if we are looking at today (for UI labels)
+  bool get _isToday {
+    final now = DateTime.now();
+    return _selectedDate.year == now.year &&
+        _selectedDate.month == now.month &&
+        _selectedDate.day == now.day;
+  }
 
   late Future<void> _loadingFuture;
 
@@ -56,7 +67,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       today.day,
     ).millisecondsSinceEpoch;
 
-    final history = await DatabaseService().getHistoryForDay(startOfDay);
+    final history = await DatabaseService().getHistoryForDay(
+      getStartOfDayTimestamp(_selectedDate),
+    );
 
     double cal = 0, pro = 0, totalFat = 0, totalCarbohydrates = 0;
     for (var entry in history) {
@@ -78,11 +91,107 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  // 3. The Picker Logic
+  Future<void> _selectDate() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2024), // Set a reasonable start limit
+      lastDate: DateTime.now(), // Don't allow future logging
+      builder: (context, child) {
+        // Optional: Wrap in a Theme to match your app colors if needed
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: Theme.of(context).colorScheme, // Use app scheme
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != _selectedDate) {
+      _loadData();
+      setState(() {
+        _selectedDate = picked;
+        // The UI will rebuild, and the FutureBuilder will re-fetch
+        // using the new _selectedDate automatically.
+      });
+    }
+  }
+
   // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   Future<void> _refreshData() async {
     setState(() {
       _loadingFuture = _loadData();
     });
+  }
+
+  Widget _buildDateHeader() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Previous Day Button
+          IconButton(
+            icon: const Icon(Icons.chevron_left_rounded),
+            onPressed: () {
+              setState(() {
+                _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+              });
+            },
+          ),
+
+          // The Date Display (Clickable)
+          InkWell(
+            onTap: _selectDate,
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 8.0,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.calendar_today_rounded,
+                    size: 18,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    _isToday
+                        ? "Aujourd'hui" // Or use context.l10n.today
+                        : formatDate(
+                            _selectedDate,
+                          ), // Use your helper from helpers.dart
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Icon(Icons.arrow_drop_down_rounded),
+                ],
+              ),
+            ),
+          ),
+
+          // Next Day Button (Disable if today)
+          IconButton(
+            icon: const Icon(Icons.chevron_right_rounded),
+            onPressed: _isToday
+                ? null // Disable going to the future
+                : () {
+                    setState(() {
+                      _selectedDate = _selectedDate.add(
+                        const Duration(days: 1),
+                      );
+                    });
+                  },
+          ),
+        ],
+      ),
+    );
   }
 
   // TODO: Envoyer cette fonction de un fichier "helpers.dart"
@@ -103,7 +212,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Text(context.l10n.dashboardScreenChartTypeOption('bars')),
           Text(context.l10n.dashboardScreenChartTypeOption('lines')),
-          ],
+        ],
       ),
     );
   }
@@ -149,7 +258,63 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return flex > 0 ? Expanded(flex: flex, child: cardContent) : cardContent;
   }
-  
+
+  // NEW: Combined Header (Title + Date Picker)
+  Widget _buildInlineHeader() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0), // Add some breathing room
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // 1. The Title (Left side)
+          // We use Flexible to ensure it doesn't overflow if the date is long
+          Flexible(
+            child:
+                Text(
+                  context.l10n.dashboardScreenDailyObjectivesLbl,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                  overflow: TextOverflow.ellipsis,
+                ),
+          ),
+
+          // 2. The Date Selector (Right side)
+          InkWell(
+            onTap: _selectDate,
+            borderRadius: BorderRadius.circular(8),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Date Text (e.g. "Today" or "2023-10-15")
+                  Text(
+                    _isToday
+                        ? "Aujourd'hui" // Or context.l10n.today
+                        : formatDate(_selectedDate),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+
+                  const SizedBox(width: 8),
+
+                  // The Calendar Icon
+                  Icon(
+                    Icons.calendar_month_rounded,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,16 +343,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  context.l10n.dashboardScreenDailyObjectivesLbl,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
+                // 1. The new Date Header
+                _buildInlineHeader(),
 
                 const SizedBox(height: 10),
 
                 _buildMacroGoalCard(
                   context,
-                  title: context.l10n.dashboardScreenDailyObjectiveLbl('calories'),
+                  title: context.l10n.dashboardScreenDailyObjectiveLbl(
+                    'calories',
+                  ),
                   consumed: _consumedMacros['calories'] ?? 0,
                   goal: _goalMacros['calories'] ?? 0,
                   unit: 'cal',
@@ -199,7 +364,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     _buildMacroGoalCard(
                       context,
-                      title: context.l10n.dashboardScreenDailyObjectiveLbl('protein'),
+                      title: context.l10n.dashboardScreenDailyObjectiveLbl(
+                        'protein',
+                      ),
                       consumed: _consumedMacros['protein'] ?? 0,
                       goal: _goalMacros['protein'] ?? 0,
                       unit: 'g',
@@ -210,7 +377,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                     _buildMacroGoalCard(
                       context,
-                      title: context.l10n.dashboardScreenDailyObjectiveLbl('totalFat'),
+                      title: context.l10n.dashboardScreenDailyObjectiveLbl(
+                        'totalFat',
+                      ),
                       consumed: _consumedMacros['totalFat'] ?? 0,
                       goal: _goalMacros['totalFat'] ?? 0,
                       unit: 'g',
@@ -223,7 +392,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                 _buildMacroGoalCard(
                   context,
-                  title: context.l10n.dashboardScreenDailyObjectiveLbl('totalCarbohydrate'),
+                  title: context.l10n.dashboardScreenDailyObjectiveLbl(
+                    'totalCarbohydrate',
+                  ),
                   consumed: _consumedMacros['totalCarbohydrates'] ?? 0,
                   goal: _goalMacros['totalCarbohydrates'] ?? 0,
                   unit: 'g',
@@ -252,7 +423,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-
 }
 
 // --- Widget du Graphique Hebdomadaire ---
@@ -543,5 +713,4 @@ class WeeklyChart extends StatelessWidget {
       },
     );
   }
-
 }
