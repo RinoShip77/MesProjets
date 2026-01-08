@@ -12,17 +12,17 @@ import 'package:macro_vision/utils/l10n_extension.dart';
 
 class AnalysisList extends StatelessWidget {
   final Future<List<NutritionalFactsEntry>> historyFuture;
-  final bool
-  compactMode; // Si true, active la limite de hauteur et le scroll interne
-  final double maxHeight; // Hauteur max pour le mode compact
-  final Function(NutritionalFactsEntry)?
-  onDismissed; // Gestion de la suppression (pour HistoryScreen)
+  final bool compactMode;
+  final double maxHeight;
+  final Function(NutritionalFactsEntry)? onDismissed;
+  final bool disableScroll;
 
   const AnalysisList({
     required this.historyFuture,
     this.compactMode = false,
     this.maxHeight = double.infinity,
     this.onDismissed,
+    this.disableScroll = false,
     super.key,
   });
 
@@ -133,11 +133,11 @@ class AnalysisList extends StatelessWidget {
         final history = snapshot.data!;
 
         // La ListView interne qui gère l'affichage des tuiles
-        Widget listView = ListView.builder(
-          // Important pour le mode compact dans un conteneur de hauteur fixe
-          shrinkWrap: compactMode,
-          // Désactive le scroll si la liste est intégrée dans un SingleChildScrollView (HomeScreen)
-          physics: compactMode
+        final Widget listView = ListView.builder(
+          // 3. UPDATED LOGIC: ShrinkWrap if compact OR disabled scroll
+          shrinkWrap: compactMode || disableScroll,
+          // 4. UPDATED LOGIC: NeverScroll if compact OR disabled scroll
+          physics: (compactMode || disableScroll)
               ? const NeverScrollableScrollPhysics()
               : const BouncingScrollPhysics(),
           itemCount: history.length,

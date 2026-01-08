@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:macro_vision/helpers/helpers.dart';
+import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/screens/camera_screen.dart';
+import 'package:macro_vision/widgets/analysis_list.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -127,72 +130,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  Widget _buildDateHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Previous Day Button
-          IconButton(
-            icon: const Icon(Icons.chevron_left_rounded),
-            onPressed: () {
-              setState(() {
-                _selectedDate = _selectedDate.subtract(const Duration(days: 1));
-              });
-            },
-          ),
+  // 1. Handle Deletion (DB + File + Refresh)
+  Future<void> _handleDismissed(NutritionalFactsEntry entry) async {
+    final date = DateTime.fromMillisecondsSinceEpoch(entry.timestamp);
 
-          // The Date Display (Clickable)
-          InkWell(
-            onTap: _selectDate,
-            borderRadius: BorderRadius.circular(12),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
-                vertical: 8.0,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.calendar_today_rounded,
-                    size: 18,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    _isToday
-                        ? "Aujourd'hui" // Or use context.l10n.today
-                        : formatDate(
-                            _selectedDate,
-                          ), // Use your helper from helpers.dart
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Icon(Icons.arrow_drop_down_rounded),
-                ],
-              ),
-            ),
-          ),
+    // Logique de suppression de l'entrée et du fichier
+    if (entry.id != null) {
+      await DatabaseService().deleteEntry(entry.id!);
+      try {
+        await File(entry.imagePath).delete();
+      } catch (e) {
+        if (mounted) {
+          showSnackBar(context, context.l10n.appErrorDelete, true);
+        }
+      }
+      _refreshData(); // Rafraîchir l'interface
+    }
 
-          // Next Day Button (Disable if today)
-          IconButton(
-            icon: const Icon(Icons.chevron_right_rounded),
-            onPressed: _isToday
-                ? null // Disable going to the future
-                : () {
-                    setState(() {
-                      _selectedDate = _selectedDate.add(
-                        const Duration(days: 1),
-                      );
-                    });
-                  },
-          ),
-        ],
-      ),
-    );
+    if (mounted) {
+      showSnackBar(
+        context,
+        context.l10n.historyScreenDeleteSuccessLbl(formatDate(date)),
+        false,
+      );
+    }
   }
 
   // TODO: Envoyer cette fonction de un fichier "helpers.dart"
@@ -376,8 +337,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 // 1. The new Date Header
                 _buildInlineHeader(),
 
-                const SizedBox(height: 10),
-
                 _buildMacroGoalCard(
                   context,
                   title: context.l10n.dashboardScreenDailyObjectiveLbl(
@@ -428,6 +387,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   consumed: _consumedMacros['totalCarbohydrates'] ?? 0,
                   goal: _goalMacros['totalCarbohydrates'] ?? 0,
                   unit: 'g',
+                ),
+
+                Divider(),
+
+                // 2. NEW: THE DAILY LOG
+                Text(
+                  "Journal des Repas", // Or add to l10n
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+
+                const SizedBox(height: 10),
+
+                AnalysisList(
+                  // Fetch list for the SELECTED date
+                  historyFuture: DatabaseService().getHistoryForDay(
+                    getStartOfDayTimestamp(_selectedDate),
+                  ),
+                  compactMode: false, // Show full list
+                  disableScroll: true, // <--- Let Dashboard handle scrolling
+                  onDismissed: _handleDismissed, // Enable Swipe-to-Delete
                 ),
 
                 Divider(),
