@@ -686,23 +686,6 @@ class _CameraScreenState extends State<CameraScreen> {
             ],
           ),
         ),
-        // Bordure visuelle du rectangle
-        Align(
-          alignment: Alignment.center,
-          child: Container(
-            height: 250,
-            width: 300,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: _isScanningBarcode
-                    ? Colors.red
-                    : Colors.green, // Rouge si on scanne activement
-                width: _isScanningBarcode ? 3 : 2,
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-        ),
       ],
     );
   }

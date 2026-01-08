@@ -495,7 +495,7 @@
     "@resultScreenTitle": {
         "description": "Title of the results screen"
     },
-    "settingsScreenCustomThemeOption": "{color, select, mint{Mint} ocean{Ocean} passion{Passion} neon{Neon} platinum{Platinum} merlot{Merlot} lemon{Lemon} lime{Lime} peacock{Peacock} azure{Azure} candy{Candy} pumpkin{Pumpkin} lapis{Lapis} scarlet{Scarlet} other{Color}}",
+    "settingsScreenCustomThemeOption": "{color, select, amber{Amber} amethyst{Amethyst} beryl{Beryl} bubblegum{Bubblegum} crimson{Crimson} emerald{Emerald} espresso{Espresso} fern{Fern} graphite{Graphite} honey{Honey} orchid{Orchid} sapphire{Sapphire} sky{Sky} slate{Slate} solar{Solar} turquoise{Turquoise} ultramarine{Ultramarine} vermilion{Vermilion} volt{Volt} other{Unsupported color}}",
     "@settingsScreenCustomThemeOption": {
         "description": "Custom theme selection for the application",
         "placeholders": {

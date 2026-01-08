@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/models/nutritional_facts_entry.dart';
 import 'package:macro_vision/screens/camera_screen.dart';
@@ -36,12 +37,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
   DateTime _selectedDate = DateTime.now();
   int _waterCount = 0;
 
-  // 2. Helper to check if we are looking at today (for UI labels)
+  // 1.1. Helper to check if we are looking at today (for UI labels)
   bool get _isToday {
-    final now = DateTime.now();
-    return _selectedDate.year == now.year &&
-        _selectedDate.month == now.month &&
-        _selectedDate.day == now.day;
+    return DateUtils.isSameDay(_selectedDate, DateTime.now());
+  }
+
+  // 1.2. Helper to check if we are looking at today (for UI labels)
+  bool get _isYesterday {
+    return DateUtils.isSameDay(
+      _selectedDate,
+      DateTime.now().subtract(const Duration(days: 1)),
+    );
   }
 
   late Future<void> _loadingFuture;
@@ -172,7 +178,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildWaterTracker() {
     // 1. Calculate the fill percentage (0.0 to 1.0)
-    double progress = (_waterCount / 8).clamp(0.0, 1.0);
+    final double progress = (_waterCount / 8).clamp(0.0, 1.0);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -276,7 +282,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       const SizedBox(height: 12),
 
                       Text(
-                        "$_waterCount / 8 verres",
+                        '$_waterCount / 8 verres',
                         style: TextStyle(
                           color: _waterCount >= 8
                               ? Colors.green.shade700
@@ -297,6 +303,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildMealLog() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           context.l10n.dashboardScreenDailyMealLogsLbl,
@@ -423,11 +430,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      // The Calendar Icon
+                      if (!DateUtils.isSameDay(
+                        _selectedDate,
+                        DateTime.now(),
+                      )) ...[
+                        Icon(
+                          Icons.calendar_month_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+
+                        const SizedBox(width: 8),
+                      ],
+
                       // Date Text (e.g. "Today" or "2023-10-15")
                       Text(
-                        _isToday
-                            ? "Aujourd'hui" // Or context.l10n.today
-                            : formatDate(_selectedDate),
+                        switch (true) {
+                          _
+                              when DateUtils.isSameDay(
+                                _selectedDate,
+                                DateTime.now(),
+                              ) =>
+                            'Today',
+                          _
+                              when DateUtils.isSameDay(
+                                _selectedDate,
+                                DateTime.now().subtract(
+                                  const Duration(days: 1),
+                                ),
+                              ) =>
+                            'Yesterday',
+                          _ => DateFormat.MMMEd(
+                            Localizations.localeOf(context).languageCode,
+                          ).format(_selectedDate),
+                        },
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
@@ -435,13 +471,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ),
 
-                      const SizedBox(width: 8),
-
                       // The Calendar Icon
-                      Icon(
-                        Icons.calendar_month_rounded,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      if (DateUtils.isSameDay(
+                        _selectedDate,
+                        DateTime.now(),
+                      )) ...[
+                        const SizedBox(width: 8),
+
+                        Icon(
+                          Icons.calendar_month_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -449,11 +490,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
               // B. NEW: "Add to this Day" Button
               // Only show if we are NOT on "Today" (since the main FAB handles Today)
-              if (!_isToday) ...[
+              if (!DateUtils.isSameDay(_selectedDate, DateTime.now())) ...[
                 const SizedBox(width: 12),
                 IconButton.filled(
                   icon: const Icon(Icons.add_a_photo_rounded),
-                  tooltip: "Ajouter à cette date",
+                  tooltip: 'Ajouter à cette date',
                   onPressed: () {
                     Navigator.of(context)
                         .push(
@@ -560,17 +601,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   unit: 'g',
                 ),
 
-                Divider(),
+                const Divider(),
 
                 // 2. THE DAILY WATER LOG
                 _buildWaterTracker(),
 
-                Divider(),
+                const Divider(),
 
                 // 3. THE DAILY MEAL LOG
                 _buildMealLog(),
 
-                Divider(),
+                const Divider(),
 
                 // 3. THE CHART SELECTOR
                 _buildChartTypeSelector(),
@@ -578,7 +619,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 const SizedBox(height: 20),
 
                 // PASSAGE DE LA SÉLECTION AU GRAPHIQUE
-                WeeklyChart(chartType: _selectedChartType),
+                WeeklyChart(
+                  chartType: _selectedChartType,
+                  // Pass the calculated goal (default to 2000 if 0)
+                  dailyGoal: _goalMacros['calories'] ?? 2000,
+                ),
               ],
             ),
           );
@@ -592,121 +637,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
 class WeeklyChart extends StatelessWidget {
   final ChartType chartType;
-  const WeeklyChart({required this.chartType, super.key});
+  final double dailyGoal;
 
-  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
-  // --- GRAPHIQUE EN LIGNES ---
-  Widget _buildLineChart(
-    BuildContext context,
-    List<DailySummary> data,
-    double maxY,
-    Color primaryColor,
-  ) {
-    return LineChart(
-      LineChartData(
-        minY: 0,
-        maxY: maxY,
-        lineTouchData: LineTouchData(
-          handleBuiltInTouches: true,
-          touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (spot) => primaryColor,
-            tooltipBorderRadius: BorderRadius.all(Radius.circular(8.0)),
-            tooltipPadding: EdgeInsets.all(8.0),
-            tooltipMargin: 10,
-            getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
-              return lineBarsSpot.map((spot) {
-                final day = data[spot.x.toInt()].dayName;
-                final calories = spot.y;
-                return LineTooltipItem(
-                  '$day\n',
-                  TextStyle(
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: '${calories.toStringAsFixed(0)} cal',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                );
-              }).toList();
-            },
-          ),
-        ),
-        titlesData: FlTitlesData(
-          show: true,
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: (value, meta) {
-                return SideTitleWidget(
-                  meta: meta,
-                  space: 4,
-                  child: Text(data[value.toInt()].dayName),
-                );
-              },
-              interval: 1,
-            ),
-          ),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 40,
-              interval: maxY / 4,
-              getTitlesWidget: (value, meta) {
-                return SideTitleWidget(
-                  meta: meta,
-                  space: 4,
-                  child: Text(
-                    '${value.toInt()}',
-                    style: const TextStyle(fontSize: 10),
-                  ),
-                );
-              },
-            ),
-          ),
-          topTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          rightTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-        ),
-        gridData: const FlGridData(show: true, drawVerticalLine: false),
-        borderData: FlBorderData(
-          show: true,
-          border: Border(
-            bottom: BorderSide(color: primaryColor.withAlpha(75), width: 1),
-            left: BorderSide(color: primaryColor.withAlpha(75), width: 1),
-          ),
-        ),
-        lineBarsData: [
-          LineChartBarData(
-            spots: data.asMap().entries.map((entry) {
-              final index = entry.key;
-              final summary = entry.value;
-              return FlSpot(index.toDouble(), summary.calories);
-            }).toList(),
-            isCurved: true,
-            color: primaryColor, // Couleur de la ligne
-            dotData: const FlDotData(
-              show: true,
-            ), // Afficher les points sur la ligne
-            belowBarData: BarAreaData(
-              show: true,
-              color: primaryColor.withAlpha(70),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  const WeeklyChart({
+    required this.chartType,
+    required this.dailyGoal,
+    super.key,
+  });
 
   // TODO: Envoyer cette fonction de un fichier "helpers.dart"
   // --- GRAPHIQUE À BARRES ---
@@ -714,7 +651,6 @@ class WeeklyChart extends StatelessWidget {
     BuildContext context,
     List<DailySummary> data,
     double maxY,
-    Color primaryColor,
   ) {
     return BarChart(
       BarChartData(
@@ -723,26 +659,27 @@ class WeeklyChart extends StatelessWidget {
         barTouchData: BarTouchData(
           handleBuiltInTouches: true,
           touchTooltipData: BarTouchTooltipData(
-            getTooltipColor: (spot) => primaryColor,
-            tooltipBorderRadius: BorderRadius.all(Radius.circular(8.0)),
-            tooltipPadding: EdgeInsets.all(8.0),
+            getTooltipColor: (spot) =>
+                Theme.of(context).colorScheme.primaryContainer,
+            tooltipBorderRadius: const BorderRadius.all(Radius.circular(8.0)),
+            tooltipPadding: const EdgeInsets.all(8.0),
             tooltipMargin: 10,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               final day = data[group.x.toInt()].dayName;
-              final calories = rod.toY;
+
+              // rodIndex 0 is Goal, 1 is Consumed
+              final String label = rodIndex == 0 ? 'Goal' : 'Taken';
+              final String value = '${rod.toY.round()} cal';
+              // final calories = rod.toY;
+
               return BarTooltipItem(
                 '$day\n',
-                TextStyle(
-                  color: Colors.black87,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+                const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 children: <TextSpan>[
                   TextSpan(
-                    text: '${calories.toStringAsFixed(0)} cal',
+                    text: '$label: $value',
                     style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -751,6 +688,49 @@ class WeeklyChart extends StatelessWidget {
             },
           ),
         ),
+        barGroups: data.asMap().entries.map((entry) {
+          final index = entry.key;
+          final summary = entry.value;
+
+          // Logic: Is this day over the limit?
+          final bool isOverBudget = summary.calories > dailyGoal;
+
+          // Use switch expression for cleaner selection logic
+          final Color consumedColor = switch (summary.calories) {
+            _ when isOverBudget =>
+              Theme.brightnessOf(context) == Brightness.light
+                  ? Theme.of(context).colorScheme.error
+                  : Theme.of(context).colorScheme.errorContainer,
+            _ when summary.calories > (dailyGoal - 250) =>
+              Colors.green,
+            _ => Colors.blue,
+          };
+
+          return BarChartGroupData(
+            x: index,
+            // Spacing between the two bars inside the group
+            barsSpace: 4,
+            barRods: [
+              // 1. GOAL ROD (Left, Grey)
+              BarChartRodData(
+                toY: dailyGoal,
+                color: Theme.of(context).colorScheme.onInverseSurface,
+                width: 12,
+                borderRadius: BorderRadius.circular(4),
+              ),
+
+              // 2. CONSUMED ROD (Right, Colored)
+              BarChartRodData(
+                toY: summary.calories,
+                color: consumedColor,
+                width: 12,
+                borderRadius: BorderRadius.circular(4),
+                // Optional: Make the "excess" part glow or highlight?
+                // For now, simple color change is cleanest.
+              ),
+            ],
+          );
+        }).toList(),
         titlesData: FlTitlesData(
           show: true,
           bottomTitles: AxisTitles(
@@ -798,33 +778,189 @@ class WeeklyChart extends StatelessWidget {
         borderData: FlBorderData(
           show: true,
           border: Border(
-            bottom: BorderSide(color: primaryColor.withAlpha(75), width: 1),
-            left: BorderSide(color: primaryColor.withAlpha(75), width: 1),
+            bottom: BorderSide(
+              color: Theme.of(context).colorScheme.inverseSurface,
+              width: 1,
+            ),
+            left: BorderSide(
+              color: Theme.of(context).colorScheme.inverseSurface,
+              width: 1,
+            ),
           ),
         ),
-        barGroups: data.asMap().entries.map((entry) {
-          final index = entry.key;
-          final summary = entry.value;
-          return BarChartGroupData(
-            x: index,
-            barRods: [
-              BarChartRodData(
-                toY: summary.calories,
-                color: primaryColor,
-                width: 18,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
+      ),
+    );
+  }
+
+  // TODO: Envoyer cette fonction de un fichier "helpers.dart"
+  // --- GRAPHIQUE EN LIGNES ---
+  Widget _buildLineChart(
+    BuildContext context,
+    List<DailySummary> data,
+    double maxY,
+  ) {
+    return LineChart(
+      LineChartData(
+        minY: 0,
+        maxY: maxY,
+        lineTouchData: LineTouchData(
+          handleBuiltInTouches: true,
+          touchTooltipData: LineTouchTooltipData(
+            getTooltipColor: (spot) =>
+                Theme.of(context).colorScheme.primaryContainer,
+            tooltipBorderRadius: const BorderRadius.all(Radius.circular(8.0)),
+            tooltipPadding: const EdgeInsets.all(8.0),
+            tooltipMargin: 10,
+            getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
+              return lineBarsSpot.map((spot) {
+                final day = data[spot.x.toInt()].dayName;
+                final calories = spot.y;
+
+                return LineTooltipItem(
+                  '$day\n',
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '${calories.toStringAsFixed(0)} cal',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                );
+              }).toList();
+            },
+          ),
+        ),
+
+        // 1. THE GOAL LINE (Threshold)
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: dailyGoal, // The magic number (e.g., 2000)
+              color: Theme.of(
+                context,
+              ).colorScheme.error, // Subtle red warning color
+              strokeWidth: 2,
+              dashArray: [8, 6], // Makes it dashed (5px line, 5px gap)
+              label: HorizontalLineLabel(
+                show: true,
+                alignment: Alignment.topRight,
+                style: TextStyle(
+                  color: Theme.brightnessOf(context) == Brightness.light
+                      ? Theme.of(context).colorScheme.error
+                      : Theme.of(context).colorScheme.errorContainer,
+                  fontWeight: FontWeight.bold,
                 ),
-                backDrawRodData: BackgroundBarChartRodData(
-                  show: true,
-                  toY: maxY,
-                  color: primaryColor.withAlpha(50),
-                ),
+                labelResolver: (line) => 'Goal', // Label text
               ),
-            ],
-          );
-        }).toList(),
+            ),
+          ],
+        ),
+
+        // 2. THE DATA LINE
+        lineBarsData: [
+          LineChartBarData(
+            spots: data.asMap().entries.map((entry) {
+              final index = entry.key;
+              final summary = entry.value;
+              return FlSpot(index.toDouble(), summary.calories);
+            }).toList(),
+            isCurved: true,
+            color: Theme.of(context).colorScheme.primary, // Line color
+            // Highlight the dots that are OVER the limit
+            dotData: FlDotData(
+              show: true,
+              // checkToShowDot: (spot, barData) {
+              //   // Only show dots for days where we exceeded the goal
+              //   return spot.y > dailyGoal;
+              // },
+              getDotPainter: (spot, percent, barData, index) {
+                return FlDotCirclePainter(
+                  radius: 5,
+                  color: spot.y > dailyGoal
+                      ? Theme.brightnessOf(context) == Brightness.light
+                            ? Theme.of(context).colorScheme.error
+                            : Theme.of(context).colorScheme.errorContainer
+                      : Theme.of(context).colorScheme.primary,
+                  strokeWidth: spot.y > dailyGoal ? 2 : 0,
+                  strokeColor: spot.y > dailyGoal
+                      ? Theme.of(context).colorScheme.surface
+                      : Theme.of(context).colorScheme.surface,
+                );
+              },
+            ),
+            // Fill area with a subtle gradient
+            belowBarData: BarAreaData(
+              show: true,
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.8),
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.6),
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.0),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+        ],
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, meta) {
+                return SideTitleWidget(
+                  meta: meta,
+                  space: 4,
+                  child: Text(data[value.toInt()].dayName),
+                );
+              },
+              interval: 1,
+            ),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 40,
+              interval: maxY / 4,
+              getTitlesWidget: (value, meta) {
+                return SideTitleWidget(
+                  meta: meta,
+                  space: 4,
+                  child: Text(
+                    '${value.toInt()}',
+                    style: const TextStyle(fontSize: 10),
+                  ),
+                );
+              },
+            ),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+        ),
+        gridData: const FlGridData(show: true, drawVerticalLine: false),
+        borderData: FlBorderData(
+          show: true,
+          border: Border(
+            bottom: BorderSide(
+              color: Theme.of(context).colorScheme.inverseSurface,
+              width: 1,
+            ),
+            left: BorderSide(
+              color: Theme.of(context).colorScheme.inverseSurface,
+              width: 1,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -852,26 +988,21 @@ class WeeklyChart extends StatelessWidget {
           );
         }
 
-        double maxCalories = data
+        // CALCULATE MAX Y
+        // We need the chart to be at least as tall as the Goal,
+        // OR the highest calorie day (whichever is bigger).
+        final double maxConsumed = data
             .map((e) => e.calories)
-            .reduce((a, b) => a > b ? a : b);
-        final double maxY = maxCalories > 0 ? (maxCalories + 500) : 2500;
+            .fold(0, (p, c) => p > c ? p : c);
+        final double maxY =
+            (maxConsumed > dailyGoal ? maxConsumed : dailyGoal) *
+            1.2; // Add 20% headroom
 
         return SizedBox(
           height: 250,
           child: chartType == ChartType.bar
-              ? _buildBarChart(
-                  context,
-                  data,
-                  maxY,
-                  Theme.of(context).colorScheme.primary,
-                )
-              : _buildLineChart(
-                  context,
-                  data,
-                  maxY,
-                  Theme.of(context).colorScheme.primary,
-                ),
+              ? _buildBarChart(context, data, maxY)
+              : _buildLineChart(context, data, maxY),
         );
       },
     );

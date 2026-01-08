@@ -599,7 +599,7 @@ abstract class AppLocalizations {
   /// Sélection du thème personnalisé pour l'application
   ///
   /// In fr, this message translates to:
-  /// **'{color, select, mint{Menthe} ocean{Océan} passion{Passion} neon{Néon} platinum{Platine} merlot{Merlot} lemon{Citron} lime{Lime} peacock{Paon} azure{Azure} candy{Bonbon} pumpkin{Citrouille} lapis{Lapis} scarlet{Écarlate} other{Couleur}}'**
+  /// **'{color, select, amber{Ambre} amethyst{Améthyste} beryl{Béryl} bubblegum{Rose bonbon} crimson{Cramoisi} emerald{Émeraude} espresso{Expresso} fern{Fougère} graphite{Graphite} honey{Miel} orchid{Orchidée} sapphire{Saphir} sky{Céleste} slate{Ardoise} solar{Solaire} turquoise{Turquoise} ultramarine{Outremer} vermilion{Vermillon} volt{Volte} other{Couleur non supportée}}'**
   String settingsScreenCustomThemeOption(String color);
 
   /// Le titre pour la sélection de la langue

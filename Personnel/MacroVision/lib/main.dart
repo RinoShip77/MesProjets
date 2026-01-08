@@ -61,7 +61,8 @@ class _AppSetupState extends State<AppSetup> {
   }
 
   Future<void> _loadLocalePreference() async {
-    await DatabaseService().debugPrintTables();
+    // await DatabaseService().debugPrintTables();
+
     final prefs = await SharedPreferences.getInstance();
     final String? savedLanguageCode = prefs.getString('user_language');
     if (savedLanguageCode != null) {

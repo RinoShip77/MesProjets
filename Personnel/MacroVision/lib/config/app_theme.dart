@@ -7,7 +7,7 @@ import 'package:path/path.dart';
 // =========================================================================
 
 // Couleur primaire par défaut si le mode 'Custom' n'est pas sélectionné
-final MaterialColor appPrimaryColor = Colors.purple;
+const MaterialColor appPrimaryColor = Colors.purple;
 
 // =========================================================================
 // FONCTION DE BASE POUR CRÉER LES THÈMES
@@ -46,7 +46,7 @@ ThemeData _buildThemeData({
         fontWeight: FontWeight.bold,
         color: colorScheme.onPrimary,
       ),
-      actionsPadding: EdgeInsets.all(5),
+      actionsPadding: const EdgeInsets.all(5),
       backgroundColor: colorScheme.primary,
       centerTitle: true,
       shape: const RoundedRectangleBorder(

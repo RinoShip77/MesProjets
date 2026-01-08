@@ -266,12 +266,14 @@ void showSnackBar(
       message,
       textAlign: TextAlign.center,
       style: TextStyle(
-        color: isError ? Colors.black : Theme.of(context).colorScheme.onPrimary,
+        color: isError
+            ? Colors.black
+            : Theme.of(context).colorScheme.onPrimaryContainer,
       ),
     ),
     backgroundColor: isError
         ? Theme.of(context).colorScheme.error
-        : Theme.of(context).colorScheme.primary,
+        : Theme.of(context).colorScheme.primaryContainer,
     behavior: SnackBarBehavior.floating,
     // duration: Duration(milliseconds: duration),
     margin: const EdgeInsets.all(20),
@@ -372,9 +374,9 @@ PreferredSizeWidget glassAppBar({
         child: AppBar(
           title: Text(title),
           actions: appBarActions,
-          backgroundColor: Theme.of(context).colorScheme.primary.withAlpha(75),
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           iconTheme: Theme.of(context).iconTheme,
-          shadowColor: Theme.of(context).colorScheme.primary.withAlpha(25),
+          shadowColor: Theme.of(context).colorScheme.primaryContainer,
           toolbarHeight: kToolbarHeight + 20,
           titleTextStyle: TextStyle(
             fontSize: 25,
@@ -455,12 +457,17 @@ Future<void> openDialog({
         ),
         actions: <Widget>[
           TextButton(
-            child: Text(actionLabel),
             onPressed: () {
               // SIMPLE: Just close the dialog.
               // The 'await openDialog(...)' in the calling screen will then complete.
               Navigator.of(context).pop();
             },
+            child: Text(
+              actionLabel,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
           ),
         ],
       );

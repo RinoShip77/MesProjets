@@ -211,8 +211,6 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               // Roue de progression (couleur primaire)
               CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 value: progress,
                 strokeWidth: 12,
                 strokeCap: StrokeCap.round,

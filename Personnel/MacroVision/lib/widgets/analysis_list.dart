@@ -29,14 +29,26 @@ class AnalysisList extends StatelessWidget {
   // Fond pour la suppression (réutilisé)
   Widget _buildDismissBackground(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.error,
+      color: Theme.brightnessOf(context) == Brightness.light
+                    ? Theme.of(context).colorScheme.error
+                    : Theme.of(context).colorScheme.errorContainer,
       alignment: Alignment.centerRight,
       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(Icons.delete_rounded, color: Colors.white),
-          Spacer(),
-          Icon(Icons.delete_rounded, color: Colors.white),
+          Icon(
+            Icons.delete_rounded,
+            color: Theme.brightnessOf(context) == Brightness.light
+                ? Theme.of(context).colorScheme.onError
+                : Theme.of(context).colorScheme.onErrorContainer,
+          ),
+          const Spacer(),
+          Icon(
+            Icons.delete_rounded,
+            color: Theme.brightnessOf(context) == Brightness.light
+                    ? Theme.of(context).colorScheme.onError
+                    : Theme.of(context).colorScheme.onErrorContainer,
+          ),
         ],
       ),
     );
