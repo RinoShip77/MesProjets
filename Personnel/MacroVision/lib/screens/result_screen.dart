@@ -5,6 +5,7 @@ import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/screens/home_screen.dart';
 import 'package:macro_vision/services/gemini_service.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
+import 'package:macro_vision/widgets/main_navigator.dart';
 import 'package:provider/provider.dart';
 import 'package:macro_vision/models/nutritional_facts.dart';
 import 'package:macro_vision/services/theme_provider.dart';
@@ -182,7 +183,7 @@ class _ResultScreenState extends State<ResultScreen> {
             // Custom navigation: go to a specific page
             Navigator.of(
               context,
-            ).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+            ).push(MaterialPageRoute(builder: (context) => const MainNavigator()));
           },
           child: Scaffold(
             appBar: CustomAppBar(

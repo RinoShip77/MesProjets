@@ -99,18 +99,6 @@ class GeminiService {
     return null;
   }
 
-  // /// Analyzes a barcode string to identify a product and estimate nutrition.
-  // Future<Map<String, dynamic>?> analyseBarcode(
-  //   String barcode,
-  //   String lang,
-  // ) async {
-  //   if (_useMockData) return _getMockData();
-
-  //   return _generateAndParse([
-  //     Content.text(_Prompts.barcodeAnalysis(barcode, lang)),
-  //   ]);
-  // }
-
   /// Performs OCR on a Nutrition Facts label image.
   Future<Map<String, dynamic>?> analyzeLabel(
     Uint8List imageBytes,
@@ -208,23 +196,12 @@ class _Prompts {
     
     Rules:
     1. Extract the product Name and Brand from the raw data. Translate to $lang.
-    2. Extract Nutrition Facts (calories, protein, carbs, fat). 
+    2. Extract Nutrition Facts (quantity for one portion, calories, protein, carbs, fat). 
        - If exact values are missing in raw data, estimate them based on the Product Name/Ingredients found in the data.
     3. Output JSON ONLY. No Markdown.
     
     Target Structure: $_structure
   ''';
-
-  // static String barcodeAnalysis(String code, String lang) =>
-  //     '''
-  //   Role: Nutrition Databse. Task: Identify product $code.
-  //   Rules:
-  //   2. If identified, return exact nutrition.
-  //   3. If unknown, estimate based on product type.
-  //   4. Language: $lang.
-  //   4. Output JSON ONLY. No Markdown.
-  //   Structure: $_structure
-  // ''';
 
   /// Generates the prompt for nutrition label analysis.
   /// Strategy: Trust the text first, use Math (4-4-9 rule) only to repair damage.
@@ -241,16 +218,6 @@ class _Prompts {
     
     Output JSON ONLY. Structure: $_structure
   ''';
-  // static String labelAnalysis(String lang) =>
-  //     '''
-  //   Role: OCR Scanner. Task: Extract nutrition values from image.
-  //   Rules:
-  //   1. Convert all units to g (grams) or mg (milligrams).
-  //   2. Handle "< 1g" as 0.5.
-  //   3. Language: $lang.
-  //   4. Output JSON ONLY. No Markdown.
-  //   Structure: $_structure
-  // ''';
 
   /// Generates the prompt for meal photo analysis.
   /// Strategy: Deconstruct the meal, check for hidden oils, and reject non-food.
@@ -275,14 +242,4 @@ class _Prompts {
     
     Target Structure: $_structure
   ''';
-
-  // static String mealAnalysis(String lang) =>
-  //     '''
-  //   Role: Nutrition Expert. Task: Analyse this meal photo.
-  //   Rules:
-  //   1. Identify the food and estimate portions realistically.
-  //   2. Language: $lang.
-  //   3. Output JSON ONLY. No Markdown.
-  //   Structure: $_structure
-  // ''';
 }

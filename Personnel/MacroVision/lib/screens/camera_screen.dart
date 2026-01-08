@@ -29,10 +29,13 @@ enum CameraMode {
 
 class CameraScreen extends StatefulWidget {
   final CameraMode mode; // Ajout du mode
+  // Add this optional parameter
+  final DateTime? targetDate;
 
   const CameraScreen({
     super.key,
-    this.mode = CameraMode.mealAnalysis, // Mode par défaut
+    this.mode = CameraMode.mealAnalysis,
+    this.targetDate,
   });
 
   @override
@@ -571,16 +574,34 @@ class _CameraScreenState extends State<CameraScreen> {
       // 3. Montrer l'animation avant la navigation
       await _showSuccess();
 
+
       // 2. Préparation du chemin d'enregistrement
       final Directory appDocumentsDir = await getTemporaryDirectory();
       final String savedPath =
           '${appDocumentsDir.path}/temp_macro_vision_${DateTime.now().millisecondsSinceEpoch}.jpg';
       await File(imagePath).copy(savedPath);
+      
+      // 1. CALCULATE TIMESTAMP
+      final now = DateTime.now();
+      DateTime finalDate = now;
+
+      if (widget.targetDate != null) {
+        // "Time Travel": Merge Selected Date + Current Time
+        finalDate = DateTime(
+          widget.targetDate!.year,
+          widget.targetDate!.month,
+          widget.targetDate!.day,
+          now.hour,
+          now.minute,
+          now.second,
+        );
+      }
 
       // 3. Créer et insérer l'entrée initiale pour obtenir un ID
       final entry = NutritionalFactsEntry.fromAnalysis(
         initialFacts!,
         savedPath,
+        timestamp: finalDate.millisecondsSinceEpoch,
       );
       final entryId = await DatabaseService().insertEntry(entry);
 

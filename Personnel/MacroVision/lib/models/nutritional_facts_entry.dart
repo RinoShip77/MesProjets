@@ -28,11 +28,11 @@ class NutritionalFactsEntry extends NutritionalFacts {
   factory NutritionalFactsEntry.fromAnalysis(
     NutritionalFacts facts,
     String path,
-    {int? id}
+    {int? id, int? timestamp}
   ) {
     return NutritionalFactsEntry(
       id: id,
-      timestamp: DateTime.now().millisecondsSinceEpoch,
+      timestamp: timestamp ?? DateTime.now().millisecondsSinceEpoch,
       imagePath: path,
       foodName: facts.foodName,
       portionInGrams: facts.portionInGrams, // AJOUTÉ

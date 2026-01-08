@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:macro_vision/helpers/helpers.dart';
+import 'package:macro_vision/screens/camera_screen.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -270,45 +271,74 @@ class _DashboardScreenState extends State<DashboardScreen> {
           // 1. The Title (Left side)
           // We use Flexible to ensure it doesn't overflow if the date is long
           Flexible(
-            child:
-                Text(
-                  context.l10n.dashboardScreenDailyObjectivesLbl,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                  overflow: TextOverflow.ellipsis,
-                ),
+            child: Text(
+              context.l10n.dashboardScreenDailyObjectivesLbl,
+              style: Theme.of(context).textTheme.headlineMedium,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
 
-          // 2. The Date Selector (Right side)
-          InkWell(
-            onTap: _selectDate,
-            borderRadius: BorderRadius.circular(8),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Date Text (e.g. "Today" or "2023-10-15")
-                  Text(
-                    _isToday
-                        ? "Aujourd'hui" // Or context.l10n.today
-                        : formatDate(_selectedDate),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
+          // 2. Right Side Actions
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // A. The Date Picker
+              InkWell(
+                onTap: _selectDate,
+                borderRadius: BorderRadius.circular(8),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Date Text (e.g. "Today" or "2023-10-15")
+                      Text(
+                        _isToday
+                            ? "Aujourd'hui" // Or context.l10n.today
+                            : formatDate(_selectedDate),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
 
-                  const SizedBox(width: 8),
+                      const SizedBox(width: 8),
 
-                  // The Calendar Icon
-                  Icon(
-                    Icons.calendar_month_rounded,
-                    color: Theme.of(context).colorScheme.primary,
+                      // The Calendar Icon
+                      Icon(
+                        Icons.calendar_month_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+
+              // B. NEW: "Add to this Day" Button
+              // Only show if we are NOT on "Today" (since the main FAB handles Today)
+              if (!_isToday) ...[
+                const SizedBox(width: 12),
+                IconButton.filled(
+                  icon: const Icon(Icons.add_a_photo_rounded),
+                  tooltip: "Ajouter à cette date",
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(
+                          MaterialPageRoute(
+                            builder: (_) => CameraScreen(
+                              mode: CameraMode.mealAnalysis, // Default mode
+                              targetDate: _selectedDate, // <--- PASS THE DATE
+                            ),
+                          ),
+                        )
+                        .then(
+                          (_) => _refreshData(),
+                        ); // Refresh dashboard on return
+                  },
+                ),
+              ],
+            ],
           ),
         ],
       ),
