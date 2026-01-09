@@ -509,8 +509,8 @@ abstract class AppLocalizations {
   /// Libellé dynamique pour les entrées du profil
   ///
   /// In fr, this message translates to:
-  /// **'{target, select, weight{Poids ({unit})} height{Grandeur ({unit})} other{Âge}}'**
-  String profileScreenInpLbl(String target, String unit);
+  /// **'{target, select, weight{Poids} height{Grandeur} age{Âge} other{}}'**
+  String profileScreenInpLbl(String target);
 
   /// Libellé du bouton de sauvegarde avec contexte
   ///

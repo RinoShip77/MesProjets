@@ -383,14 +383,11 @@
             }
         }
     },
-    "profileScreenInpLbl": "{target, select, weight{Weight ({unit})} height{Height ({unit})} other{Age}}",
+    "profileScreenInpLbl": "{target, select, weight{Weight} height{Height} age{Age} other{}}",
     "@profileScreenInpLbl": {
         "description": "Dynamic label for profile inputs",
         "placeholders": {
             "target": {
-                "type": "String"
-            },
-            "unit": {
                 "type": "String"
             }
         }

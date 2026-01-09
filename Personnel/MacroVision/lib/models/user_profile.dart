@@ -9,48 +9,45 @@ enum ActivityLevel {
   extra, // Extrêmement actif
 }
 
-enum Goal {
-  weightLoss,
-  muscleGain,
-  maintain,
-}
+enum Goal { weightLoss, muscleGain, maintain }
 
 class UserProfile {
   String name;
-  double weight; // en kg (STOCKAGE METRIQUE)
-  double height; // en cm (STOCKAGE METRIQUE)
   int age;
-  // String goal; // Objectif principal (ex: Maintien, Perte de poids, etc.)
+  double weight;
+  double height;
+  String weightUnit;
+  String heightUnit;
+  bool isMetric;
   Gender gender;
   ActivityLevel activityLevel;
   Goal goal;
 
-  // NOUVEAU: Choix de l'unité. true = Métrique (kg, cm), false = Impérial (lbs, ft/in)
-  bool isMetric;
-
   UserProfile({
-    this.name = 'Utilisateur',
-    this.weight = 70.0,
-    this.height = 170.0,
-    this.age = 30,
-    // this.goal = 'Maintien',
-    this.gender = Gender.male, // Par défaut
-    this.activityLevel = ActivityLevel.sedentary, // Par défaut
-    this.goal = Goal.maintain, // Par défaut
-    this.isMetric = true, // Par défaut à Métrique
+    this.name = '',
+    this.age = 0,
+    this.weight = 0.0,
+    this.height = 0.0,
+    this.weightUnit = 'kg',
+    this.heightUnit = 'cm',
+    this.isMetric = true,
+    this.gender = Gender.male,
+    this.activityLevel = ActivityLevel.sedentary,
+    this.goal = Goal.maintain,
   });
 
   // Pour stocker l'objet dans SharedPreferences (en JSON)
   Map<String, dynamic> toJson() => {
     'name': name,
+    'age': age,
     'weight': weight,
     'height': height,
-    'age': age,
-    // 'goal': goal,
-    'gender': gender.name, // Sauvegarde comme string
-    'activityLevel': activityLevel.name, // Sauvegarde comme string
-    'goal': goal.name, // Sauvegarde comme string
-    'isMetric': isMetric, // AJOUTÉ
+    'weightUnit': weightUnit,
+    'heightUnit': heightUnit,
+    'isMetric': isMetric,
+    'gender': gender.name,
+    'activityLevel': activityLevel.name,
+    'goal': goal.name,
   };
 
   // Pour charger l'objet depuis SharedPreferences (en JSON)
@@ -73,7 +70,7 @@ class UserProfile {
         return ActivityLevel.sedentary;
       }
     }
-    
+
     Goal parseGoal(String? value) {
       try {
         if (value == null) return Goal.maintain;
@@ -84,15 +81,16 @@ class UserProfile {
     }
 
     return UserProfile(
-      name: json['name'] ?? 'Utilisateur',
-      weight: (json['weight'] as num?)?.toDouble() ?? 70.0,
-      height: (json['height'] as num?)?.toDouble() ?? 170.0,
-      age: json['age'] ?? 30,
-      // goal: json['goal'] ?? 'Maintien',
+      name: json['name'] ?? '',
+      age: json['age'] ?? 0,
+      weight: (json['weight'] ?? 0.0).toDouble(),
+      height: (json['height'] ?? 0.0).toDouble(),
+      weightUnit: json['weightUnit'] ?? (json['isMetric'] == true ? 'kg' : 'lbs'),
+      heightUnit: json['heightUnit'] ?? (json['isMetric'] == true ? 'cm' : 'ft'),
+      isMetric: json['isMetric'] ?? true,
       gender: parseGender(json['gender']),
       activityLevel: parseActivity(json['activityLevel']),
       goal: parseGoal(json['goal']),
-      isMetric: json['isMetric'] as bool? ?? true, // LECTURE DU NOUVEAU CHAMP
     );
   }
 }

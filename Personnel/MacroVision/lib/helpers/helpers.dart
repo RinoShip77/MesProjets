@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For rootBundle if needed
 import 'package:macro_vision/main.dart';
+import 'package:macro_vision/models/user_profile.dart';
 import 'package:macro_vision/utils/global_key.dart';
 import 'package:macro_vision/screens/feedback_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -607,11 +608,11 @@ Widget buildThemeOption({
 // =======================================================================
 // UserProfileScreen
 // =======================================================================
-Widget buildTextField({
+Widget buildFormTextField({
   required TextEditingController controller,
   required String label,
   required TextInputType keyboardType,
-  List<TextInputFormatter>? formatters, // NOUVEAU: Paramètre optionnel
+  List<TextInputFormatter>? formatters,
   String? Function(String?)? validator,
 }) {
   return Tooltip(
@@ -620,7 +621,6 @@ Widget buildTextField({
       padding: const EdgeInsets.only(bottom: 15.0),
       child: TextFormField(
         controller: controller,
-        // Utilisation du paramètre formatters
         inputFormatters: formatters,
         keyboardType: keyboardType,
         decoration: InputDecoration(labelText: label),
@@ -632,6 +632,99 @@ Widget buildTextField({
               }
               return null;
             },
+      ),
+    ),
+  );
+}
+
+Widget buildFormTextFieldWDropdown({
+  required String label,
+  required TextEditingController controller,
+  required BuildContext context,
+  required String dropdownInitialValue,
+  required List<String> dropdownOptions,
+  required Function(String?) onDropdownChanged,
+  String? validationText,
+}) {
+  return Tooltip(
+    message: label,
+    child: Padding(
+      padding: const EdgeInsets.only(bottom: 15.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Tooltip(
+              message: label,
+              child: TextFormField(
+                controller: controller,
+                decoration: InputDecoration(
+                  labelText: label,
+                  suffixIcon: buildUnitDropdown(
+                    dropdownInitialValue,
+                    context,
+                    dropdownOptions,
+                    onDropdownChanged,
+                  ),
+                ),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                validator: (val) =>
+                    val == null ||
+                        double.tryParse(val.replaceAll(',', '.')) == null
+                    ? validationText
+                    : null,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget buildUnitDropdown(
+  String value,
+  BuildContext context,
+  List<String> items,
+  Function(String?) onChanged,
+) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 8),
+    child: DropdownButton<String>(
+      value: value,
+      icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
+      underline: Container(), // Remove default underline
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.primary,
+        fontWeight: FontWeight.bold,
+      ),
+      onChanged: onChanged,
+      items: items.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(value: value, child: Text(value));
+      }).toList(),
+    ),
+  );
+}
+
+Widget buildFormDropdown({
+  required String label,
+  dynamic initialValue,
+  dynamic options,
+  required Function(dynamic) onChanged,
+}) {
+  return Tooltip(
+    message: label,
+    child: Padding(
+      padding: const EdgeInsets.only(bottom: 15.0),
+      child: DropdownButtonFormField<dynamic>(
+        decoration: InputDecoration(labelText: label),
+        initialValue: initialValue,
+        items: options,
+        onChanged: onChanged,
       ),
     ),
   );

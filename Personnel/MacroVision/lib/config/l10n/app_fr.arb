@@ -387,14 +387,11 @@
             }
         }
     },
-    "profileScreenInpLbl": "{target, select, weight{Poids ({unit})} height{Grandeur ({unit})} other{Âge}}",
+    "profileScreenInpLbl": "{target, select, weight{Poids} height{Grandeur} age{Âge} other{}}",
     "@profileScreenInpLbl": {
         "description": "Libellé dynamique pour les entrées du profil",
         "placeholders": {
             "target": {
-                "type": "String"
-            },
-            "unit": {
                 "type": "String"
             }
         }

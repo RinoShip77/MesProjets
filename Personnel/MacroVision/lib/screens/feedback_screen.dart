@@ -148,7 +148,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               const SizedBox(height: 20),
 
               // Nom
-              buildTextField(
+              buildFormTextField(
                 controller: _nameController,
                 label: context.l10n.appUserNameInpLbl,
                 keyboardType: TextInputType.name,

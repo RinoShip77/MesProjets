@@ -384,11 +384,12 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String profileScreenInpLbl(String target, String unit) {
+  String profileScreenInpLbl(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
-      'weight': 'Poids ($unit)',
-      'height': 'Grandeur ($unit)',
-      'other': 'Âge',
+      'weight': 'Poids',
+      'height': 'Grandeur',
+      'age': 'Âge',
+      'other': '',
     });
     return '$_temp0';
   }
