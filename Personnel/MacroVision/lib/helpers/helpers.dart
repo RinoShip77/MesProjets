@@ -637,13 +637,13 @@ Widget buildFormTextField({
   );
 }
 
-Widget buildFormTextFieldWDropdown({
+Widget buildFormTextFieldWDropdown<T>({
   required String label,
   required TextEditingController controller,
   required BuildContext context,
-  required String dropdownInitialValue,
-  required List<String> dropdownOptions,
-  required Function(String?) onDropdownChanged,
+  required T dropdownInitialValue,
+  required List<T> dropdownOptions,
+  required void Function(T?) onDropdownChanged,
   String? validationText,
 }) {
   return Tooltip(
@@ -660,10 +660,10 @@ Widget buildFormTextFieldWDropdown({
                 decoration: InputDecoration(
                   labelText: label,
                   suffixIcon: buildUnitDropdown(
-                    dropdownInitialValue,
-                    context,
-                    dropdownOptions,
-                    onDropdownChanged,
+                    currentValue: dropdownInitialValue,
+                    context: context,
+                    items: dropdownOptions,
+                    onChanged: onDropdownChanged,
                   ),
                 ),
                 keyboardType: const TextInputType.numberWithOptions(
@@ -686,29 +686,56 @@ Widget buildFormTextFieldWDropdown({
   );
 }
 
-Widget buildUnitDropdown(
-  String value,
-  BuildContext context,
-  List<String> items,
-  Function(String?) onChanged,
-) {
+// Updated Helper: Accepts explicit list of values
+Widget buildUnitDropdown<T>({
+  T? currentValue,
+  required BuildContext context,
+  required List<T> items,
+  required Function(T?) onChanged,
+}) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 8),
-    child: DropdownButton<String>(
-      value: value,
+    child: DropdownButton<T>(
+      value: currentValue,
+      underline: Container(),
       icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
-      underline: Container(), // Remove default underline
       style: TextStyle(
-        color: Theme.of(context).colorScheme.primary,
-        fontWeight: FontWeight.bold,
+          color: Theme.of(context).colorScheme.primary, 
+          fontWeight: FontWeight.bold
       ),
       onChanged: onChanged,
-      items: items.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(value: value, child: Text(value));
+      items: items.map<DropdownMenuItem<T>>((T value) {
+        return DropdownMenuItem<T>(
+          value: value,
+          child: Text(value is Enum ? value.name : value.toString()),
+        );
       }).toList(),
     ),
   );
 }
+// Widget buildUnitDropdown(
+//   String value,
+//   BuildContext context,
+//   List<String> items,
+//   Function(String?) onChanged,
+// ) {
+//   return Container(
+//     padding: const EdgeInsets.symmetric(horizontal: 8),
+//     child: DropdownButton<String>(
+//       value: value,
+//       icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
+//       underline: Container(), // Remove default underline
+//       style: TextStyle(
+//         color: Theme.of(context).colorScheme.primary,
+//         fontWeight: FontWeight.bold,
+//       ),
+//       onChanged: onChanged,
+//       items: items.map<DropdownMenuItem<String>>((String value) {
+//         return DropdownMenuItem<String>(value: value, child: Text(value));
+//       }).toList(),
+//     ),
+//   );
+// }
 
 Widget buildFormDropdown({
   required String label,

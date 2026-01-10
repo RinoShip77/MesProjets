@@ -26,12 +26,29 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   late TextEditingController _ageController;
 
   // Unit State Variables (Default to Metric)
-  String _weightUnit = 'kg'; // Options: 'kg', 'lbs'
-  String _heightUnit = 'cm'; // Options: 'cm', 'ft'
+  WeightUnit _weightUnit = WeightUnit.kg;
+  HeightUnit _heightUnit = HeightUnit.cm;
 
   // Conversion Constants
   static const double _kgToLbs = 2.20462;
   static const double _cmToFt = 0.0328084;
+
+  String _getDietaryLabel(DietaryPreference preference) {
+    switch (preference) {
+      case DietaryPreference.vegetarian:
+        return "Végétarien";
+      case DietaryPreference.vegan:
+        return "Végan";
+      case DietaryPreference.glutenFree:
+        return "Sans Gluten";
+      case DietaryPreference.keto:
+        return "Keto";
+      case DietaryPreference.lactoseFree:
+        return "Sans Lactose";
+      case DietaryPreference.none:
+        return "Aucune";
+    }
+  }
 
   @override
   void initState() {
@@ -54,14 +71,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _ageController = TextEditingController(text: _profile.age.toString());
     _weightUnit = _profile.weightUnit;
     _heightUnit = _profile.heightUnit;
-    if (_weightUnit.isEmpty) _weightUnit = 'kg';
-    if (_heightUnit.isEmpty) _heightUnit = 'cm';
 
     double displayWeight = _profile.weight; // stored as kg
     double displayHeight = _profile.height; // stored as cm
 
-    if (_weightUnit == 'lbs') displayWeight *= _kgToLbs;
-    if (_heightUnit == 'ft') displayHeight *= _cmToFt;
+    if (_weightUnit == WeightUnit.lbs) displayWeight *= _kgToLbs;
+    if (_heightUnit == HeightUnit.ft) displayHeight *= _cmToFt;
 
     _weightController = TextEditingController(
       text: displayWeight > 0 ? displayWeight.toStringAsFixed(1) : '',
@@ -77,18 +92,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   // --- CONVERSION LOGIC ---
 
-  void _onWeightUnitChanged(String? newUnit) {
+  void _onWeightUnitChanged(WeightUnit? newUnit) {
     if (newUnit == null || newUnit == _weightUnit) return;
 
     // 1. Get CURRENT value from text field (prevent reset)
-    double? currentValue = double.tryParse(
+    final double? currentValue = double.tryParse(
       _weightController.text.replaceAll(',', '.'),
     );
 
     if (currentValue != null) {
       // 2. Perform Math based on switch direction
       double convertedValue;
-      if (newUnit == 'lbs') {
+      if (newUnit == WeightUnit.lbs) {
         // kg -> lbs
         convertedValue = currentValue * _kgToLbs;
       } else {
@@ -105,16 +120,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     });
   }
 
-  void _onHeightUnitChanged(String? newUnit) {
+  void _onHeightUnitChanged(HeightUnit? newUnit) {
     if (newUnit == null || newUnit == _heightUnit) return;
 
-    double? currentValue = double.tryParse(
+    final double? currentValue = double.tryParse(
       _heightController.text.replaceAll(',', '.'),
     );
 
     if (currentValue != null) {
       double convertedValue;
-      if (newUnit == 'ft') {
+      if (newUnit == HeightUnit.ft) {
         // cm -> ft
         convertedValue = currentValue * _cmToFt;
       } else {
@@ -146,8 +161,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     double storageWeight = displayWeight;
     double storageHeight = displayHeight;
 
-    if (_weightUnit == 'lbs') storageWeight = displayWeight / _kgToLbs;
-    if (_heightUnit == 'ft') storageHeight = displayHeight / _cmToFt;
+    if (_weightUnit == WeightUnit.lbs) storageWeight = displayWeight / _kgToLbs;
+    if (_heightUnit == HeightUnit.ft) storageHeight = displayHeight / _cmToFt;
 
     // 3. Update Profile Object
     _profile.name = _nameController.text;
@@ -158,9 +173,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     // SAVE THE UNITPREFERENCES
     _profile.weightUnit = _weightUnit;
     _profile.heightUnit = _heightUnit;
-    _profile.isMetric = (_weightUnit == 'kg' && _heightUnit == 'cm')
-        ? true
-        : false;
+    _profile.isMetric =
+        (_weightUnit == WeightUnit.kg && _heightUnit == HeightUnit.cm);
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('userProfile', jsonEncode(_profile.toJson()));
@@ -177,31 +191,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _heightController.dispose();
     _ageController.dispose();
     super.dispose();
-  }
-
-  // --- UI WIDGETS ---
-
-  Widget _buildUnitDropdown(
-    String value,
-    List<String> items,
-    Function(String?) onChanged,
-  ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: DropdownButton<String>(
-        value: value,
-        icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
-        underline: Container(), // Remove default underline
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
-          fontWeight: FontWeight.bold,
-        ),
-        onChanged: onChanged,
-        items: items.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(value: value, child: Text(value));
-        }).toList(),
-      ),
-    );
   }
 
   @override
@@ -227,29 +216,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               keyboardType: TextInputType.name,
             ),
 
-            // 2. WEIGHT INPUT
-            buildFormTextFieldWDropdown(
-              label: context.l10n.profileScreenInpLbl('weight'),
-              controller: _weightController,
-              context: context,
-              dropdownInitialValue: _weightUnit,
-              dropdownOptions: ['kg', 'lbs'],
-              onDropdownChanged: _onWeightUnitChanged,
-              validationText: context.l10n.appWarningFormValidation('weight'),
-            ),
-
-            // 3. HEIGHT INPUT
-            buildFormTextFieldWDropdown(
-              label: context.l10n.profileScreenInpLbl('height'),
-              controller: _heightController,
-              context: context,
-              dropdownInitialValue: _heightUnit,
-              dropdownOptions: ['cm', 'ft'],
-              onDropdownChanged: _onHeightUnitChanged,
-              validationText: context.l10n.appWarningFormValidation('height'),
-            ),
-
-            // 4. AGE (Simple Text Field Helper with Formatters)
+            // 2. AGE INPUT
             buildFormTextField(
               controller: _ageController,
               label: context.l10n.profileScreenInpLbl('age'),
@@ -257,7 +224,29 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               formatters: [FilteringTextInputFormatter.digitsOnly],
             ),
 
-            // 6. ACTIVITY LEVEL DROPDOWN
+            // 3. WEIGHT INPUT
+            buildFormTextFieldWDropdown(
+              label: context.l10n.profileScreenInpLbl('weight'),
+              controller: _weightController,
+              context: context,
+              dropdownInitialValue: _profile.weightUnit,
+              dropdownOptions: WeightUnit.values,
+              onDropdownChanged: _onWeightUnitChanged,
+              validationText: context.l10n.appWarningFormValidation('weight'),
+            ),
+
+            // 4. HEIGHT INPUT
+            buildFormTextFieldWDropdown(
+              label: context.l10n.profileScreenInpLbl('height'),
+              controller: _heightController,
+              context: context,
+              dropdownInitialValue: _profile.heightUnit,
+              dropdownOptions: HeightUnit.values,
+              onDropdownChanged: _onHeightUnitChanged,
+              validationText: context.l10n.appWarningFormValidation('height'),
+            ),
+
+            // 5. ACTIVITY LEVEL DROPDOWN
             buildFormDropdown(
               label: context.l10n.profileScreenActivityLevelInpLbl,
               initialValue: _profile.activityLevel,
@@ -273,35 +262,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               onChanged: (val) => setState(() => _profile.activityLevel = val),
             ),
 
-            // DropdownButtonFormField<ActivityLevel>(
-            //   decoration: InputDecoration(
-            //     labelText: context.l10n.profileScreenActivityLevelInpLbl,
-            //   ),
-            //   initialValue: _profile.activityLevel,
-            //   items: ActivityLevel.values.map((ActivityLevel level) {
-            //     return DropdownMenuItem<ActivityLevel>(
-            //       value: level,
-            //       child: Text(
-            //         context.l10n.profileScreenActivityLevelOption(level.name),
-            //       ),
-            //     );
-            //   }).toList(),
-            //   onChanged: (ActivityLevel? newValue) {
-            //     if (newValue != null)
-            //       setState(() => _profile.activityLevel = newValue);
-            //   },
-            // ),
             const Divider(height: 30),
 
+            // 6. GENDER & GOAL
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // 6.1. GENDER SEGMENTED BUTTON
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // GENDER SEGMENTED BUTTON
                       Text(context.l10n.profileScreenGenderInpLbl),
                       SizedBox(
                         width: double.infinity,
@@ -340,7 +312,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ),
                 ),
 
-                // 7. GOAL CHOICE CHIPS
+                // 6.2. GOAL CHOICE CHIPS
                 Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: Column(
@@ -365,22 +337,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 // Change BACKGROUND color when selected
                                 backgroundColor:
                                     _profile.goal == Goal.weightLoss
-                                    ? Theme.of(context)
-                                          .colorScheme
-                                          .primary
-                                    : Colors
-                                          .transparent,
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Colors.transparent,
                                 child: Icon(
                                   Icons.trending_down_rounded,
                                   size: 18,
                                   // Keep Icon color CONSTANT (or adjust if needed)
                                   color: _profile.goal == Goal.weightLoss
-                                      ? Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary
-                                      : Theme.of(context)
-                                            .colorScheme
-                                            .primary,
+                                      ? Theme.of(context).colorScheme.onPrimary
+                                      : Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                               selected: _profile.goal == Goal.weightLoss,
@@ -403,22 +368,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 // Change BACKGROUND color when selected
                                 backgroundColor:
                                     _profile.goal == Goal.weightLoss
-                                    ? Theme.of(context)
-                                          .colorScheme
-                                          .primary
-                                    : Colors
-                                          .transparent,
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Colors.transparent,
                                 child: Icon(
                                   Icons.balance_rounded,
                                   size: 18,
                                   // Keep Icon color CONSTANT (or adjust if needed)
                                   color: _profile.goal == Goal.weightLoss
-                                      ? Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary
-                                      : Theme.of(context)
-                                            .colorScheme
-                                            .primary,
+                                      ? Theme.of(context).colorScheme.onPrimary
+                                      : Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                               selected: _profile.goal == Goal.maintain,
@@ -439,22 +397,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 // Change BACKGROUND color when selected
                                 backgroundColor:
                                     _profile.goal == Goal.weightLoss
-                                    ? Theme.of(context)
-                                          .colorScheme
-                                          .primary
-                                    : Colors
-                                          .transparent,
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Colors.transparent,
                                 child: Icon(
                                   Icons.fitness_center_rounded,
                                   size: 18,
                                   // Keep Icon color CONSTANT (or adjust if needed)
                                   color: _profile.goal == Goal.weightLoss
-                                      ? Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary
-                                      : Theme.of(context)
-                                            .colorScheme
-                                            .primary,
+                                      ? Theme.of(context).colorScheme.onPrimary
+                                      : Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                               selected: _profile.goal == Goal.muscleGain,
@@ -475,9 +426,69 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ],
             ),
 
+            // 7. DIETARY PREFERENCE
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Préférences Alimentaires", // context.l10n.dietaryLabel
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 5),
+                  Wrap(
+                    spacing: 8.0,
+                    runSpacing: 4.0,
+                    children: DietaryPreference.values
+                        // Don't show 'none' as a chip (empty list = none)
+                        .where((pref) => pref != DietaryPreference.none)
+                        .map((DietaryPreference preference) {
+                          // 1. CHECK LIST: Is this option inside our list?
+                          final bool isSelected = _profile.dietaryPreferences
+                              .contains(preference);
+
+                          return FilterChip(
+                            label: Text(_getDietaryLabel(preference)),
+                            selected: isSelected,
+                            showCheckmark: false,
+
+                            // Style
+                            selectedColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
+                            labelStyle: TextStyle(
+                              color: isSelected
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : null,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+
+                            // 2. TOGGLE LIST: Add or Remove
+                            onSelected: (bool selected) {
+                              setState(() {
+                                if (selected) {
+                                  _profile.dietaryPreferences.add(preference);
+                                } else {
+                                  _profile.dietaryPreferences.remove(
+                                    preference,
+                                  );
+                                }
+                              });
+                            },
+                          );
+                        })
+                        .toList(),
+                  ),
+                ],
+              ),
+            ),
+
             const Divider(height: 30),
 
-            // Save Button
+            // 7. SAVE BUTTON
             ElevatedButton.icon(
               icon: const Icon(Icons.save_alt_rounded),
               label: Text(context.l10n.profileScreenSaveBtn),
