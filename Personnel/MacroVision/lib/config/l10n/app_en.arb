@@ -410,6 +410,14 @@
       }
     }
   },
+  "profileScreenAvatarBackgroundLbl": "Background color",
+    "@profileScreenAvatarBackgroundLbl": {
+        "description": "Label for the background color"
+    },
+  "profileScreenSaveAvatarBtn": "Save avatar",
+  "@profileScreenSaveAvatarBtn": {
+    "description": "Save button label with context"
+  },
   "profileScreenSaveBtn": "Save profile",
   "@profileScreenSaveBtn": {
     "description": "Save button label with context"

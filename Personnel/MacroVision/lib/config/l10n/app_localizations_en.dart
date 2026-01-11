@@ -414,6 +414,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get profileScreenAvatarBackgroundLbl => 'Background color';
+
+  @override
+  String get profileScreenSaveAvatarBtn => 'Save avatar';
+
+  @override
   String get profileScreenSaveBtn => 'Save profile';
 
   @override

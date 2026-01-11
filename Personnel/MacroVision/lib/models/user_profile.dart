@@ -41,6 +41,8 @@ enum DietaryPreference {
 }
 
 class UserProfile {
+  String profileEmoji;
+  int profileColor;
   String name;
   int age;
   double weight;
@@ -54,11 +56,14 @@ class UserProfile {
   Goal goal;
   double weeklyPace;
   List<DietaryPreference> dietaryPreferences;
+
   bool isMetric;
 
   PaceIntensity get paceIntensity => PaceIntensity.fromKg(weeklyPace);
 
   UserProfile({
+    this.profileEmoji = '👤',
+    this.profileColor = 0xFF2196F3, //Default blue
     this.name = '',
     this.age = 0,
     this.weight = 0.0,
@@ -72,6 +77,7 @@ class UserProfile {
     this.goal = Goal.maintain,
     this.weeklyPace = 0.5,
     List<DietaryPreference>? dietaryPreferences,
+
     this.isMetric = true,
   }) : dietaryPreferences = dietaryPreferences ?? [];
 
@@ -124,6 +130,8 @@ class UserProfile {
     }
 
     return UserProfile(
+      profileEmoji: json['profileEmoji'] ?? '👤',
+      profileColor: json['profileColor'] ?? 0xFF2196F3,
       name: json['name'] ?? '',
       age: json['age'] ?? 0,
       weight: (json['weight'] ?? 0.0).toDouble(),
@@ -149,12 +157,15 @@ class UserProfile {
               .where((e) => e != DietaryPreference.none)
               .toList() ??
           [],
+
       isMetric: json['isMetric'] ?? true,
     );
   }
 
   // Pour stocker l'objet dans SharedPreferences (en JSON)
   Map<String, dynamic> toJson() => {
+    'profileEmoji': profileEmoji,
+    'profileColor': profileColor,
     'name': name,
     'age': age,
     'weight': weight,
@@ -168,6 +179,7 @@ class UserProfile {
     'goal': goal.name,
     'weeklyPace': weeklyPace,
     'dietaryPreferences': dietaryPreferences.map((e) => e.name).toList(),
+
     'isMetric': isMetric,
   };
 }

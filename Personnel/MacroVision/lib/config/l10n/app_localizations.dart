@@ -524,6 +524,18 @@ abstract class AppLocalizations {
   /// **'{target, select, age{Âge} weight{Poids} height{Grandeur} bodyFat{Pourcentage de gras (Optionnel)} activityLevel{Niveau d\'activité physique} waterGoal{Objectif d\'hydration} gender{Genre} goal{Objectif principal} weeklyPace{Rythme hebdomadaire} dietaryPreferences{Préférences diététiques} other{Autre}}'**
   String profileScreenInpLbl(String target);
 
+  /// Libellé pour la couleur d'arrière-plan
+  ///
+  /// In fr, this message translates to:
+  /// **'Couleur d\'arrière-plan'**
+  String get profileScreenAvatarBackgroundLbl;
+
+  /// Libellé du bouton pour sauvegarder l'avatar
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrer l\'avatar'**
+  String get profileScreenSaveAvatarBtn;
+
   /// Libellé du bouton de sauvegarde avec contexte
   ///
   /// In fr, this message translates to:

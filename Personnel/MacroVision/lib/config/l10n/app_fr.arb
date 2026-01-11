@@ -410,6 +410,14 @@
             }
         }
     },
+    "profileScreenAvatarBackgroundLbl": "Couleur d'arrière-plan",
+    "@profileScreenAvatarBackgroundLbl": {
+        "description": "Libellé pour la couleur d'arrière-plan"
+    },
+    "profileScreenSaveAvatarBtn": "Enregistrer l'avatar",
+    "@profileScreenSaveAvatarBtn": {
+        "description": "Libellé du bouton pour sauvegarder l'avatar"
+    },
     "profileScreenSaveBtn": "Sauvegarder le profil",
     "@profileScreenSaveBtn": {
         "description": "Libellé du bouton de sauvegarde avec contexte"

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/models/user_profile.dart'; // Ensure this path is correct
 import 'package:macro_vision/services/nutrition_calculator.dart';
+import 'package:macro_vision/widgets/avatar_picker.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/utils/l10n_extension.dart';
@@ -187,11 +188,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   void _calculateWaterNeeds() {
     // 1. Parse Input
-    final double? val = double.tryParse(_weightController.text.replaceAll(',', '.'));
+    final double? val = double.tryParse(
+      _weightController.text.replaceAll(',', '.'),
+    );
     if (val == null) return; // Exit if empty/invalid
 
     // 2. Normalize to KG (Simple check)
-    final double weightInKg = (_weightUnit == WeightUnit.lbs) ? val / 2.20462 : val;
+    final double weightInKg = (_weightUnit == WeightUnit.lbs)
+        ? val / 2.20462
+        : val;
 
     // 3. Update State (Delegate math to the Model!)
     setState(() {
@@ -227,14 +232,89 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[
-            // 1. NAME INPUT
+            // 1. AVATAR BUILDER
+            Padding(
+              padding: const EdgeInsetsGeometry.only(bottom: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        // Open the Bottom Sheet
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true, // Allows sheet to be taller
+                          builder: (context) => AvatarPicker(
+                            currentEmoji: _profile.profileEmoji,
+                            currentColor: _profile.profileColor,
+                            onSave: (newEmoji, newColor) {
+                              setState(() {
+                                _profile.profileEmoji = newEmoji;
+                                _profile.profileColor = newColor;
+                              });
+                            },
+                          ),
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          // 1. The Avatar Itself
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: Color(_profile.profileColor),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              _profile.profileEmoji,
+                              style: const TextStyle(fontSize: 50),
+                            ),
+                          ),
+
+                          // 2. The "Edit" Badge
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              height: 32,
+                              width: 32,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.surface,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.edit,
+                                size: 16,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // 2. NAME INPUT
             buildFormTextField(
               controller: _nameController,
               label: context.l10n.appUserNameInpLbl,
               keyboardType: TextInputType.name,
             ),
 
-            // 2. AGE INPUT
+            // 3. AGE INPUT
             buildFormTextField(
               controller: _ageController,
               label: context.l10n.profileScreenInpLbl('age'),
@@ -242,7 +322,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               formatters: [FilteringTextInputFormatter.digitsOnly],
             ),
 
-            // 3. WEIGHT INPUT
+            // 4. WEIGHT INPUT
             buildFormTextFieldWDropdown(
               label: context.l10n.profileScreenInpLbl('weight'),
               controller: _weightController,
@@ -253,7 +333,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               validationText: context.l10n.appWarningFormValidation('weight'),
             ),
 
-            // 4. HEIGHT INPUT
+            // 5. HEIGHT INPUT
             buildFormTextFieldWDropdown(
               label: context.l10n.profileScreenInpLbl('height'),
               controller: _heightController,
@@ -264,7 +344,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               validationText: context.l10n.appWarningFormValidation('height'),
             ),
 
-            // 5. BODY FAT INPUT
+            // 6. BODY FAT INPUT
             buildFormTextField(
               controller: _bodyFatController,
               label: context.l10n.profileScreenInpLbl('bodyFat'),
@@ -279,7 +359,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ],
             ),
 
-            // 6. ACTIVITY LEVEL DROPDOWN
+            // 7. ACTIVITY LEVEL DROPDOWN
             buildFormDropdown(
               label: context.l10n.profileScreenInpLbl('activityLevel'),
               initialValue: _profile.activityLevel,
@@ -295,7 +375,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               onChanged: (val) => setState(() => _profile.activityLevel = val),
             ),
 
-            // 7. WATER GOAL INPUT
+            // 8. WATER GOAL INPUT
             Column(
               children: [
                 Row(
@@ -354,11 +434,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             const Divider(height: 30),
 
-            // 8. GENDER & GOAL & DIETARY PREFERENCES
+            // 9. GENDER & GOAL & DIETARY PREFERENCES
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // 8.1. GENDER SEGMENTED BUTTON
+                // 9.1. GENDER SEGMENTED BUTTON
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -397,10 +477,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
 
-                // 8.2. GOAL & WEEKLY PACE
+                // 9.2. GOAL & WEEKLY PACE
                 Column(
                   children: [
-                    // 8.2.1. GOAL CHOICE CHIPS
+                    // 9.2.1. GOAL CHOICE CHIPS
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Column(
@@ -526,7 +606,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                     ),
 
-                    // 8.2.2. WEEKLY PACE (Only show if the goal is NOT Maintain)
+                    // 9.2.2. WEEKLY PACE (Only show if the goal is NOT Maintain)
                     if (_profile.goal != Goal.maintain) ...[
                       Column(
                         children: [
@@ -587,7 +667,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
 
-                // 8.3. DIETARY PREFERENCE
+                // 9.3. DIETARY PREFERENCE
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -652,7 +732,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             const Divider(height: 30),
 
-            // 9. SAVE BUTTON
+            // 10. SAVE BUTTON
             ElevatedButton.icon(
               icon: const Icon(Icons.save_alt_rounded),
               label: Text(context.l10n.profileScreenSaveBtn),
