@@ -346,7 +346,7 @@
     },
     "profileScreenActivityLevelOption": "{target, select, sedentary{Sédentaire (peu ou pas d'exercice)} lightly{Légèrement actif (1-3 jours/semaine)} moderate{Modérément actif (3-5 jours/semaine)} very{Très actif (6-7 jours/semaine)} extra{Extrêmement actif (2x/jour)} other{Aucun}}",
     "@profileScreenActivityLevelOption": {
-        "description": "Options pour le niveau d'activité physique",
+        "description": "Sélection du niveau d'activité physique",
         "placeholders": {
             "target": {
                 "type": "String"
@@ -355,7 +355,7 @@
     },
     "profileScreenDietaryPreferencesOption": "{target, select, vegetarian{Vegetarian} vegan{Vegan} glutenFree{Gluten free} keto{Keto} lactoseFree{Lactose free} other{None}}",
     "@profileScreenDietaryPreferencesOption": {
-        "description": "User dietary preferences selection",
+        "description": "Sélection des préférences diététiques",
         "placeholders": {
             "target": {
                 "type": "String"
@@ -397,15 +397,24 @@
     "@profileScreenTitle": {
         "description": "Titre pour l'écran de profil"
     },
+    "profileScreenWeelyPaceLabel": "{unit} / sem",
+    "@profileScreenWeelyPaceLabel": {
+        "description": "Le libellé pour le rythme hebdomadaire",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
     "profileScreenWeelyPaceOption": "{target, select, slow{Lant & Durable} moderate{Recommandé (Standard} intense{Intense (Difficile)} other{Autre}}",
-  "@profileScreenWeelyPaceOption": {
-    "description": "User weekly pace descriptions selection",
-    "placeholders": {
-      "target": {
-        "type": "String"
-      }
-    }
-  },
+    "@profileScreenWeelyPaceOption": {
+        "description": "Sélection du rythme hebdomadaire de l'utilisateur",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
     "resultScreenAnalysisOutputLbl": "{context, select, energy{Énergie} calories{Calories} totalFat{Lipides} saturatedFat{Saturés} transFat{Trans} cholesterol{Cholestérol} sodium{Sodium} potassium{Potassium} carbohydrate{Glucides} fiber{Fibres} sugar{Sucres} protein{Protéines} other{Nutriments}}",
     "@resultScreenAnalysisOutputLbl": {
         "description": "Libellés des nutriments dans les résultats d'analyse",

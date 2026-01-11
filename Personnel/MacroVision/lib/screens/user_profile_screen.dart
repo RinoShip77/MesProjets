@@ -24,6 +24,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   late TextEditingController _weightController;
   late TextEditingController _heightController;
   late TextEditingController _ageController;
+  late TextEditingController _bodyFatController;
 
   // Unit State Variables (Default to Metric)
   WeightUnit _weightUnit = WeightUnit.kg;
@@ -33,21 +34,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   static const double _kgToLbs = 2.20462;
   static const double _cmToFt = 0.0328084;
 
-  // Returns the text label (e.g. "0.5 kg / sem" or "1.1 lbs / week")
-  String _getWeeklyPaceLabel() {
-    if (_profile.weightUnit == WeightUnit.kg) {
-      return "${_profile.weeklyPace.toStringAsFixed(1)} kg / sem";
-    } else {
-      // Convert kg -> lbs for display only
-      double lbs = _profile.weeklyPace * 2.20462;
-      return "${lbs.toStringAsFixed(1)} lbs / week";
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     _loadUserProfile();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _weightController.dispose();
+    _heightController.dispose();
+    _ageController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadUserProfile() async {
@@ -65,6 +64,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _ageController = TextEditingController(text: _profile.age.toString());
     _weightUnit = _profile.weightUnit;
     _heightUnit = _profile.heightUnit;
+    _bodyFatController = TextEditingController(
+      text: _profile.bodyFat?.toStringAsFixed(1),
+    );
+    // if (_profile.bodyFat != null) {
+    //   _bodyFatController.text = _profile.bodyFat!.toStringAsFixed(1);
+    // } else {
+    //   _bodyFatController.text = ''; // Leave empty if unknown
+    // }
 
     double displayWeight = _profile.weight; // stored as kg
     double displayHeight = _profile.height; // stored as cm
@@ -82,6 +89,49 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<void> _saveUserProfile() async {
+    if (!_formKey.currentState!.validate()) {
+      if (mounted) showSnackBar(context, context.l10n.appErrorForm, true);
+      return;
+    }
+
+    // 1. Parse Display Values
+    final int age = int.tryParse(_ageController.text) ?? 0;
+    final double displayWeight =
+        double.tryParse(_weightController.text.replaceAll(',', '.')) ?? 0.0;
+    final double displayHeight =
+        double.tryParse(_heightController.text.replaceAll(',', '.')) ?? 0.0;
+    final double? bodyFat =
+        double.tryParse(_bodyFatController.text.replaceAll(',', '.'));
+
+    // 2. Normalize to Storage Format (Metric: kg / cm)
+    double storageWeight = displayWeight;
+    double storageHeight = displayHeight;
+
+    if (_weightUnit == WeightUnit.lbs) storageWeight = displayWeight / _kgToLbs;
+    if (_heightUnit == HeightUnit.ft) storageHeight = displayHeight / _cmToFt;
+
+    // 3. Update Profile Object
+    _profile.name = _nameController.text;
+    _profile.age = age;
+    _profile.weight = storageWeight;
+    _profile.height = storageHeight;
+    _profile.bodyFat = bodyFat;
+
+    // SAVE THE UNITPREFERENCES
+    _profile.weightUnit = _weightUnit;
+    _profile.heightUnit = _heightUnit;
+    _profile.isMetric =
+        (_weightUnit == WeightUnit.kg && _heightUnit == HeightUnit.cm);
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userProfile', jsonEncode(_profile.toJson()));
+
+    if (mounted) {
+      showSnackBar(context, context.l10n.appSuccessUpdate('profile'), false);
+    }
   }
 
   // --- CONVERSION LOGIC ---
@@ -138,55 +188,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     });
   }
 
-  Future<void> _saveUserProfile() async {
-    if (!_formKey.currentState!.validate()) {
-      if (mounted) showSnackBar(context, context.l10n.appErrorForm, true);
-      return;
-    }
-
-    // 1. Parse Display Values
-    final double displayWeight =
-        double.tryParse(_weightController.text.replaceAll(',', '.')) ?? 0.0;
-    final double displayHeight =
-        double.tryParse(_heightController.text.replaceAll(',', '.')) ?? 0.0;
-    final int age = int.tryParse(_ageController.text) ?? 0;
-
-    // 2. Normalize to Storage Format (Metric: kg / cm)
-    double storageWeight = displayWeight;
-    double storageHeight = displayHeight;
-
-    if (_weightUnit == WeightUnit.lbs) storageWeight = displayWeight / _kgToLbs;
-    if (_heightUnit == HeightUnit.ft) storageHeight = displayHeight / _cmToFt;
-
-    // 3. Update Profile Object
-    _profile.name = _nameController.text;
-    _profile.age = age;
-    _profile.weight = storageWeight;
-    _profile.height = storageHeight;
-
-    // SAVE THE UNITPREFERENCES
-    _profile.weightUnit = _weightUnit;
-    _profile.heightUnit = _heightUnit;
-    _profile.isMetric =
-        (_weightUnit == WeightUnit.kg && _heightUnit == HeightUnit.cm);
-
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userProfile', jsonEncode(_profile.toJson()));
-
-    if (mounted) {
-      showSnackBar(context, context.l10n.appSuccessUpdate('profile'), false);
-    }
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _weightController.dispose();
-    _heightController.dispose();
-    _ageController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -240,7 +241,32 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               validationText: context.l10n.appWarningFormValidation('height'),
             ),
 
-            // 5. ACTIVITY LEVEL DROPDOWN
+            // 5. BODY FAT INPUT
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15.0),
+              child: TextFormField(
+                controller: _bodyFatController,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
+                ],
+                decoration: InputDecoration(
+                  labelText: "Pourcentage de gras (Optionnel)", // context.l10n.bodyFatLabel
+                  hintText: "Ex: 15", // context.l10n.bodyFatHint
+                  suffixText: "%", // Simple text suffix, no dropdown needed
+                  suffixStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                // No validator needed because it is optional!
+              ),
+            ),
+
+            // 6. ACTIVITY LEVEL DROPDOWN
             buildFormDropdown(
               label: context.l10n.profileScreenInpLbl('activityLevel'),
               initialValue: _profile.activityLevel,
@@ -258,11 +284,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             const Divider(height: 30),
 
-            // 6. GENDER & GOAL & DIETARY PREFERENCES
+            // 7. GENDER & GOAL & DIETARY PREFERENCES
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // 6.1. GENDER SEGMENTED BUTTON
+                // 7.1. GENDER SEGMENTED BUTTON
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -301,10 +327,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
 
-                // 6.2. GOAL & DIETARY PREFERENCES
+                // 7.2. GOAL & DIETARY PREFERENCES
                 Column(
                   children: [
-                    // 6.2.1. GOAL CHOICE CHIPS
+                    // 7.2.1. GOAL CHOICE CHIPS
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Column(
@@ -430,8 +456,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                     ),
 
-                    // 6.2.2. WEEKLY PACE
-                    // Only show if the goal is NOT Maintenance
+                    // 7.2.2. WEEKLY PACE (Only show if the goal is NOT Maintain)
                     if (_profile.goal != Goal.maintain) ...[
                       Column(
                         children: [
@@ -443,7 +468,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               ),
                               // Dynamic Label showing the exact value
                               Text(
-                                _getWeeklyPaceLabel(),
+                                context.l10n.profileScreenWeelyPaceLabel(
+                                  '${_weightUnit.convertPace(_profile.weeklyPace).toStringAsFixed(1)} ${_weightUnit.name}',
+                                ),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).colorScheme.primary,
@@ -459,7 +486,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             max:
                                 1.0, // Maximum pace (1kg/week is very aggressive)
                             divisions: 9, // Snaps to 0.1, 0.2 ... 1.0
-                            label: _getWeeklyPaceLabel(),
+                            label: context.l10n.profileScreenWeelyPaceLabel(
+                              '${_weightUnit.convertPace(_profile.weeklyPace).toStringAsFixed(1)} ${_weightUnit.name}',
+                            ),
                             onChanged: (double value) {
                               setState(() {
                                 _profile.weeklyPace = value;
@@ -488,7 +517,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
 
-                // 6.3. DIETARY PREFERENCE
+                // 7.3. DIETARY PREFERENCE
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -553,7 +582,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             const Divider(height: 30),
 
-            // 7. SAVE BUTTON
+            // 8. SAVE BUTTON
             ElevatedButton.icon(
               icon: const Icon(Icons.save_alt_rounded),
               label: Text(context.l10n.profileScreenSaveBtn),

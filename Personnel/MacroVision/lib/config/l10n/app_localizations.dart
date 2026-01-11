@@ -470,13 +470,13 @@ abstract class AppLocalizations {
   /// **'{target, select, legalWarning{Chargement de l\'avertissement légale...} userGuide{Chargement des instructions...} other{Chargement du contenu...}}'**
   String initializationScreenDialogDefaultLbl(String target);
 
-  /// Options pour le niveau d'activité physique
+  /// Sélection du niveau d'activité physique
   ///
   /// In fr, this message translates to:
   /// **'{target, select, sedentary{Sédentaire (peu ou pas d\'exercice)} lightly{Légèrement actif (1-3 jours/semaine)} moderate{Modérément actif (3-5 jours/semaine)} very{Très actif (6-7 jours/semaine)} extra{Extrêmement actif (2x/jour)} other{Aucun}}'**
   String profileScreenActivityLevelOption(String target);
 
-  /// User dietary preferences selection
+  /// Sélection des préférences diététiques
   ///
   /// In fr, this message translates to:
   /// **'{target, select, vegetarian{Vegetarian} vegan{Vegan} glutenFree{Gluten free} keto{Keto} lactoseFree{Lactose free} other{None}}'**
@@ -512,7 +512,13 @@ abstract class AppLocalizations {
   /// **'Profil'**
   String get profileScreenTitle;
 
-  /// User weekly pace descriptions selection
+  /// Le libellé pour le rythme hebdomadaire
+  ///
+  /// In fr, this message translates to:
+  /// **'{unit} / sem'**
+  String profileScreenWeelyPaceLabel(String unit);
+
+  /// Sélection du rythme hebdomadaire de l'utilisateur
   ///
   /// In fr, this message translates to:
   /// **'{target, select, slow{Lant & Durable} moderate{Recommandé (Standard} intense{Intense (Difficile)} other{Autre}}'**

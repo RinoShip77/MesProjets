@@ -397,6 +397,15 @@
   "@profileScreenTitle": {
     "description": "Title for the profile screen"
   },
+  "profileScreenWeelyPaceLabel": "{unit} / week",
+  "@profileScreenWeelyPaceLabel": {
+    "description": "User weekly pace label",
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "profileScreenWeelyPaceOption": "{target, select, slow{Slow & Sustainable} moderate{Recommanded (Standard)} intense{Intense (Difficult)} other{None}}",
   "@profileScreenWeelyPaceOption": {
     "description": "User weekly pace descriptions selection",

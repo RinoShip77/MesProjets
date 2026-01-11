@@ -1,18 +1,16 @@
-// Définitions pour les choix de l'utilisateur
+// Enums for user choices
 enum WeightUnit {
   kg,
   lbs;
 
-  // Optional: Helper for display text (e.g. "kg" vs "Kilogrammes")
-  String get label => name;
+  // Helper to convert a KG pace to this unit
+  double convertPace(double kgPace) {
+    if (this == WeightUnit.kg) return kgPace;
+    return kgPace * 2.20462;
+  }
 }
 
-enum HeightUnit {
-  cm,
-  ft; // represents feet & inches usually
-
-  String get label => name;
-}
+enum HeightUnit { cm, ft }
 
 enum ActivityLevel { sedentary, lightly, moderate, very, extra }
 
@@ -42,7 +40,6 @@ enum DietaryPreference {
   none,
 }
 
-
 class UserProfile {
   String name;
   int age;
@@ -55,8 +52,9 @@ class UserProfile {
   Goal goal;
   double weeklyPace;
   List<DietaryPreference> dietaryPreferences;
+  double? bodyFat;
   bool isMetric;
-  
+
   PaceIntensity get paceIntensity => PaceIntensity.fromKg(weeklyPace);
 
   UserProfile({
@@ -71,6 +69,7 @@ class UserProfile {
     this.goal = Goal.maintain,
     this.weeklyPace = 0.5,
     List<DietaryPreference>? dietaryPreferences,
+    this.bodyFat,
     this.isMetric = true,
   }) : dietaryPreferences = dietaryPreferences ?? [];
 
@@ -144,6 +143,9 @@ class UserProfile {
               .where((e) => e != DietaryPreference.none)
               .toList() ??
           [],
+      bodyFat: json['bodyFat'] != null
+          ? (json['bodyFat'] as num).toDouble()
+          : null,
       isMetric: json['isMetric'] ?? true,
     );
   }
@@ -161,6 +163,7 @@ class UserProfile {
     'goal': goal.name,
     'weeklyPace': weeklyPace,
     'dietaryPreferences': dietaryPreferences.map((e) => e.name).toList(),
+    'bodyFat': bodyFat,
     'isMetric': isMetric,
   };
 }

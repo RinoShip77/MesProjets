@@ -399,6 +399,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileScreenTitle => 'Profile';
 
   @override
+  String profileScreenWeelyPaceLabel(String unit) {
+    return '$unit / week';
+  }
+
+  @override
   String profileScreenWeelyPaceOption(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
       'slow': 'Slow & Sustainable',
