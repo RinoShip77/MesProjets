@@ -393,7 +393,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'age': 'Âge',
       'weight': 'Poids',
       'height': 'Grandeur',
+      'bodyFat': 'Pourcentage de gras (Optionnel)',
       'activityLevel': 'Niveau d\'activité physique',
+      'waterGoal': 'Objectif d\'hydration',
       'gender': 'Genre',
       'goal': 'Objectif principal',
       'weeklyPace': 'Rythme hebdomadaire',
@@ -408,6 +410,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get profileScreenTitle => 'Profil';
+
+  @override
+  String profileScreenWaterGoalCalculationResult(String target) {
+    return 'Objectif ajusté selon votre poids: $target L';
+  }
+
+  @override
+  String get profileScreenWaterGoalLabel => 'Calculer (35 ml/kg)';
 
   @override
   String profileScreenWeelyPaceLabel(String unit) {

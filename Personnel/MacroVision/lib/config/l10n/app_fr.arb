@@ -380,7 +380,7 @@
             }
         }
     },
-    "profileScreenInpLbl": "{target, select, age{Âge} weight{Poids} height{Grandeur} activityLevel{Niveau d'activité physique} gender{Genre} goal{Objectif principal} weeklyPace{Rythme hebdomadaire} dietaryPreferences{Préférences diététiques} other{Autre}}",
+    "profileScreenInpLbl": "{target, select, age{Âge} weight{Poids} height{Grandeur} bodyFat{Pourcentage de gras (Optionnel)} activityLevel{Niveau d'activité physique} waterGoal{Objectif d'hydration} gender{Genre} goal{Objectif principal} weeklyPace{Rythme hebdomadaire} dietaryPreferences{Préférences diététiques} other{Autre}}",
     "@profileScreenInpLbl": {
         "description": "Libellé dynamique pour les entrées du profil",
         "placeholders": {
@@ -396,6 +396,19 @@
     "profileScreenTitle": "Profil",
     "@profileScreenTitle": {
         "description": "Titre pour l'écran de profil"
+    },
+    "profileScreenWaterGoalCalculationResult": "Objectif ajusté selon votre poids: {target} L",
+    "@profileScreenWaterGoalCalculationResult": {
+        "description": "Message pour le calcul de l'objectif d'hydratation",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "profileScreenWaterGoalLabel": "Calculer (35 ml/kg)",
+    "@profileScreenWaterGoalLabel": {
+        "description": "Libellé pour le calcul de l'objectif d'hydratation"
     },
     "profileScreenWeelyPaceLabel": "{unit} / sem",
     "@profileScreenWeelyPaceLabel": {

@@ -67,11 +67,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _bodyFatController = TextEditingController(
       text: _profile.bodyFat?.toStringAsFixed(1),
     );
-    // if (_profile.bodyFat != null) {
-    //   _bodyFatController.text = _profile.bodyFat!.toStringAsFixed(1);
-    // } else {
-    //   _bodyFatController.text = ''; // Leave empty if unknown
-    // }
 
     double displayWeight = _profile.weight; // stored as kg
     double displayHeight = _profile.height; // stored as cm
@@ -103,8 +98,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         double.tryParse(_weightController.text.replaceAll(',', '.')) ?? 0.0;
     final double displayHeight =
         double.tryParse(_heightController.text.replaceAll(',', '.')) ?? 0.0;
-    final double? bodyFat =
-        double.tryParse(_bodyFatController.text.replaceAll(',', '.'));
+    final double? bodyFat = double.tryParse(
+      _bodyFatController.text.replaceAll(',', '.'),
+    );
 
     // 2. Normalize to Storage Format (Metric: kg / cm)
     double storageWeight = displayWeight;
@@ -188,6 +184,32 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     });
   }
 
+  void _calculateWaterNeeds() {
+    // 1. Parse Input
+    final double? val = double.tryParse(_weightController.text.replaceAll(',', '.'));
+    if (val == null) return; // Exit if empty/invalid
+
+    // 2. Normalize to KG (Simple check)
+    final double weightInKg = (_weightUnit == WeightUnit.lbs) ? val / 2.20462 : val;
+
+    // 3. Update State (Delegate math to the Model!)
+    setState(() {
+      _profile.waterGoal = UserProfile.calculateRecommendedWater(weightInKg);
+    });
+
+    // 4. Optional Feedback
+    if (mounted) {
+      showSnackBar(
+        context,
+        context.l10n.profileScreenWaterGoalCalculationResult(
+          '${_profile.waterGoal}',
+        ),
+        false,
+        duration: 500,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -242,28 +264,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
 
             // 5. BODY FAT INPUT
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15.0),
-              child: TextFormField(
-                controller: _bodyFatController,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
-                ],
-                decoration: InputDecoration(
-                  labelText: "Pourcentage de gras (Optionnel)", // context.l10n.bodyFatLabel
-                  hintText: "Ex: 15", // context.l10n.bodyFatHint
-                  suffixText: "%", // Simple text suffix, no dropdown needed
-                  suffixStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                // No validator needed because it is optional!
+            buildFormTextField(
+              controller: _bodyFatController,
+              label: context.l10n.profileScreenInpLbl('bodyFat'),
+              hint: 'Ex: 15',
+              suffix: const Icon(Icons.percent_rounded, size: 14),
+              // suffix: '%',
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
               ),
+              formatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
+              ],
             ),
 
             // 6. ACTIVITY LEVEL DROPDOWN
@@ -282,13 +294,70 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               onChanged: (val) => setState(() => _profile.activityLevel = val),
             ),
 
+            // 7. WATER GOAL INPUT
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(context.l10n.profileScreenInpLbl('waterGoal')),
+                    // The "Smart" Button
+                    InkWell(
+                      onTap: _calculateWaterNeeds,
+                      child: Text(
+                        context.l10n.profileScreenWaterGoalLabel,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: Slider(
+                        value: _profile.waterGoal,
+                        min: 1.0, // Minimum 1L
+                        max: 5.0, // Maximum 5L
+                        divisions: 40, // Allows 0.1L steps (1.0, 1.1, 1.2...)
+                        label: '${_profile.waterGoal.toStringAsFixed(1)} L',
+                        onChanged: (double value) {
+                          setState(() {
+                            _profile.waterGoal = value;
+                          });
+                        },
+                      ),
+                    ),
+                    // Display the Value
+                    Container(
+                      width: 60,
+                      alignment: Alignment.center,
+                      child: Text(
+                        '${_profile.waterGoal.toStringAsFixed(1)} L',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
             const Divider(height: 30),
 
-            // 7. GENDER & GOAL & DIETARY PREFERENCES
+            // 8. GENDER & GOAL & DIETARY PREFERENCES
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // 7.1. GENDER SEGMENTED BUTTON
+                // 8.1. GENDER SEGMENTED BUTTON
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -327,10 +396,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
 
-                // 7.2. GOAL & DIETARY PREFERENCES
+                // 8.2. GOAL & WEEKLY PACE
                 Column(
                   children: [
-                    // 7.2.1. GOAL CHOICE CHIPS
+                    // 8.2.1. GOAL CHOICE CHIPS
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Column(
@@ -456,7 +525,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                     ),
 
-                    // 7.2.2. WEEKLY PACE (Only show if the goal is NOT Maintain)
+                    // 8.2.2. WEEKLY PACE (Only show if the goal is NOT Maintain)
                     if (_profile.goal != Goal.maintain) ...[
                       Column(
                         children: [
@@ -517,7 +586,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
 
-                // 7.3. DIETARY PREFERENCE
+                // 8.3. DIETARY PREFERENCE
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -582,7 +651,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             const Divider(height: 30),
 
-            // 8. SAVE BUTTON
+            // 9. SAVE BUTTON
             ElevatedButton.icon(
               icon: const Icon(Icons.save_alt_rounded),
               label: Text(context.l10n.profileScreenSaveBtn),

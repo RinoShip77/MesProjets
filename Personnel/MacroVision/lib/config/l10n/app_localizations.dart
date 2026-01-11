@@ -497,7 +497,7 @@ abstract class AppLocalizations {
   /// Libellé dynamique pour les entrées du profil
   ///
   /// In fr, this message translates to:
-  /// **'{target, select, age{Âge} weight{Poids} height{Grandeur} activityLevel{Niveau d\'activité physique} gender{Genre} goal{Objectif principal} weeklyPace{Rythme hebdomadaire} dietaryPreferences{Préférences diététiques} other{Autre}}'**
+  /// **'{target, select, age{Âge} weight{Poids} height{Grandeur} bodyFat{Pourcentage de gras (Optionnel)} activityLevel{Niveau d\'activité physique} waterGoal{Objectif d\'hydration} gender{Genre} goal{Objectif principal} weeklyPace{Rythme hebdomadaire} dietaryPreferences{Préférences diététiques} other{Autre}}'**
   String profileScreenInpLbl(String target);
 
   /// Libellé du bouton de sauvegarde avec contexte
@@ -511,6 +511,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Profil'**
   String get profileScreenTitle;
+
+  /// Message pour le calcul de l'objectif d'hydratation
+  ///
+  /// In fr, this message translates to:
+  /// **'Objectif ajusté selon votre poids: {target} L'**
+  String profileScreenWaterGoalCalculationResult(String target);
+
+  /// Libellé pour le calcul de l'objectif d'hydratation
+  ///
+  /// In fr, this message translates to:
+  /// **'Calculer (35 ml/kg)'**
+  String get profileScreenWaterGoalLabel;
 
   /// Le libellé pour le rythme hebdomadaire
   ///

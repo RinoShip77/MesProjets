@@ -105,10 +105,11 @@ ThemeData _buildThemeData({
 
     // --- UserScreen ---
     inputDecorationTheme: InputDecorationTheme(
-      border: const OutlineInputBorder(),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: colorScheme.primary),
       ),
+      suffixIconColor: colorScheme.primary,
     ),
 
     switchTheme: SwitchThemeData(
@@ -148,11 +149,11 @@ ThemeData _buildThemeData({
       shape: const CircleBorder(),
       elevation: 15,
     ),
-    
+
     dialogTheme: DialogThemeData(
       alignment: AlignmentGeometry.center,
-      titleTextStyle: TextStyle(fontFamily: GoogleFonts.tomorrow().fontFamily)
-    )
+      titleTextStyle: TextStyle(fontFamily: GoogleFonts.tomorrow().fontFamily),
+    ),
   );
 }
 

@@ -47,15 +47,28 @@ class UserProfile {
   WeightUnit weightUnit;
   double height;
   HeightUnit heightUnit;
+  double waterGoal;
+  double? bodyFat;
   ActivityLevel activityLevel;
   Gender gender;
   Goal goal;
   double weeklyPace;
   List<DietaryPreference> dietaryPreferences;
-  double? bodyFat;
   bool isMetric;
 
   PaceIntensity get paceIntensity => PaceIntensity.fromKg(weeklyPace);
+
+  static double calculateRecommendedWater(double weightInKg) {
+    // Formula: 35ml per kg
+    double result = weightInKg * 0.035;
+
+    // Clamp results between 1.0L and 5.0L
+    if (result < 1.0) return 1.0;
+    if (result > 5.0) return 5.0;
+
+    // Return rounded to 1 decimal
+    return double.parse(result.toStringAsFixed(1));
+  }
 
   UserProfile({
     this.name = '',
@@ -64,12 +77,13 @@ class UserProfile {
     this.weightUnit = WeightUnit.kg,
     this.height = 0.0,
     this.heightUnit = HeightUnit.cm,
+    this.waterGoal = 2.0,
+    this.bodyFat,
     this.activityLevel = ActivityLevel.sedentary,
     this.gender = Gender.male,
     this.goal = Goal.maintain,
     this.weeklyPace = 0.5,
     List<DietaryPreference>? dietaryPreferences,
-    this.bodyFat,
     this.isMetric = true,
   }) : dietaryPreferences = dietaryPreferences ?? [];
 
@@ -128,6 +142,10 @@ class UserProfile {
       weightUnit: parseWeightUnit(json['weightUnit']),
       height: (json['height'] ?? 0.0).toDouble(),
       heightUnit: parseHeightUnit(json['heightUnit']),
+      waterGoal: (json['waterGoal'] ?? 2.0).toDouble(),
+      bodyFat: json['bodyFat'] != null
+          ? (json['bodyFat'] as num).toDouble()
+          : null,
       activityLevel: parseActivityLevel(json['activityLevel']),
       gender: parseGender(json['gender']),
       goal: parseGoal(json['goal']),
@@ -143,9 +161,6 @@ class UserProfile {
               .where((e) => e != DietaryPreference.none)
               .toList() ??
           [],
-      bodyFat: json['bodyFat'] != null
-          ? (json['bodyFat'] as num).toDouble()
-          : null,
       isMetric: json['isMetric'] ?? true,
     );
   }
@@ -158,12 +173,13 @@ class UserProfile {
     'weightUnit': weightUnit.name,
     'height': height,
     'heightUnit': heightUnit.name,
+    'waterGoal': waterGoal,
+    'bodyFat': bodyFat,
     'activityLevel': activityLevel.name,
     'gender': gender.name,
     'goal': goal.name,
     'weeklyPace': weeklyPace,
     'dietaryPreferences': dietaryPreferences.map((e) => e.name).toList(),
-    'bodyFat': bodyFat,
     'isMetric': isMetric,
   };
 }

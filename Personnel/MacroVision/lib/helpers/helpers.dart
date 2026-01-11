@@ -259,7 +259,7 @@ void showSnackBar(
   BuildContext context,
   String message,
   isError, {
-  int duration = 1500,
+  int duration = 1000,
   SnackBarAction? action,
 }) {
   final snackbar = SnackBar(
@@ -280,6 +280,7 @@ void showSnackBar(
     margin: const EdgeInsets.all(20),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
     action: action,
+    duration: Duration(milliseconds: duration),
   );
 
   ScaffoldMessenger.of(context).showSnackBar(
@@ -612,8 +613,10 @@ Widget buildFormTextField({
   required TextEditingController controller,
   required String label,
   required TextInputType keyboardType,
-  List<TextInputFormatter>? formatters,
+  String? hint,
+  Icon? suffix,
   String? Function(String?)? validator,
+  List<TextInputFormatter>? formatters,
 }) {
   return Tooltip(
     message: label,
@@ -621,17 +624,22 @@ Widget buildFormTextField({
       padding: const EdgeInsets.only(bottom: 15.0),
       child: TextFormField(
         controller: controller,
-        inputFormatters: formatters,
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          // suffixText: suffix,
+          suffixIcon: suffix,
+        ),
         keyboardType: keyboardType,
-        decoration: InputDecoration(labelText: label),
         validator:
             validator ??
             (value) {
-              if (value == null || value.isEmpty) {
+              if (value == null) {
                 return 'Ce champ est requis.';
               }
               return null;
             },
+        inputFormatters: formatters,
       ),
     ),
   );
@@ -700,8 +708,8 @@ Widget buildUnitDropdown<T>({
       underline: Container(),
       icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
       style: TextStyle(
-          color: Theme.of(context).colorScheme.primary, 
-          fontWeight: FontWeight.bold
+        color: Theme.of(context).colorScheme.primary,
+        fontWeight: FontWeight.bold,
       ),
       onChanged: onChanged,
       items: items.map<DropdownMenuItem<T>>((T value) {
