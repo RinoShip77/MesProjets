@@ -18,6 +18,21 @@ enum ActivityLevel { sedentary, lightly, moderate, very, extra }
 
 enum Gender { male, female }
 
+enum Goal { weightLoss, muscleGain, maintain }
+
+enum PaceIntensity {
+  slow,
+  moderate,
+  intense;
+
+  // Static helper to determine intensity based on KG value
+  static PaceIntensity fromKg(double kgPerWeek) {
+    if (kgPerWeek <= 0.25) return PaceIntensity.slow;
+    if (kgPerWeek <= 0.5) return PaceIntensity.moderate;
+    return PaceIntensity.intense;
+  }
+}
+
 enum DietaryPreference {
   vegetarian,
   vegan,
@@ -27,7 +42,6 @@ enum DietaryPreference {
   none,
 }
 
-enum Goal { weightLoss, muscleGain, maintain }
 
 class UserProfile {
   String name;
@@ -38,9 +52,12 @@ class UserProfile {
   HeightUnit heightUnit;
   ActivityLevel activityLevel;
   Gender gender;
-  List<DietaryPreference> dietaryPreferences;
   Goal goal;
+  double weeklyPace;
+  List<DietaryPreference> dietaryPreferences;
   bool isMetric;
+  
+  PaceIntensity get paceIntensity => PaceIntensity.fromKg(weeklyPace);
 
   UserProfile({
     this.name = '',
@@ -51,8 +68,9 @@ class UserProfile {
     this.heightUnit = HeightUnit.cm,
     this.activityLevel = ActivityLevel.sedentary,
     this.gender = Gender.male,
-    List<DietaryPreference>? dietaryPreferences,
     this.goal = Goal.maintain,
+    this.weeklyPace = 0.5,
+    List<DietaryPreference>? dietaryPreferences,
     this.isMetric = true,
   }) : dietaryPreferences = dietaryPreferences ?? [];
 
@@ -95,15 +113,6 @@ class UserProfile {
       }
     }
 
-    DietaryPreference parseDietaryPreference(String? value) {
-      try {
-        if (value == null) return DietaryPreference.none;
-        return DietaryPreference.values.firstWhere((e) => e.name == value);
-      } catch (_) {
-        return DietaryPreference.none;
-      }
-    }
-
     Goal parseGoal(String? value) {
       try {
         if (value == null) return Goal.maintain;
@@ -122,6 +131,8 @@ class UserProfile {
       heightUnit: parseHeightUnit(json['heightUnit']),
       activityLevel: parseActivityLevel(json['activityLevel']),
       gender: parseGender(json['gender']),
+      goal: parseGoal(json['goal']),
+      weeklyPace: (json['weeklyPace'] ?? 0.5).toDouble(),
       dietaryPreferences:
           (json['dietaryPreferences'] as List<dynamic>?)
               ?.map(
@@ -133,7 +144,6 @@ class UserProfile {
               .where((e) => e != DietaryPreference.none)
               .toList() ??
           [],
-      goal: parseGoal(json['goal']),
       isMetric: json['isMetric'] ?? true,
     );
   }
@@ -148,8 +158,9 @@ class UserProfile {
     'heightUnit': heightUnit.name,
     'activityLevel': activityLevel.name,
     'gender': gender.name,
-    'dietaryPreferences': dietaryPreferences.map((e) => e.name).toList(),
     'goal': goal.name,
+    'weeklyPace': weeklyPace,
+    'dietaryPreferences': dietaryPreferences.map((e) => e.name).toList(),
     'isMetric': isMetric,
   };
 }

@@ -191,7 +191,7 @@ abstract class AppLocalizations {
   /// Messages de validation pour les champs de formulaire
   ///
   /// In fr, this message translates to:
-  /// **'{target, select, weight{Entrez un poids valide} height{Entrez une grandeur valide} age{Entrez un âge valide} comment{Veuillez saisir votre commentaire} other{Entrée invalide}}'**
+  /// **'{target, select, age{Entrez un âge valide} weight{Entrez un poids valide} height{Entrez une grandeur valide} comment{Veuillez saisir votre commentaire} other{Entrée invalide}}'**
   String appWarningFormValidation(String target);
 
   /// Libellé du bouton de sauvegarde avec contexte
@@ -470,35 +470,23 @@ abstract class AppLocalizations {
   /// **'{target, select, legalWarning{Chargement de l\'avertissement légale...} userGuide{Chargement des instructions...} other{Chargement du contenu...}}'**
   String initializationScreenDialogDefaultLbl(String target);
 
-  /// Libellé pour le champ du niveau d'activité physique
-  ///
-  /// In fr, this message translates to:
-  /// **'Niveau d\'activité physique'**
-  String get profileScreenActivityLevelInpLbl;
-
   /// Options pour le niveau d'activité physique
   ///
   /// In fr, this message translates to:
   /// **'{target, select, sedentary{Sédentaire (peu ou pas d\'exercice)} lightly{Légèrement actif (1-3 jours/semaine)} moderate{Modérément actif (3-5 jours/semaine)} very{Très actif (6-7 jours/semaine)} extra{Extrêmement actif (2x/jour)} other{Aucun}}'**
   String profileScreenActivityLevelOption(String target);
 
-  /// Libellé pour le champ du sexe de l'utilisateur
+  /// User dietary preferences selection
   ///
   /// In fr, this message translates to:
-  /// **'Sexe'**
-  String get profileScreenGenderInpLbl;
+  /// **'{target, select, vegetarian{Vegetarian} vegan{Vegan} glutenFree{Gluten free} keto{Keto} lactoseFree{Lactose free} other{None}}'**
+  String profileScreenDietaryPreferencesOption(String target);
 
   /// Sélection du genre de l'utilisateur
   ///
   /// In fr, this message translates to:
   /// **'{target, select, male{Homme} female{Femme} other{Autre}}'**
   String profileScreenGenderOption(String target);
-
-  /// Libellé pour le champ de l'objectif principal
-  ///
-  /// In fr, this message translates to:
-  /// **'Objectif principal'**
-  String get profileScreenGoalInpLbl;
 
   /// Sélection de l'objectif de forme physique de l'utilisateur
   ///
@@ -509,7 +497,7 @@ abstract class AppLocalizations {
   /// Libellé dynamique pour les entrées du profil
   ///
   /// In fr, this message translates to:
-  /// **'{target, select, weight{Poids} height{Grandeur} age{Âge} other{}}'**
+  /// **'{target, select, age{Âge} weight{Poids} height{Grandeur} activityLevel{Niveau d\'activité physique} gender{Genre} goal{Objectif principal} weeklyPace{Rythme hebdomadaire} dietaryPreferences{Préférences diététiques} other{Autre}}'**
   String profileScreenInpLbl(String target);
 
   /// Libellé du bouton de sauvegarde avec contexte
@@ -524,23 +512,11 @@ abstract class AppLocalizations {
   /// **'Profil'**
   String get profileScreenTitle;
 
-  /// Infobulle montrant les deux options d'un interrupteur
+  /// User weekly pace descriptions selection
   ///
   /// In fr, this message translates to:
-  /// **'Métrique (kg, cm) ou Impérial (lb, in)'**
-  String get profileScreenUnitSystemSwitch;
-
-  /// Options pour le système d'unité
-  ///
-  /// In fr, this message translates to:
-  /// **'{unit, select, metric{Métrique} imperial{Impérial} other{Aucun}}'**
-  String profileScreenUnitOption(String unit);
-
-  /// Titre pour la préférence du système d'unité
-  ///
-  /// In fr, this message translates to:
-  /// **'Système d\'unité'**
-  String get profileScreenUnitSystemLbl;
+  /// **'{target, select, slow{Lant & Durable} moderate{Recommandé (Standard} intense{Intense (Difficile)} other{Autre}}'**
+  String profileScreenWeelyPaceOption(String target);
 
   /// Libellés des nutriments dans les résultats d'analyse
   ///

@@ -33,20 +33,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   static const double _kgToLbs = 2.20462;
   static const double _cmToFt = 0.0328084;
 
-  String _getDietaryLabel(DietaryPreference preference) {
-    switch (preference) {
-      case DietaryPreference.vegetarian:
-        return "Végétarien";
-      case DietaryPreference.vegan:
-        return "Végan";
-      case DietaryPreference.glutenFree:
-        return "Sans Gluten";
-      case DietaryPreference.keto:
-        return "Keto";
-      case DietaryPreference.lactoseFree:
-        return "Sans Lactose";
-      case DietaryPreference.none:
-        return "Aucune";
+  // Returns the text label (e.g. "0.5 kg / sem" or "1.1 lbs / week")
+  String _getWeeklyPaceLabel() {
+    if (_profile.weightUnit == WeightUnit.kg) {
+      return "${_profile.weeklyPace.toStringAsFixed(1)} kg / sem";
+    } else {
+      // Convert kg -> lbs for display only
+      double lbs = _profile.weeklyPace * 2.20462;
+      return "${lbs.toStringAsFixed(1)} lbs / week";
     }
   }
 
@@ -229,7 +223,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               label: context.l10n.profileScreenInpLbl('weight'),
               controller: _weightController,
               context: context,
-              dropdownInitialValue: _profile.weightUnit,
+              dropdownInitialValue: _weightUnit,
               dropdownOptions: WeightUnit.values,
               onDropdownChanged: _onWeightUnitChanged,
               validationText: context.l10n.appWarningFormValidation('weight'),
@@ -240,7 +234,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               label: context.l10n.profileScreenInpLbl('height'),
               controller: _heightController,
               context: context,
-              dropdownInitialValue: _profile.heightUnit,
+              dropdownInitialValue: _heightUnit,
               dropdownOptions: HeightUnit.values,
               onDropdownChanged: _onHeightUnitChanged,
               validationText: context.l10n.appWarningFormValidation('height'),
@@ -248,7 +242,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             // 5. ACTIVITY LEVEL DROPDOWN
             buildFormDropdown(
-              label: context.l10n.profileScreenActivityLevelInpLbl,
+              label: context.l10n.profileScreenInpLbl('activityLevel'),
               initialValue: _profile.activityLevel,
               options: ActivityLevel.values.map((ActivityLevel level) {
                 return DropdownMenuItem<ActivityLevel>(
@@ -264,226 +258,297 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             const Divider(height: 30),
 
-            // 6. GENDER & GOAL
+            // 6. GENDER & GOAL & DIETARY PREFERENCES
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // 6.1. GENDER SEGMENTED BUTTON
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(context.l10n.profileScreenGenderInpLbl),
-                      SizedBox(
-                        width: double.infinity,
-                        child: SegmentedButton<Gender>(
-                          segments: [
-                            ButtonSegment<Gender>(
-                              value: Gender.male,
-                              label: Text(
-                                context.l10n.profileScreenGenderOption('male'),
-                              ),
-                              icon: const Icon(Icons.male),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(context.l10n.profileScreenInpLbl('gender')),
+                    SizedBox(
+                      width: double.infinity,
+                      child: SegmentedButton<Gender>(
+                        segments: [
+                          ButtonSegment<Gender>(
+                            value: Gender.male,
+                            label: Text(
+                              context.l10n.profileScreenGenderOption('male'),
                             ),
-                            ButtonSegment<Gender>(
-                              value: Gender.female,
-                              label: Text(
-                                context.l10n.profileScreenGenderOption(
-                                  'female',
-                                ),
-                              ),
-                              icon: const Icon(Icons.female),
-                            ),
-                          ],
-                          selected: {_profile.gender},
-                          onSelectionChanged: (Set<Gender> newSelection) {
-                            setState(() {
-                              _profile.gender = newSelection.first;
-                            });
-                          },
-                          style: const ButtonStyle(
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            visualDensity: VisualDensity.compact,
+                            icon: const Icon(Icons.male),
                           ),
+                          ButtonSegment<Gender>(
+                            value: Gender.female,
+                            label: Text(
+                              context.l10n.profileScreenGenderOption('female'),
+                            ),
+                            icon: const Icon(Icons.female),
+                          ),
+                        ],
+                        selected: {_profile.gender},
+                        onSelectionChanged: (Set<Gender> newSelection) {
+                          setState(() {
+                            _profile.gender = newSelection.first;
+                          });
+                        },
+                        style: const ButtonStyle(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          visualDensity: VisualDensity.compact,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
 
-                // 6.2. GOAL CHOICE CHIPS
-                Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(context.l10n.profileScreenGoalInpLbl),
-                      const SizedBox(height: 5),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Wrap(
-                          spacing: 10.0, // Space between chips
-                          alignment: WrapAlignment.center, // Center them nicely
-                          children: [
-                            ChoiceChip(
-                              label: Text(
-                                context.l10n.profileScreenGoalOption(
-                                  Goal.weightLoss.name,
+                // 6.2. GOAL & DIETARY PREFERENCES
+                Column(
+                  children: [
+                    // 6.2.1. GOAL CHOICE CHIPS
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(context.l10n.profileScreenInpLbl('goal')),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Wrap(
+                              spacing: 10.0, // Space between chips
+                              alignment:
+                                  WrapAlignment.center, // Center them nicely
+                              children: [
+                                ChoiceChip(
+                                  label: Text(
+                                    context.l10n.profileScreenGoalOption(
+                                      Goal.weightLoss.name,
+                                    ),
+                                  ),
+                                  showCheckmark: false,
+                                  avatar: CircleAvatar(
+                                    // Change BACKGROUND color when selected
+                                    backgroundColor:
+                                        _profile.goal == Goal.weightLoss
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Colors.transparent,
+                                    child: Icon(
+                                      Icons.trending_down_rounded,
+                                      size: 18,
+                                      // Keep Icon color CONSTANT (or adjust if needed)
+                                      color: _profile.goal == Goal.weightLoss
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimary
+                                          : Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                    ),
+                                  ),
+                                  selected: _profile.goal == Goal.weightLoss,
+                                  onSelected: (bool selected) {
+                                    if (selected) {
+                                      setState(
+                                        () => _profile.goal = Goal.weightLoss,
+                                      );
+                                    }
+                                  },
                                 ),
-                              ),
-                              showCheckmark: false,
-                              avatar: CircleAvatar(
-                                // Change BACKGROUND color when selected
-                                backgroundColor:
-                                    _profile.goal == Goal.weightLoss
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Colors.transparent,
-                                child: Icon(
-                                  Icons.trending_down_rounded,
-                                  size: 18,
-                                  // Keep Icon color CONSTANT (or adjust if needed)
-                                  color: _profile.goal == Goal.weightLoss
-                                      ? Theme.of(context).colorScheme.onPrimary
-                                      : Theme.of(context).colorScheme.primary,
+                                ChoiceChip(
+                                  label: Text(
+                                    context.l10n.profileScreenGoalOption(
+                                      Goal.maintain.name,
+                                    ),
+                                  ),
+                                  showCheckmark: false,
+                                  avatar: CircleAvatar(
+                                    // Change BACKGROUND color when selected
+                                    backgroundColor:
+                                        _profile.goal == Goal.maintain
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Colors.transparent,
+                                    child: Icon(
+                                      Icons.balance_rounded,
+                                      size: 18,
+                                      // Keep Icon color CONSTANT (or adjust if needed)
+                                      color: _profile.goal == Goal.maintain
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimary
+                                          : Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                    ),
+                                  ),
+                                  selected: _profile.goal == Goal.maintain,
+                                  onSelected: (bool selected) {
+                                    if (selected) {
+                                      setState(
+                                        () => _profile.goal = Goal.maintain,
+                                      );
+                                    }
+                                  },
                                 ),
-                              ),
-                              selected: _profile.goal == Goal.weightLoss,
-                              onSelected: (bool selected) {
-                                if (selected) {
-                                  setState(
-                                    () => _profile.goal = Goal.weightLoss,
-                                  );
-                                }
-                              },
+                                ChoiceChip(
+                                  label: Text(
+                                    context.l10n.profileScreenGoalOption(
+                                      Goal.muscleGain.name,
+                                    ),
+                                  ),
+                                  showCheckmark: false,
+                                  avatar: CircleAvatar(
+                                    // Change BACKGROUND color when selected
+                                    backgroundColor:
+                                        _profile.goal == Goal.muscleGain
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Colors.transparent,
+                                    child: Icon(
+                                      Icons.fitness_center_rounded,
+                                      size: 18,
+                                      // Keep Icon color CONSTANT (or adjust if needed)
+                                      color: _profile.goal == Goal.muscleGain
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimary
+                                          : Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                    ),
+                                  ),
+                                  selected: _profile.goal == Goal.muscleGain,
+                                  onSelected: (bool selected) {
+                                    if (selected) {
+                                      setState(
+                                        () => _profile.goal = Goal.muscleGain,
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
                             ),
-                            ChoiceChip(
-                              label: Text(
-                                context.l10n.profileScreenGoalOption(
-                                  Goal.maintain.name,
-                                ),
-                              ),
-                              showCheckmark: false,
-                              avatar: CircleAvatar(
-                                // Change BACKGROUND color when selected
-                                backgroundColor:
-                                    _profile.goal == Goal.weightLoss
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Colors.transparent,
-                                child: Icon(
-                                  Icons.balance_rounded,
-                                  size: 18,
-                                  // Keep Icon color CONSTANT (or adjust if needed)
-                                  color: _profile.goal == Goal.weightLoss
-                                      ? Theme.of(context).colorScheme.onPrimary
-                                      : Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                              selected: _profile.goal == Goal.maintain,
-                              onSelected: (bool selected) {
-                                if (selected) {
-                                  setState(() => _profile.goal = Goal.maintain);
-                                }
-                              },
-                            ),
-                            ChoiceChip(
-                              label: Text(
-                                context.l10n.profileScreenGoalOption(
-                                  Goal.muscleGain.name,
-                                ),
-                              ),
-                              showCheckmark: false,
-                              avatar: CircleAvatar(
-                                // Change BACKGROUND color when selected
-                                backgroundColor:
-                                    _profile.goal == Goal.weightLoss
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Colors.transparent,
-                                child: Icon(
-                                  Icons.fitness_center_rounded,
-                                  size: 18,
-                                  // Keep Icon color CONSTANT (or adjust if needed)
-                                  color: _profile.goal == Goal.weightLoss
-                                      ? Theme.of(context).colorScheme.onPrimary
-                                      : Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                              selected: _profile.goal == Goal.muscleGain,
-                              onSelected: (bool selected) {
-                                if (selected) {
-                                  setState(
-                                    () => _profile.goal = Goal.muscleGain,
-                                  );
-                                }
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                    ),
 
-            // 7. DIETARY PREFERENCE
-            Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Préférences Alimentaires", // context.l10n.dietaryLabel
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: 5),
-                  Wrap(
-                    spacing: 8.0,
-                    runSpacing: 4.0,
-                    children: DietaryPreference.values
-                        // Don't show 'none' as a chip (empty list = none)
-                        .where((pref) => pref != DietaryPreference.none)
-                        .map((DietaryPreference preference) {
-                          // 1. CHECK LIST: Is this option inside our list?
-                          final bool isSelected = _profile.dietaryPreferences
-                              .contains(preference);
+                    // 6.2.2. WEEKLY PACE
+                    // Only show if the goal is NOT Maintenance
+                    if (_profile.goal != Goal.maintain) ...[
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                context.l10n.profileScreenInpLbl('weeklyPace'),
+                              ),
+                              // Dynamic Label showing the exact value
+                              Text(
+                                _getWeeklyPaceLabel(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
 
-                          return FilterChip(
-                            label: Text(_getDietaryLabel(preference)),
-                            selected: isSelected,
-                            showCheckmark: false,
-
-                            // Style
-                            selectedColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
-                            labelStyle: TextStyle(
-                              color: isSelected
-                                  ? Theme.of(context).colorScheme.onPrimary
-                                  : null,
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                            ),
-
-                            // 2. TOGGLE LIST: Add or Remove
-                            onSelected: (bool selected) {
+                          Slider(
+                            // We always work in KG internally (0.0 to 1.0 kg)
+                            value: _profile.weeklyPace,
+                            min: 0.1, // Minimum pace
+                            max:
+                                1.0, // Maximum pace (1kg/week is very aggressive)
+                            divisions: 9, // Snaps to 0.1, 0.2 ... 1.0
+                            label: _getWeeklyPaceLabel(),
+                            onChanged: (double value) {
                               setState(() {
-                                if (selected) {
-                                  _profile.dietaryPreferences.add(preference);
-                                } else {
-                                  _profile.dietaryPreferences.remove(
-                                    preference,
-                                  );
-                                }
+                                _profile.weeklyPace = value;
                               });
                             },
-                          );
-                        })
-                        .toList(),
-                  ),
-                ],
-              ),
+                          ),
+
+                          // Helper text to explain the difficulty
+                          Text(
+                            context.l10n.profileScreenWeelyPaceOption(
+                              _profile.paceIntensity.name,
+                            ),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: switch (_profile.paceIntensity) {
+                                PaceIntensity.intense => Colors.redAccent,
+                                PaceIntensity.moderate => Colors.green,
+                                PaceIntensity.slow => Colors.blue,
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+
+                // 6.3. DIETARY PREFERENCE
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Divider(height: 15),
+                    Text(
+                      context.l10n.profileScreenInpLbl('dietaryPreferences'),
+                    ),
+                    Wrap(
+                      spacing: 8.0,
+                      runSpacing: 4.0,
+                      children: DietaryPreference.values
+                          // Don't show 'none' as a chip (empty list = none)
+                          .where((pref) => pref != DietaryPreference.none)
+                          .map((DietaryPreference preference) {
+                            // 1. CHECK LIST: Is this option inside our list?
+                            final bool isSelected = _profile.dietaryPreferences
+                                .contains(preference);
+
+                            return FilterChip(
+                              label: Text(
+                                context.l10n
+                                    .profileScreenDietaryPreferencesOption(
+                                      preference.name,
+                                    ),
+                              ),
+                              selected: isSelected,
+                              showCheckmark: false,
+
+                              // Style
+                              selectedColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
+                              labelStyle: TextStyle(
+                                color: isSelected
+                                    ? Theme.of(context).colorScheme.onPrimary
+                                    : null,
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
+
+                              // 2. TOGGLE LIST: Add or Remove
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  if (selected) {
+                                    _profile.dietaryPreferences.add(preference);
+                                  } else {
+                                    _profile.dietaryPreferences.remove(
+                                      preference,
+                                    );
+                                  }
+                                });
+                              },
+                            );
+                          })
+                          .toList(),
+                    ),
+                  ],
+                ),
+              ],
             ),
 
             const Divider(height: 30),

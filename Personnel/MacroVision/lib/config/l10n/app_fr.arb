@@ -86,7 +86,7 @@
     "@appWarningEmptyData": {
         "description": "Un avertissement lorsqu'aucune donnée n'est disponible"
     },
-    "appWarningFormValidation": "{target, select, weight{Entrez un poids valide} height{Entrez une grandeur valide} age{Entrez un âge valide} comment{Veuillez saisir votre commentaire} other{Entrée invalide}}",
+    "appWarningFormValidation": "{target, select, age{Entrez un âge valide} weight{Entrez un poids valide} height{Entrez une grandeur valide} comment{Veuillez saisir votre commentaire} other{Entrée invalide}}",
     "@appWarningFormValidation": {
         "description": "Messages de validation pour les champs de formulaire",
         "placeholders": {
@@ -167,10 +167,6 @@
                 "type": "String"
             }
         }
-    },
-    "dashboardScreenDailyObjectivesLbl": "Objectifs",
-    "@dashboardScreenDailyObjectivesLbl": {
-        "description": "Titre de la section des objectifs"
     },
     "dashboardScreenDailyWaterLogsLbl": "Hydratation",
     "@dashboardScreenDailyWaterLogsLbl": {
@@ -348,10 +344,6 @@
             }
         }
     },
-    "profileScreenActivityLevelInpLbl": "Niveau d'activité physique",
-    "@profileScreenActivityLevelInpLbl": {
-        "description": "Libellé pour le champ du niveau d'activité physique"
-    },
     "profileScreenActivityLevelOption": "{target, select, sedentary{Sédentaire (peu ou pas d'exercice)} lightly{Légèrement actif (1-3 jours/semaine)} moderate{Modérément actif (3-5 jours/semaine)} very{Très actif (6-7 jours/semaine)} extra{Extrêmement actif (2x/jour)} other{Aucun}}",
     "@profileScreenActivityLevelOption": {
         "description": "Options pour le niveau d'activité physique",
@@ -361,9 +353,14 @@
             }
         }
     },
-    "profileScreenGenderInpLbl": "Sexe",
-    "@profileScreenGenderInpLbl": {
-        "description": "Libellé pour le champ du sexe de l'utilisateur"
+    "profileScreenDietaryPreferencesOption": "{target, select, vegetarian{Vegetarian} vegan{Vegan} glutenFree{Gluten free} keto{Keto} lactoseFree{Lactose free} other{None}}",
+    "@profileScreenDietaryPreferencesOption": {
+        "description": "User dietary preferences selection",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
     },
     "profileScreenGenderOption": "{target, select, male{Homme} female{Femme} other{Autre}}",
     "@profileScreenGenderOption": {
@@ -374,10 +371,6 @@
             }
         }
     },
-    "profileScreenGoalInpLbl": "Objectif principal",
-    "@profileScreenGoalInpLbl": {
-        "description": "Libellé pour le champ de l'objectif principal"
-    },
     "profileScreenGoalOption": "{target, select, weightLoss{Perte de poids} muscleGain{Gain musculaire} maintain{Maintien} other{Aucun}}",
     "@profileScreenGoalOption": {
         "description": "Sélection de l'objectif de forme physique de l'utilisateur",
@@ -387,7 +380,7 @@
             }
         }
     },
-    "profileScreenInpLbl": "{target, select, weight{Poids} height{Grandeur} age{Âge} other{}}",
+    "profileScreenInpLbl": "{target, select, age{Âge} weight{Poids} height{Grandeur} activityLevel{Niveau d'activité physique} gender{Genre} goal{Objectif principal} weeklyPace{Rythme hebdomadaire} dietaryPreferences{Préférences diététiques} other{Autre}}",
     "@profileScreenInpLbl": {
         "description": "Libellé dynamique pour les entrées du profil",
         "placeholders": {
@@ -404,23 +397,15 @@
     "@profileScreenTitle": {
         "description": "Titre pour l'écran de profil"
     },
-    "profileScreenUnitSystemSwitch": "Métrique (kg, cm) ou Impérial (lb, in)",
-    "@profileScreenUnitSystemSwitch": {
-        "description": "Infobulle montrant les deux options d'un interrupteur"
-    },
-    "profileScreenUnitOption": "{unit, select, metric{Métrique} imperial{Impérial} other{Aucun}}",
-    "@profileScreenUnitOption": {
-        "description": "Options pour le système d'unité",
-        "placeholders": {
-            "unit": {
-                "type": "String"
-            }
-        }
-    },
-    "profileScreenUnitSystemLbl": "Système d'unité",
-    "@profileScreenUnitSystemLbl": {
-        "description": "Titre pour la préférence du système d'unité"
-    },
+    "profileScreenWeelyPaceOption": "{target, select, slow{Lant & Durable} moderate{Recommandé (Standard} intense{Intense (Difficile)} other{Autre}}",
+  "@profileScreenWeelyPaceOption": {
+    "description": "User weekly pace descriptions selection",
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
     "resultScreenAnalysisOutputLbl": "{context, select, energy{Énergie} calories{Calories} totalFat{Lipides} saturatedFat{Saturés} transFat{Trans} cholesterol{Cholestérol} sodium{Sodium} potassium{Potassium} carbohydrate{Glucides} fiber{Fibres} sugar{Sucres} protein{Protéines} other{Nutriments}}",
     "@resultScreenAnalysisOutputLbl": {
         "description": "Libellés des nutriments dans les résultats d'analyse",

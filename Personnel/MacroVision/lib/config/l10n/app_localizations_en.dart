@@ -91,9 +91,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String appWarningFormValidation(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
+      'age': 'Enter a valid age',
       'weight': 'Enter a valid weight',
       'height': 'Enter a valid height',
-      'age': 'Enter a valid age',
       'comment': 'Please enter your comment',
       'other': 'Invalid input',
     });
@@ -330,9 +330,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get profileScreenActivityLevelInpLbl => 'Physical activity level';
-
-  @override
   String profileScreenActivityLevelOption(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
       'sedentary': 'Sedentary (little or no exercise)',
@@ -346,7 +343,17 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get profileScreenGenderInpLbl => 'Gender';
+  String profileScreenDietaryPreferencesOption(String target) {
+    String _temp0 = intl.Intl.selectLogic(target, {
+      'vegetarian': 'Vegetarian',
+      'vegan': 'Vegan',
+      'glutenFree': 'Gluten free',
+      'keto': 'Keto',
+      'lactoseFree': 'Lactose free',
+      'other': 'None',
+    });
+    return '$_temp0';
+  }
 
   @override
   String profileScreenGenderOption(String target) {
@@ -357,9 +364,6 @@ class AppLocalizationsEn extends AppLocalizations {
     });
     return '$_temp0';
   }
-
-  @override
-  String get profileScreenGoalInpLbl => 'Main goal';
 
   @override
   String profileScreenGoalOption(String target) {
@@ -375,10 +379,15 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String profileScreenInpLbl(String target) {
     String _temp0 = intl.Intl.selectLogic(target, {
+      'age': 'Age',
       'weight': 'Weight',
       'height': 'Height',
-      'age': 'Age',
-      'other': '',
+      'activityLevel': 'Physical activity level',
+      'gender': 'Gender',
+      'goal': 'Main goal',
+      'weeklyPace': 'Weekly pace',
+      'dietaryPreferences': 'Dietary preferences',
+      'other': 'Other',
     });
     return '$_temp0';
   }
@@ -390,21 +399,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileScreenTitle => 'Profile';
 
   @override
-  String get profileScreenUnitSystemSwitch =>
-      'Metric (kg, cm) or Imperial (lb, in)';
-
-  @override
-  String profileScreenUnitOption(String unit) {
-    String _temp0 = intl.Intl.selectLogic(unit, {
-      'metric': 'Metric',
-      'imperial': 'Imperial',
+  String profileScreenWeelyPaceOption(String target) {
+    String _temp0 = intl.Intl.selectLogic(target, {
+      'slow': 'Slow & Sustainable',
+      'moderate': 'Recommanded (Standard)',
+      'intense': 'Intense (Difficult)',
       'other': 'None',
     });
     return '$_temp0';
   }
-
-  @override
-  String get profileScreenUnitSystemLbl => 'Unit system';
 
   @override
   String resultScreenAnalysisOutputLbl(String context) {
