@@ -266,12 +266,6 @@ abstract class AppLocalizations {
   /// **'{target, select, calories{Calories} protein{Protéines} totalFat{Lipides} totalCarbohydrate{Glucides} other{Nutriments}}'**
   String dashboardScreenDailyObjectiveLbl(String target);
 
-  /// Titre de la section des logs d'hydratation
-  ///
-  /// In fr, this message translates to:
-  /// **'Hydratation'**
-  String get dashboardScreenDailyWaterLogsLbl;
-
   /// Un avertissement lorsque l'historique est insuffisant
   ///
   /// In fr, this message translates to:
@@ -289,6 +283,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Tableau de bord'**
   String get dashboardScreenTitle;
+
+  /// Libellé du bouton de sauvegarde avec contexte
+  ///
+  /// In fr, this message translates to:
+  /// **'{target, select, cancel{Annuler} add{Ajouter} other{Action}}'**
+  String dashboardScreenDailyWaterIntakeDialogAction(String target);
+
+  /// Libellé pour l'entrée de la quantité d'eau
+  ///
+  /// In fr, this message translates to:
+  /// **'Millilitres (ml)'**
+  String get dashboardScreenDailyWaterIntakeDialogInpLbl;
+
+  /// Titre de la fenêtre de dialogue pour la quantité d'eau
+  ///
+  /// In fr, this message translates to:
+  /// **'Quantité personnalisée'**
+  String get dashboardScreenDailyWaterIntakeDialogTitle;
+
+  /// Titre de la section de l'eau
+  ///
+  /// In fr, this message translates to:
+  /// **'Eau'**
+  String get dashboardScreenDailyWaterIntakeLbl;
+
+  /// Titre de la section des logs d'hydratation
+  ///
+  /// In fr, this message translates to:
+  /// **'Hydratation'**
+  String get dashboardScreenDailyWaterLogsLbl;
 
   /// Titre du résumé des calories sur la semaine
   ///

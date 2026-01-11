@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:macro_vision/helpers/helpers.dart';
 import 'package:macro_vision/models/user_profile.dart'; // Ensure this path is correct
+import 'package:macro_vision/services/nutrition_calculator.dart';
 import 'package:macro_vision/widgets/custom_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:macro_vision/utils/l10n_extension.dart';
@@ -194,7 +195,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     // 3. Update State (Delegate math to the Model!)
     setState(() {
-      _profile.waterGoal = UserProfile.calculateRecommendedWater(weightInKg);
+      _profile.waterGoal = NutritionCalculator.calculateWaterGoal(weightInKg);
     });
 
     // 4. Optional Feedback

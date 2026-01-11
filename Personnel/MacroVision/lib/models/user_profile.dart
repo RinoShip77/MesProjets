@@ -58,18 +58,6 @@ class UserProfile {
 
   PaceIntensity get paceIntensity => PaceIntensity.fromKg(weeklyPace);
 
-  static double calculateRecommendedWater(double weightInKg) {
-    // Formula: 35ml per kg
-    double result = weightInKg * 0.035;
-
-    // Clamp results between 1.0L and 5.0L
-    if (result < 1.0) return 1.0;
-    if (result > 5.0) return 5.0;
-
-    // Return rounded to 1 decimal
-    return double.parse(result.toStringAsFixed(1));
-  }
-
   UserProfile({
     this.name = '',
     this.age = 0,

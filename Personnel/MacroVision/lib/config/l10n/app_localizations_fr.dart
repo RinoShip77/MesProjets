@@ -178,9 +178,6 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get dashboardScreenDailyWaterLogsLbl => 'Hydratation';
-
-  @override
   String get dashboardScreenNotEnoughDataLbl =>
       'Historique insuffisant pour le graphique';
 
@@ -190,6 +187,29 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get dashboardScreenTitle => 'Tableau de bord';
+
+  @override
+  String dashboardScreenDailyWaterIntakeDialogAction(String target) {
+    String _temp0 = intl.Intl.selectLogic(target, {
+      'cancel': 'Annuler',
+      'add': 'Ajouter',
+      'other': 'Action',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get dashboardScreenDailyWaterIntakeDialogInpLbl => 'Millilitres (ml)';
+
+  @override
+  String get dashboardScreenDailyWaterIntakeDialogTitle =>
+      'Quantité personnalisée';
+
+  @override
+  String get dashboardScreenDailyWaterIntakeLbl => 'Eau';
+
+  @override
+  String get dashboardScreenDailyWaterLogsLbl => 'Hydratation';
 
   @override
   String get dashboardScreenWeeklySummaryLbl =>

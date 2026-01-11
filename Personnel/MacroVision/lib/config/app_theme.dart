@@ -58,7 +58,10 @@ ThemeData _buildThemeData({
     ),
 
     iconButtonTheme: IconButtonThemeData(
-      style: IconButton.styleFrom(foregroundColor: colorScheme.onPrimary),
+      style: IconButton.styleFrom(
+        foregroundColor: colorScheme.onPrimary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
     ),
 
     dividerTheme: DividerThemeData(

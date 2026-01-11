@@ -127,6 +127,28 @@ String formatDate(DateTime dateTime) {
   return DateFormat('yyyy-MM-dd').format(dateTime);
 }
 
+/// Formats a date for display in the UI, showing "Today", "Yesterday", or a formatted date.
+String formatDateLabel(DateTime date) {
+  final now = DateTime.now();
+  final yesterday = now.subtract(const Duration(days: 1));
+
+  return switch (date) {
+    _ when DateUtils.isSameDay(date, now) =>
+      AppSetup.of(navigatorKey.currentContext!).getLocale.toLanguageTag() !=
+              'en'
+          ? "Aujourd'hui"
+          : 'Today',
+    _ when DateUtils.isSameDay(date, yesterday) =>
+      AppSetup.of(navigatorKey.currentContext!).getLocale.toLanguageTag() !=
+              'en'
+          ? 'Hier'
+          : 'Yesterday',
+    _ => DateFormat.MMMEd(
+      AppSetup.of(navigatorKey.currentContext!).getLocale.toLanguageTag(),
+    ).format(date),
+  };
+}
+
 /// =======================================================================
 /// 4. MOCK DATA (Development & Testing)
 /// =======================================================================
@@ -296,100 +318,100 @@ void showSnackBar(
   );
 }
 
-// Call with universalScaffold($title, $body)
-Widget universalScaffold({
-  required BuildContext context,
-  String title = 'MacroVision',
-  List<Widget>? appBarActions,
-  required Widget
-  body, // This parameter is not used in the current implementation
-  List<dynamic>? listData,
-}) {
-  return Scaffold(
-    extendBodyBehindAppBar: true,
-    appBar: glassAppBar(
-      context: context,
-      title: title,
-      appBarActions: appBarActions,
-    ), // Cannot use GlassAppBar easily here
-    body: Stack(
-      alignment: Alignment.topRight,
-      children: [
-        CustomScrollView(
-          slivers: <Widget>[
-            // --- The Bridge Widget: SliverToBoxAdapter ---
-            // This allows standard box widgets to live in a CustomScrollView
-            SliverToBoxAdapter(
-              // Now you can put a SingleChildScrollView inside here
-              child: SingleChildScrollView(
-                // NOTE: This nested SingleChildScrollView must have its own
-                // physics disabled to prevent nested/conflicting scrolling behavior.
-                physics: NeverScrollableScrollPhysics(),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                    top: kToolbarHeight + 55,
-                    bottom: 20,
-                  ),
-                  child: body,
-                ),
-              ),
-            ),
+// // Call with universalScaffold($title, $body)
+// Widget universalScaffold({
+//   required BuildContext context,
+//   String title = 'MacroVision',
+//   List<Widget>? appBarActions,
+//   required Widget
+//   body, // This parameter is not used in the current implementation
+//   List<dynamic>? listData,
+// }) {
+//   return Scaffold(
+//     extendBodyBehindAppBar: true,
+//     appBar: glassAppBar(
+//       context: context,
+//       title: title,
+//       appBarActions: appBarActions,
+//     ), // Cannot use GlassAppBar easily here
+//     body: Stack(
+//       alignment: Alignment.topRight,
+//       children: [
+//         CustomScrollView(
+//           slivers: <Widget>[
+//             // --- The Bridge Widget: SliverToBoxAdapter ---
+//             // This allows standard box widgets to live in a CustomScrollView
+//             SliverToBoxAdapter(
+//               // Now you can put a SingleChildScrollView inside here
+//               child: SingleChildScrollView(
+//                 // NOTE: This nested SingleChildScrollView must have its own
+//                 // physics disabled to prevent nested/conflicting scrolling behavior.
+//                 physics: NeverScrollableScrollPhysics(),
+//                 child: Padding(
+//                   padding: const EdgeInsets.only(
+//                     left: 20,
+//                     right: 20,
+//                     top: kToolbarHeight + 55,
+//                     bottom: 20,
+//                   ),
+//                   child: body,
+//                 ),
+//               ),
+//             ),
 
-            // You can still have a different SliverList below this section
-            // SliverList(
-            //   delegate: SliverChildBuilderDelegate((
-            //     BuildContext context,
-            //     int index,
-            //   ) {
-            //     return ListTile(
-            //       title: Text('List Item $index (below the single child view)'),
-            //     );
-            //   }, childCount: 10),
-            // ),
-          ],
-        ),
+//             // You can still have a different SliverList below this section
+//             // SliverList(
+//             //   delegate: SliverChildBuilderDelegate((
+//             //     BuildContext context,
+//             //     int index,
+//             //   ) {
+//             //     return ListTile(
+//             //       title: Text('List Item $index (below the single child view)'),
+//             //     );
+//             //   }, childCount: 10),
+//             // ),
+//           ],
+//         ),
 
-        // body,
-        Padding(
-          padding: EdgeInsets.only(top: kToolbarHeight + 60, right: 5),
-          child: feedbackButton(context),
-        ),
-      ],
-    ),
-  );
-}
+//         // body,
+//         Padding(
+//           padding: EdgeInsets.only(top: kToolbarHeight + 60, right: 5),
+//           child: feedbackButton(context),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
-// Call with glassAppBar($title)),
-PreferredSizeWidget glassAppBar({
-  required BuildContext context,
-  required String title,
-  List<Widget>? appBarActions,
-}) {
-  return PreferredSize(
-    preferredSize: Size.fromHeight(kToolbarHeight),
-    child: ClipRRect(
-      borderRadius: BorderRadiusGeometry.circular(15),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: AppBar(
-          title: Text(title),
-          actions: appBarActions,
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          iconTheme: Theme.of(context).iconTheme,
-          shadowColor: Theme.of(context).colorScheme.primaryContainer,
-          toolbarHeight: kToolbarHeight + 20,
-          titleTextStyle: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
-      ),
-    ),
-  );
-}
+// // Call with glassAppBar($title)),
+// PreferredSizeWidget glassAppBar({
+//   required BuildContext context,
+//   required String title,
+//   List<Widget>? appBarActions,
+// }) {
+//   return PreferredSize(
+//     preferredSize: Size.fromHeight(kToolbarHeight),
+//     child: ClipRRect(
+//       borderRadius: BorderRadiusGeometry.circular(15),
+//       child: BackdropFilter(
+//         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+//         child: AppBar(
+//           title: Text(title),
+//           actions: appBarActions,
+//           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+//           iconTheme: Theme.of(context).iconTheme,
+//           shadowColor: Theme.of(context).colorScheme.primaryContainer,
+//           toolbarHeight: kToolbarHeight + 20,
+//           titleTextStyle: TextStyle(
+//             fontSize: 25,
+//             fontWeight: FontWeight.bold,
+//             color: Theme.of(context).colorScheme.onSurface,
+//           ),
+//         ),
+//       ),
+//     ),
+//   );
+// }
 
 // Call with feedbackButton($context),
 Widget feedbackButton(BuildContext context) {

@@ -168,10 +168,6 @@
   "@dashboardScreenDailyObjectivesLbl": {
     "description": "Title of the objectives section"
   },
-  "dashboardScreenDailyWaterLogsLbl": "Hydration",
-  "@dashboardScreenDailyWaterLogsLbl": {
-    "description": "Title of the water logs section"
-  },
   "dashboardScreenNotEnoughDataLbl": "Insufficient history for the chart",
   "@dashboardScreenNotEnoughDataLbl": {
     "description": "A warning when history is insufficient"
@@ -183,6 +179,31 @@
   "dashboardScreenTitle": "Dashboard",
   "@dashboardScreenTitle": {
     "description": "Title for the main dashboard"
+  },
+  "dashboardScreenDailyWaterIntakeLbl": "Water",
+  "@dashboardScreenDailyWaterIntakeLbl": {
+    "description": "Title of the water intake section"
+  },
+  "dashboardScreenDailyWaterIntakeDialogAction": "{target, select, cancel{Cancel} add{Add} other{Action}}",
+  "@dashboardScreenDailyWaterIntakeDialogAction": {
+    "description": "Label for the save button with context",
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardScreenDailyWaterIntakeDialogInpLbl": "Milliliters (ml)",
+  "@dashboardScreenDailyWaterIntakeDialogInpLbl": {
+    "description": "Label for the water intake dialog input"
+  },
+  "dashboardScreenDailyWaterIntakeDialogTitle": "Custom quantity",
+  "@dashboardScreenDailyWaterIntakeDialogTitle": {
+    "description": "Title of the water intake dialog"
+  },
+  "dashboardScreenDailyWaterLogsLbl": "Hydration",
+  "@dashboardScreenDailyWaterLogsLbl": {
+    "description": "Title of the water logs section"
   },
   "dashboardScreenWeeklySummaryLbl": "Weekly Summary (Calories)",
   "@dashboardScreenWeeklySummaryLbl": {

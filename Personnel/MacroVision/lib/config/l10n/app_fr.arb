@@ -168,10 +168,6 @@
             }
         }
     },
-    "dashboardScreenDailyWaterLogsLbl": "Hydratation",
-    "@dashboardScreenDailyWaterLogsLbl": {
-        "description": "Titre de la section des logs d'hydratation"
-    },
     "dashboardScreenNotEnoughDataLbl": "Historique insuffisant pour le graphique",
     "@dashboardScreenNotEnoughDataLbl": {
         "description": "Un avertissement lorsque l'historique est insuffisant"
@@ -183,6 +179,31 @@
     "dashboardScreenTitle": "Tableau de bord",
     "@dashboardScreenTitle": {
         "description": "Titre pour le tableau de bord principal"
+    },
+    "dashboardScreenDailyWaterIntakeDialogAction": "{target, select, cancel{Annuler} add{Ajouter} other{Action}}",
+    "@dashboardScreenDailyWaterIntakeDialogAction": {
+        "description": "Libellé du bouton de sauvegarde avec contexte",
+        "placeholders": {
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardScreenDailyWaterIntakeDialogInpLbl": "Millilitres (ml)",
+    "@dashboardScreenDailyWaterIntakeDialogInpLbl": {
+        "description": "Libellé pour l'entrée de la quantité d'eau"
+    },
+    "dashboardScreenDailyWaterIntakeDialogTitle": "Quantité personnalisée",
+    "@dashboardScreenDailyWaterIntakeDialogTitle": {
+        "description": "Titre de la fenêtre de dialogue pour la quantité d'eau"
+    },
+    "dashboardScreenDailyWaterIntakeLbl": "Eau",
+    "@dashboardScreenDailyWaterIntakeLbl": {
+        "description": "Titre de la section de l'eau"
+    },
+    "dashboardScreenDailyWaterLogsLbl": "Hydratation",
+    "@dashboardScreenDailyWaterLogsLbl": {
+        "description": "Titre de la section des logs d'hydratation"
     },
     "dashboardScreenWeeklySummaryLbl": "Résumé hebdomadaire (Calories)",
     "@dashboardScreenWeeklySummaryLbl": {

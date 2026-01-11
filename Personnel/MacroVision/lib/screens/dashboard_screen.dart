@@ -35,20 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   };
   // 1. Default to Today
   DateTime _selectedDate = DateTime.now();
-  int _waterCount = 0;
-
-  // 1.1. Helper to check if we are looking at today (for UI labels)
-  bool get _isToday {
-    return DateUtils.isSameDay(_selectedDate, DateTime.now());
-  }
-
-  // 1.2. Helper to check if we are looking at today (for UI labels)
-  bool get _isYesterday {
-    return DateUtils.isSameDay(
-      _selectedDate,
-      DateTime.now().subtract(const Duration(days: 1)),
-    );
-  }
+  int _currentWaterMl = 0;
 
   late Future<void> _loadingFuture;
 
@@ -98,7 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     if (mounted) {
       setState(() {
-        _waterCount = waterLogs;
+        _currentWaterMl = waterLogs;
       });
     }
   }
@@ -131,15 +118,58 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  Future<void> _updateWater(int newCount) async {
-    // Optimistic UI Update (Update screen immediately before DB finishes)
+  Future<void> updateWater(int amountMl) async {
+    int newValue = _currentWaterMl + amountMl;
+    if (newValue < 0) newValue = 0; // Safety check
+
     setState(() {
-      _waterCount = newCount;
+      _currentWaterMl = newValue;
     });
 
+    // Save to DB (assuming your DB service can accept any integer)
     await DatabaseService().setWaterIntake(
       getStartOfDayTimestamp(_selectedDate),
-      newCount,
+      newValue,
+    );
+  }
+
+  Future<void> _showCustomWaterDialog() async {
+    final controller = TextEditingController();
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(context.l10n.dashboardScreenDailyWaterIntakeDialogTitle),
+        titleTextStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+        content: TextField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          autofocus: true,
+          decoration: InputDecoration(
+            labelText: context.l10n.dashboardScreenDailyWaterIntakeDialogInpLbl,
+            suffixText: 'ml',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              context.l10n.dashboardScreenDailyWaterIntakeDialogAction(
+                'cancel',
+              ),
+            ),
+          ),
+          FilledButton(
+            onPressed: () {
+              final val = int.tryParse(controller.text);
+              if (val != null && val > 0) {
+                updateWater(val);
+                Navigator.pop(context);
+              }
+            },
+            child: Text(context.l10n.dashboardScreenDailyWaterIntakeDialogAction('add')),
+          ),
+        ],
+      ),
     );
   }
 
@@ -177,8 +207,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildWaterTracker() {
-    // 1. Calculate the fill percentage (0.0 to 1.0)
-    final double progress = (_waterCount / 8).clamp(0.0, 1.0);
+    // 1. Get Goal (Convert L to ml)
+    // If goal is 2.5L -> 2500ml
+    final double goalMl = _profile.waterGoal * 1000;
+
+    // 2. Calculate Progress (0.0 to 1.0)
+    final double progress = (goalMl > 0)
+        ? (_currentWaterMl / goalMl).clamp(0.0, 1.0)
+        : 0.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,117 +223,243 @@ class _DashboardScreenState extends State<DashboardScreen> {
           context.l10n.dashboardScreenDailyWaterLogsLbl,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
-
         const SizedBox(height: 10),
 
+        // --- MAIN CARD (The Filling Container) ---
         Card(
-          elevation: 2,
+          elevation: 4,
+          shadowColor: Colors.blue.withOpacity(0.3),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(20),
           ),
-          // ClipRRect is crucial: it keeps the "water" inside the rounded corners
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Stack(
-              children: [
-                // =============================================================
-                // LAYER 1: THE RISING WATER (BACKGROUND)
-                // =============================================================
-                Positioned.fill(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return Align(
-                        alignment:
-                            Alignment.bottomCenter, // Fills from bottom up
-                        child: AnimatedContainer(
-                          duration: const Duration(
-                            milliseconds: 600,
-                          ), // Slower = more fluid
-                          curve:
-                              Curves.easeOutCubic, // "Water-like" deceleration
-                          height: constraints.maxHeight * progress,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            // Gradient makes it look more like deep water
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.blue.withOpacity(0.2),
-                                Colors.blue.withOpacity(0.4),
-                              ],
-                            ),
+            borderRadius: BorderRadius.circular(20),
+            child: SizedBox(
+              height: 140, // Fixed height for the dashboard card
+              child: Stack(
+                children: [
+                  // LAYER 1: The Rising Water Background
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 800),
+                        curve: Curves.easeOutCubic,
+                        height: 140 * progress, // Fills up based on %
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.blue.withOpacity(0.3),
+                              Colors.blue.withOpacity(0.5),
+                            ],
                           ),
                         ),
-                      );
-                    },
+                      ),
+                    ),
                   ),
-                ),
 
-                // =============================================================
-                // LAYER 2: THE CONTENT (FOREGROUND)
-                // =============================================================
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16.0,
-                    horizontal: 12.0,
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: List.generate(8, (index) {
-                          final glassNumber = index + 1;
-                          final isFilled = _waterCount >= glassNumber;
-
-                          return GestureDetector(
-                            onTap: () {
-                              if (_waterCount == glassNumber) {
-                                _updateWater(glassNumber - 1);
-                              } else {
-                                _updateWater(glassNumber);
-                              }
-                            },
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeOutBack,
-                              // Add a slight scale effect when selected
-                              transform: Matrix4.identity()
-                                ..scale(isFilled ? 1.1 : 1.0),
-                              child: Icon(
-                                isFilled
-                                    ? Icons.water_drop_rounded
-                                    : Icons.water_drop_outlined,
-                                // Make filled icons darker blue to contrast with background
-                                color: isFilled
-                                    ? Colors.blue.shade700
-                                    : Colors.grey.shade400,
-                                size: 32,
+                  // LAYER 2: The Content (Row: Text Left | Circle Right)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0,
+                      vertical: 16.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // LEFT SIDE: Text Info
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              context.l10n.dashboardScreenDailyWaterIntakeLbl,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: Colors.blueGrey,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                            const SizedBox(height: 4),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: '$_currentWaterMl',
+                                    style: TextStyle(
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.bold,
+                                      // Adaptive color based on theme (usually black/white)
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                    text: ' ml',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          );
-                        }),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      Text(
-                        '$_waterCount / 8 verres',
-                        style: TextStyle(
-                          color: _waterCount >= 8
-                              ? Colors.green.shade700
-                              : Theme.of(context).colorScheme.onSurface,
-                          fontWeight: FontWeight.bold,
+                            const SizedBox(height: 4),
+                            Text(
+                              formatDateLabel(_selectedDate),
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.blueGrey,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+
+                        // RIGHT SIDE: Circular Progress
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // Background Circle (Faint trace)
+                            SizedBox(
+                              width: 70,
+                              height: 70,
+                              child: CircularProgressIndicator(
+                                value: 1.0,
+                                strokeWidth: 6,
+                                color: Colors.grey.withOpacity(0.1),
+                              ),
+                            ),
+                            // Actual Progress
+                            SizedBox(
+                              width: 70,
+                              height: 70,
+                              child: CircularProgressIndicator(
+                                value: progress,
+                                strokeWidth: 6,
+                                strokeCap: StrokeCap.round,
+                                // Color changes to Green when goal met
+                                color: progress >= 1.0
+                                    ? Colors.green
+                                    : Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            // Icon inside
+                            Icon(
+                              Icons.local_drink_rounded,
+                              color: Theme.of(context).colorScheme.primary,
+                              size: 28,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
+
+        const SizedBox(height: 12),
+
+        // --- CONTROLS ROW (Quick Actions) ---
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // 1. ADD 250ml
+            Expanded(
+              child: _buildQuickAddButton(
+                icon: Icons.local_drink,
+                label: '(250 ml)',
+                color: Colors.lightBlueAccent.shade100,
+                onTap: () => updateWater(250),
+              ),
+            ),
+
+            const SizedBox(width: 8),
+
+            // 2. ADD 500ml
+            Expanded(
+              child: _buildQuickAddButton(
+                icon: Icons.water_drop,
+                label: '(500 ml)',
+                color: Colors.lightBlueAccent.shade100,
+                onTap: () => updateWater(500),
+              ),
+            ),
+
+            const SizedBox(width: 8),
+
+            // 3. CUSTOM INPUT
+            SizedBox(
+              width: 50,
+              height: 50,
+              child: IconButton.filledTonal(
+                onPressed: _showCustomWaterDialog,
+                icon: const Icon(Icons.add),
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
+
+            const SizedBox(width: 8),
+
+            // 4. REMOVE BUTTON (Undo 250ml)
+            SizedBox(
+              width: 50,
+              height: 50,
+              child: IconButton.filledTonal(
+                onPressed: () => updateWater(-250),
+                icon: const Icon(Icons.remove),
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
+          ],
+        ),
       ],
+    );
+  }
+
+  // Helper for the quick action buttons
+  Widget _buildQuickAddButton({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: color, // Subtle background
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.lightBlueAccent),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 18, color: Colors.blue[800]),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -445,25 +607,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                       // Date Text (e.g. "Today" or "2023-10-15")
                       Text(
-                        switch (true) {
-                          _
-                              when DateUtils.isSameDay(
-                                _selectedDate,
-                                DateTime.now(),
-                              ) =>
-                            'Today',
-                          _
-                              when DateUtils.isSameDay(
-                                _selectedDate,
-                                DateTime.now().subtract(
-                                  const Duration(days: 1),
-                                ),
-                              ) =>
-                            'Yesterday',
-                          _ => DateFormat.MMMEd(
-                            Localizations.localeOf(context).languageCode,
-                          ).format(_selectedDate),
-                        },
+                        formatDateLabel(_selectedDate),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
@@ -701,8 +845,7 @@ class WeeklyChart extends StatelessWidget {
               Theme.brightnessOf(context) == Brightness.light
                   ? Theme.of(context).colorScheme.error
                   : Theme.of(context).colorScheme.errorContainer,
-            _ when summary.calories > (dailyGoal - 250) =>
-              Colors.green,
+            _ when summary.calories > (dailyGoal - 250) => Colors.green,
             _ => Colors.blue,
           };
 
