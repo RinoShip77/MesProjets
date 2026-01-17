@@ -26,7 +26,7 @@ class GeminiService {
 
   // --- Configuration ---
   // Set to 'true' to test. Set 'false' for real AI.
-  static const bool _useMockData = true;
+  static const bool _useMockData = false;
   // static const bool _useMockData = (kDebugMode && !kReleaseMode) ? true : false; // Use mock in Debug mode
   GenerativeModel? _model;
 
