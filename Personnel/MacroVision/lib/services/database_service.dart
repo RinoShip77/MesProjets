@@ -138,7 +138,7 @@ class DatabaseService {
     await db.execute('''
       CREATE TABLE $_tblWater (
         $_colWaterId INTEGER PRIMARY KEY AUTOINCREMENT,
-        $_colWaterTimestamp INTEGER PRIMARY KEY,
+        $_colWaterTimestamp INTEGER NOT NULL,
         $_colWaterQuantity INTEGER NOT NULL,
         UNIQUE($_colWaterTimestamp)
       )

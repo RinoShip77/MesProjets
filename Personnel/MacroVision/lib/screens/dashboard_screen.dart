@@ -479,7 +479,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           historyFuture: DatabaseService().getHistoryForDay(
             getStartOfDayTimestamp(_selectedDate),
           ),
-          compactMode: false, // Show full list
+          compactMode: true, // Show full list
           disableScroll: true, // <--- Let Dashboard handle scrolling
           onDismissed: _handleDismissed, // Enable Swipe-to-Delete
         ),
