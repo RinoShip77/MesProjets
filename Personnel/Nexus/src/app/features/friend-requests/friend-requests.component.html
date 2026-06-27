@@ -1,0 +1,30 @@
+<div class="requests-container">
+  <h2>Friend Requests</h2>
+
+  <div *ngIf="requests$ | async as requests; else loading">
+    
+    <div *ngIf="requests.length === 0" class="empty-state">
+      <p>No pending requests.</p>
+    </div>
+
+    <div *ngFor="let req of requests" class="request-card">
+      <div class="sender-info">
+        <img [src]="req.sender?.photoURL || 'assets/default-avatar.png'" class="avatar">
+        <div class="details">
+          <span class="name">{{ req.sender?.displayName || 'Unknown User' }}</span>
+          <span class="time">{{ req.timestamp?.toDate() | date:'short' }}</span>
+        </div>
+      </div>
+      
+      <div class="actions">
+        <button (click)="accept(req.id)" class="btn-confirm">Confirm</button>
+        <button class="btn-delete">Delete</button>
+      </div>
+    </div>
+
+  </div>
+
+  <ng-template #loading>
+    <p>Loading requests...</p>
+  </ng-template>
+</div>

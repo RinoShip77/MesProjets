@@ -1,0 +1,36 @@
+<div class="feed-container">
+  <div class="create-post-card" *ngIf="user$ | async as user">
+    <div class="input-row">
+      <a [routerLink]="['/user', user.uid]">
+        <img [src]="user.photoURL" class="user-avatar">
+      </a>
+
+      <div class="input-capsule">
+        <input type="text" [placeholder]="'What\'s on your mind, ' + user.displayName?.split(' ')?.[0] + '?'"
+          [(ngModel)]="content" (keyup.enter)="onPost()">
+
+        <div class="capsule-icons">
+          <button class="icon-btn pink" title="Live">🎥</button>
+          <button class="icon-btn green" (click)="fileInput.click()" title="Photo">🖼️</button>
+          <button class="icon-btn yellow" title="Feeling">😊</button>
+        </div>
+      </div>
+
+      <button class="btn-post" (click)="onPost()">Post</button>
+    </div>
+
+    <input #fileInput type="file" (change)="onFileSelected($event)" style="display: none" accept="image/*">
+    <div *ngIf="selectedFile" class="file-preview">
+      <span>Image: {{ selectedFile.name }}</span>
+      <button (click)="selectedFile = null">❌</button>
+    </div>
+  </div>
+
+  <app-post-card *ngFor="let post of posts$ | async" [post]="post"></app-post-card>
+</div>
+
+<div class="modal-overlay" *ngIf="isModalOpen" (mousedown)="closeModal($event)">
+  <div class="modal-content" (mousedown)="$event.stopPropagation()">
+    <router-outlet></router-outlet>
+  </div>
+</div>

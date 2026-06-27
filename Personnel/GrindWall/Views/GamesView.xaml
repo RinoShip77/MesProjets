@@ -1,0 +1,423 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:GrindWall"
+    xmlns:models="clr-namespace:GrindWall.Models"
+    xmlns:viewmodels="clr-namespace:GrindWall.ViewModels"
+    x:Class="GrindWall.Views.GamesView">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <local:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <local:BoolToColorConverter x:Key="BoolToColorConverter" />
+
+            <Style TargetType="Switch">
+                <Setter Property="OnColor"
+                    Value="#6366F1" />
+                <Setter Property="ThumbColor"
+                    Value="#CBD5E1" />
+                <Setter Property="BackgroundColor"
+                    Value="Transparent" />
+                <Style.Triggers>
+                    <Trigger TargetType="Switch"
+                        Property="IsToggled"
+                        Value="True">
+                        <Setter Property="ThumbColor"
+                            Value="White" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="Auto, *"
+        Padding="{OnIdiom Phone='24,20,24,20', Default='30,120,30,40'}"
+        MaximumWidthRequest="{OnPlatform WinUI=800, Default=600}"
+        HorizontalOptions="Center">
+
+        <!-- Header & Filters -->
+        <VerticalStackLayout Grid.Row="0"
+            Margin="0,0,0,24"
+            Spacing="16">
+
+            <!-- Result Count & Chip Filters -->
+            <Grid ColumnDefinitions="Auto, *, Auto"
+                ColumnSpacing="12">
+                <Label Grid.Column="0"
+                    Text="{Binding ResultCountText}"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    TextColor="#1E293B"
+                    VerticalOptions="Center" />
+
+                <!-- Active Filters (Scrollable Row) -->
+                <ScrollView Grid.Column="1"
+                    Orientation="Horizontal"
+                    VerticalOptions="Center"
+                    HorizontalScrollBarVisibility="Never">
+                    <StackLayout BindableLayout.ItemsSource="{Binding ActiveFilters}"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border StrokeThickness="1"
+                                    Stroke="#E2E8F0"
+                                    BackgroundColor="White"
+                                    Padding="12,4"
+                                    HeightRequest="32">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="16" />
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainPageViewModel}}, Path=RemoveFilterCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="6"
+                                        VerticalOptions="Center">
+                                        <Label Text="{Binding Text}"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            TextColor="#475569"
+                                            VerticalOptions="Center" />
+                                        <Label Text="{x:Static local:FontIcons.XMark}"
+                                            FontFamily="FASolid"
+                                            FontSize="10"
+                                            TextColor="#94A3B8"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </ScrollView>
+
+                <Button Grid.Column="2"
+                    Text="RESET"
+                    Command="{Binding ResetFiltersCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#64748B"
+                    FontSize="12"
+                    FontAttributes="Bold"
+                    HeightRequest="32"
+                    Padding="0" />
+            </Grid>
+
+            <!-- Search Bar (Permanent) -->
+            <Border StrokeThickness="2"
+                Stroke="#E2E8F0"
+                BackgroundColor="White"
+                Padding="12,0"
+                HeightRequest="48">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="24" />
+                </Border.StrokeShape>
+                <Grid ColumnDefinitions="Auto, *">
+                    <Label Text="{x:Static local:FontIcons.GamesRegular}"
+                        FontFamily="FluentFilled"
+                        VerticalOptions="Center"
+                        TextColor="#94A3B8"
+                        FontSize="18"
+                        Margin="8,0" />
+                    <Entry Grid.Column="1"
+                        Placeholder="Search apps (3+ characters)"
+                        Text="{Binding SearchText}"
+                        TextColor="#1E293B"
+                        PlaceholderColor="#94A3B8"
+                        FontSize="14"
+                        VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <!-- Controls Row: Layout(PC), Categories, Sort/OS -->
+            <Grid ColumnDefinitions="Auto, Auto, *, Auto"
+                ColumnSpacing="16">
+                <!-- Layout Toggles (Desktop Only) -->
+                <HorizontalStackLayout Spacing="4"
+                    IsVisible="{OnPlatform WinUI=True, Android=False}">
+                    <!-- Grid Button -->
+                    <Button Text="{x:Static local:FontIcons.Grid}"
+                        FontFamily="FASolid"
+                        FontSize="16"
+                        Command="{Binding ToggleLayoutCommand}"
+                        CommandParameter="Grid"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="8"
+                        Padding="0">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                Binding="{Binding IsGridView}"
+                                Value="True">
+                                <Setter Property="BackgroundColor"
+                                    Value="#1E293B" />
+                                <Setter Property="TextColor"
+                                    Value="White" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button"
+                                Binding="{Binding IsGridView}"
+                                Value="False">
+                                <Setter Property="BackgroundColor"
+                                    Value="Transparent" />
+                                <Setter Property="TextColor"
+                                    Value="#64748B" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <!-- List Button -->
+                    <Button Text="{x:Static local:FontIcons.List}"
+                        FontFamily="FASolid"
+                        FontSize="16"
+                        Command="{Binding ToggleLayoutCommand}"
+                        CommandParameter="List"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="8"
+                        Padding="0">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                Binding="{Binding IsGridView}"
+                                Value="False">
+                                <Setter Property="BackgroundColor"
+                                    Value="#1E293B" />
+                                <Setter Property="TextColor"
+                                    Value="White" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button"
+                                Binding="{Binding IsGridView}"
+                                Value="True">
+                                <Setter Property="BackgroundColor"
+                                    Value="Transparent" />
+                                <Setter Property="TextColor"
+                                    Value="#64748B" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </HorizontalStackLayout>
+
+                <!-- Sort/Filter Icon (Mobile) -->
+                <!-- Removed per user request -->
+
+                <!-- Categories (Horizontal Scroll) -->
+                <ScrollView Grid.Column="2"
+                    Orientation="Horizontal"
+                    HorizontalScrollBarVisibility="Never"
+                    VerticalOptions="Center">
+                    <HorizontalStackLayout BindableLayout.ItemsSource="{Binding FilterCategories}"
+                        Spacing="20">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="{Binding .}"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        Padding="4,0"
+                                        TextColor="#64748B">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                Binding="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainPageViewModel}}, Path=SelectedCategory}"
+                                                Value="{Binding .}">
+                                                <Setter Property="TextColor"
+                                                    Value="#6366F1" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainPageViewModel}}, Path=SelectCategoryCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <BoxView HeightRequest="2"
+                                        BackgroundColor="#6366F1"
+                                        CornerRadius="1"
+                                        WidthRequest="20"
+                                        HorizontalOptions="Center"
+                                        IsVisible="False">
+                                        <BoxView.Triggers>
+                                            <DataTrigger TargetType="BoxView"
+                                                Binding="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainPageViewModel}}, Path=SelectedCategory}"
+                                                Value="{Binding .}">
+                                                <Setter Property="IsVisible"
+                                                    Value="True" />
+                                            </DataTrigger>
+                                        </BoxView.Triggers>
+                                    </BoxView>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                </ScrollView>
+
+                <!-- Platform/OS Dropdown -->
+                <Border Grid.Column="3"
+                    StrokeThickness="1"
+                    Stroke="#E2E8F0"
+                    BackgroundColor="White"
+                    Padding="12,0"
+                    MinimumHeightRequest="42"
+                    WidthRequest="120">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Picker ItemsSource="{Binding FilterPlatforms}"
+                            SelectedItem="{Binding SelectedPlatform}"
+                            TextColor="#1E293B"
+                            FontSize="13"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Fill" />
+                        <Label Grid.Column="1"
+                            Text="{x:Static local:FontIcons.ChevronDown}"
+                            FontFamily="FASolid"
+                            FontSize="10"
+                            TextColor="#94A3B8"
+                            VerticalOptions="Center"
+                            InputTransparent="True"
+                            Margin="4,0,0,0" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
+
+        <!-- Content List/Grid -->
+        <!-- LIST VIEW -->
+        <CollectionView Grid.Row="1"
+            ItemsSource="{Binding DisplayedApps}"
+            SelectionMode="None"
+            IsVisible="{Binding IsGridView, Converter={StaticResource InverseBoolConverter}}">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Spacing="16"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Padding="40">
+                    <Label Text="{x:Static local:FontIcons.GamesRegular}"
+                        FontFamily="FluentFilled"
+                        FontSize="48"
+                        TextColor="#E2E8F0"
+                        HorizontalOptions="Center" />
+                    <Label Text="No apps found."
+                        TextColor="#94A3B8"
+                        HorizontalOptions="Center" />
+                    <Button Text="Scan for Games"
+                        Command="{Binding LoadAppsCommand}"
+                        BackgroundColor="#6366F1"
+                        TextColor="White"
+                        FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="0,0,0,12">
+                        <Border StrokeThickness="0"
+                            BackgroundColor="White"
+                            Padding="12">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16" />
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto, *, Auto"
+                                ColumnSpacing="16">
+                                <Border Grid.Column="0"
+                                    HeightRequest="40"
+                                    WidthRequest="40"
+                                    StrokeShape="RoundRectangle 12"
+                                    BackgroundColor="#EEF2FF"
+                                    StrokeThickness="0">
+                                    <Label Text="{x:Static local:FontIcons.GamesFilled}"
+                                        FontFamily="FluentFilled"
+                                        FontSize="20"
+                                        TextColor="#6366F1"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    Spacing="0">
+                                    <Label Text="{Binding Name}"
+                                        FontAttributes="Bold"
+                                        TextColor="#1E293B"
+                                        LineBreakMode="TailTruncation"
+                                        FontSize="14" />
+                                    <Label Text="{Binding Category}"
+                                        FontSize="12"
+                                        TextColor="#94A3B8" />
+                                </VerticalStackLayout>
+                                <Switch Grid.Column="2"
+                                    IsToggled="{Binding IsBlocked}" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- GRID VIEW -->
+        <CollectionView Grid.Row="1"
+            ItemsSource="{Binding DisplayedApps}"
+            SelectionMode="None"
+            IsVisible="{Binding IsGridView}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                    Span="3"
+                    VerticalItemSpacing="12"
+                    HorizontalItemSpacing="12" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeThickness="0"
+                        BackgroundColor="White"
+                        Padding="0"
+                        HeightRequest="170">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20" />
+                        </Border.StrokeShape>
+                        <Grid RowDefinitions="Auto, Auto, Auto, Auto"
+                            Padding="12"
+                            RowSpacing="6">
+                            <!-- Icon -->
+                            <Border Grid.Row="0"
+                                HeightRequest="44"
+                                WidthRequest="44"
+                                StrokeShape="RoundRectangle 14"
+                                BackgroundColor="#EEF2FF"
+                                StrokeThickness="0"
+                                HorizontalOptions="Center"
+                                InputTransparent="True">
+                                <Label Text="{x:Static local:FontIcons.GamesFilled}"
+                                    FontFamily="FluentFilled"
+                                    FontSize="22"
+                                    TextColor="#6366F1"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center" />
+                            </Border>
+
+                            <!-- Name -->
+                            <Label Grid.Row="1"
+                                Text="{Binding Name}"
+                                FontAttributes="Bold"
+                                TextColor="#1E293B"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"
+                                InputTransparent="True" />
+
+                            <!-- Category -->
+                            <Label Grid.Row="2"
+                                Text="{Binding Category}"
+                                FontSize="11"
+                                TextColor="#94A3B8"
+                                HorizontalTextAlignment="Center"
+                                InputTransparent="True" />
+
+                            <!-- Switch -->
+                            <Switch Grid.Row="3"
+                                IsToggled="{Binding IsBlocked}"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentView>

@@ -1,0 +1,103 @@
+<div class="profile-container">
+  <div class="profile-header-card" *ngIf="userProfile$ | async as profile">
+    <div class="cover-photo">
+      <img src="https://picsum.photos/seed/{{ profile.uid }}/1200/400" alt="Cover">
+      <button class="btn-camera">📷 Edit Cover</button>
+    </div>
+    <div class="user-info-bar">
+      <div class="avatar-container">
+        <img [src]="profile.photoURL || 'assets/default-avatar.png'" class="profile-avatar-xl">
+      </div>
+      <div class="user-details">
+        <h1 class="user-name">{{ profile.displayName }}</h1>
+        <span class="user-bio">1.2k Friends • Software Engineer</span>
+        <div class="friend-preview">
+          <img
+            src="https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-174669.jpg?semt=ais_hybrid&w=740&q=80"
+            class="mini-face">
+          <img
+            src="https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-174669.jpg?semt=ais_hybrid&w=740&q=80"
+            class="mini-face">
+          <img
+            src="https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-174669.jpg?semt=ais_hybrid&w=740&q=80"
+            class="mini-face">
+          ...
+        </div>
+      </div>
+      <div class="header-actions">
+        <ng-container *ngIf="currentUid === (userProfile$ | async)?.uid">
+          <button class="btn-primary">➕ Add to Story</button>
+          <button class="btn-secondary">🖊️ Edit Profile</button>
+        </ng-container>
+
+        <ng-container *ngIf="currentUid && currentUid !== (userProfile$ | async)?.uid">
+          <button *ngIf="isFriend$ | async; else checkPending" class="btn-secondary" disabled>
+            ✅ Friends
+          </button>
+
+          <ng-template #checkPending>
+            <button *ngIf="(requestPending$ | async) || requestSent; else canAdd" class="btn-disabled" disabled>
+              ⏳ Request Sent
+            </button>
+          </ng-template>
+
+          <ng-template #canAdd>
+            <button (click)="sendRequest()" class="btn-primary">
+              ➕ Add Friend
+            </button>
+          </ng-template>
+
+          <button class="btn-secondary">Message</button>
+        </ng-container>
+      </div>
+    </div>
+    <div class="profile-tabs">
+      <a href="#" class="tab-link active">All</a>
+      <a href="#" class="tab-link">Posts</a>
+      <a href="#" class="tab-link">About</a>
+      <a href="#" class="tab-link">Friends</a>
+      <a href="#" class="tab-link">Photos</a>
+    </div>
+  </div>
+
+  <div class="profile-grid">
+    <div class="profile-sidebar">
+      <div class="sidebar-card">
+        <h3>Intro</h3>
+        <p class="intro-text">Welcome to my digital space! 🚀</p>
+        <div class="detail-row">🏠 Lives in <strong>Gatineau, QC</strong></div>
+        <div class="detail-row">🎓 Went to <strong>Cégep de l'Outaouais</strong></div>
+        <button class="btn-full-width">Edit Details</button>
+      </div>
+      <div class="sidebar-card">
+        <div class="card-header">
+          <h3>Photos</h3>
+          <a href="#">See All</a>
+        </div>
+        <div class="photo-grid">
+          <div class="photo-square">
+            <img src="https://picsum.photos/seed/photo1/200/200" alt="Photo 1">
+          </div>
+          <div class="photo-square">
+            <img src="https://picsum.photos/seed/photo1/200/200" alt="Photo 1">
+          </div>
+          <div class="photo-square">
+            <img src="https://picsum.photos/seed/photo1/200/200" alt="Photo 1">
+          </div>
+          <div class="photo-square">
+            <img src="https://picsum.photos/seed/photo1/200/200" alt="Photo 1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="profile-feed">
+      <div class="create-post-box">
+        <!-- <div class="input-fake">Write something to {{ userId }}...</div> -->
+      </div>
+      <app-post-card *ngFor="let post of posts$ | async" [post]="post"></app-post-card>
+      <div *ngIf="(posts$ | async)?.length === 0" class="empty-state">
+        <p>No posts available.</p>
+      </div>
+    </div>
+  </div>
+</div>

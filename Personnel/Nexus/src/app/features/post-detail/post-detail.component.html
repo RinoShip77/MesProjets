@@ -1,0 +1,9 @@
+<div class="detail-container">
+  <div *ngIf="post$ | async as post; else loading">
+    <app-post-card [post]="post"></app-post-card>
+  </div>
+
+  <ng-template #loading>
+    <div style="padding: 20px; text-align: center;">Loading...</div>
+  </ng-template>
+</div>

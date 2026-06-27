@@ -1,0 +1,93 @@
+/* 1. DEFAULT THEME (Light Mode - Facebook/Twitter Style) */
+:root {
+  --bg-body: #f0f2f5;
+  /* Light grey background */
+  --bg-card: #ffffff;
+  /* White cards */
+  --text-main: #050505;
+  /* Black text */
+  --text-muted: #65676b;
+  /* Grey text */
+  --border-color: #ced0d4;
+  /* Light borders */
+  --input-bg: #f0f2f5;
+  /* Light grey inputs */
+  --hover-bg: #e4e6eb;
+  /* Light hover effect */
+  --accent-color: #1877f2;
+  /* Facebook Blue */
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 2. DARK THEME OVERRIDES (Nexus Style) */
+[data-theme="dark"] {
+  --bg-body: #18191a;
+  /* Very dark grey */
+  --bg-card: #242526;
+  /* Dark grey cards */
+  --text-main: #e4e6eb;
+  /* White text */
+  --text-muted: #b0b3b8;
+  /* Muted text */
+  --border-color: #393a3b;
+  /* Dark borders */
+  --input-bg: #3a3b3c;
+  /* Dark inputs */
+  --hover-bg: #3a3b3c;
+  /* Dark hover */
+  --accent-color: #2d88ff;
+  /* Lighter Blue */
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 3. GLOBAL RESET */
+*  {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
+
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+}
+
+/* HIDE ON MOBILE / DESKTOP UTILITIES */
+.mobile-only {
+  display: none !important;
+}
+
+.desktop-only {
+  display: flex !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: flex !important;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-card);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--text-muted);
+  border-radius: 5px;
+  border: 2px solid var(--bg-body);
+}

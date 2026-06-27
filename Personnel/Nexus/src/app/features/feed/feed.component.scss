@@ -1,0 +1,165 @@
+.feed-container {
+  max-width: 680px;
+  margin: 20px auto;
+  padding-bottom: 80px;
+}
+
+.create-post-card {
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* The Grey Capsule */
+.input-capsule {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: var(--input-bg);
+  border-radius: 20px;
+  padding: 0 8px 0 16px;
+  height: 40px;
+
+  &:hover {
+    background-color: var(--hover-bg);
+  }
+}
+
+.input-capsule input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  margin-right: 8px;
+  width: 0%;
+}
+
+.capsule-icons {
+  display: flex;
+  gap: 4px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Post Button (Cyan) */
+.btn-post {
+  background-color: #18f2f2;
+  color: #000;
+  border: none;
+  padding: 0 20px;
+  height: 40px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: var(--input-bg);
+    color: var(--text-muted);
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    opacity: 0.8;
+  }
+}
+
+.file-preview {
+  margin-top: 10px;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-overlay {
+  position: fixed; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.75); /* Darker background */
+  z-index: 2000; /* Must be higher than Navbar (1000) */
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  backdrop-filter: blur(4px); /* Nice blur effect */
+  padding: 20px; /* Safe space on mobile */
+}
+
+.modal-content {
+  background: var(--bg-card);
+  width: 100%; 
+  max-width: 650px; /* Max width for desktop */
+  max-height: 90vh; /* Never taller than 90% of screen */
+  overflow-y: auto; /* Scroll if content is too long */
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  animation: popIn 0.2s ease-out;
+  border: 1px solid var(--border-color);
+  
+  /* Remove default router-outlet padding if any */
+  display: block; 
+}
+
+/* CARD RESPONSIVENESS */
+@media (max-width: 600px) {
+  .create-post-card {
+    margin-bottom: 10px;
+    box-shadow: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  /* Make the input capsule smaller on mobile */
+  .input-capsule {
+    padding-left: 10px;
+  }
+  
+  /* Hide the "Feeling" yellow icon on small screens to save space */
+  .icon-btn.yellow { display: none; }
+  
+  /* Make Post button icon-only or smaller text */
+  .btn-post {
+    padding: 0 15px;
+  }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Mobile Modal Tweak */
+@media (max-width: 600px) {
+  .modal-overlay { padding: 10px; align-items: flex-end; } /* Bottom sheet feel? Or center */
+  .modal-overlay { align-items: center; } 
+  .modal-content { 
+    max-height: 85vh; 
+    width: 100%;
+  }
+}

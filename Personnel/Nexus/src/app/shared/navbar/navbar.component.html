@@ -1,0 +1,73 @@
+<nav class="navbar">
+
+  <div class="nav-left">
+
+    <a routerLink="/" class="logo-circle" title="Nexus">N</a>
+
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search Nexus">
+    </div>
+
+  </div>
+
+  <div class="nav-center desktop-only">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-icon" title="Home">
+      🏠
+    </a>
+    <a href="#" class="nav-icon" title="Friends">👥</a>
+  </div>
+
+  <div class="nav-right">
+    <div *ngIf="auth.user$ | async as user; else loginBtn" class="user-actions">
+      <div class="desktop-actions desktop-only">
+        <a [routerLink]="['/user', user.uid]" class="profile-pill">
+          <img [src]="user.photoURL" class="avatar">
+          <span class="name">{{ user.displayName?.split(' ')?.[0] }}</span>
+        </a>
+        <a routerLink="/requests" class="circle-btn">🔔</a>
+        <button (click)="themeService.toggleTheme()" class="circle-btn">
+          <span *ngIf="(themeService.theme$ | async) === 'light'">🌙</span>
+          <span *ngIf="(themeService.theme$ | async) === 'dark'">☀️</span>
+        </button>
+        <button (click)="auth.logout()" class="circle-btn">🚪</button>
+      </div>
+
+      <a [routerLink]="['/user', user.uid]" class="mobile-avatar mobile-only">
+        <img [src]="user.photoURL" class="avatar-circle">
+      </a>
+
+    </div>
+
+    <ng-template #loginBtn>
+      <a routerLink="/login" class="btn-login">Login</a>
+    </ng-template>
+
+  </div>
+
+</nav>
+
+<nav class="bottom-nav mobile-only">
+  <div class="bottom-nav-item" (click)="themeService.toggleTheme()">
+    <span *ngIf="(themeService.theme$ | async) === 'light'">🌙</span>
+    <span *ngIf="(themeService.theme$ | async) === 'dark'">☀️</span>
+  </div>
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="bottom-nav-item">
+    🏠
+  </a>
+  <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+    class="bottom-nav-item">🔔</a>
+  <div *ngIf="auth.user$ | async as user; else loginBtn" class="dropup bottom-nav-item">
+    <button class="dropbtn">
+      <img [src]="user.photoURL" class="avatar">
+    </button>
+    <div class="dropup-content">
+      <a [routerLink]="['/user', user.uid]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <img [src]="user.photoURL" class="avatar">
+        <span class="name" style="margin-left: 3px;">{{ user.displayName?.split(' ')?.[0] }}</span>
+      </a>
+      <a (click)="auth.logout()">🚪Logout</a>
+    </div>
+  </div>
+</nav>

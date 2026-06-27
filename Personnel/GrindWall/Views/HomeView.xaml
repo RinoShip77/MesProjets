@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GrindWall.ViewModels"
+             xmlns:local="clr-namespace:GrindWall"
+             x:Class="GrindWall.Views.HomeView">
+    
+    <ScrollView>
+        <Grid
+            MaximumWidthRequest="{OnPlatform WinUI=1000, Android=600, iOS=600, Default=600}"
+            HorizontalOptions="Center">
+            
+            <!-- Main Content Body -->
+            <!-- Padding Top: Desktop=100 (Clear Navbar), Phone=20 (Safe Area) -->
+            <VerticalStackLayout 
+                Spacing="24" 
+                Padding="{OnIdiom Phone='24,20,24,120', Default='30,100,30,140'}">
+                
+                <!-- Header Section -->
+                <Grid ColumnDefinitions="*,Auto" Margin="0,10">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="TODAY'S GRIND" FontSize="12" FontAttributes="Bold" TextColor="#64748B" CharacterSpacing="1"/>
+                        <Label Text="Keep Pushing" FontSize="28" FontAttributes="Bold" TextColor="#1E293B" />
+                    </VerticalStackLayout>
+                    
+                    <!-- Connection Status Badge -->
+                    <Border Grid.Column="1" StrokeThickness="0" BackgroundColor="#E0E7FF" Padding="12,6" VerticalOptions="Center">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                        <HorizontalStackLayout Spacing="6">
+                            <Ellipse WidthRequest="8" HeightRequest="8" Fill="#10B981" VerticalOptions="Center"/>
+                            <Label Text="{OnPlatform Android='Phone Mode', WinUI='PC Mode', Default='Active'}" FontSize="12" FontAttributes="Bold" TextColor="#4338CA" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Primary Stats Card (The Ring) -->
+                <Border StrokeThickness="0" BackgroundColor="White" Shadow="{Shadow Brush=#10000000, Opacity=0.1, Radius=30, Offset='0,10'}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="32"/></Border.StrokeShape>
+                    <Grid RowDefinitions="Auto,Auto" Padding="24">
+                        
+                        <!-- Top: Main Progress -->
+                        <Grid ColumnDefinitions="*,*" HeightRequest="200" Padding="0,0,0,20">
+                            <!-- Left: The Ring -->
+                            <Grid Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="160" HeightRequest="160">
+                                <!-- Outer Track -->
+                                <Ellipse Stroke="#F1F5F9" StrokeThickness="12" WidthRequest="160" HeightRequest="160"/>
+                                <!-- Progress Arc (Simulated full for now, would be dynamic path) -->
+                                <Path Stroke="#6366F1" 
+                                      StrokeThickness="12" 
+                                      StrokeLineCap="Round" 
+                                      WidthRequest="160"
+                                      HeightRequest="160"
+                                      HorizontalOptions="Center"
+                                      VerticalOptions="Center"
+                                      Data="{Binding ProgressArcData}"/>
+                                      
+                                <VerticalStackLayout VerticalOptions="Center" Spacing="0">
+                                    <Label Text="{x:Static local:FontIcons.FlashFilled}" FontFamily="FluentFilled" FontSize="28" HorizontalOptions="Center" Margin="0,0,0,4" TextColor="#6366F1"/>
+                                    <Label Text="{Binding SquatCount}" FontSize="42" FontAttributes="Bold" TextColor="#1E293B" HorizontalOptions="Center" HeightRequest="50"/>
+                                    <Label Text="SQUATS" FontSize="11" FontAttributes="Bold" TextColor="#64748B" HorizontalOptions="Center" CharacterSpacing="1"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                            
+                            <!-- Right: Primary Metrics -->
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="24" Padding="20,0,0,0">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="GAME TIME" FontSize="11" FontAttributes="Bold" TextColor="#94A3B8"/>
+                                    <Label Text="45m" FontSize="28" FontAttributes="Bold" TextColor="#6366F1"/>
+                                    <Label Text="Earned" FontSize="12" TextColor="#64748B"/>
+                                </VerticalStackLayout>
+                                
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="CALORIES" FontSize="11" FontAttributes="Bold" TextColor="#94A3B8"/>
+                                    <HorizontalStackLayout Spacing="4">
+                                        <Label Text="12" FontSize="28" FontAttributes="Bold" TextColor="#EF4444"/>
+                                        <Label Text="kcal" FontSize="14" FontAttributes="Bold" TextColor="#EF4444" VerticalOptions="End" Margin="0,0,0,5"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Grid>
+                        
+                        <!-- Divider -->
+                        <BoxView Grid.Row="1" HeightRequest="1" Color="#F1F5F9" Margin="-24,0,-24,16"/>
+                        
+                        <!-- Bottom: Status Text -->
+                        <Label Grid.Row="1" Text="{Binding StatusMessage}" FontSize="13" TextColor="#64748B" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsMonitoring}" Value="True">
+                                    <Setter Property="TextColor" Value="#10B981"/>
+                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </Grid>
+                </Border>
+
+
+                <!-- Desktop: Split Layout for Controls / Mobile: Stacked -->
+                <!-- Desktop: Split Layout for Controls / Mobile: Stacked -->
+                <!-- FIX: Always use Row + Wrap. On Phone, Basis=100% forces wrapping (stacking). -->
+                <FlexLayout Wrap="Wrap" JustifyContent="SpaceBetween" AlignItems="Start" Direction="Row">
+                    
+                    <!-- Control Actions (Mobile: Full Width / Desktop: 48%) -->
+                    <VerticalStackLayout Spacing="16" Margin="0,0,0,24" FlexLayout.Basis="{OnIdiom Phone='100%', Default='48%'}">
+                        
+                        <Label Text="ACTIONS" FontSize="12" FontAttributes="Bold" TextColor="#94A3B8" Margin="4,0"/>
+                        
+                        <!-- Start/Stop GRID -->
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Button Grid.Column="0" Text="START" Command="{Binding StartMonitoringCommand}"
+                                    BackgroundColor="#10B981" TextColor="White" FontAttributes="Bold" CornerRadius="16" HeightRequest="56"
+                                    FontSize="14"/> 
+                            <Button Grid.Column="1" Text="STOP" Command="{Binding StopMonitoringCommand}"
+                                    BackgroundColor="White" TextColor="#EF4444" BorderColor="#EF4444" BorderWidth="2" FontAttributes="Bold" CornerRadius="16" HeightRequest="56"
+                                    FontSize="14"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,auto" ColumnSpacing="12">
+                            <Button Grid.Column="0" Text="+ Test Squat" Command="{Binding TestSquatCommand}"
+                                    BackgroundColor="#F1F5F9" TextColor="#475569" FontAttributes="Bold" CornerRadius="14" HeightRequest="50"/>
+                            <Button Grid.Column="1" 
+                                    Text="{x:Static local:FontIcons.RotateRight}" 
+                                    FontFamily="FASolid"
+                                    Command="{Binding ResetCommand}"
+                                    BackgroundColor="#F1F5F9" TextColor="#64748B" CornerRadius="14" WidthRequest="50" HeightRequest="50" FontSize="20"/>
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <!-- Unlock / Info (Desktop: 48%) -->
+                    <VerticalStackLayout Spacing="16" FlexLayout.Basis="{OnIdiom Phone='100%', Default='48%'}">
+                        
+                        <Label Text="REWARDS" FontSize="12" FontAttributes="Bold" TextColor="#94A3B8" Margin="4,0"/>
+
+                        <Button Text="UNLOCK PC" 
+                                ImageSource="{FontImage FontFamily=FASolid, Glyph={x:Static local:FontIcons.Unlock}, Color=White, Size=20}"
+                                Command="{Binding UnlockCommand}"
+                                TextColor="White" FontAttributes="Bold" CornerRadius="20" HeightRequest="64" FontSize="16"
+                                Shadow="{Shadow Brush=#6366F1, Opacity=0.4, Radius=16, Offset='0,8'}">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#6366F1" Offset="0"/>
+                                    <GradientStop Color="#8B5CF6" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
+                        
+                        <Label Text="{Binding ProgressText}" FontSize="13" TextColor="#64748B" HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                    
+                </FlexLayout>
+
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentView>

@@ -1,0 +1,82 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:GrindWall"
+             x:Class="GrindWall.Views.ProfileView">
+    <ScrollView>
+        <Grid MaximumWidthRequest="{OnPlatform WinUI=800, Default=600}" HorizontalOptions="Center">
+            <VerticalStackLayout Spacing="24" Padding="{OnIdiom Phone='24,20,24,120', Default='30,100,30,140'}">
+                
+                <!-- Header -->
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="24">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
+                    <Border.Shadow><Shadow Brush="Black" Opacity="0.05" Radius="20"/></Border.Shadow>
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="20">
+                        <!-- Avatar Placeholder -->
+                        <Border StrokeThickness="0" HeightRequest="72" WidthRequest="72" StrokeShape="RoundRectangle 36" BackgroundColor="#E0E7FF" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="{x:Static local:FontIcons.ProfileFilled}" FontFamily="FluentFilled" TextColor="#4F46E5" FontSize="32" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <!-- Info -->
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                            <Label Text="Player One" FontSize="22" FontAttributes="Bold" TextColor="#1E293B"/>
+                            <Label Text="Level 5 Warrior" FontSize="14" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+                        
+                        <!-- Edit Button -->
+                         <Button Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" 
+                                Text="{x:Static local:FontIcons.Gear}" FontFamily="FASolid"
+                                BackgroundColor="Transparent" TextColor="#94A3B8" FontSize="20"/>
+                    </Grid>
+                </Border>
+
+                <!-- Body Specs -->
+                <Label Text="BODY SPECS" FontSize="13" FontAttributes="Bold" TextColor="#94A3B8" Margin="4,0"/>
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                    <!-- Weight -->
+                    <Border StrokeThickness="0" BackgroundColor="White" Padding="16,20">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                        <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                            <Label Text="Weight" FontSize="12" TextColor="#64748B"/>
+                            <Label Text="75 kg" FontSize="18" FontAttributes="Bold" TextColor="#1E293B"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <!-- Height -->
+                    <Border StrokeThickness="0" BackgroundColor="White" Padding="16,20">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                        <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                            <Label Text="Height" FontSize="12" TextColor="#64748B"/>
+                            <Label Text="180 cm" FontSize="18" FontAttributes="Bold" TextColor="#1E293B"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <!-- Age -->
+                    <Border StrokeThickness="0" BackgroundColor="White" Padding="16,20">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                        <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                            <Label Text="Age" FontSize="12" TextColor="#64748B"/>
+                            <Label Text="28" FontSize="18" FontAttributes="Bold" TextColor="#1E293B"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Calibration -->
+                <Label Text="CALIBRATION" FontSize="13" FontAttributes="Bold" TextColor="#94A3B8" Margin="4,0"/>
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="24">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Squat Detection Sensitivity" FontSize="16" FontAttributes="Bold" TextColor="#1E293B" VerticalOptions="Center"/>
+                            <Label Text="Medium" FontSize="14" TextColor="#6366F1" FontAttributes="Bold" VerticalOptions="Center" Grid.Column="1"/>
+                        </Grid>
+                        <Label Text="Adjust how strictly the app detects your movement range." FontSize="13" TextColor="#64748B"/>
+                        <Slider Minimum="0" Maximum="100" Value="50" MinimumTrackColor="#6366F1" ThumbColor="#6366F1"/>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Danger Zone -->
+                <Label Text="DANGER ZONE" FontSize="13" FontAttributes="Bold" TextColor="#94A3B8" Margin="4,0"/>
+                <Button Text="Reset All Progress" BackgroundColor="#FEF2F2" TextColor="#EF4444" FontAttributes="Bold" HeightRequest="56" CornerRadius="16"/>
+
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentView>

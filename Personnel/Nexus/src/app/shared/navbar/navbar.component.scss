@@ -1,0 +1,305 @@
+/* --- GLOBAL LAYOUT --- */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0 16px 2px;
+  height: 56px;
+  box-shadow: var(--shadow);
+}
+
+/* 1. LEFT: LOGO + SEARCH */
+.nav-left {
+  display: flex;
+  align-items: center;
+  /* Don't set width here; let Flexbox handle it */
+}
+
+.logo-circle {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(to bottom right, #00b4db, #0083b0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  text-decoration: none;
+  flex-shrink: 0;
+  /* Important: Never squish the logo */
+}
+
+/* SEARCH BAR */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--input-bg);
+  padding: 0 12px;
+  border-radius: 20px;
+  height: 40px;
+  margin-left: 10px;
+  /* Space between Logo and Search */
+
+  .search-icon {
+    color: var(--text-muted);
+    margin-right: 8px;
+    font-size: 1.1rem;
+  }
+
+  input {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 15px;
+    width: 100%;
+    outline: none;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+  }
+}
+
+/* 2. CENTER: ICONS */
+.nav-center {
+  display: flex;
+  gap: 8px;
+  height: 100%;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100%;
+  font-size: 24px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+
+  &:hover {
+    background-color: var(--hover-bg);
+    border-radius: 8px;
+  }
+
+  &.active {
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+    border-radius: 10px 10px 0 0;
+  }
+}
+
+/* 3. RIGHT: USER ACTIONS */
+.nav-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  /* Never squish the profile area */
+}
+
+.desktop-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Profile Pill (Desktop) */
+.profile-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 4px;
+  border-radius: 18px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 600;
+
+  &:hover {
+    background-color: var(--hover-bg);
+  }
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+/* Mobile Avatar */
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  display: block;
+}
+
+.circle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  &:hover {
+    background-color: var(--hover-bg);
+  }
+}
+
+.btn-login {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Bottom Nav (Unchanged) */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  
+  &:hover {
+    background: radial-gradient(circle, var(--hover-bg) 10%, var(--bg-card) 65%, transparent 100%);
+    border-radius: 8px;
+  }
+
+  &.active {
+    background: radial-gradient(circle, var(--accent-color) 5%, var(--hover-bg) 40%, var(--bg-card) 75%, transparent 100%);
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+    border-radius: 10px 10px 0 0;
+  }
+}
+
+/* The container <div> - set position: relative */
+.dropup {
+  position: relative;
+  width: fit-content;
+}
+
+.dropbtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Dropup Content (Hidden by Default) */
+.dropup-content {
+  display: none;
+  position: absolute;
+  background-color: var(--bg-card);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  z-index: 1;
+  /* Key properties for "going up" */
+  bottom: 100%; /* Positions the bottom of the menu at the top of the button */
+  width: fit-content;
+}
+
+/* Links inside the dropup */
+.dropup-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: fit-content;
+}
+
+/* Change color of dropdown links on hover */
+.dropup-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropup menu on hover */
+.dropup:hover .dropup-content {
+  display: block;
+}
+
+
+/* --- RESPONSIVE LOGIC --- */
+
+/* DESKTOP (> 768px) */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+  }
+
+  /* Fixed width keeps desktop layout stable */
+  .search-bar {
+    width: 240px;
+  }
+}
+
+/* MOBILE (<= 768px) */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .navbar {
+    padding: 0 12px;
+  }
+
+  /* 1. Make the Left Group GROW to fill all space up to the Profile */
+  .nav-left {
+    flex-grow: 1;
+    margin-right: 12px;
+    /* Space between Search and Profile */
+  }
+
+  /* 2. Make Search Bar FILL the nav-left container */
+  .search-bar {
+    margin: auto;
+    width: auto;
+    /* Remove fixed width */
+  }
+
+  .search-bar input {
+    display: block;
+  }
+}

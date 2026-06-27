@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GrindWall.ViewModels"
+             xmlns:local="clr-namespace:GrindWall"
+             xmlns:views="clr-namespace:GrindWall.Views"
+             x:Class="GrindWall.MainPage"
+             x:DataType="viewmodels:MainPageViewModel"
+             Title="GrindWall"
+             BackgroundColor="#F5F7FA"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        
+        <!-- Screen Overlay (Closes menu when tapping anywhere else) -->
+        <BoxView
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            BackgroundColor="Black"
+            Opacity="0.3"
+            IsVisible="{Binding IsMenuOpen}"
+            InputTransparent="False"
+            ZIndex="90">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ToggleMenuCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <!-- Desktop Navbar (Top) -->
+        <Grid
+            Grid.Row="0"
+            HeightRequest="74"
+            VerticalOptions="Start"
+            Padding="20,0"
+            BackgroundColor="White"
+            ZIndex="100"
+            IsVisible="{OnIdiom Desktop=True, Tablet=True, Phone=False}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="WindowStates">
+                    <VisualState x:Name="WideState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="900" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter TargetName="DesktopLinksContainer" Property="IsVisible" Value="True" />
+                            <Setter TargetName="HamburgerButton" Property="IsVisible" Value="False" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="NarrowState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter TargetName="DesktopLinksContainer" Property="IsVisible" Value="False" />
+                            <Setter TargetName="HamburgerButton" Property="IsVisible" Value="True" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <Grid.Shadow>
+                <Shadow Brush="#000000" Opacity="0.08" Radius="10" Offset="0,2" />
+            </Grid.Shadow>
+            
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <!-- Logo + Name (Left) -->
+                <HorizontalStackLayout Grid.Column="0" Spacing="12" VerticalOptions="Center">
+                    <!-- Logo -->
+                    <Border
+                        StrokeThickness="0"
+                        BackgroundColor="#6366F1"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Label
+                            Text="{x:Static local:FontIcons.Dumbbell}"
+                            FontFamily="FASolid"
+                            TextColor="White"
+                            FontSize="22"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+                    </Border>
+                    
+                    <!-- App Name -->
+                    <Label
+                        Text="GrindWall"
+                        FontSize="24"
+                        FontAttributes="Bold"
+                        TextColor="#1E293B"
+                        VerticalOptions="Center"
+                        SemanticProperties.HeadingLevel="Level1" />
+                </HorizontalStackLayout>
+
+                <!-- Desktop Navigation Links (Right) - Visible on WIDE desktop -->
+                <HorizontalStackLayout 
+                    x:Name="DesktopLinksContainer"
+                    Grid.Column="2" 
+                    Spacing="8" 
+                    VerticalOptions="Center"
+                    IsVisible="False"
+                    SemanticProperties.Description="Navigation menu">
+                    
+                    <Button
+                        Text="Home"
+                        ImageSource="{FontImage FontFamily=FluentFilled, Glyph={x:Static local:FontIcons.HomeFilled}, Color=#6366F1, Size=18}"
+                        Command="{Binding NavigateHomeCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#64748B"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        Padding="16,8"
+                        CornerRadius="8"
+                        SemanticProperties.Hint="Navigate to home page" />
+
+                    <Button
+                        Text="Games"
+                        ImageSource="{FontImage FontFamily=FluentFilled, Glyph={x:Static local:FontIcons.GamesFilled}, Color=#6366F1, Size=18}"
+                        Command="{Binding NavigateGamesCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#64748B"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        Padding="16,8"
+                        CornerRadius="8"
+                        SemanticProperties.Hint="Navigate to games page" />
+
+                    <Button
+                        Text="Quests"
+                        ImageSource="{FontImage FontFamily=FluentFilled, Glyph={x:Static local:FontIcons.FlashFilled}, Color=#6366F1, Size=18}"
+                        Command="{Binding NavigateQuestsCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#64748B"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        Padding="16,8"
+                        CornerRadius="8"
+                        SemanticProperties.Hint="Navigate to quests page" />
+
+                    <Button
+                        Text="History"
+                        ImageSource="{FontImage FontFamily=FluentFilled, Glyph={x:Static local:FontIcons.TrophyFilled}, Color=#6366F1, Size=18}"
+                        Command="{Binding NavigateHistoryCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#64748B"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        Padding="16,8"
+                        CornerRadius="8"
+                        SemanticProperties.Hint="Navigate to history page" />
+                    
+                    <Button
+                        Text="Profile"
+                        ImageSource="{FontImage FontFamily=FluentFilled, Glyph={x:Static local:FontIcons.ProfileFilled}, Color=#6366F1, Size=18}"
+                        Command="{Binding NavigateProfileCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#64748B"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        Padding="16,8"
+                        CornerRadius="8"
+                        SemanticProperties.Hint="Navigate to profile page" />
+                </HorizontalStackLayout>
+
+                <!-- Hamburger Menu Button (Right) - Visible on NARROW or phone -->
+                <Button
+                    x:Name="HamburgerButton"
+                    Grid.Column="2"
+                    Text="{x:Static local:FontIcons.Bars}"
+                    FontFamily="FASolid"
+                    Command="{Binding ToggleMenuCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#1E293B"
+                    FontSize="24"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    Padding="0"
+                    CornerRadius="8"
+                    VerticalOptions="Center"
+                    SemanticProperties.Hint="Toggle navigation menu"
+                    AutomationId="HamburgerMenuButton"
+                    IsVisible="True">
+                </Button>
+            </Grid>
+        </Grid>
+
+        <!-- Mobile Dropdown Menu -->
+        <!-- Moved outside fixed-height Navbar Grid to prevent clipping -->
+        <Border
+            IsVisible="{Binding IsMenuOpen}"
+            Grid.Row="0"
+            Grid.RowSpan="{OnPlatform WinUI=3, Android=2}"
+            Margin="{OnPlatform WinUI='0,74,10,0', Android='0,0,10,74'}"
+            Padding="0"
+            StrokeThickness="0"
+            BackgroundColor="White"
+            HorizontalOptions="End"
+            VerticalOptions="{OnPlatform WinUI=Start, Android=End}"
+            Shadow="{Shadow Brush=#000000, Opacity=0.15, Radius=20, Offset='0,4'}"
+            ZIndex="110">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12" />
+            </Border.StrokeShape>
+            
+            <VerticalStackLayout Spacing="0" Padding="8" WidthRequest="180">
+                <Button
+                    Text="  Home"
+                    ImageSource="{FontImage FontFamily=FluentFilled, Glyph={x:Static local:FontIcons.HomeFilled}, Color=#6366F1, Size=20}"
+                    Command="{Binding NavigateHomeCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#6366F1"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Padding="16,12"
+                    CornerRadius="8"
+                    HorizontalOptions="Fill"
+                    SemanticProperties.Hint="Navigate to home page" />
+
+                <Button
+                    Text="  Games"
+                    ImageSource="{FontImage FontFamily=FluentFilled, Glyph={x:Static local:FontIcons.GamesFilled}, Color=#6366F1, Size=20}"
+                    Command="{Binding NavigateGamesCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#6366F1"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Padding="16,12"
+                    CornerRadius="8"
+                    HorizontalOptions="Fill"
+                    SemanticProperties.Hint="Navigate to games page" />
+
+                <Button
+                    Text="  Quests"
+                    ImageSource="{FontImage FontFamily=FluentFilled, Glyph={x:Static local:FontIcons.FlashFilled}, Color=#6366F1, Size=20}"
+                    Command="{Binding NavigateQuestsCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#6366F1"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Padding="16,12"
+                    CornerRadius="8"
+                    HorizontalOptions="Fill"
+                    SemanticProperties.Hint="Navigate to quests page" />
+
+                <Button
+                    Text="  History"
+                    ImageSource="{FontImage FontFamily=FluentFilled, Glyph={x:Static local:FontIcons.TrophyFilled}, Color=#6366F1, Size=20}"
+                    Command="{Binding NavigateHistoryCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#6366F1"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Padding="16,12"
+                    CornerRadius="8"
+                    HorizontalOptions="Fill"
+                    SemanticProperties.Hint="Navigate to history page" />
+                
+                <Button
+                    Text="  Profile"
+                    ImageSource="{FontImage FontFamily=FluentFilled, Glyph={x:Static local:FontIcons.ProfileFilled}, Color=#6366F1, Size=20}"
+                    Command="{Binding NavigateProfileCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#6366F1"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Padding="16,12"
+                    CornerRadius="8"
+                    HorizontalOptions="Fill"
+                    SemanticProperties.Hint="Navigate to profile page" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Main Content -->
+        <!-- RowSpan="2" allows content to scroll BEHIND the transparent navbar -->
+        <!-- Main Content -->
+        <!-- RowSpan="3" allows content to scroll BEHIND the transparent navbar on Desktop & use full height on Mobile -->
+        <!-- Main Content Swapping Area -->
+        <Grid Grid.Row="0" Grid.RowSpan="3" MaximumWidthRequest="{OnPlatform WinUI=1000, Android=600, iOS=600, Default=600}" HorizontalOptions="Center">
+            
+            <!-- 1. Home View -->
+            <views:HomeView IsVisible="False">
+                <views:HomeView.Triggers>
+                    <DataTrigger TargetType="views:HomeView" Binding="{Binding CurrentPage}" Value="Home">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                </views:HomeView.Triggers>
+            </views:HomeView>
+
+            <!-- 2. Games View -->
+            <views:GamesView IsVisible="False">
+                <views:GamesView.Triggers>
+                    <DataTrigger TargetType="views:GamesView" Binding="{Binding CurrentPage}" Value="Games">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                </views:GamesView.Triggers>
+            </views:GamesView>
+
+            <!-- 3. Quests View -->
+            <views:QuestsView IsVisible="False">
+                <views:QuestsView.Triggers>
+                    <DataTrigger TargetType="views:QuestsView" Binding="{Binding CurrentPage}" Value="Quests">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                </views:QuestsView.Triggers>
+            </views:QuestsView>
+
+            <!-- 4. History View -->
+            <views:HistoryView IsVisible="False">
+                <views:HistoryView.Triggers>
+                    <DataTrigger TargetType="views:HistoryView" Binding="{Binding CurrentPage}" Value="History">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                </views:HistoryView.Triggers>
+            </views:HistoryView>
+
+            <!-- 5. Profile View -->
+            <views:ProfileView IsVisible="False">
+                <views:ProfileView.Triggers>
+                    <DataTrigger TargetType="views:ProfileView" Binding="{Binding CurrentPage}" Value="Profile">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                </views:ProfileView.Triggers>
+            </views:ProfileView>
+            
+        </Grid>
+
+        <!-- Mobile Bottom Tab Bar (Row 2) -->
+        <!-- Mobile Bottom Tab Bar (Row 2) -->
+        <Grid
+            Grid.Row="2"
+            HeightRequest="100"
+            VerticalOptions="End"
+            IsVisible="{OnIdiom Phone=True, Default=False}"
+            ZIndex="100"
+            BackgroundColor="Transparent">
+            
+            <!-- THE SINGLE CONTAINER BACKGROUND: 100px Height (80px visual + 20px safe area) -->
+            <Path 
+                Fill="White" 
+                VerticalOptions="Fill"
+                Aspect="Fill"
+                Data="M 0,30 L 0.35,30 C 0.42,30 0.42,70 0.5,70 C 0.58,70 0.58,30 0.65,30 L 1,30 L 1,120 L 0,120 Z" 
+                HeightRequest="100">
+                <Path.Shadow>
+                    <!-- Centered halo shadow -->
+                    <Shadow Brush="#000000" Opacity="0.05" Radius="10" Offset="0,0" />
+                </Path.Shadow>
+            </Path>
+
+            <!-- Navigation Items: Fits perfectly in upper 80px area -->
+            <Grid ColumnDefinitions="*,*,*,*,*" VerticalOptions="End" HeightRequest="100" Padding="12,0,12,20">
+                
+                <!-- Tab 1: Home -->
+                <Grid Grid.Column="0" VerticalOptions="End" HeightRequest="60" Margin="0,0,0,2">
+                    <Ellipse WidthRequest="44" HeightRequest="44" HorizontalOptions="Center" VerticalOptions="Center" TranslationY="-3" IsVisible="False">
+                        <Ellipse.Background>
+                            <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                                <GradientStop Color="#AA6366F1" Offset="0.0" />
+                                <GradientStop Color="Transparent" Offset="1.0" />
+                            </RadialGradientBrush>
+                        </Ellipse.Background>
+                        <Ellipse.Shadow>
+                            <Shadow Brush="#6366F1" Opacity="0.6" Radius="12" Offset="0,0" />
+                        </Ellipse.Shadow>
+                        <Ellipse.Triggers>
+                            <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentPage}" Value="Home">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
+                    
+                    <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                        <Label Text="{x:Static local:FontIcons.HomeRegular}" FontFamily="FluentRegular" FontSize="26" HorizontalOptions="Center" TextColor="#64748B">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentPage}" Value="Home">
+                                    <Setter Property="TextColor" Value="#6366F1" />
+                                    <Setter Property="FontFamily" Value="FluentFilled" />
+                                    <Setter Property="Text" Value="{x:Static local:FontIcons.HomeFilled}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label Text="Home" FontSize="12" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#64748B">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentPage}" Value="Home">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Ellipse WidthRequest="8" HeightRequest="8" Fill="#6366F1" HorizontalOptions="Center" IsVisible="False">
+                            <Ellipse.Triggers>
+                                <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentPage}" Value="Home">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </DataTrigger>
+                            </Ellipse.Triggers>
+                        </Ellipse>
+                    </VerticalStackLayout>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateHomeCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+
+                <!-- Tab 2: Games -->
+                <Grid Grid.Column="1" VerticalOptions="End" HeightRequest="60" Margin="0,0,0,2">
+                    <Ellipse WidthRequest="44" HeightRequest="44" HorizontalOptions="Center" VerticalOptions="Center" TranslationY="-3" IsVisible="False">
+                        <Ellipse.Background>
+                            <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                                <GradientStop Color="#AA6366F1" Offset="0.0" />
+                                <GradientStop Color="Transparent" Offset="1.0" />
+                            </RadialGradientBrush>
+                        </Ellipse.Background>
+                        <Ellipse.Triggers>
+                            <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentPage}" Value="Games">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
+                    <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                        <Label Text="{x:Static local:FontIcons.GamesRegular}" FontFamily="FluentRegular" FontSize="26" HorizontalOptions="Center" TextColor="#64748B">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentPage}" Value="Games">
+                                    <Setter Property="TextColor" Value="#6366F1" />
+                                    <Setter Property="FontFamily" Value="FluentFilled" />
+                                    <Setter Property="Text" Value="{x:Static local:FontIcons.GamesFilled}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label Text="Games" FontSize="12" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#64748B">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentPage}" Value="Games">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Ellipse WidthRequest="8" HeightRequest="8" Fill="#6366F1" HorizontalOptions="Center" IsVisible="False">
+                            <Ellipse.Triggers>
+                                <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentPage}" Value="Games">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </DataTrigger>
+                            </Ellipse.Triggers>
+                        </Ellipse>
+                    </VerticalStackLayout>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateGamesCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+
+                <!-- Tab 3: Centered Button (Floating Higher relative to short bar) -->
+                <Grid Grid.Column="2" VerticalOptions="Fill">
+                    <!-- Main Action Circle -->
+                    <Border
+                        BackgroundColor="#6366F1"
+                        WidthRequest="56"
+                        HeightRequest="56"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start"
+                        TranslationY="-22"
+                        StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="28" />
+                        </Border.StrokeShape>
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding CurrentPage}" Value="Quests">
+                                <Setter Property="Shadow">
+                                    <Setter.Value>
+                                        <Shadow Brush="#6366F1" Opacity="1.0" Radius="25" Offset="0,-20" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Label Text="{x:Static local:FontIcons.FlashRegular}" FontFamily="FluentRegular" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentPage}" Value="Quests">
+                                    <Setter Property="FontFamily" Value="FluentFilled" />
+                                    <Setter Property="Text" Value="{x:Static local:FontIcons.FlashFilled}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </Border>
+                    <!-- Label + Dot Container: Matches other tabs -->
+                    <VerticalStackLayout VerticalOptions="End" Spacing="2">
+                        <Label 
+                            Text="Quests" 
+                            FontSize="12" 
+                            HorizontalOptions="Center" 
+                            TextColor="#6366F1" 
+                            FontAttributes="Bold">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentPage}" Value="Quests">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Ellipse WidthRequest="8" HeightRequest="8" Fill="#6366F1" HorizontalOptions="Center" IsVisible="False" TranslationY="-10">
+                            <Ellipse.Triggers>
+                                <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentPage}" Value="Quests">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </DataTrigger>
+                            </Ellipse.Triggers>
+                        </Ellipse>
+                    </VerticalStackLayout>
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateQuestsCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+
+                <!-- Tab 4: History -->
+                <Grid Grid.Column="3" VerticalOptions="End" HeightRequest="60" Margin="0,0,0,2">
+                    <Ellipse WidthRequest="44" HeightRequest="44" HorizontalOptions="Center" VerticalOptions="Center" TranslationY="-3" IsVisible="False">
+                        <Ellipse.Background>
+                            <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                                <GradientStop Color="#AA6366F1" Offset="0.0" />
+                                <GradientStop Color="Transparent" Offset="1.0" />
+                            </RadialGradientBrush>
+                        </Ellipse.Background>
+                        <Ellipse.Shadow>
+                            <Shadow Brush="#6366F1" Opacity="0.6" Radius="12" Offset="0,0" />
+                        </Ellipse.Shadow>
+                        <Ellipse.Triggers>
+                            <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentPage}" Value="History">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
+                    <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                        <Label Text="{x:Static local:FontIcons.TrophyRegular}" FontFamily="FluentRegular" FontSize="26" HorizontalOptions="Center" TextColor="#64748B">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentPage}" Value="History">
+                                    <Setter Property="TextColor" Value="#6366F1" />
+                                    <Setter Property="FontFamily" Value="FluentFilled" />
+                                    <Setter Property="Text" Value="{x:Static local:FontIcons.TrophyFilled}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label Text="History" FontSize="12" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#64748B">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentPage}" Value="History">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Ellipse WidthRequest="8" HeightRequest="8" Fill="#6366F1" HorizontalOptions="Center" IsVisible="False">
+                            <Ellipse.Triggers>
+                                <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentPage}" Value="History">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </DataTrigger>
+                            </Ellipse.Triggers>
+                        </Ellipse>
+                    </VerticalStackLayout>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateHistoryCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+
+                <!-- Tab 5: Profile -->
+                <Grid Grid.Column="4" VerticalOptions="End" HeightRequest="60" Margin="0,0,0,2">
+                    <Ellipse WidthRequest="44" HeightRequest="44" HorizontalOptions="Center" VerticalOptions="Center" TranslationY="-3" IsVisible="False">
+                        <Ellipse.Background>
+                            <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                                <GradientStop Color="#AA6366F1" Offset="0.0" />
+                                <GradientStop Color="Transparent" Offset="1.0" />
+                            </RadialGradientBrush>
+                        </Ellipse.Background>
+                        <Ellipse.Triggers>
+                            <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentPage}" Value="Profile">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
+                    <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                        <Label Text="{x:Static local:FontIcons.ProfileRegular}" FontFamily="FluentRegular" FontSize="26" HorizontalOptions="Center" TextColor="#64748B">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentPage}" Value="Profile">
+                                    <Setter Property="TextColor" Value="#6366F1" />
+                                    <Setter Property="FontFamily" Value="FluentFilled" />
+                                    <Setter Property="Text" Value="{x:Static local:FontIcons.ProfileFilled}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label Text="Profile" FontSize="12" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#64748B">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentPage}" Value="Profile">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Ellipse WidthRequest="8" HeightRequest="8" Fill="#6366F1" HorizontalOptions="Center" IsVisible="False">
+                            <Ellipse.Triggers>
+                                <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentPage}" Value="Profile">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </DataTrigger>
+                            </Ellipse.Triggers>
+                        </Ellipse>
+                    </VerticalStackLayout>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateProfileCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <!-- Desktop Footer (Row 2) -->
+        <Border
+            Grid.Row="2"
+            IsVisible="{OnIdiom Desktop=True, Tablet=True, Phone=False}"
+            Padding="20,16"
+            StrokeThickness="0"
+            BackgroundColor="White"
+            Shadow="{Shadow Brush=#000000, Opacity=0.08, Radius=10, Offset='0,-2'}">
+            <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                <Label
+                    Text="GrindWall"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    TextColor="#6366F1" />
+                <Label
+                    Text="The Healthiest Physical Paywall."
+                    FontSize="12"
+                    FontAttributes="Italic"
+                    HorizontalTextAlignment="Center"
+                    TextColor="#64748B" />
+            </VerticalStackLayout>
+        </Border>
+        
+    </Grid>
+</ContentPage>

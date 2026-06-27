@@ -1,0 +1,172 @@
+.post-card {
+  background: var(--bg-card);
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+
+  @media (max-width: 600px) {
+    margin-bottom: 8px; /* Smaller gap between posts */
+    box-shadow: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px; /* Slightly less padding */
+  }
+
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .author {
+      font-weight: bold;
+      color: var(--text-main);
+    }
+
+    .timestamp {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .profile-link {
+      text-decoration: none;
+      color: inherit;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover .author-name {
+        text-decoration: underline;
+      }
+
+      .post-avatar {
+        width: 48px;
+        border-radius: 50%;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+      .author-name {
+        font-weight: bold;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .post-content {
+    font-size: 1rem;
+    margin-left: 5px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+
+    .post-image-container {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      /* Rounds the corners of the image */
+      background-color: var(--bg-body);
+      /* Placeholder color while loading */
+    }
+
+    .post-image-container img {
+      width: 100%;
+      /* Force image to fit the container width */
+      height: auto;
+      /* Keep the correct aspect ratio */
+      display: block;
+      /* Remove extra space below the image */
+      max-height: 500px;
+      /* Optional: Prevent super tall images */
+      object-fit: cover;
+    }
+  }
+
+  .post-actions {
+    display: flex;
+    gap: 15px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    
+    button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+      
+      &:hover {
+        color: #1da1f2;
+      }
+      
+      .btn-action {
+        background: none;
+        border: 1px solid var(--border-color);
+        padding: 5px 10px;
+        border-radius: 20px;
+        cursor: pointer;
+        margin-right: 5px;
+        transition: all 0.2s;
+
+        &:hover {
+          background: var(--bg-body);
+        }
+
+        /* When the class .liked is added */
+        &.liked {
+          background-color: #ffebeb;
+          border-color: #ffcccc;
+          color: #d32f2f;
+        }
+      }
+
+      .btn-delete {
+        color: red;
+        margin-left: auto;
+        /* Pushes it to the far right */
+        background: transparent;
+        border: 1px solid red;
+
+        &:hover {
+          background: rgba(255, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+
+  .comments-section {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+
+    .comment {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .add-comment {
+      margin-top: 10px;
+
+      input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+/* Make action buttons bigger touch targets on mobile */
+@media (max-width: 600px) {
+  .post-actions {
+    justify-content: space-between; /* Spread buttons out */
+  }
+  
+  .btn-ghost {
+    padding: 12px; /* Bigger touch area */
+  }
+}

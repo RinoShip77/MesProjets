@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GrindWall</name>
+    </assembly>
+    <members>
+        <member name="T:GrindWall.Platforms.Android.SquatDetector">
+            <summary>
+            Android implementation of squat detection using accelerometer sensor.
+            Detects squats based on vertical acceleration patterns (down-up motion).
+            </summary>
+        </member>
+        <member name="M:GrindWall.Platforms.Android.SquatDetector.StartMonitoringAsync">
+            <summary>
+            Starts monitoring the accelerometer for squat movements.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Platforms.Android.SquatDetector.StopMonitoringAsync">
+            <summary>
+            Stops monitoring the accelerometer.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Platforms.Android.SquatDetector.ResetCount">
+            <summary>
+            Resets the squat count.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Platforms.Android.SquatDetector.OnAccelerometerReadingChanged(System.Object,Microsoft.Maui.Devices.Sensors.AccelerometerChangedEventArgs)">
+            <summary>
+            Handles accelerometer reading changes and detects squat patterns.
+            </summary>
+        </member>
+        <member name="T:GrindWall.Services.IAppBlocker">
+            <summary>
+            Cross-platform interface for blocking distracting apps or processes.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.IAppBlocker.StartBlocking">
+            <summary>
+            Starts the background monitoring or blocking service.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.IAppBlocker.StopBlocking">
+            <summary>
+            Stops the background monitoring or blocking service.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.IAppBlocker.HasPermission">
+            <summary>
+            Checks if the necessary system permissions are granted.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.IAppBlocker.RequestPermission">
+            <summary>
+            Requests the necessary system permissions (e.g., opens settings).
+            </summary>
+        </member>
+        <member name="P:GrindWall.Services.IAppBlocker.IsBlocking">
+            <summary>
+            Gets or sets whether blocking is currently active.
+            </summary>
+        </member>
+        <member name="P:GrindWall.Services.IAppBlocker.IsDebugMode">
+            <summary>
+            Gets or sets whether debug mode is active (uses test apps instead of real distractions).
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.IAppBlocker.GetInstalledAppsAsync">
+            <summary>
+            Retrieves a list of installed applications.
+            </summary>
+        </member>
+        <member name="T:GrindWall.Services.ISquatDetector">
+            <summary>
+            Platform-specific interface for detecting squats using device sensors.
+            Implemented on Android using accelerometer data.
+            </summary>
+        </member>
+        <member name="E:GrindWall.Services.ISquatDetector.SquatDetected">
+            <summary>
+            Event fired when a squat is successfully detected.
+            The int parameter represents the total squat count.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.ISquatDetector.StartMonitoringAsync">
+            <summary>
+            Starts monitoring for squat movements.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.ISquatDetector.StopMonitoringAsync">
+            <summary>
+            Stops monitoring for squat movements.
+            </summary>
+        </member>
+        <member name="P:GrindWall.Services.ISquatDetector.CurrentCount">
+            <summary>
+            Gets the current squat count.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.ISquatDetector.ResetCount">
+            <summary>
+            Resets the squat counter to zero.
+            </summary>
+        </member>
+        <member name="T:GrindWall.Services.NetworkSyncService">
+            <summary>
+            Service that handles bidirectional network communication for syncing squat count
+            </summary>
+        </member>
+        <member name="T:GrindWall.Services.SquatCounterService">
+            <summary>
+            Cross-platform service that manages squat counting and unlock logic.
+            </summary>
+        </member>
+        <member name="P:GrindWall.Services.SquatCounterService.SquatCount">
+            <summary>
+            Current total number of squats performed.
+            </summary>
+        </member>
+        <member name="P:GrindWall.Services.SquatCounterService.RequiredSquats">
+            <summary>
+            Number of squats required to unlock games.
+            </summary>
+        </member>
+        <member name="P:GrindWall.Services.SquatCounterService.IsUnlocked">
+            <summary>
+            Whether games are currently unlocked.
+            </summary>
+        </member>
+        <member name="P:GrindWall.Services.SquatCounterService.CanUnlock">
+            <summary>
+            Whether the user has performed enough squats to unlock.
+            </summary>
+        </member>
+        <member name="P:GrindWall.Services.SquatCounterService.ProgressText">
+            <summary>
+            Progress text for display (e.g., "7/10 squats").
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.SquatCounterService.AddSquat">
+            <summary>
+            Adds a squat to the counter (caps at RequiredSquats).
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.SquatCounterService.Reset">
+            <summary>
+            Resets the squat counter and locked state.
+            </summary>
+        </member>
+        <member name="M:GrindWall.Services.SquatCounterService.TryUnlock">
+            <summary>
+            Unlocks games if enough squats have been performed.
+            </summary>
+            <returns>True if unlock was successful, false if not enough squats</returns>
+        </member>
+        <member name="T:GrindWall.ViewModels.MainPageViewModel">
+            <summary>
+            ViewModel for the main page that coordinates squat detection and process blocking.
+            </summary>
+        </member>
+        <member name="T:GrindWall.Resource">
+            <summary>
+            Android Resource Designer class.
+            Exposes the Android Resource designer assembly into the project Namespace.
+            </summary>
+        </member>
+    </members>
+</doc>

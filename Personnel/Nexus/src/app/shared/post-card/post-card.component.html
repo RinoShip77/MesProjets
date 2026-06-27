@@ -1,0 +1,50 @@
+<div class="post-card">
+  <div class="post-header">
+    <a [routerLink]="['/user', post.authorId]" class="profile-link">
+      <img *ngIf="post.authorPhoto" [src]="post.authorPhoto" class="post-avatar">
+      <span class="author-name">{{ post.authorName }}</span>
+    </a>
+    <span class="timestamp">{{ post.timestamp | date:'shortTime' }}</span>
+  </div>
+
+  <div class="post-content" [routerLink]="['/post', post.id]" style="cursor: pointer;">
+    {{ post.content }}
+
+    <div *ngIf="post.imageUrl" class="post-image-container">
+      <img [src]="post.imageUrl" alt="Post image" style="max-width: 100%; border-radius: 8px; margin-top: 10px;">
+    </div>
+  </div>
+
+  <div class="post-actions">
+    <button (click)="onLike()" class="btn-action" [class.liked]="isLikedByMe$ | async">
+
+      <span *ngIf="isLikedByMe$ | async; else notLiked">❤️</span>
+      <ng-template #notLiked>🤍</ng-template>
+
+      {{ post.likes }}
+    </button>
+
+    <button (click)="toggleComments()">
+      💬 {{ post.comments.length }} Comments
+    </button>
+
+    <button (click)="onShare()">
+      🚀 Share
+    </button>
+
+    <button *ngIf="isOwner$ | async" (click)="onDelete()" class="btn-delete">
+      🗑️
+    </button>
+  </div>
+
+  <div class="comments-section" *ngIf="showComments">
+    <div class="comment" *ngFor="let comment of post.comments">
+      <strong>{{ comment.authorName }}: </strong> {{ comment.content }}
+    </div>
+
+    <div class="add-comment">
+      <input #commentInput type="text" placeholder="Write a comment..."
+        (keyup.enter)="onComment(commentInput.value); commentInput.value=''">
+    </div>
+  </div>
+</div>

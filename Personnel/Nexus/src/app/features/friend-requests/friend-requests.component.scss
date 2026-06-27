@@ -1,0 +1,69 @@
+.requests-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: var(--bg-card);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.request-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sender-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.time {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-confirm {
+  background: #1877f2; /* Facebook Blue */
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-delete {
+  background: #e4e6eb;
+  color: black;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
