@@ -13,7 +13,7 @@ def main():
 
     while True:
         try:
-            user_input = input("\n[Oli] > ")
+            user_input = input("\n[Olivier] > ")
             
             if user_input.lower() in ['exit', 'quit']:
                 print("\n[VibeFlow] > Déconnexion. À plus tard !")

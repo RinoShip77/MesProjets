@@ -93,7 +93,7 @@ if __name__ == "__main__":
         logger.info("Test de la mémoire en cours...")
         
         try:
-            agent.ask("Mon nom est Olivier.")
+            agent.ask("Mon nom est Oliviervier.")
             reponse = agent.ask("Comment je m'appelle ?")
             print(f"VibeFlow: {reponse}")
         except VibeFlowCommunicationError as e:
