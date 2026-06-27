@@ -101,7 +101,7 @@
                 id="user-input" 
                 class="flex-1 input-bg border border-solid rounded-lg px-4 py-3 focus:outline-none focus:ring-1 transition-all shadow-inner"
                 style="--tw-ring-color: var(--accent)"
-                placeholder="Tape ta commande..."
+                placeholder="Tape ta commande (Flèches ↑ et ↓ pour l'historique)..."
                 autocomplete="off"
             >
             <button 
@@ -169,6 +169,10 @@
         const modelBadge = document.getElementById('model-badge');
         const mockBadge = document.getElementById('mock-badge');
         const API_URL = 'http://127.0.0.1:8000';
+
+        // --- HISTORIQUE DE COMMANDES (Flèches Haut/Bas) ---
+        let commandHistory = [];
+        let historyIndex = -1;
 
         let config = { username: "Oli", theme: "dark", accent: "#10b981", wallpaper: "", model: "gemini-2.5-flash" };
 
@@ -279,7 +283,6 @@
                 const res = await fetch(`${API_URL}/history`);
                 const data = await res.json();
                 
-                // Vérifie si le backend a activé le USE_MOCK_API
                 if (data.mock_mode) {
                     mockBadge.classList.remove('hidden');
                     mockBadge.classList.add('flex');
@@ -292,9 +295,16 @@
                 
                 if (data.history && data.history.length > 0) {
                     data.history.forEach(msg => {
-                        if (msg.role === 'user') renderUserMessage(msg.content, false);
+                        if (msg.role === 'user') {
+                            renderUserMessage(msg.content, false);
+                            // Remplir l'historique des commandes avec la BDD
+                            if (commandHistory[commandHistory.length - 1] !== msg.content) {
+                                commandHistory.push(msg.content);
+                            }
+                        }
                         else renderAIMessage(msg.content, false);
                     });
+                    historyIndex = commandHistory.length; // Placer l'index à la fin
                 } else {
                     const welcomeHtml = `
                         <div class="flex gap-4">
@@ -320,6 +330,12 @@
         async function sendMessage() {
             const text = userInput.value.trim();
             if (!text) return;
+
+            // Enregistrement dans l'historique des commandes (si différent du précédent)
+            if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== text) {
+                commandHistory.push(text);
+            }
+            historyIndex = commandHistory.length;
 
             renderUserMessage(text, true);
             userInput.value = '';
@@ -402,7 +418,28 @@
         }
 
         sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+        // Écoute des touches pour l'envoi et la navigation dans l'historique
+        userInput.addEventListener('keydown', e => { 
+            if (e.key === 'Enter') {
+                sendMessage();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault(); // Empêche le curseur de se déplacer au début
+                if (commandHistory.length > 0 && historyIndex > 0) {
+                    historyIndex--;
+                    userInput.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault(); // Empêche le curseur de se déplacer à la fin
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    userInput.value = commandHistory[historyIndex];
+                } else if (historyIndex === commandHistory.length - 1) {
+                    historyIndex++;
+                    userInput.value = '';
+                }
+            }
+        });
         
         loadSettings(); 
         loadDatabaseHistory(); 
