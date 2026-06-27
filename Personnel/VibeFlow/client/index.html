@@ -7,123 +7,260 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        /* Styles du Markdown optimisés */
-        .prose pre { background-color: #1f2937; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-top: 0.75rem; margin-bottom: 0.75rem; border: 1px solid #374151; }
-        .prose code { color: #10b981; font-family: monospace; }
-        .prose p { margin-bottom: 0.75rem; }
-        .prose a { color: #3b82f6; text-decoration: underline; }
+        /* Variables CSS Dynamiques (Modifiables via JS) */
+        :root {
+            --accent: #10b981; 
+            --bg-body: #111827; 
+            --bg-surface: #1f2937; 
+            --bg-input: #111827;
+            --text-main: #f3f4f6; 
+            --text-muted: #9ca3af; 
+            --border-color: #374151; 
+            --wallpaper: none;
+            --blur-amount: 0px;
+        }
+
+        /* Thème Clair */
+        .theme-light {
+            --bg-body: #f3f4f6; 
+            --bg-surface: #ffffff; 
+            --bg-input: #f9fafb; 
+            --text-main: #111827; 
+            --text-muted: #4b5563; 
+            --border-color: #e5e7eb; 
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+        }
+
+        /* Système de fond d'écran avec flou */
+        .wallpaper-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: var(--wallpaper);
+            background-size: cover;
+            background-position: center;
+            filter: blur(var(--blur-amount));
+            opacity: 0.4; 
+        }
+
+        /* Composants thématisés */
+        .surface { background-color: var(--bg-surface); border-color: var(--border-color); }
+        .input-bg { background-color: var(--bg-input); color: var(--text-main); border-color: var(--border-color); }
+        .accent-bg { background-color: var(--accent); color: #fff; }
+        .accent-text { color: var(--accent); }
+        .accent-border { border-color: var(--accent); }
+        .text-muted { color: var(--text-muted); }
         
-        /* Animations fluides */
+        /* Markdown rendering */
+        .prose pre { background-color: #00000030; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.75rem 0; border: 1px solid var(--border-color); }
+        .prose code { color: var(--accent); font-family: monospace; }
+        .prose p { margin-bottom: 0.75rem; }
+        .prose a { color: var(--accent); text-decoration: underline; }
+        
+        /* Animations et Curseur */
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in-up { animation: fadeInUp 0.3s ease-out forwards; }
-        
-        /* Curseur de frappe */
-        .blinking-cursor {
-            display: inline-block;
-            width: 8px;
-            height: 1.2em;
-            background-color: #10b981;
-            vertical-align: text-bottom;
-            animation: blink 1s step-end infinite;
-            margin-left: 4px;
-        }
+        .blinking-cursor { display: inline-block; width: 8px; height: 1.2em; background-color: var(--accent); vertical-align: text-bottom; animation: blink 1s step-end infinite; margin-left: 4px; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* Scrollbar "Smooth" */
+        /* Loader Animation */
+        .dot-pulse { display: flex; gap: 6px; align-items: center; height: 1.5rem; }
+        .dot-pulse div { width: 8px; height: 8px; border-radius: 50%; background-color: var(--accent); animation: bounce 1.4s infinite ease-in-out both; }
+        .dot-pulse div:nth-child(1) { animation-delay: -0.32s; }
+        .dot-pulse div:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
+
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #111827; }
-        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        ::-webkit-scrollbar-track { background: var(--bg-body); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
         
-        #chat-container { scroll-behavior: smooth; }
+        /* =========================================
+           EFFET DE FONDU (MASK-IMAGE)
+           ========================================= */
+        #chat-container { 
+            scroll-behavior: smooth; 
+            /* Le dégradé rend les bords haut et bas transparents */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 1.5rem, black calc(100% - 4rem), transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 1.5rem, black calc(100% - 4rem), transparent 100%);
+        }
+        
+        /* Blocs invisibles pour s'assurer que le premier et le dernier message 
+           puissent défiler au-delà de la zone transparente du masque */
+        #chat-container::before { content: ''; display: block; height: 0.5rem; flex-shrink: 0; }
+        #chat-container::after { content: ''; display: block; height: 4rem; flex-shrink: 0; }
+
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 h-screen flex flex-col font-sans selection:bg-green-500 selection:text-white">
+<body class="h-screen flex flex-col font-sans transition-colors duration-300">
 
-    <header class="bg-gray-800 p-4 shadow-md flex justify-between items-center shrink-0 border-b border-gray-700">
+    <div class="wallpaper-container"></div>
+
+    <header class="surface p-4 shadow-md flex justify-between items-center shrink-0 border-b border-b-solid transition-colors duration-300 relative z-20">
         <div class="flex items-center gap-3">
-            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.7)]"></div>
-            <h1 class="text-xl font-bold tracking-wider">VIBE<span class="text-green-400">FLOW</span></h1>
+            <div class="w-3 h-3 rounded-full animate-pulse accent-bg" style="box-shadow: 0 0 10px var(--accent);"></div>
+            <h1 class="text-xl font-bold tracking-wider">VIBE<span class="accent-text">FLOW</span></h1>
         </div>
-        <span class="text-xs text-green-400 bg-green-900/30 border border-green-800 px-2 py-1 rounded">UX Avancée Active</span>
+        <div class="flex items-center gap-4">
+            <span class="text-xs text-muted border px-2 py-1 rounded border-[var(--border-color)]">Moteur Haute Performance</span>
+            <button onclick="toggleSettings()" class="text-muted hover:text-[var(--text-main)] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            </button>
+        </div>
     </header>
 
-    <main id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col gap-6">
+    <main id="chat-container" class="flex-1 overflow-y-auto px-4 md:px-8 flex flex-col gap-6 relative z-10">
         <div class="flex gap-4">
-            <div class="w-8 h-8 rounded bg-green-600 flex items-center justify-center font-bold shrink-0 shadow-lg shadow-green-900/50">V</div>
-            <div class="bg-gray-800 p-4 rounded-lg rounded-tl-none max-w-3xl shadow-sm border border-gray-700">
-                <p>Noyau connecté. Utilitaires de session activés. Prêt, Oli.</p>
+            <div class="w-8 h-8 rounded accent-bg flex items-center justify-center font-bold shrink-0 shadow-lg">V</div>
+            <div class="surface p-4 rounded-lg rounded-tl-none max-w-3xl shadow-sm border border-solid">
+                <p>Noyau connecté. Interface fluide. Prêt à coder.</p>
             </div>
         </div>
     </main>
 
-    <footer class="bg-gray-800 p-4 shrink-0 border-t border-gray-700 relative z-10 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1)]">
+    <footer class="surface p-4 shrink-0 relative z-20 shadow-[0_-15px_25px_-5px_rgba(0,0,0,0.3)] transition-colors duration-300">
         <div class="max-w-4xl mx-auto flex gap-3">
             <input 
                 type="text" 
                 id="user-input" 
-                class="flex-1 bg-gray-900 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all placeholder-gray-500 text-gray-100 shadow-inner"
+                class="flex-1 input-bg border border-solid rounded-lg px-4 py-3 focus:outline-none focus:ring-1 transition-all shadow-inner"
+                style="--tw-ring-color: var(--accent)"
                 placeholder="Tape ta commande..."
                 autocomplete="off"
             >
             <button 
                 id="send-btn"
-                class="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg shadow-green-900/20"
+                class="accent-bg font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg opacity-90 hover:opacity-100"
             >
                 <span>Envoyer</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" /></svg>
             </button>
         </div>
     </footer>
+
+    <div id="settings-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center backdrop-blur-sm animate-fade-in-up">
+        <div class="surface p-6 rounded-xl border border-solid shadow-2xl w-full max-w-md">
+            <h2 class="text-xl font-bold mb-4 border-b pb-2" style="border-color: var(--border-color)">Configuration VibeFlow</h2>
+            
+            <div class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Nom d'utilisateur</label>
+                    <input type="text" id="cfg-username" class="w-full input-bg border border-solid rounded px-3 py-2 focus:outline-none" placeholder="Ex: Oli">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Thème de Base</label>
+                    <select id="cfg-theme" class="w-full input-bg border border-solid rounded px-3 py-2 focus:outline-none">
+                        <option value="dark">Sombre (Défaut)</option>
+                        <option value="light">Clair</option>
+                        <option value="system">Système (Auto)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Couleur d'Accentuation</label>
+                    <div class="flex gap-2 items-center">
+                        <input type="color" id="cfg-color" class="h-10 w-10 border-0 rounded cursor-pointer bg-transparent">
+                        <span class="text-xs text-muted">Personnalise l'identité visuelle de ton IA</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Fond d'écran (URL Optionnelle)</label>
+                    <input type="text" id="cfg-wallpaper" class="w-full input-bg border border-solid rounded px-3 py-2 focus:outline-none" placeholder="https://lien-vers-image.jpg">
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end gap-3">
+                <button onclick="toggleSettings()" class="px-4 py-2 rounded border border-solid hover:bg-gray-500/20 transition-colors">Annuler</button>
+                <button onclick="saveSettings()" class="px-4 py-2 rounded accent-bg font-bold opacity-90 hover:opacity-100 transition-colors">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         const chatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
+        const modal = document.getElementById('settings-modal');
         const API_URL = 'http://127.0.0.1:8000/stream';
 
-        // --- Utilitaires de la barre d'action ---
-        
+        let config = {
+            username: "Oli",
+            theme: "dark",
+            accent: "#10b981",
+            wallpaper: ""
+        };
+
+        function loadSettings() {
+            const saved = localStorage.getItem('vibeflow_cfg');
+            if (saved) config = { ...config, ...JSON.parse(saved) };
+            
+            document.getElementById('cfg-username').value = config.username;
+            document.getElementById('cfg-theme').value = config.theme;
+            document.getElementById('cfg-color').value = config.accent;
+            document.getElementById('cfg-wallpaper').value = config.wallpaper;
+            
+            applySettings();
+        }
+
+        function saveSettings() {
+            config.username = document.getElementById('cfg-username').value.trim() || "Oli";
+            config.theme = document.getElementById('cfg-theme').value;
+            config.accent = document.getElementById('cfg-color').value;
+            config.wallpaper = document.getElementById('cfg-wallpaper').value.trim();
+            
+            localStorage.setItem('vibeflow_cfg', JSON.stringify(config));
+            applySettings();
+            toggleSettings();
+        }
+
+        function applySettings() {
+            const root = document.documentElement;
+            root.style.setProperty('--accent', config.accent);
+            
+            if(config.wallpaper) {
+                root.style.setProperty('--wallpaper', `url('${config.wallpaper}')`);
+                root.style.setProperty('--blur-amount', '8px');
+            } else {
+                root.style.setProperty('--wallpaper', 'none');
+            }
+
+            document.body.classList.remove('theme-light', 'theme-dark');
+            let activeTheme = config.theme;
+            
+            if (activeTheme === 'system') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                activeTheme = prefersDark ? 'dark' : 'light';
+            }
+            
+            if (activeTheme === 'light') document.body.classList.add('theme-light');
+        }
+
+        function toggleSettings() { modal.classList.toggle('hidden'); }
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (config.theme === 'system') applySettings();
+        });
+
         async function copyToClipboard(button, encodedText) {
             try {
-                const text = decodeURIComponent(encodedText);
-                await navigator.clipboard.writeText(text);
-                
-                // Feedback visuel du bouton
+                await navigator.clipboard.writeText(decodeURIComponent(encodedText));
                 const originalContent = button.innerHTML;
-                button.innerHTML = `<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span class="text-green-400">Copié !</span>`;
-                
-                setTimeout(() => {
-                    button.innerHTML = originalContent;
-                }, 2000);
-            } catch (err) {
-                console.error("Erreur de copie :", err);
-            }
+                button.innerHTML = `<span class="accent-text font-bold">✓ Copié</span>`;
+                setTimeout(() => button.innerHTML = originalContent, 2000);
+            } catch (err) { console.error(err); }
         }
 
         function reactEmoji(button) {
-            // Effet visuel simple de sélection/désélection
-            button.classList.toggle('bg-gray-700');
-            button.classList.toggle('rounded');
-            button.classList.toggle('px-1');
+            button.classList.toggle('surface');
+            button.classList.toggle('border');
             button.classList.toggle('scale-110');
-        }
-
-        // --- Fonctions de Chat ---
-
-        function appendUserMessage(text) {
-            const msgHTML = `
-                <div class="flex gap-4 flex-row-reverse animate-fade-in-up">
-                    <div class="w-8 h-8 rounded bg-blue-600 flex items-center justify-center font-bold shrink-0 shadow-lg shadow-blue-900/50">O</div>
-                    <div class="bg-blue-900/20 p-4 rounded-lg rounded-tr-none max-w-3xl shadow-sm border border-blue-800/50 prose prose-invert">
-                        <p>${text}</p>
-                    </div>
-                </div>
-            `;
-            chatContainer.insertAdjacentHTML('beforeend', msgHTML);
-            scrollToBottom();
         }
 
         function scrollToBottom() {
@@ -134,21 +271,36 @@
             const text = userInput.value.trim();
             if (!text) return;
 
-            appendUserMessage(text);
+            const initial = config.username.charAt(0).toUpperCase();
+            const msgHTML = `
+                <div class="flex gap-4 flex-row-reverse animate-fade-in-up">
+                    <div class="w-8 h-8 rounded bg-blue-600 text-white flex items-center justify-center font-bold shrink-0 shadow-lg">${initial}</div>
+                    <div class="bg-blue-600/20 p-4 rounded-lg rounded-tr-none max-w-3xl shadow-sm border border-blue-500/30 prose prose-invert">
+                        <p style="color: var(--text-main)">${text}</p>
+                    </div>
+                </div>
+            `;
+            chatContainer.insertAdjacentHTML('beforeend', msgHTML);
+            
             userInput.value = '';
             userInput.disabled = true;
             sendBtn.disabled = true;
-            sendBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            sendBtn.classList.add('opacity-50');
 
             const msgId = 'msg-' + Date.now();
             const bubbleId = 'bubble-' + msgId;
             
-            // Structure de la bulle IA (inclut le conteneur texte + l'espace pour la barre d'outils)
+            const loaderHTML = `
+                <div class="dot-pulse">
+                    <div></div><div></div><div></div>
+                </div>
+            `;
+            
             const aiMsgHTML = `
                 <div class="flex gap-4 flex-row animate-fade-in-up">
-                    <div class="w-8 h-8 rounded bg-green-600 flex items-center justify-center font-bold shrink-0 shadow-lg shadow-green-900/50">V</div>
-                    <div id="${bubbleId}" class="bg-gray-800 p-4 rounded-lg rounded-tl-none max-w-3xl w-full shadow-sm border border-gray-700 flex flex-col">
-                        <div id="${msgId}" class="prose prose-invert w-full max-w-none"></div>
+                    <div class="w-8 h-8 rounded accent-bg flex items-center justify-center font-bold shrink-0 shadow-lg">V</div>
+                    <div id="${bubbleId}" class="surface p-4 rounded-lg rounded-tl-none max-w-3xl w-full shadow-sm border border-solid flex flex-col min-h-[56px] justify-center">
+                        <div id="${msgId}" class="prose max-w-none text-[var(--text-main)]">${loaderHTML}</div>
                     </div>
                 </div>
             `;
@@ -158,6 +310,7 @@
             const aiMessageContainer = document.getElementById(msgId);
             const aiBubble = document.getElementById(bubbleId);
             let accumulatedText = "";
+            let isFirstChunk = true;
 
             try {
                 const response = await fetch(API_URL, {
@@ -166,60 +319,63 @@
                     body: JSON.stringify({ prompt: text })
                 });
 
-                if (!response.ok) throw new Error(`Erreur HTTP: ${response.status}`);
+                if (!response.ok) throw new Error(`Erreur: ${response.status}`);
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder("utf-8");
+                
+                let lastRenderTime = 0;
 
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
                     
                     accumulatedText += decoder.decode(value, { stream: true });
-                    aiMessageContainer.innerHTML = marked.parse(accumulatedText) + '<span class="blinking-cursor"></span>';
-                    scrollToBottom();
+                    
+                    if (isFirstChunk) {
+                        aiMessageContainer.innerHTML = ''; 
+                        aiBubble.classList.remove('justify-center');
+                        isFirstChunk = false;
+                    }
+                    
+                    const now = Date.now();
+                    if (now - lastRenderTime > 30) {
+                        aiMessageContainer.innerHTML = marked.parse(accumulatedText) + '<span class="blinking-cursor"></span>';
+                        scrollToBottom();
+                        lastRenderTime = now;
+                    }
                 }
 
-                // Streaming terminé : On retire le curseur
                 aiMessageContainer.innerHTML = marked.parse(accumulatedText);
 
-                // Ajout de la barre d'outils utilitaire avec un effet de fondu (Fade-in)
                 const safeEncodedText = encodeURIComponent(accumulatedText);
                 const toolbarHTML = `
-                    <div class="mt-4 pt-3 border-t border-gray-700/50 flex gap-4 text-gray-400 text-sm animate-fade-in-up">
-                        <button onclick="copyToClipboard(this, '${safeEncodedText}')" class="hover:text-green-400 transition-all flex items-center gap-1 group">
-                            <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <div class="mt-4 pt-3 border-t border-[var(--border-color)] flex gap-4 text-muted text-sm animate-fade-in-up">
+                        <button onclick="copyToClipboard(this, '${safeEncodedText}')" class="hover:text-[var(--accent)] transition-all flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                             <span>Copier</span>
                         </button>
-                        <div class="w-px h-4 bg-gray-700 self-center"></div> <button onclick="reactEmoji(this)" class="hover:text-blue-400 transition-all flex items-center justify-center w-6 h-6 rounded-full hover:bg-blue-900/30" title="Bonne réponse">
-                            👍
-                        </button>
-                        <button onclick="reactEmoji(this)" class="hover:text-red-400 transition-all flex items-center justify-center w-6 h-6 rounded-full hover:bg-red-900/30" title="Mauvaise réponse">
-                            👎
-                        </button>
-                        <button onclick="reactEmoji(this)" class="hover:text-yellow-400 transition-all flex items-center justify-center w-6 h-6 rounded-full hover:bg-yellow-900/30" title="Excellente idée !">
-                            💡
-                        </button>
+                        <div class="w-px h-4 border-l border-[var(--border-color)] self-center"></div>
+                        <button onclick="reactEmoji(this)" class="hover:text-blue-400 transition-all flex items-center justify-center w-6 h-6 rounded-full" title="Bonne réponse">👍</button>
+                        <button onclick="reactEmoji(this)" class="hover:text-red-400 transition-all flex items-center justify-center w-6 h-6 rounded-full" title="Mauvaise réponse">👎</button>
                     </div>
                 `;
                 aiBubble.insertAdjacentHTML('beforeend', toolbarHTML);
                 scrollToBottom();
 
             } catch (error) {
-                aiMessageContainer.innerHTML = `<p class="text-red-400 font-semibold">❌ Erreur système : ${error.message}</p>`;
+                aiMessageContainer.innerHTML = `<p class="text-red-500 font-bold">❌ Erreur : ${error.message}</p>`;
             } finally {
                 userInput.disabled = false;
                 sendBtn.disabled = false;
-                sendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                sendBtn.classList.remove('opacity-50');
                 userInput.focus();
             }
         }
 
         sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-        
+        userInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+        loadSettings(); 
         userInput.focus();
     </script>
 </body>
