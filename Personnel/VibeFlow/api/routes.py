@@ -1,15 +1,14 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from core.agent import VibeFlowAgent
 
-# Initialisation de l'API et du noyau IA
 app = FastAPI(title="VibeFlow API", description="Moteur IA centralisé", version="1.0")
 
-# Autoriser le navigateur local à interroger l'API (CORS)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # En prod, on mettra l'URL exacte
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -17,20 +16,23 @@ app.add_middleware(
 
 agent = VibeFlowAgent()
 
-# Modèle de données attendu par l'API
 class PromptRequest(BaseModel):
     prompt: str
 
 @app.get("/")
 def read_root():
-    """Vérifie si le serveur est en ligne."""
-    return {"status": "VibeFlow Core Online", "agent_ready": True}
+    return {"status": "VibeFlow Core Online"}
 
 @app.post("/chat")
 def chat_with_agent(request: PromptRequest):
-    """Envoie une requête à l'agent et retourne sa réponse."""
+    """Ancienne route : attend la réponse complète."""
     try:
         response = agent.ask(request.prompt)
         return {"response": response}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erreur interne de VibeFlow: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/stream")
+def stream_with_agent(request: PromptRequest):
+    """Nouvelle route : renvoie la réponse en temps réel."""
+    return StreamingResponse(agent.stream_ask(request.prompt), media_type="text/plain")
