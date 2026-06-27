@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeFlow | Terminal Web</title>
+    <!-- Tailwind CSS pour un design rapide et moderne -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Marked.js pour parser le Markdown (pour le code généré par l'IA) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* Styles personnalisés pour le markdown généré par l'IA */
+        .prose pre { background-color: #1f2937; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+        .prose code { color: #10b981; font-family: monospace; }
+        .prose p { margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header class="bg-gray-800 p-4 shadow-md flex justify-between items-center shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+            <h1 class="text-xl font-bold tracking-wider">VIBE<span class="text-green-400">FLOW</span></h1>
+        </div>
+        <span class="text-xs text-gray-400 bg-gray-700 px-2 py-1 rounded">Moteur IA v1.0</span>
+    </header>
+
+    <!-- Zone de discussion -->
+    <main id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col gap-6">
+        <!-- Message de bienvenue -->
+        <div class="flex gap-4">
+            <div class="w-8 h-8 rounded bg-green-600 flex items-center justify-center font-bold shrink-0">V</div>
+            <div class="bg-gray-800 p-4 rounded-lg rounded-tl-none max-w-3xl shadow-sm border border-gray-700">
+                <p>Noyau connecté. Prêt à coder, Oli.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Zone de saisie -->
+    <footer class="bg-gray-800 p-4 shrink-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <div class="max-w-4xl mx-auto flex gap-2">
+            <input 
+                type="text" 
+                id="user-input" 
+                class="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-colors"
+                placeholder="Tape ta commande ou pose une question..."
+                autocomplete="off"
+            >
+            <button 
+                id="send-btn"
+                class="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2"
+            >
+                <span>Envoyer</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        
+        // URL de ton API locale FastAPI
+        const API_URL = 'http://127.0.0.1:8000/chat';
+
+        // Fonction pour ajouter un message dans l'interface
+        function appendMessage(sender, text, isMarkdown = false) {
+            const isUser = sender === 'Oli';
+            const initial = isUser ? 'O' : 'V';
+            const bgColor = isUser ? 'bg-blue-600' : 'bg-green-600';
+            const msgBgColor = isUser ? 'bg-blue-900/30' : 'bg-gray-800';
+            const roundedClass = isUser ? 'rounded-tr-none' : 'rounded-tl-none';
+            const alignClass = isUser ? 'flex-row-reverse' : 'flex-row';
+
+            // Parse le markdown si c'est l'IA, sinon texte brut
+            const content = isMarkdown ? marked.parse(text) : `<p>${text}</p>`;
+
+            const msgHTML = `
+                <div class="flex gap-4 ${alignClass} animate-fade-in-up">
+                    <div class="w-8 h-8 rounded ${bgColor} flex items-center justify-center font-bold shrink-0">${initial}</div>
+                    <div class="${msgBgColor} p-4 rounded-lg ${roundedClass} max-w-3xl shadow-sm border border-gray-700 prose prose-invert">
+                        ${content}
+                    </div>
+                </div>
+            `;
+            
+            chatContainer.insertAdjacentHTML('beforeend', msgHTML);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Fonction pour afficher le loader pendant que l'API réfléchit
+        function showLoader() {
+            const loaderHTML = `
+                <div id="loader" class="flex gap-4 animate-fade-in-up">
+                    <div class="w-8 h-8 rounded bg-green-600 flex items-center justify-center font-bold shrink-0">V</div>
+                    <div class="bg-gray-800 p-4 rounded-lg rounded-tl-none flex items-center gap-2 border border-gray-700">
+                        <div class="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            `;
+            chatContainer.insertAdjacentHTML('beforeend', loaderHTML);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function removeLoader() {
+            const loader = document.getElementById('loader');
+            if (loader) loader.remove();
+        }
+
+        // Gérer l'envoi du message
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // 1. Affiche le message de l'utilisateur
+            appendMessage('Oli', text, false);
+            userInput.value = '';
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+
+            // 2. Affiche l'indicateur de chargement
+            showLoader();
+
+            try {
+                // 3. Appel à l'API VibeFlow
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: text })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // 4. Affiche la réponse de l'IA
+                removeLoader();
+                appendMessage('VibeFlow', data.response, true);
+
+            } catch (error) {
+                removeLoader();
+                appendMessage('VibeFlow', `❌ Erreur de connexion au noyau API : ${error.message}`);
+            } finally {
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+            }
+        }
+
+        // Écouteurs d'événements
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        // Focus initial
+        userInput.focus();
+    </script>
+    
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.3s ease-out forwards; }
+    </style>
+</body>
+</html>
