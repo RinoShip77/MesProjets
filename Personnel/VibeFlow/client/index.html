@@ -30,6 +30,7 @@
 
         body { background-color: var(--bg-body); color: var(--text-main); }
         .wallpaper-container { position: fixed; inset: 0; z-index: -1; background-image: var(--wallpaper); background-size: cover; background-position: center; filter: blur(var(--blur-amount)); opacity: 0.4; }
+        
         .surface { background-color: var(--bg-surface); border-color: var(--border-color); }
         .input-bg { background-color: var(--bg-input); color: var(--text-main); border-color: var(--border-color); }
         .accent-bg { background-color: var(--accent); color: #fff; }
@@ -53,29 +54,32 @@
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-body); }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
         
-        #chat-container { 
-            scroll-behavior: smooth; 
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 1.5rem, black calc(100% - 4rem), transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 1.5rem, black calc(100% - 4rem), transparent 100%);
-        }
-        #chat-container::before { content: ''; display: block; height: 0.5rem; flex-shrink: 0; }
-        #chat-container::after { content: ''; display: block; height: 4rem; flex-shrink: 0; }
+        #chat-container { scroll-behavior: smooth; }
+        .fade-overlay { background: linear-gradient(to bottom, var(--bg-body) 0%, transparent 100%); }
     </style>
 </head>
 <body class="h-screen flex flex-col font-sans transition-colors duration-300">
 
     <div class="wallpaper-container"></div>
 
-    <header class="surface p-4 shadow-md flex justify-between items-center shrink-0 border-b border-b-solid transition-colors duration-300 relative z-20">
+    <header class="surface p-4 shadow-md flex justify-between items-center shrink-0 border-b border-solid transition-colors duration-300 relative z-20">
         <div class="flex items-center gap-3">
             <div class="w-3 h-3 rounded-full animate-pulse accent-bg" style="box-shadow: 0 0 10px var(--accent);"></div>
             <h1 class="text-xl font-bold tracking-wider">VIBE<span class="accent-text">FLOW</span></h1>
         </div>
         <div class="flex items-center gap-4">
+            <div id="mock-badge" class="hidden items-center gap-2 bg-yellow-900/30 text-yellow-400 border border-yellow-800 px-3 py-1 rounded shadow-[0_0_10px_rgba(234,179,8,0.2)]">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
+                </span>
+                <span class="text-xs font-bold tracking-wider">MOCK MODE</span>
+            </div>
+
             <span id="model-badge" class="text-xs text-green-400 bg-green-900/30 border border-green-800 px-2 py-1 rounded transition-colors duration-300">
                 Moteur Flash (Vitesse)
             </span>
@@ -85,14 +89,10 @@
         </div>
     </header>
 
-    <main id="chat-container" class="flex-1 overflow-y-auto px-4 md:px-8 flex flex-col gap-6 relative z-10">
-        <div class="flex gap-4">
-            <div class="w-8 h-8 rounded accent-bg flex items-center justify-center font-bold shrink-0 shadow-lg">V</div>
-            <div class="surface p-4 rounded-lg rounded-tl-none max-w-3xl shadow-sm border border-solid">
-                <p>Noyau connecté. Moteurs hybrides parés.</p>
-            </div>
-        </div>
-    </main>
+    <div class="relative flex-1 flex flex-col overflow-hidden z-10">
+        <div class="fade-overlay absolute top-0 left-0 right-0 h-8 z-20 pointer-events-none transition-colors duration-300"></div>
+        <main id="chat-container" class="flex-1 overflow-y-auto px-4 md:px-8 flex flex-col gap-6 pt-8 pb-6 relative z-10"></main>
+    </div>
 
     <footer class="surface p-4 shrink-0 relative z-20 shadow-[0_-15px_25px_-5px_rgba(0,0,0,0.3)] transition-colors duration-300">
         <div class="max-w-4xl mx-auto flex gap-3">
@@ -126,12 +126,10 @@
                         <option value="gemini-2.5-pro">Gemini Pro (Réflexion Profonde)</option>
                     </select>
                 </div>
-
                 <div>
                     <label class="block text-sm font-semibold mb-1">Nom d'utilisateur</label>
-                    <input type="text" id="cfg-username" class="w-full input-bg border border-solid rounded px-3 py-2 focus:outline-none" placeholder="Ex: Oli">
+                    <input type="text" id="cfg-username" class="w-full input-bg border border-solid rounded px-3 py-2 focus:outline-none">
                 </div>
-                
                 <div>
                     <label class="block text-sm font-semibold mb-1">Thème de Base</label>
                     <select id="cfg-theme" class="w-full input-bg border border-solid rounded px-3 py-2 focus:outline-none">
@@ -140,24 +138,25 @@
                         <option value="system">Système (Auto)</option>
                     </select>
                 </div>
-
                 <div>
                     <label class="block text-sm font-semibold mb-1">Couleur d'Accentuation</label>
-                    <div class="flex gap-2 items-center">
-                        <input type="color" id="cfg-color" class="h-10 w-10 border-0 rounded cursor-pointer bg-transparent">
-                        <span class="text-xs text-muted">Personnalise l'identité visuelle</span>
-                    </div>
+                    <input type="color" id="cfg-color" class="h-10 w-10 border-0 rounded cursor-pointer bg-transparent">
                 </div>
-
                 <div>
                     <label class="block text-sm font-semibold mb-1">Fond d'écran (URL Optionnelle)</label>
-                    <input type="text" id="cfg-wallpaper" class="w-full input-bg border border-solid rounded px-3 py-2 focus:outline-none" placeholder="https://lien-vers-image.jpg">
+                    <input type="text" id="cfg-wallpaper" class="w-full input-bg border border-solid rounded px-3 py-2 focus:outline-none">
                 </div>
             </div>
 
-            <div class="mt-6 flex justify-end gap-3">
-                <button onclick="toggleSettings()" class="px-4 py-2 rounded border border-solid hover:bg-gray-500/20 transition-colors">Annuler</button>
-                <button onclick="saveSettings()" class="px-4 py-2 rounded accent-bg font-bold opacity-90 hover:opacity-100 transition-colors">Sauvegarder</button>
+            <div class="mt-6 pt-4 border-t border-[var(--border-color)] flex justify-between items-center">
+                <button onclick="clearDatabase()" class="text-red-500 hover:text-red-400 text-sm font-bold flex items-center gap-1 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    Effacer la mémoire
+                </button>
+                <div class="flex gap-3">
+                    <button onclick="toggleSettings()" class="px-4 py-2 rounded border border-solid hover:bg-gray-500/20 transition-colors">Annuler</button>
+                    <button onclick="saveSettings()" class="px-4 py-2 rounded accent-bg font-bold opacity-90 hover:opacity-100 transition-colors">Sauvegarder</button>
+                </div>
             </div>
         </div>
     </div>
@@ -168,15 +167,10 @@
         const sendBtn = document.getElementById('send-btn');
         const modal = document.getElementById('settings-modal');
         const modelBadge = document.getElementById('model-badge');
-        const API_URL = 'http://127.0.0.1:8000/stream';
+        const mockBadge = document.getElementById('mock-badge');
+        const API_URL = 'http://127.0.0.1:8000';
 
-        let config = {
-            username: "Oli",
-            theme: "dark",
-            accent: "#10b981",
-            wallpaper: "",
-            model: "gemini-2.5-flash" // Modèle par défaut
-        };
+        let config = { username: "Oli", theme: "dark", accent: "#10b981", wallpaper: "", model: "gemini-2.5-flash" };
 
         function loadSettings() {
             const saved = localStorage.getItem('vibeflow_cfg');
@@ -187,11 +181,8 @@
             document.getElementById('cfg-color').value = config.accent;
             document.getElementById('cfg-wallpaper').value = config.wallpaper;
             
-            // Assure-toi que la valeur du dropdown correspond bien au modèle sauvegardé
             const modelSelect = document.getElementById('cfg-model');
-            if(Array.from(modelSelect.options).some(opt => opt.value === config.model)) {
-                modelSelect.value = config.model;
-            }
+            if(Array.from(modelSelect.options).some(opt => opt.value === config.model)) modelSelect.value = config.model;
             
             applySettings();
         }
@@ -201,7 +192,7 @@
             config.theme = document.getElementById('cfg-theme').value;
             config.accent = document.getElementById('cfg-color').value;
             config.wallpaper = document.getElementById('cfg-wallpaper').value.trim();
-            config.model = document.getElementById('cfg-model').value; // Sauvegarde le modèle
+            config.model = document.getElementById('cfg-model').value;
             
             localStorage.setItem('vibeflow_cfg', JSON.stringify(config));
             applySettings();
@@ -221,14 +212,12 @@
 
             document.body.classList.remove('theme-light', 'theme-dark');
             let activeTheme = config.theme;
-            
             if (activeTheme === 'system') {
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 activeTheme = prefersDark ? 'dark' : 'light';
             }
             if (activeTheme === 'light') document.body.classList.add('theme-light');
 
-            // Mise à jour visuelle du badge du modèle en haut
             if(config.model === 'gemini-2.5-pro') {
                 modelBadge.innerText = 'Moteur Pro (Analytique)';
                 modelBadge.className = "text-xs text-purple-400 bg-purple-900/30 border border-purple-800 px-2 py-1 rounded transition-colors duration-300";
@@ -240,10 +229,6 @@
 
         function toggleSettings() { modal.classList.toggle('hidden'); }
 
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (config.theme === 'system') applySettings();
-        });
-
         async function copyToClipboard(button, encodedText) {
             try {
                 await navigator.clipboard.writeText(decodeURIComponent(encodedText));
@@ -253,31 +238,90 @@
             } catch (err) { console.error(err); }
         }
 
-        function reactEmoji(button) {
-            button.classList.toggle('surface');
-            button.classList.toggle('border');
-            button.classList.toggle('scale-110');
+        function scrollToBottom() { 
+            chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' }); 
         }
 
-        function scrollToBottom() {
-            chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
+        function renderUserMessage(text, animate = true) {
+            const initial = config.username.charAt(0).toUpperCase();
+            const animClass = animate ? "animate-fade-in-up" : "";
+            const html = `
+                <div class="flex gap-4 flex-row-reverse ${animClass}">
+                    <div class="w-8 h-8 rounded bg-blue-600 text-white flex items-center justify-center font-bold shrink-0 shadow-lg">${initial}</div>
+                    <div class="bg-blue-600/20 p-4 rounded-lg rounded-tr-none max-w-3xl shadow-sm border border-blue-500/30 prose prose-invert">
+                        <p style="color: var(--text-main)">${text}</p>
+                    </div>
+                </div>`;
+            chatContainer.insertAdjacentHTML('beforeend', html);
+        }
+
+        function renderAIMessage(text, animate = true) {
+            const animClass = animate ? "animate-fade-in-up" : "";
+            const safeEncodedText = encodeURIComponent(text).replace(/'/g, "%27");
+            const html = `
+                <div class="flex gap-4 flex-row ${animClass}">
+                    <div class="w-8 h-8 rounded accent-bg flex items-center justify-center font-bold shrink-0 shadow-lg">V</div>
+                    <div class="surface p-4 rounded-lg rounded-tl-none max-w-3xl w-full shadow-sm border border-solid flex flex-col">
+                        <div class="prose max-w-none text-[var(--text-main)]">${marked.parse(text)}</div>
+                        <div class="mt-4 pt-3 border-t border-[var(--border-color)] flex gap-4 text-muted text-sm">
+                            <button onclick="copyToClipboard(this, '${safeEncodedText}')" class="hover:text-[var(--accent)] transition-all flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                <span>Copier</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+            chatContainer.insertAdjacentHTML('beforeend', html);
+        }
+
+        async function loadDatabaseHistory() {
+            try {
+                const res = await fetch(`${API_URL}/history`);
+                const data = await res.json();
+                
+                // Vérifie si le backend a activé le USE_MOCK_API
+                if (data.mock_mode) {
+                    mockBadge.classList.remove('hidden');
+                    mockBadge.classList.add('flex');
+                } else {
+                    mockBadge.classList.add('hidden');
+                    mockBadge.classList.remove('flex');
+                }
+                
+                chatContainer.innerHTML = ''; 
+                
+                if (data.history && data.history.length > 0) {
+                    data.history.forEach(msg => {
+                        if (msg.role === 'user') renderUserMessage(msg.content, false);
+                        else renderAIMessage(msg.content, false);
+                    });
+                } else {
+                    const welcomeHtml = `
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 rounded accent-bg flex items-center justify-center font-bold shrink-0 shadow-lg">V</div>
+                            <div class="surface p-4 rounded-lg rounded-tl-none max-w-3xl shadow-sm border border-solid">
+                                <p>Noyau connecté. Interface stabilisée. Prêt pour le déploiement.</p>
+                            </div>
+                        </div>`;
+                    chatContainer.insertAdjacentHTML('beforeend', welcomeHtml);
+                }
+                setTimeout(scrollToBottom, 100); 
+            } catch (err) { console.error("Erreur DB:", err); }
+        }
+
+        async function clearDatabase() {
+            if(!confirm("Supprimer tout l'historique de cette session ?")) return;
+            try {
+                await fetch(`${API_URL}/clear`, { method: 'POST' });
+                location.reload(); 
+            } catch (err) { console.error("Erreur suppression:", err); }
         }
 
         async function sendMessage() {
             const text = userInput.value.trim();
             if (!text) return;
 
-            const initial = config.username.charAt(0).toUpperCase();
-            const msgHTML = `
-                <div class="flex gap-4 flex-row-reverse animate-fade-in-up">
-                    <div class="w-8 h-8 rounded bg-blue-600 text-white flex items-center justify-center font-bold shrink-0 shadow-lg">${initial}</div>
-                    <div class="bg-blue-600/20 p-4 rounded-lg rounded-tr-none max-w-3xl shadow-sm border border-blue-500/30 prose prose-invert">
-                        <p style="color: var(--text-main)">${text}</p>
-                    </div>
-                </div>
-            `;
-            chatContainer.insertAdjacentHTML('beforeend', msgHTML);
-            
+            renderUserMessage(text, true);
             userInput.value = '';
             userInput.disabled = true;
             sendBtn.disabled = true;
@@ -285,12 +329,7 @@
 
             const msgId = 'msg-' + Date.now();
             const bubbleId = 'bubble-' + msgId;
-            
-            const loaderHTML = `
-                <div class="dot-pulse">
-                    <div></div><div></div><div></div>
-                </div>
-            `;
+            const loaderHTML = `<div class="dot-pulse"><div></div><div></div><div></div></div>`;
             
             const aiMsgHTML = `
                 <div class="flex gap-4 flex-row animate-fade-in-up">
@@ -298,8 +337,7 @@
                     <div id="${bubbleId}" class="surface p-4 rounded-lg rounded-tl-none max-w-3xl w-full shadow-sm border border-solid flex flex-col min-h-[56px] justify-center">
                         <div id="${msgId}" class="prose max-w-none text-[var(--text-main)]">${loaderHTML}</div>
                     </div>
-                </div>
-            `;
+                </div>`;
             chatContainer.insertAdjacentHTML('beforeend', aiMsgHTML);
             scrollToBottom();
 
@@ -309,14 +347,10 @@
             let isFirstChunk = true;
 
             try {
-                // On envoie le modèle configuré en plus du prompt
-                const response = await fetch(API_URL, {
+                const response = await fetch(`${API_URL}/stream`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        prompt: text,
-                        model: config.model
-                    })
+                    body: JSON.stringify({ prompt: text, model: config.model })
                 });
 
                 if (!response.ok) throw new Error(`Erreur HTTP: ${response.status}`);
@@ -346,19 +380,14 @@
                 }
 
                 aiMessageContainer.innerHTML = marked.parse(accumulatedText);
-
-                const safeEncodedText = encodeURIComponent(accumulatedText);
+                const safeEncodedText = encodeURIComponent(accumulatedText).replace(/'/g, "%27");
                 const toolbarHTML = `
                     <div class="mt-4 pt-3 border-t border-[var(--border-color)] flex gap-4 text-muted text-sm animate-fade-in-up">
                         <button onclick="copyToClipboard(this, '${safeEncodedText}')" class="hover:text-[var(--accent)] transition-all flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                             <span>Copier</span>
                         </button>
-                        <div class="w-px h-4 border-l border-[var(--border-color)] self-center"></div>
-                        <button onclick="reactEmoji(this)" class="hover:text-blue-400 transition-all flex items-center justify-center w-6 h-6 rounded-full" title="Bonne réponse">👍</button>
-                        <button onclick="reactEmoji(this)" class="hover:text-red-400 transition-all flex items-center justify-center w-6 h-6 rounded-full" title="Mauvaise réponse">👎</button>
-                    </div>
-                `;
+                    </div>`;
                 aiBubble.insertAdjacentHTML('beforeend', toolbarHTML);
                 scrollToBottom();
 
@@ -374,7 +403,9 @@
 
         sendBtn.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+        
         loadSettings(); 
+        loadDatabaseHistory(); 
         userInput.focus();
     </script>
 </body>
