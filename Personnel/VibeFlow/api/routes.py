@@ -2,9 +2,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+from typing import Optional
 from core.agent import VibeFlowAgent
 
-app = FastAPI(title="VibeFlow API", description="Moteur IA centralisé", version="1.0")
+app = FastAPI(title="VibeFlow API", description="Moteur IA centralisé", version="1.1")
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,23 +17,19 @@ app.add_middleware(
 
 agent = VibeFlowAgent()
 
+# Ajout du champ 'model' dans la requête
 class PromptRequest(BaseModel):
     prompt: str
+    model: Optional[str] = "gemini-2.5-flash"
 
 @app.get("/")
 def read_root():
     return {"status": "VibeFlow Core Online"}
 
-@app.post("/chat")
-def chat_with_agent(request: PromptRequest):
-    """Ancienne route : attend la réponse complète."""
-    try:
-        response = agent.ask(request.prompt)
-        return {"response": response}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
 @app.post("/stream")
 def stream_with_agent(request: PromptRequest):
-    """Nouvelle route : renvoie la réponse en temps réel."""
-    return StreamingResponse(agent.stream_ask(request.prompt), media_type="text/plain")
+    """Envoie la requête et le modèle désiré au noyau pour streaming."""
+    return StreamingResponse(
+        agent.stream_ask(request.prompt, request.model), 
+        media_type="text/plain"
+    )

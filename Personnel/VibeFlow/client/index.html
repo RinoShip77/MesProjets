@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        /* Variables CSS Dynamiques (Modifiables via JS) */
         :root {
             --accent: #10b981; 
             --bg-body: #111827; 
@@ -20,7 +19,6 @@
             --blur-amount: 0px;
         }
 
-        /* Thème Clair */
         .theme-light {
             --bg-body: #f3f4f6; 
             --bg-surface: #ffffff; 
@@ -30,71 +28,42 @@
             --border-color: #e5e7eb; 
         }
 
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-        }
-
-        /* Système de fond d'écran avec flou */
-        .wallpaper-container {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background-image: var(--wallpaper);
-            background-size: cover;
-            background-position: center;
-            filter: blur(var(--blur-amount));
-            opacity: 0.4; 
-        }
-
-        /* Composants thématisés */
+        body { background-color: var(--bg-body); color: var(--text-main); }
+        .wallpaper-container { position: fixed; inset: 0; z-index: -1; background-image: var(--wallpaper); background-size: cover; background-position: center; filter: blur(var(--blur-amount)); opacity: 0.4; }
         .surface { background-color: var(--bg-surface); border-color: var(--border-color); }
         .input-bg { background-color: var(--bg-input); color: var(--text-main); border-color: var(--border-color); }
         .accent-bg { background-color: var(--accent); color: #fff; }
         .accent-text { color: var(--accent); }
-        .accent-border { border-color: var(--accent); }
         .text-muted { color: var(--text-muted); }
         
-        /* Markdown rendering */
         .prose pre { background-color: #00000030; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.75rem 0; border: 1px solid var(--border-color); }
         .prose code { color: var(--accent); font-family: monospace; }
         .prose p { margin-bottom: 0.75rem; }
         .prose a { color: var(--accent); text-decoration: underline; }
         
-        /* Animations et Curseur */
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in-up { animation: fadeInUp 0.3s ease-out forwards; }
         .blinking-cursor { display: inline-block; width: 8px; height: 1.2em; background-color: var(--accent); vertical-align: text-bottom; animation: blink 1s step-end infinite; margin-left: 4px; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* Loader Animation */
         .dot-pulse { display: flex; gap: 6px; align-items: center; height: 1.5rem; }
         .dot-pulse div { width: 8px; height: 8px; border-radius: 50%; background-color: var(--accent); animation: bounce 1.4s infinite ease-in-out both; }
         .dot-pulse div:nth-child(1) { animation-delay: -0.32s; }
         .dot-pulse div:nth-child(2) { animation-delay: -0.16s; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-body); }
         ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
         
-        /* =========================================
-           EFFET DE FONDU (MASK-IMAGE)
-           ========================================= */
         #chat-container { 
             scroll-behavior: smooth; 
-            /* Le dégradé rend les bords haut et bas transparents */
             -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 1.5rem, black calc(100% - 4rem), transparent 100%);
             mask-image: linear-gradient(to bottom, transparent 0%, black 1.5rem, black calc(100% - 4rem), transparent 100%);
         }
-        
-        /* Blocs invisibles pour s'assurer que le premier et le dernier message 
-           puissent défiler au-delà de la zone transparente du masque */
         #chat-container::before { content: ''; display: block; height: 0.5rem; flex-shrink: 0; }
         #chat-container::after { content: ''; display: block; height: 4rem; flex-shrink: 0; }
-
     </style>
 </head>
 <body class="h-screen flex flex-col font-sans transition-colors duration-300">
@@ -107,7 +76,9 @@
             <h1 class="text-xl font-bold tracking-wider">VIBE<span class="accent-text">FLOW</span></h1>
         </div>
         <div class="flex items-center gap-4">
-            <span class="text-xs text-muted border px-2 py-1 rounded border-[var(--border-color)]">Moteur Haute Performance</span>
+            <span id="model-badge" class="text-xs text-green-400 bg-green-900/30 border border-green-800 px-2 py-1 rounded transition-colors duration-300">
+                Moteur Flash (Vitesse)
+            </span>
             <button onclick="toggleSettings()" class="text-muted hover:text-[var(--text-main)] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             </button>
@@ -118,7 +89,7 @@
         <div class="flex gap-4">
             <div class="w-8 h-8 rounded accent-bg flex items-center justify-center font-bold shrink-0 shadow-lg">V</div>
             <div class="surface p-4 rounded-lg rounded-tl-none max-w-3xl shadow-sm border border-solid">
-                <p>Noyau connecté. Interface fluide. Prêt à coder.</p>
+                <p>Noyau connecté. Moteurs hybrides parés.</p>
             </div>
         </div>
     </main>
@@ -149,6 +120,14 @@
             
             <div class="flex flex-col gap-4">
                 <div>
+                    <label class="block text-sm font-semibold mb-1">Cerveau IA (Modèle)</label>
+                    <select id="cfg-model" class="w-full input-bg border border-solid rounded px-3 py-2 focus:outline-none">
+                        <option value="gemini-2.5-flash">Gemini Flash (Vitesse Max)</option>
+                        <option value="gemini-2.5-pro">Gemini Pro (Réflexion Profonde)</option>
+                    </select>
+                </div>
+
+                <div>
                     <label class="block text-sm font-semibold mb-1">Nom d'utilisateur</label>
                     <input type="text" id="cfg-username" class="w-full input-bg border border-solid rounded px-3 py-2 focus:outline-none" placeholder="Ex: Oli">
                 </div>
@@ -166,7 +145,7 @@
                     <label class="block text-sm font-semibold mb-1">Couleur d'Accentuation</label>
                     <div class="flex gap-2 items-center">
                         <input type="color" id="cfg-color" class="h-10 w-10 border-0 rounded cursor-pointer bg-transparent">
-                        <span class="text-xs text-muted">Personnalise l'identité visuelle de ton IA</span>
+                        <span class="text-xs text-muted">Personnalise l'identité visuelle</span>
                     </div>
                 </div>
 
@@ -188,13 +167,15 @@
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
         const modal = document.getElementById('settings-modal');
+        const modelBadge = document.getElementById('model-badge');
         const API_URL = 'http://127.0.0.1:8000/stream';
 
         let config = {
             username: "Oli",
             theme: "dark",
             accent: "#10b981",
-            wallpaper: ""
+            wallpaper: "",
+            model: "gemini-2.5-flash" // Modèle par défaut
         };
 
         function loadSettings() {
@@ -206,6 +187,12 @@
             document.getElementById('cfg-color').value = config.accent;
             document.getElementById('cfg-wallpaper').value = config.wallpaper;
             
+            // Assure-toi que la valeur du dropdown correspond bien au modèle sauvegardé
+            const modelSelect = document.getElementById('cfg-model');
+            if(Array.from(modelSelect.options).some(opt => opt.value === config.model)) {
+                modelSelect.value = config.model;
+            }
+            
             applySettings();
         }
 
@@ -214,6 +201,7 @@
             config.theme = document.getElementById('cfg-theme').value;
             config.accent = document.getElementById('cfg-color').value;
             config.wallpaper = document.getElementById('cfg-wallpaper').value.trim();
+            config.model = document.getElementById('cfg-model').value; // Sauvegarde le modèle
             
             localStorage.setItem('vibeflow_cfg', JSON.stringify(config));
             applySettings();
@@ -238,8 +226,16 @@
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 activeTheme = prefersDark ? 'dark' : 'light';
             }
-            
             if (activeTheme === 'light') document.body.classList.add('theme-light');
+
+            // Mise à jour visuelle du badge du modèle en haut
+            if(config.model === 'gemini-2.5-pro') {
+                modelBadge.innerText = 'Moteur Pro (Analytique)';
+                modelBadge.className = "text-xs text-purple-400 bg-purple-900/30 border border-purple-800 px-2 py-1 rounded transition-colors duration-300";
+            } else {
+                modelBadge.innerText = 'Moteur Flash (Vitesse)';
+                modelBadge.className = "text-xs text-green-400 bg-green-900/30 border border-green-800 px-2 py-1 rounded transition-colors duration-300";
+            }
         }
 
         function toggleSettings() { modal.classList.toggle('hidden'); }
@@ -313,17 +309,20 @@
             let isFirstChunk = true;
 
             try {
+                // On envoie le modèle configuré en plus du prompt
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: text })
+                    body: JSON.stringify({ 
+                        prompt: text,
+                        model: config.model
+                    })
                 });
 
-                if (!response.ok) throw new Error(`Erreur: ${response.status}`);
+                if (!response.ok) throw new Error(`Erreur HTTP: ${response.status}`);
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder("utf-8");
-                
                 let lastRenderTime = 0;
 
                 while (true) {
