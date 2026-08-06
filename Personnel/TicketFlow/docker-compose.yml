@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: ticketflow_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - ticketflow_network
+
+  api:
+    build: .
+    container_name: ticketflow_api
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/ticketflow
+      - PORT=3000
+      - JWT_SECRET=MaCleSecrete123_ou_une_vraie_longue_phrase_complexe
+    depends_on:
+      - mongodb
+    networks:
+      - ticketflow_network
+
+# --- AJOUTS CRUCIAUX ICI ---
+volumes:
+  mongo_data:
+
+networks:
+  ticketflow_network:

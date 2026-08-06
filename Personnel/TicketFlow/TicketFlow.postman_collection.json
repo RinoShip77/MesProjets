@@ -1,0 +1,683 @@
+{
+  "info": {
+    "_postman_id": "1a237ac4-b553-4246-84b4-fcc4c9351273",
+    "name": "TicketFlow",
+    "description": "# TicketFlow\n\nTicketFlow is a REST API collection for managing a support ticketing system. It covers the full lifecycle of support operations — from authentication through ticket and technician management — and provides dashboard-level visibility into key metrics.\n\n## Authentication\n\nHandled via the **Connections** folder. Use the `Login` endpoint to obtain a bearer token (`POST /auth/login`), which is automatically applied to all requests via the collection-level bearer auth. Use `Logout` to invalidate the current session.\n\n## Tickets\n\nThe **Tickets** folder exposes full CRUD operations on support tickets via `/tickets` and `/tickets/:id`. You can create, retrieve, update, and delete tickets individually or in bulk, and append notes to a specific ticket via `/tickets/:id/notes`.\n\n## Technicians\n\nThe **Technicians** folder provides full CRUD operations on technician records via `/technicians` and `/technicians/:id`. Supports creating, retrieving, updating, and deleting both single and multiple entries.\n\n## Dashboard\n\nThe **Dashboard** folder contains a `GetStats` endpoint (`GET /dashboard?type=...`) for retrieving aggregated statistics, with support for filtering by entity type (e.g. technicians).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "29331062"
+  },
+  "item": [
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "GetStats",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/dashboard?type=technicians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "dashboard"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "technicians"
+                }
+              ]
+            },
+            "description": "Retrieves aggregated statistics from the dashboard, scoped to a specific entity type. Use this endpoint to fetch summary metrics filtered by the provided `type` parameter (e.g., technicians).\n\n## Query Parameters\n\n| Parameter | Type   | Required | Description                                                                 | Example        |\n|-----------|--------|----------|-----------------------------------------------------------------------------|----------------|\n| `type`    | string | Yes      | Filters the dashboard statistics by entity type. Determines which category of aggregated data is returned. | `technicians` |\n\n## Authentication\n\nThis endpoint requires a **Bearer token**. Include the token in the `Authorization` header using the `{{token}}` variable:\n\n```\nAuthorization: Bearer {{token}}\n```\n\nEnsure `{{token}}` is set in your active environment or collection variables before sending the request.\n\n## Notes\n\n- `{{baseUrl}}` must be defined in the active environment. It represents the base URL of the API (e.g., `https://api.example.com`).\n- The full request URL resolves to: `{{baseUrl}}/dashboard?type=technicians`\n- This request is part of the **Dashboard** folder within the **TicketFlow** collection."
+          },
+          "response": []
+        }
+      ],
+      "description": "Contains endpoints for retrieving dashboard data. Currently includes a GET request to fetch dashboard statistics, with support for filtering by type (e.g. technicians), providing a summary view of key metrics for the application."
+    },
+    {
+      "name": "Tickets",
+      "item": [
+        {
+          "name": "GetMany",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tickets"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "5",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "open",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "imp",
+                  "disabled": true
+                },
+                {
+                  "key": "sortBy",
+                  "value": "priority",
+                  "disabled": true
+                },
+                {
+                  "key": "orderBy",
+                  "value": "desc",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "## Get Many Tickets\n\nRetrieves a paginated list of tickets. Supports filtering by status, keyword search, and sorting by various fields. All query parameters are optional — omitting them will return results using the server's default values.\n\n---\n\n## Query Parameters\n\n| Parameter | Type | Description | Required | Example Value |\n| --- | --- | --- | --- | --- |\n| `page` | number | The page number to retrieve (for pagination). | Optional | `1` |\n| `limit` | number | Number of ticket results to return per page. | Optional | `5` |\n| `status` | string | Filter tickets by their status. | Optional | `open` |\n| `search` | string | Keyword to search and filter tickets by. | Optional | `imp` |\n| `sortBy` | string | Field name to sort the results by. | Optional | `priority` |\n| `orderBy` | string | Sort direction — `asc` for ascending, `desc` for descending. | Optional | `desc` |\n\n---\n\n## Notes\n\n- All query parameters are **optional**. If omitted, the API will use its default pagination and ordering.\n    \n- The `page` and `limit` parameters work together to paginate results (e.g., `page=1&limit=5` returns the first 5 tickets).\n    \n- The `search` parameter performs a keyword match against ticket fields (e.g., `search=imp` matches tickets containing \"imp\").\n    \n- Valid values for `orderBy` are `asc` (ascending) and `desc` (descending)."
+          },
+          "response": []
+        },
+        {
+          "name": "GetOne",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tickets/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tickets",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6a6f9989eb2a9f49663095c6"
+                }
+              ]
+            },
+            "description": "## Get One Ticket\n\nRetrieves the details of a single ticket by its unique identifier.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `GET` |\n| URL      | `{{baseUrl}}/tickets/:id` |\n\n---\n\n## Path Parameters\n\n| Parameter | Type   | Required | Description                        | Example                    |\n|-----------|--------|----------|------------------------------------|----------------------------|\n| `id`      | string | Yes      | The unique ID of the ticket to retrieve. | `6a727f8b613a3e858239fa27` |\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- Returns a `404` if no ticket with the given `id` exists."
+          },
+          "response": []
+        },
+        {
+          "name": "CreateOne",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Problème de connexion VPN\",\n    \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n    \"status\": \"Open\",\n    \"priority\": \"3\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tickets"
+              ]
+            },
+            "description": "## Create One Ticket\n\nCreates a single new support ticket.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `POST` |\n| URL      | `{{baseUrl}}/tickets` |\n\n---\n\n## Headers\n\n| Key            | Value              | Required |\n|----------------|--------------------|----------|\n| `Content-Type` | `application/json` | Yes      |\n\n---\n\n## Authentication\n\nRequires a Bearer token:\n\n```\nAuthorization: Bearer {{vault:token}}\n```\n\n---\n\n## Request Body\n\n| Field         | Type   | Required | Description                                      | Example                                              |\n|---------------|--------|----------|--------------------------------------------------|------------------------------------------------------|\n| `title`       | string | Yes      | Short title summarizing the issue.               | `\"Problème de connexion VPN\"`                        |\n| `description` | string | Yes      | Detailed description of the issue.               | `\"Impossible de me connecter au réseau distant...\"` |\n| `status`      | string | Yes      | Initial status of the ticket.                    | `\"Open\"`                                             |\n| `priority`    | string | Yes      | Priority level of the ticket (numeric as string).| `\"3\"`                                                |\n\n**Example:**\n```json\n{\n    \"title\": \"Problème de connexion VPN\",\n    \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n    \"status\": \"Open\",\n    \"priority\": \"3\"\n}\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- `{{vault:token}}` is read from the Postman Vault."
+          },
+          "response": []
+        },
+        {
+          "name": "CreateMany",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    },\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    },\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    },\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    },\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    },\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    },\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    },\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    },\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    },\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    }\n]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tickets"
+              ]
+            },
+            "description": "## Create Many Tickets\n\nCreates multiple support tickets in a single request by sending an array of ticket objects.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `POST` |\n| URL      | `{{baseUrl}}/tickets` |\n\n---\n\n## Headers\n\n| Key            | Value              | Required |\n|----------------|--------------------|----------|\n| `Content-Type` | `application/json` | Yes      |\n\n---\n\n## Authentication\n\nRequires a Bearer token:\n\n```\nAuthorization: Bearer {{vault:token}}\n```\n\n---\n\n## Request Body\n\nSend a JSON **array** of ticket objects. Each object supports the following fields:\n\n| Field         | Type   | Required | Description                                       | Example                                              |\n|---------------|--------|----------|---------------------------------------------------|------------------------------------------------------|\n| `title`       | string | Yes      | Short title summarizing the issue.                | `\"Problème de connexion VP\"`                         |\n| `description` | string | Yes      | Detailed description of the issue.                | `\"Impossible de me connecter au réseau distant...\"` |\n| `status`      | string | Yes      | Initial status of the ticket.                     | `\"Open\"`                                             |\n| `priority`    | string | Yes      | Priority level of the ticket (numeric as string). | `\"3\"`                                                |\n\n**Example:**\n```json\n[\n    {\n        \"title\": \"Problème de connexion VP\",\n        \"description\": \"Impossible de me connecter au réseau distant depuis ce matin.\",\n        \"status\": \"Open\",\n        \"priority\": \"3\"\n    }\n]\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- `{{vault:token}}` is read from the Postman Vault."
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateOne",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Open\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tickets/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tickets",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6a722f4f8f31b9dc543528f2"
+                }
+              ]
+            },
+            "description": "## Update One Ticket\n\nPartially updates a single ticket identified by its unique ID. Only the fields provided in the request body will be updated.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `PATCH` |\n| URL      | `{{baseUrl}}/tickets/:id` |\n\n---\n\n## Headers\n\n| Key            | Value              | Required |\n|----------------|--------------------|----------|\n| `Content-Type` | `application/json` | Yes      |\n\n---\n\n## Path Parameters\n\n| Parameter | Type   | Required | Description                         | Example                    |\n|-----------|--------|----------|-------------------------------------|----------------------------|\n| `id`      | string | Yes      | The unique ID of the ticket to update. | `6a727f8b613a3e858239fa27` |\n\n---\n\n## Request Body\n\nProvide only the fields you want to update:\n\n| Field      | Type   | Required | Description                        | Example    |\n|------------|--------|----------|------------------------------------|------------|\n| `status`   | string | No       | New status for the ticket.         | `\"Open\"`   |\n| `priority` | string | No       | New priority level for the ticket. | `\"2\"`      |\n| `title`    | string | No       | Updated title for the ticket.      | `\"New title\"` |\n\n**Example:**\n```json\n{\n  \"status\": \"Open\"\n}\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- Returns a `404` if no ticket with the given `id` exists."
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateMany",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ids\": [\n        \"6a727f8b613a3e858239fa27\",\n        \"6a727f8b613a3e858239fa29\"\n    ],\n    \"updateData\": {\n        \"priority\": 3\n    }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tickets"
+              ]
+            },
+            "description": "## Update Many Tickets\n\nPartially updates multiple tickets in a single request. Provide a list of ticket IDs and the fields to update — all matched tickets will receive the same changes.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `PATCH` |\n| URL      | `{{baseUrl}}/tickets` |\n\n---\n\n## Headers\n\n| Key            | Value              | Required |\n|----------------|--------------------|----------|\n| `Content-Type` | `application/json` | Yes      |\n\n---\n\n## Request Body\n\n| Field        | Type     | Required | Description                                          | Example |\n|--------------|----------|----------|------------------------------------------------------|---------|\n| `ids`        | string[] | Yes      | Array of ticket IDs to update.                       | `[\"6a727f8b613a3e858239fa27\"]` |\n| `updateData` | object   | Yes      | Object containing the fields and values to apply to all matched tickets. | `{\"priority\": 3}` |\n\n**Example:**\n```json\n{\n    \"ids\": [\n        \"6a727f8b613a3e858239fa27\",\n        \"6a727f8b613a3e858239fa29\"\n    ],\n    \"updateData\": {\n        \"priority\": 3\n    }\n}\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- All tickets in the `ids` array receive the same `updateData` changes."
+          },
+          "response": []
+        },
+        {
+          "name": "AddNote",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"text\": \"Réparé\",\n    \"technician\": \"6a727f8a613a3e858239fa22\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tickets/:id/notes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tickets",
+                ":id",
+                "notes"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6a727f8b613a3e858239fa24"
+                }
+              ]
+            },
+            "description": "## Add Note to Ticket\n\nAppends a note to an existing ticket. Notes are typically used by technicians to log progress, actions taken, or resolution details.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `POST` |\n| URL      | `{{baseUrl}}/tickets/:id/notes` |\n\n---\n\n## Headers\n\n| Key            | Value              | Required |\n|----------------|--------------------|----------|\n| `Content-Type` | `application/json` | Yes      |\n\n---\n\n## Authentication\n\nRequires a Bearer token:\n\n```\nAuthorization: Bearer {{vault:token}}\n```\n\n---\n\n## Path Parameters\n\n| Parameter | Type   | Required | Description                              | Example                    |\n|-----------|--------|----------|------------------------------------------|----------------------------|\n| `id`      | string | Yes      | The unique ID of the ticket to add a note to. | `6a727f8b613a3e858239fa27` |\n\n---\n\n## Request Body\n\n| Field         | Type   | Required | Description                                      | Example                      |\n|---------------|--------|----------|--------------------------------------------------|------------------------------|\n| `text`        | string | Yes      | The content of the note.                         | `\"Réparé\"`                   |\n| `technician`  | string | Yes      | The ID of the technician adding the note.        | `\"6a727f8a613a3e858239fa22\"` |\n\n**Example:**\n```json\n{\n    \"text\": \"Réparé\",\n    \"technician\": \"6a727f8a613a3e858239fa22\"\n}\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- `{{vault:token}}` is read from the Postman Vault."
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteOne",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tickets/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tickets",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "## Delete One Ticket\n\nPermanently deletes a single ticket identified by its unique ID.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `DELETE` |\n| URL      | `{{baseUrl}}/tickets/:id` |\n\n---\n\n## Path Parameters\n\n| Parameter | Type   | Required | Description                          | Example                    |\n|-----------|--------|----------|--------------------------------------|----------------------------|\n| `id`      | string | Yes      | The unique ID of the ticket to delete. | `6a727f8b613a3e858239fa27` |\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- This action is irreversible. The ticket cannot be recovered after deletion.\n- Returns a `404` if no ticket with the given `id` exists."
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteMany",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"ids\": [\r\n        \"6a727f8b613a3e858239fa27\",\r\n        \"6a727f8b613a3e858239fa29\"\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tickets"
+              ]
+            },
+            "description": "## Delete Many Tickets\n\nPermanently deletes multiple tickets in a single request by providing an array of ticket IDs.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `DELETE` |\n| URL      | `{{baseUrl}}/tickets` |\n\n---\n\n## Request Body\n\n| Field  | Type     | Required | Description                          | Example |\n|--------|----------|----------|--------------------------------------|---------|\n| `ids`  | string[] | Yes      | Array of ticket IDs to delete.       | `[\"6a727f8b613a3e858239fa27\"]` |\n\n**Example:**\n```json\n{\n    \"ids\": [\n        \"6a727f8b613a3e858239fa27\",\n        \"6a727f8b613a3e858239fa29\"\n    ]\n}\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- This action is irreversible. Deleted tickets cannot be recovered.\n- All tickets in the `ids` array will be permanently removed."
+          },
+          "response": []
+        }
+      ],
+      "description": "Contains endpoints for managing support tickets. Supports full CRUD operations — create, retrieve, update, and delete tickets individually or in bulk — as well as adding notes to a specific ticket via the `/tickets`, `/tickets/:id`, and `/tickets/:id/notes` routes."
+    },
+    {
+      "name": "Technicians",
+      "item": [
+        {
+          "name": "GetMany",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/technicians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "technicians"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetOne",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/technicians/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "technicians",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6a6f958a20fa075c16a37f5a"
+                }
+              ]
+            },
+            "description": "## Get One Technician\n\nRetrieves the details of a single technician by their unique identifier.\n\n---\n\n## Request Details\n\n| Property | Value |\n| --- | --- |\n| Method | `GET` |\n| URL | `{{baseUrl}}/technicians/:id` |\n\n---\n\n## Path Parameters\n\n| Parameter | Type | Required | Description | Example |\n| --- | --- | --- | --- | --- |\n| `id` | string | Yes | The unique ID of the technician to retrieve. | `6a73cecff2d912f5fde67a19` |\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n    \n- Returns a `404` if no technician with the given `id` exists."
+          },
+          "response": []
+        },
+        {
+          "name": "CreateOne",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"tech@ticketflow.com\",\n  \"name\": \"Nouveau Tech\",\n  \"level\": 2,\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technicians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "technicians"
+              ]
+            },
+            "description": "## Create One Technician\n\nCreates a single new technician account.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `POST` |\n| URL      | `{{baseUrl}}/technicians` |\n\n---\n\n## Headers\n\n| Key            | Value              | Required |\n|----------------|--------------------|----------|\n| `Content-Type` | `application/json` | Yes      |\n\n---\n\n## Request Body\n\n| Field      | Type   | Required | Description                                    | Example                      |\n|------------|--------|----------|------------------------------------------------|------------------------------|\n| `email`    | string | Yes      | The technician's email address.                | `\"tech3@ticketflow.com\"`     |\n| `name`     | string | Yes      | Full name of the technician.                   | `\"Nouveau Tech3\"`            |\n| `level`    | number | Yes      | Skill or seniority level of the technician.    | `2`                          |\n| `password` | string | Yes      | Initial password for the technician's account. | `\"password123\"`              |\n\n**Example:**\n```json\n{\n  \"email\": \"tech3@ticketflow.com\",\n  \"name\": \"Nouveau Tech3\",\n  \"level\": 2,\n  \"password\": \"password123\"\n}\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment."
+          },
+          "response": []
+        },
+        {
+          "name": "CreateMany",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n    {\n        \"email\": \"tech1@ticketflow.com\",\n        \"name\": \"Nouveau Tech\",\n        \"level\": 2,\n        \"password\": \"password123\"\n    },\n    {\n        \"email\": \"tech2@ticketflow.com\",\n        \"name\": \"Nouveau Tech\",\n        \"level\": 2,\n        \"password\": \"password123\"\n    }\n]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technicians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "technicians"
+              ]
+            },
+            "description": "## Create Many Technicians\n\nCreates multiple technician accounts in a single request by sending an array of technician objects.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `POST` |\n| URL      | `{{baseUrl}}/technicians` |\n\n---\n\n## Headers\n\n| Key            | Value              | Required |\n|----------------|--------------------|----------|\n| `Content-Type` | `application/json` | Yes      |\n\n---\n\n## Request Body\n\nSend a JSON **array** of technician objects. Each object supports the following fields:\n\n| Field      | Type   | Required | Description                                    | Example                      |\n|------------|--------|----------|------------------------------------------------|------------------------------|\n| `email`    | string | Yes      | The technician's email address.                | `\"tech4@ticketflow.com\"`     |\n| `name`     | string | Yes      | Full name of the technician.                   | `\"Nouveau Tech\"`             |\n| `level`    | number | Yes      | Skill or seniority level of the technician.    | `2`                          |\n| `password` | string | Yes      | Initial password for the technician's account. | `\"password123\"`              |\n\n**Example:**\n```json\n[\n    {\n        \"email\": \"tech4@ticketflow.com\",\n        \"name\": \"Nouveau Tech\",\n        \"level\": 2,\n        \"password\": \"password123\"\n    },\n    {\n        \"email\": \"tech5@ticketflow.com\",\n        \"name\": \"Nouveau Tech\",\n        \"level\": 2,\n        \"password\": \"password123\"\n    }\n]\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment."
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateOne",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"password\": \"abcd1234\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technicians/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "technicians",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6a73d570b11887b8926ef162"
+                }
+              ]
+            },
+            "description": "## Update One Technician\n\nPartially updates a single technician identified by their unique ID. Only the fields provided in the request body will be updated.\n\n---\n\n## Request Details\n\n| Property | Value |\n| --- | --- |\n| Method | `PATCH` |\n| URL | `{{baseUrl}}/technicians/:id` |\n\n---\n\n## Headers\n\n| Key | Value | Required |\n| --- | --- | --- |\n| `Content-Type` | `application/json` | Yes |\n\n---\n\n## Path Parameters\n\n| Parameter | Type | Required | Description | Example |\n| --- | --- | --- | --- | --- |\n| `id` | string | Yes | The unique ID of the technician to update. | `6a73cecff2d912f5fde67a19` |\n\n---\n\n## Request Body\n\nProvide only the fields you want to update:\n\n| Field | Type | Required | Description | Example |\n| --- | --- | --- | --- | --- |\n| `password` | string | No | New password for the technician account. | `\"abcd1234\"` |\n| `name` | string | No | Updated name of the technician. | `\"John Doe\"` |\n| `level` | number | No | Updated skill level of the technician. | `3` |\n\n**Example:**\n\n``` json\n{\n    \"password\": \"abcd1234\"\n}\n\n ```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n    \n- Returns a `404` if no technician with the given `id` exists."
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateMany",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ids\": [\n        \"6a73d570b11887b8926ef162\",\n        \"6a73d570b11887b8926ef163\"\n    ],\n    \"updateData\": {\n        \"password\": \"password123\"\n    }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technicians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "technicians"
+              ]
+            },
+            "description": "## Update Many Technicians\n\nPartially updates multiple technician accounts in a single request. Provide a list of technician IDs and the fields to update — all matched technicians will receive the same changes.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `PATCH` |\n| URL      | `{{baseUrl}}/technicians` |\n\n---\n\n## Headers\n\n| Key            | Value              | Required |\n|----------------|--------------------|----------|\n| `Content-Type` | `application/json` | Yes      |\n\n---\n\n## Request Body\n\n| Field        | Type     | Required | Description                                                        | Example |\n|--------------|----------|----------|--------------------------------------------------------------------|------------------------------------------------------|\n| `ids`        | string[] | Yes      | Array of technician IDs to update.                                 | `[\"6a73cecff2d912f5fde67a19\"]` |\n| `updateData` | object   | Yes      | Object containing the fields and values to apply to all matched technicians. | `{\"password\": \"abcd1234\"}` |\n\n**Example:**\n```json\n{\n    \"ids\": [\n        \"6a73cecff2d912f5fde67a19\",\n        \"6a73ceedf2d912f5fde67a1b\"\n    ],\n    \"updateData\": {\n        \"password\": \"abcd1234\"\n    }\n}\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- All technicians in the `ids` array receive the same `updateData` changes."
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteOne",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/technicians/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "technicians",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6a72363cb3dcd34b2162b03d"
+                }
+              ]
+            },
+            "description": "## Delete One Technician\n\nPermanently deletes a single technician account identified by their unique ID.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `DELETE` |\n| URL      | `{{baseUrl}}/technicians/:id` |\n\n---\n\n## Path Parameters\n\n| Parameter | Type   | Required | Description                                | Example                    |\n|-----------|--------|----------|--------------------------------------------|----------------------------|\n| `id`      | string | Yes      | The unique ID of the technician to delete. | `6a73cecff2d912f5fde67a19` |\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- This action is irreversible. The technician account cannot be recovered after deletion.\n- Returns a `404` if no technician with the given `id` exists."
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteMany",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"ids\": [\r\n        \"6a73ccc1f2d912f5fde67a17\",\r\n        \"6a73ccc1f2d912f5fde67a18\"\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technicians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "technicians"
+              ]
+            },
+            "description": "## Delete Many Technicians\n\nPermanently deletes multiple technician accounts in a single request by providing an array of technician IDs.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `DELETE` |\n| URL      | `{{baseUrl}}/technicians` |\n\n---\n\n## Request Body\n\n| Field  | Type     | Required | Description                               | Example |\n|--------|----------|----------|-------------------------------------------|---------|\n| `ids`  | string[] | Yes      | Array of technician IDs to delete.        | `[\"6a73ccc1f2d912f5fde67a17\"]` |\n\n**Example:**\n```json\n{\n    \"ids\": [\n        \"6a73ccc1f2d912f5fde67a17\",\n        \"6a73ccc1f2d912f5fde67a18\"\n    ]\n}\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment.\n- This action is irreversible. Deleted technician accounts cannot be recovered.\n- All technicians in the `ids` array will be permanently removed."
+          },
+          "response": []
+        }
+      ],
+      "description": "Contains endpoints for managing technicians. Supports full CRUD operations — create a single or multiple technicians, retrieve one or all, update individual or bulk records, and delete one or many entries via the `/technicians` and `/technicians/:id` routes."
+    },
+    {
+      "name": "Connections",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"tech2@ticketflow.com\",\n  \"password\": \"abcd1234\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "## Login\n\nAuthenticates a user and initiates a session. Send valid credentials to receive an authentication token that can be used to access protected endpoints.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `POST` |\n| URL      | `{{baseUrl}}/auth/login` |\n\n---\n\n## Headers\n\n| Key            | Value              | Required |\n|----------------|--------------------|----------|\n| `Content-Type` | `application/json` | Yes      |\n\n---\n\n## Request Body\n\nSend a JSON object with the following fields:\n\n| Field      | Type   | Required | Description                          | Example                            |\n|------------|--------|----------|--------------------------------------|-------------------------------------|\n| `email`    | string | Yes      | The registered email of the user.    | `alice.dupont@ticketflow.com`      |\n| `password` | string | Yes      | The account password for the user.   | `password123`                      |\n\n**Example:**\n```json\n{\n  \"email\": \"alice.dupont@ticketflow.com\",\n  \"password\": \"password123\"\n}\n```\n\n---\n\n## Response\n\nOn success, the server returns an authentication token. Store this token in your environment (e.g., as `{{token}}`) and include it as a `Bearer` token in the `Authorization` header for all subsequent requests that require authentication:\n\n```\nAuthorization: Bearer {{token}}\n```\n\n---\n\n## Notes\n\n- `{{baseUrl}}` must be defined in your active environment. It represents the base URL of the TicketFlow API (e.g., `https://api.ticketflow.com`).\n- Credentials are transmitted in the request body — always use HTTPS in production environments."
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "## Logout\n\nTerminates the current authenticated session. Call this endpoint to invalidate the user's session token and log out securely.\n\n---\n\n## Request Details\n\n| Property | Value |\n|----------|-------|\n| Method   | `POST` |\n| URL      | `{{baseUrl}}/auth/logout` |\n\n---\n\n## Authentication\n\nThis endpoint requires a valid session. Include the authentication token in the `Authorization` header:\n\n```\nAuthorization: Bearer {{token}}\n```\n\n---\n\n## Request Body\n\nNo request body is required.\n\n---\n\n## Notes\n\n- After a successful logout, the token is invalidated and can no longer be used to access protected endpoints.\n- `{{baseUrl}}` must be defined in your active environment."
+          },
+          "response": []
+        }
+      ],
+      "description": "Handles authentication lifecycle for the TicketFlow API. Contains the **Login** and **Logout** endpoints (`POST /auth/login` and `POST /auth/logout`), which manage session establishment and termination. These requests should be run at the start and end of any authenticated workflow."
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api"
+    },
+    {
+      "key": "token",
+      "secret": true
+    }
+  ]
+}
