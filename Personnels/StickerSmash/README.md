@@ -1,50 +1,18 @@
-# Welcome to your Expo app 👋
+# StickerSmash
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+StickerSmash est une application mobile multiplateforme développée avec React Native et Expo permettant de personnaliser des photos en y ajoutant des autocollants (emojis).
 
-## Get started
+## Aperçu du projet
+Ce projet offre un éditeur d'images intuitif où l'utilisateur peut sélectionner une photo depuis la galerie de son appareil, choisir un autocollant parmi une liste d'emojis, le positionner et le redimensionner par gestes tactiles, puis sauvegarder la création finale.
 
-1. Install dependencies
+## Fonctionnalités principales
+* **Sélection d'image :** Importation d'une photo depuis la bibliothèque multimédia de l'appareil via `expo-image-picker`.
+* **Ajout et manipulation d'autocollants :** Sélecteur modal d'emojis avec prise en charge des gestes tactiles (déplacement et mise à l'échelle) sur l'image.
+* **Exportation et sauvegarde :** Capture du canevas modifié et enregistrement de la nouvelle image dans la galerie locale (ou téléchargement sur le Web).
+* **Navigation par onglets :** Structure multi-écrans (`Home` et `About`) gérée avec `expo-router`.
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Technologies utilisées
+* **React Native**, **Expo** et **TypeScript** pour le développement mobile et web multiplateforme.
+* **Expo Router** pour la navigation basée sur les fichiers.
+* **React Native Gesture Handler** et **React Native Reanimated** pour les interactions tactiles fluides.
+* **react-native-view-shot** et **dom-to-image** pour la capture et l'exportation de l'image annotée.
